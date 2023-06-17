@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TgCheckerApi.Models;
+namespace TgCheckerApi.BaseModels;
 
 public partial class Channel
 {
@@ -22,4 +22,8 @@ public partial class Channel
     public int? Bumps { get; set; }
 
     public DateTime? LastBump { get; set; }
+
+    public long? TelegramId { get; set; }
+
+    public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
 }

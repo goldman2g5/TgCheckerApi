@@ -63,6 +63,19 @@ namespace TgCheckerApi.Controllers
             return channel;
         }
 
+        [HttpGet("ByTelegramId/{telegramId}")]
+        public async Task<ActionResult<Channel>> GetChannelByTelegramId(long telegramId)
+        {
+            var channel = await _context.Channels.FirstOrDefaultAsync(c => c.TelegramId == telegramId);
+
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            return channel;
+        }
+
         // PUT: api/Channel/ToggleNotifications/5
         [HttpPut("ToggleNotifications/{id}")]
         public async Task<IActionResult> ToggleNotifications(int id)
@@ -188,10 +201,10 @@ namespace TgCheckerApi.Controllers
         // POST: api/Channel
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Channel>> PostChannel(Channel channel)
+        public async Task<ActionResult<Channel>> PostChannel(ChannelPostModel channel)
         {
           if (_context.Channels == null)
-          {
+          { 
               return Problem("Entity set 'TgCheckerDbContext.Channels'  is null.");
           }
             _context.Channels.Add(channel);

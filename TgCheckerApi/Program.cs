@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using TgCheckerApi.Models;
+using Newtonsoft.Json;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +12,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<TgCheckerDbContext>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("MainConnectionString")));
+builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddDbContext<TgCheckerDbContext>(o => o.UseLazyLoadingProxies().UseNpgsql(builder.Configuration.GetConnectionString("MainConnectionString")));
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", builder =>
