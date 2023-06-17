@@ -63,6 +63,97 @@ namespace TgCheckerApi.Controllers
             return channel;
         }
 
+        // PUT: api/Channel/ToggleNotifications/5
+        [HttpPut("ToggleNotifications/{id}")]
+        public async Task<IActionResult> ToggleNotifications(int id)
+        {
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            if (channel.Notifications == null)
+            {
+                channel.Notifications = true;
+            }
+            else
+            {
+                channel.Notifications = !channel.Notifications;
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ChannelExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // POST: api/Channel/Bump/5
+        [HttpPost("Bump/{id}")]
+        public async Task<IActionResult> BumpChannel(int id)
+        {
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            // Define the interval between bumps (in minutes)
+            int bumpIntervalMinutes = 30;
+
+            // Calculate the minimum time for the next bump to be available
+            DateTime nextBumpTime = channel.LastBump?.AddMinutes(bumpIntervalMinutes) ?? DateTime.MinValue;
+
+            // Check if the current time is before the next bump time
+            if (DateTime.Now < nextBumpTime)
+            {
+                // Calculate the remaining time until the next bump is available
+                var remainingTime = (int)(nextBumpTime - DateTime.Now).TotalSeconds;
+                Response.Headers.Add("X-TimeLeft", remainingTime.ToString());
+
+                return BadRequest($"Next bump available in {bumpIntervalMinutes} minutes.");
+            }
+
+            // Increment the bumps value by 1
+            channel.Bumps = (channel.Bumps ?? 0) + 1;
+
+            // Update the last bump time to the current time
+            channel.LastBump = DateTime.Now;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ChannelExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // PUT: api/Channel/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

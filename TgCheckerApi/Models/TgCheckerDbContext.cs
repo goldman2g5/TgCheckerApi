@@ -31,9 +31,14 @@ public partial class TgCheckerDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Avatar).HasColumnName("avatar");
+            entity.Property(e => e.Bumps).HasColumnName("bumps");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.LastBump)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("last_bump");
             entity.Property(e => e.Members).HasColumnName("members");
             entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.Notifications).HasColumnName("notifications");
             entity.Property(e => e.User).HasColumnName("user");
         });
 

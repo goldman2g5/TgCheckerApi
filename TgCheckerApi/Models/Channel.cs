@@ -16,4 +16,10 @@ public partial class Channel
     public byte[]? Avatar { get; set; }
 
     public int? User { get; set; }
+
+    public bool? Notifications { get; set; }
+
+    public int? Bumps { get; set; }
+
+    public DateTime? LastBump { get; set; }
 }
