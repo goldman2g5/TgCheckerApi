@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace TgCheckerApi.Models;
@@ -24,6 +25,6 @@ public partial class Channel
     public DateTime? LastBump { get; set; }
 
     public int? TelegramId { get; set; }
-
+    [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
 }

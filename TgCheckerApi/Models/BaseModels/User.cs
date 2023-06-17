@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace TgCheckerApi.Models;
@@ -10,6 +11,6 @@ public partial class User
     public long? TelegramId { get; set; }
 
     public long? ChatId { get; set; }
-
+    [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
 }
