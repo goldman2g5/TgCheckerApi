@@ -20,7 +20,7 @@ namespace TgCheckerApi.Controllers
             _context = context;
         }
 
-        // GET: api/Channel
+        // GET: api/GetNotifications
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Notification>>> GetNotifications()
         {
