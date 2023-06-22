@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TgCheckerApi.Models;
+using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Controllers
 {
@@ -127,7 +128,7 @@ namespace TgCheckerApi.Controllers
             }
 
             // Define the interval between bumps (in minutes)
-            int bumpIntervalMinutes = 30;
+            int bumpIntervalMinutes = 1;
 
             // Calculate the minimum time for the next bump to be available
             DateTime nextBumpTime = channel.LastBump?.AddMinutes(bumpIntervalMinutes) ?? DateTime.MinValue;
@@ -147,6 +148,9 @@ namespace TgCheckerApi.Controllers
 
             // Update the last bump time to the current time
             channel.LastBump = DateTime.Now;
+
+            // Set the NotificationSent property to false
+            channel.NotificationSent = false;
 
             try
             {

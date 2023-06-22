@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TgCheckerApi.Models;
+namespace TgCheckerApi.Models.BaseModels;
 
 public partial class Channel
 {
@@ -19,12 +19,14 @@ public partial class Channel
     public int? User { get; set; }
 
     public bool? Notifications { get; set; }
-
+    
     public int? Bumps { get; set; }
 
     public DateTime? LastBump { get; set; }
 
-    public int? TelegramId { get; set; }
+    public long? TelegramId { get; set; }
+
+    public bool? NotificationSent { get; set; }
     [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
 }

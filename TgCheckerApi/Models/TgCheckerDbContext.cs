@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Models;
 
@@ -42,6 +43,7 @@ public partial class TgCheckerDbContext : DbContext
                 .HasColumnName("last_bump");
             entity.Property(e => e.Members).HasColumnName("members");
             entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.NotificationSent).HasColumnName("notification_sent");
             entity.Property(e => e.Notifications).HasColumnName("notifications");
             entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
             entity.Property(e => e.User).HasColumnName("user");
