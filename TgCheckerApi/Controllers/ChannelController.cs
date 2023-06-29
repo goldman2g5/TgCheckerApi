@@ -171,6 +171,38 @@ namespace TgCheckerApi.Controllers
             return NoContent();
         }
 
+        // PUT: api/Channel/UpdateTags/5
+        [HttpPut("UpdateTags/{id}")]
+        public async Task<IActionResult> UpdateChannelTags(int id, [FromBody] string tags)
+        {
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            channel.Tags = tags;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ChannelExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // PUT: api/Channel/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
