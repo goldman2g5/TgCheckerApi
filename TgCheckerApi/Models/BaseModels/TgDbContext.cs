@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using TgCheckerApi.Models.BaseModels;
 
-namespace TgCheckerApi.Models;
+namespace TgCheckerApi.Models.BaseModels;
 
-public partial class TgCheckerDbContext : DbContext
+public partial class TgDbContext : DbContext
 {
-    public TgCheckerDbContext()
+    public TgDbContext()
     {
     }
 
-    public TgCheckerDbContext(DbContextOptions<TgCheckerDbContext> options)
+    public TgDbContext(DbContextOptions<TgDbContext> options)
         : base(options)
     {
     }
@@ -20,11 +19,13 @@ public partial class TgCheckerDbContext : DbContext
 
     public virtual DbSet<ChannelAccess> ChannelAccesses { get; set; }
 
+    public virtual DbSet<Tag> Tags { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Database=TgCheckerDb;Username=postgres;Password=vagina21519687");
+        => optionsBuilder.UseNpgsql("Host=localhost;Database=TgDb;Username=postgres;Password=vagina21519687");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -66,6 +67,16 @@ public partial class TgCheckerDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.ChannelAccesses)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("user_fk");
+        });
+
+        modelBuilder.Entity<Tag>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("Tag_pkey");
+
+            entity.ToTable("Tag");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Text).HasColumnName("text");
         });
 
         modelBuilder.Entity<User>(entity =>

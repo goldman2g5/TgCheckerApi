@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TgCheckerApi.Models;
+using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Controllers
 {
@@ -13,9 +14,9 @@ namespace TgCheckerApi.Controllers
     [ApiController]
     public class NotificationController : ControllerBase
     {
-        private readonly TgCheckerDbContext _context;
+        private readonly TgDbContext _context;
 
-        public NotificationController(TgCheckerDbContext context)
+        public NotificationController(TgDbContext context)
         {
             _context = context;
         }
@@ -36,7 +37,8 @@ namespace TgCheckerApi.Controllers
                     ca.Channel.Notifications == true &&
                     ca.Channel.NotificationSent != true && // Check if the notification hasn't been sent yet
                     ca.Channel.LastBump != null &&
-                    ca.Channel.LastBump.Value <= currentTime)
+                    ca.Channel.LastBump.Value <= currentTime &&
+                    currentTime >= ca.Channel.LastBump.Value.AddMinutes(timeToNotify)) // Check if the current time is past the send time
                 .Select(ca => new Notification
                 {
                     ChannelAccess = ca,

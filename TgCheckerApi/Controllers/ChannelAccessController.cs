@@ -14,9 +14,9 @@ namespace TgCheckerApi.Controllers
     [ApiController]
     public class ChannelAccessController : ControllerBase
     {
-        private readonly TgCheckerDbContext _context;
+        private readonly TgDbContext _context;
 
-        public ChannelAccessController(TgCheckerDbContext context)
+        public ChannelAccessController(TgDbContext context)
         {
             _context = context;
         }

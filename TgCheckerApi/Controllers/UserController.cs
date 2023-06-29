@@ -14,9 +14,9 @@ namespace TgCheckerApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly TgCheckerDbContext _context;
+        private readonly TgDbContext _context;
 
-        public UserController(TgCheckerDbContext context)
+        public UserController(TgDbContext context)
         {
             _context = context;
         }

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using TgCheckerApi.Models;
 using Newtonsoft.Json;
 using TgCheckerApi;
+using TgCheckerApi.Models.BaseModels;
 
 
 
@@ -14,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers().AddNewtonsoftJson();
-builder.Services.AddDbContext<TgCheckerDbContext>(o => o.UseLazyLoadingProxies().UseNpgsql(builder.Configuration.GetConnectionString("MainConnectionString")));
+builder.Services.AddDbContext<TgDbContext>(o => o.UseLazyLoadingProxies().UseNpgsql(builder.Configuration.GetConnectionString("MainConnectionString")));
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", builder =>
