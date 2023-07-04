@@ -19,6 +19,12 @@ public partial class TgDbContext : DbContext
 
     public virtual DbSet<ChannelAccess> ChannelAccesses { get; set; }
 
+    public virtual DbSet<ChannelHasSubscription> ChannelHasSubscriptions { get; set; }
+
+    public virtual DbSet<ChannelHasTag> ChannelHasTags { get; set; }
+
+    public virtual DbSet<SubType> SubTypes { get; set; }
+
     public virtual DbSet<Tag> Tags { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -46,7 +52,6 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.NotificationSent).HasColumnName("notification_sent");
             entity.Property(e => e.Notifications).HasColumnName("notifications");
-            entity.Property(e => e.Tags).HasColumnName("tags");
             entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
             entity.Property(e => e.User).HasColumnName("user");
         });
@@ -68,6 +73,59 @@ public partial class TgDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.ChannelAccesses)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("user_fk");
+        });
+
+        modelBuilder.Entity<ChannelHasSubscription>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("ChannelHasSubscription_pkey");
+
+            entity.ToTable("ChannelHasSubscription");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ChannelId).HasColumnName("channel_id");
+            entity.Property(e => e.Expires)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("expires");
+            entity.Property(e => e.TypeId).HasColumnName("type_id");
+
+            entity.HasOne(d => d.Channel).WithMany(p => p.ChannelHasSubscriptions)
+                .HasForeignKey(d => d.ChannelId)
+                .HasConstraintName("fk_Sub_channel");
+
+            entity.HasOne(d => d.Type).WithMany(p => p.ChannelHasSubscriptions)
+                .HasForeignKey(d => d.TypeId)
+                .HasConstraintName("fk_Sub_type");
+        });
+
+        modelBuilder.Entity<ChannelHasTag>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("ChannelHasTag_pkey");
+
+            entity.ToTable("ChannelHasTag");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Channel).HasColumnName("channel");
+            entity.Property(e => e.Tag).HasColumnName("tag");
+
+            entity.HasOne(d => d.ChannelNavigation).WithMany(p => p.ChannelHasTags)
+                .HasForeignKey(d => d.Channel)
+                .HasConstraintName("fk_ChannelHasTag_Channel");
+
+            entity.HasOne(d => d.TagNavigation).WithMany(p => p.ChannelHasTags)
+                .HasForeignKey(d => d.Tag)
+                .HasConstraintName("fk_ChannelHasTag_Tag");
+        });
+
+        modelBuilder.Entity<SubType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("SubType_pkey");
+
+            entity.ToTable("SubType");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Multiplier).HasColumnName("multiplier");
+            entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.Price).HasColumnName("price");
         });
 
         modelBuilder.Entity<Tag>(entity =>

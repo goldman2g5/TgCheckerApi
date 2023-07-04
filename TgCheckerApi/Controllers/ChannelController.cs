@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
+using TgCheckerApi.Models.GetModels;
 
 namespace TgCheckerApi.Controllers
 {
@@ -23,14 +24,109 @@ namespace TgCheckerApi.Controllers
 
         // GET: api/Channel
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Channel>>> GetChannels()
+        public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels()
         {
-          if (_context.Channels == null)
-          {
-              return NotFound();
-          }
-            return await _context.Channels.ToListAsync();
+            var channels = await _context.Channels.ToListAsync();
+
+            if (channels == null)
+            {
+                return NotFound();
+            }
+
+            var channelGetModels = new List<ChannelGetModel>();
+
+            foreach (var channel in channels)
+            {
+                var channelGetModel = new ChannelGetModel
+                {
+                    Id = channel.Id,
+                    Name = channel.Name,
+                    Description = channel.Description,
+                    Members = channel.Members,
+                    Avatar = channel.Avatar,
+                    User = channel.User,
+                    Notifications = channel.Notifications,
+                    Bumps = channel.Bumps,
+                    LastBump = channel.LastBump,
+                    TelegramId = channel.TelegramId,
+                    NotificationSent = channel.NotificationSent,
+                    Tags = new List<string>()
+                };
+
+                var channelHasTags = await _context.ChannelHasTags
+                    .Include(cht => cht.TagNavigation)
+                    .Where(cht => cht.Channel == channel.Id)
+                    .ToListAsync();
+
+                foreach (var channelHasTag in channelHasTags)
+                {
+                    var tagText = channelHasTag.TagNavigation?.Text;
+                    if (!string.IsNullOrEmpty(tagText))
+                    {
+                        channelGetModel.Tags.Add(tagText);
+                    }
+                }
+
+                channelGetModels.Add(channelGetModel);
+            }
+
+            return channelGetModels;
         }
+
+        [HttpGet("{id}/Tags")]
+        public async Task<ActionResult<IEnumerable<string>>> GetChannelTags(int id)
+        {
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            var channelHasTags = await _context.ChannelHasTags
+                .Include(cht => cht.TagNavigation)
+                .Where(cht => cht.Channel == id)
+                .ToListAsync();
+
+            var tags = channelHasTags.Select(cht => cht.TagNavigation?.Text).ToList();
+
+            return tags;
+        }
+
+        [HttpPut("{id}/Tags")]
+        public async Task<IActionResult> SetChannelTags(int id, List<string> tags)
+        {
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            var existingTags = await _context.ChannelHasTags
+                .Where(cht => cht.Channel == id)
+                .ToListAsync();
+
+            _context.ChannelHasTags.RemoveRange(existingTags);
+
+            foreach (var tagText in tags)
+            {
+                var tag = await _context.Tags.FirstOrDefaultAsync(t => t.Text == tagText);
+                if (tag == null)
+                {
+                    tag = new Tag { Text = tagText };
+                    _context.Tags.Add(tag);
+                }
+
+                var channelHasTag = new ChannelHasTag { Channel = id, Tag = tag.Id };
+                _context.ChannelHasTags.Add(channelHasTag);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
 
         // GET: api/Channel/ByUser/5
         [HttpGet("ByUser/{userId}")]
@@ -171,10 +267,10 @@ namespace TgCheckerApi.Controllers
             return NoContent();
         }
 
-        // PUT: api/Channel/UpdateTags/5
-        [HttpPut("UpdateTags/{id}")]
-        public async Task<IActionResult> UpdateChannelTags(int id, [FromBody] string tags)
+        [HttpPost("Subscribe/{id}")]
+        public async Task<IActionResult> SubscribeChannel(int id, int subtypeId)
         {
+            // Find the channel based on the provided ID
             var channel = await _context.Channels.FindAsync(id);
 
             if (channel == null)
@@ -182,25 +278,48 @@ namespace TgCheckerApi.Controllers
                 return NotFound();
             }
 
-            channel.Tags = tags;
+            // Get the time zone for Russia/Moscow
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Russian Standard Time");
 
-            try
+            // Convert the current time to the server's time zone
+            var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
+
+            // Check if the channel already has an active subscription of the same type
+            var existingSubscription = await _context.ChannelHasSubscriptions
+                .FirstOrDefaultAsync(s => s.ChannelId == id && s.Expires > now && s.TypeId == subtypeId);
+
+            if (existingSubscription != null)
             {
+                // Extend the expiration date by 1 month
+                existingSubscription.Expires = existingSubscription.Expires.Value.AddMonths(1);
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ChannelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+
+                return Ok($"Subscription for channel {id} has been extended by 1 month with subscription type {existingSubscription.Type.Name}.");
             }
 
-            return NoContent();
+            // Get the subscription type based on subtypeId
+            var subscriptionType = await _context.SubTypes.FirstOrDefaultAsync(s => s.Id == subtypeId);
+
+            if (subscriptionType == null)
+            {
+                return BadRequest("Invalid subscription type.");
+            }
+
+            // Calculate the expiration date for the subscription (1 month from now)
+            var expirationDate = now.AddMonths(1);
+
+            // Create a new subscription record
+            var subscription = new ChannelHasSubscription
+            {
+                TypeId = subscriptionType.Id,
+                Expires = expirationDate,
+                ChannelId = id
+            };
+
+            _context.ChannelHasSubscriptions.Add(subscription);
+            await _context.SaveChangesAsync();
+
+            return Ok($"Channel {id} has been subscribed for 1 month with subscription type {subscriptionType.Name}.");
         }
 
         // PUT: api/Channel/5

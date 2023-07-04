@@ -27,8 +27,10 @@ public partial class Channel
     public long? TelegramId { get; set; }
 
     public bool? NotificationSent { get; set; }
-
-    public string? Tags { get; set; }
     [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
+    [JsonIgnore]
+    public virtual ICollection<ChannelHasSubscription> ChannelHasSubscriptions { get; set; } = new List<ChannelHasSubscription>();
+    [JsonIgnore]
+    public virtual ICollection<ChannelHasTag> ChannelHasTags { get; set; } = new List<ChannelHasTag>();
 }
