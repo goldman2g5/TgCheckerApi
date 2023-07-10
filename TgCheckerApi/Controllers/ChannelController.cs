@@ -26,9 +26,75 @@ namespace TgCheckerApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels()
         {
-            var channels = await _context.Channels.ToListAsync();
+            var channels = await _context.Channels
+                .OrderByDescending(channel => channel.Bumps)
+                .ToListAsync();
 
             if (channels == null)
+            {
+                return NotFound();
+            }
+
+            var channelGetModels = new List<ChannelGetModel>();
+
+            foreach (var channel in channels)
+            {
+                var channelGetModel = new ChannelGetModel
+                {
+                    Id = channel.Id,
+                    Name = channel.Name,
+                    Description = channel.Description,
+                    Members = channel.Members,
+                    Avatar = channel.Avatar,
+                    User = channel.User,
+                    Notifications = channel.Notifications,
+                    Bumps = channel.Bumps,
+                    LastBump = channel.LastBump,
+                    TelegramId = channel.TelegramId,
+                    NotificationSent = channel.NotificationSent,
+                    Tags = new List<string>()
+                };
+
+                var channelHasTags = await _context.ChannelHasTags
+                    .Include(cht => cht.TagNavigation)
+                    .Where(cht => cht.Channel == channel.Id)
+                    .ToListAsync();
+
+                foreach (var channelHasTag in channelHasTags)
+                {
+                    var tagText = channelHasTag.TagNavigation?.Text;
+                    if (!string.IsNullOrEmpty(tagText))
+                    {
+                        channelGetModel.Tags.Add(tagText);
+                    }
+                }
+
+                channelGetModels.Add(channelGetModel);
+            }
+
+            return channelGetModels;
+        }
+
+        // GET: api/Channel/Page/{page}/{tags}
+        [HttpGet("Page/{page}")]
+        public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1, [FromQuery] string? tags = null)
+        {
+            int pageSize = 10;
+            var channelsQuery = _context.Channels
+                .OrderByDescending(channel => channel.Bumps)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize);
+
+            if (!string.IsNullOrEmpty(tags))
+            {
+                string[] tagList = tags.Split(',').Select(tag => tag.Trim()).ToArray();
+
+                channelsQuery = channelsQuery.Where(channel => channel.ChannelHasTags.Any(cht => tagList.Any(tag => tag == cht.TagNavigation.Text)));
+            }
+
+            var channels = await channelsQuery.ToListAsync();
+
+            if (channels == null || channels.Count == 0)
             {
                 return NotFound();
             }
@@ -291,7 +357,7 @@ namespace TgCheckerApi.Controllers
             if (existingSubscription != null)
             {
                 // Extend the expiration date by 1 month
-                existingSubscription.Expires = existingSubscription.Expires.Value.AddMonths(1);
+                existingSubscription.Expires = existingSubscription.Expires.Value.AddMinutes(1);
                 await _context.SaveChangesAsync();
 
                 return Ok($"Subscription for channel {id} has been extended by 1 month with subscription type {existingSubscription.Type.Name}.");
@@ -306,7 +372,7 @@ namespace TgCheckerApi.Controllers
             }
 
             // Calculate the expiration date for the subscription (1 month from now)
-            var expirationDate = now.AddMonths(1);
+            var expirationDate = now.AddMinutes(1);
 
             // Create a new subscription record
             var subscription = new ChannelHasSubscription
