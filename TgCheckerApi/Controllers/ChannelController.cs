@@ -75,14 +75,17 @@ namespace TgCheckerApi.Controllers
             return channelGetModels;
         }
 
-        // GET: api/Channel/Page/{page}/{tags}
+        // GET: api/Channel/Page/{page}
         [HttpGet("Page/{page}")]
         public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1, [FromQuery] string? tags = null)
         {
             int pageSize = 10;
-            var channelsQuery = _context.Channels
-                .OrderByDescending(channel => channel.Bumps)
-                .Skip((page - 1) * pageSize)
+            IQueryable<Channel> channelsQuery = _context.Channels
+                .OrderByDescending(channel => channel.Bumps);
+
+            var totalChannelCount = await channelsQuery.CountAsync();
+
+            channelsQuery = channelsQuery.Skip((page - 1) * pageSize)
                 .Take(pageSize);
 
             if (!string.IsNullOrEmpty(tags))
@@ -91,6 +94,8 @@ namespace TgCheckerApi.Controllers
 
                 channelsQuery = channelsQuery.Where(channel => channel.ChannelHasTags.Any(cht => tagList.Any(tag => tag == cht.TagNavigation.Text)));
             }
+
+            
 
             var channels = await channelsQuery.ToListAsync();
 
@@ -135,6 +140,10 @@ namespace TgCheckerApi.Controllers
 
                 channelGetModels.Add(channelGetModel);
             }
+
+            int totalPages = (int)Math.Ceiling((double)totalChannelCount / pageSize);
+
+            Response.Headers.Add("X-Total-Pages", totalPages.ToString());
 
             return channelGetModels;
         }

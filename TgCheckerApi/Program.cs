@@ -18,11 +18,13 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddDbContext<TgDbContext>(o => o.UseLazyLoadingProxies().UseNpgsql(builder.Configuration.GetConnectionString("MainConnectionString")));
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin", builder =>
+    options.AddDefaultPolicy(builder =>
     {
         builder.WithOrigins("https://localhost:7007")
+            .AllowAnyOrigin()
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .WithExposedHeaders("*");
     });
 });
 
@@ -38,6 +40,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseCors("AllowSpecificOrigin");
+app.UseCors();
 
 app.Run();
