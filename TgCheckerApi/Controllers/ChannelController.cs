@@ -83,19 +83,19 @@ namespace TgCheckerApi.Controllers
             IQueryable<Channel> channelsQuery = _context.Channels
                 .OrderByDescending(channel => channel.Bumps);
 
-            var totalChannelCount = await channelsQuery.CountAsync();
-
-            channelsQuery = channelsQuery.Skip((page - 1) * pageSize)
-                .Take(pageSize);
-
             if (!string.IsNullOrEmpty(tags))
             {
                 string[] tagList = tags.Split(',').Select(tag => tag.Trim()).ToArray();
 
                 channelsQuery = channelsQuery.Where(channel => channel.ChannelHasTags.Any(cht => tagList.Any(tag => tag == cht.TagNavigation.Text)));
+
             }
 
-            
+            var totalChannelCount = await channelsQuery.CountAsync();
+
+            channelsQuery = channelsQuery.Skip((page - 1) * pageSize)
+                .Take(pageSize);
+
 
             var channels = await channelsQuery.ToListAsync();
 
