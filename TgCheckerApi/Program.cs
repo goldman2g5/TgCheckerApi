@@ -3,6 +3,7 @@ using TgCheckerApi.Models;
 using Newtonsoft.Json;
 using TgCheckerApi;
 using TgCheckerApi.Models.BaseModels;
+using TgCheckerApi.Websockets;
 
 
 
@@ -27,6 +28,7 @@ builder.Services.AddCors(options =>
             .WithExposedHeaders("*");
     });
 });
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -42,4 +44,12 @@ app.MapControllers();
 
 app.UseCors();
 
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ChatHub>("/chathub");
+});
+
 app.Run();
+
