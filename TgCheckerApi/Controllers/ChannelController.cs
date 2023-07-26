@@ -77,24 +77,44 @@ namespace TgCheckerApi.Controllers
 
         // GET: api/Channel/Page/{page}
         [HttpGet("Page/{page}")]
-        public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1, [FromQuery] string? tags = null)
+        public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1, [FromQuery] string? tags = null, [FromQuery] string? sortOption = null)
         {
             int pageSize = 10;
-            IQueryable<Channel> channelsQuery = _context.Channels
-                .OrderByDescending(channel => channel.Bumps);
+            IQueryable<Channel> channelsQuery = _context.Channels;
 
             if (!string.IsNullOrEmpty(tags))
             {
                 string[] tagList = tags.Split(',').Select(tag => tag.Trim()).ToArray();
-
                 channelsQuery = channelsQuery.Where(channel => channel.ChannelHasTags.Any(cht => tagList.Any(tag => tag == cht.TagNavigation.Text)));
-
             }
+
+
+            if (!string.IsNullOrEmpty(sortOption))
+            {
+                if (sortOption == "members")
+                {
+                    channelsQuery = channelsQuery.OrderByDescending(channel => channel.Members);
+                }
+                else if (sortOption == "activity")
+                {
+                    channelsQuery = channelsQuery.OrderByDescending(channel => channel.LastBump);
+                }
+                else if (sortOption == "popularity")
+                {
+                    channelsQuery = channelsQuery.OrderByDescending(channel => channel.Bumps);
+                }
+                else
+                {
+                    // Default sorting by bumps
+                    channelsQuery = channelsQuery.OrderByDescending(channel => channel.Bumps);
+                }
+            }
+            
 
             var totalChannelCount = await channelsQuery.CountAsync();
 
             channelsQuery = channelsQuery.Skip((page - 1) * pageSize)
-                .Take(pageSize);
+                                         .Take(pageSize);
 
 
             var channels = await channelsQuery.ToListAsync();
@@ -213,6 +233,8 @@ namespace TgCheckerApi.Controllers
             {
                 return NotFound();
             }
+
+            channels = channels.OrderBy(x => x.Id).ToList();
 
             return channels;
         }
