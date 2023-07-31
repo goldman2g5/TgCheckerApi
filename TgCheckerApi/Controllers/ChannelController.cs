@@ -309,8 +309,109 @@ namespace TgCheckerApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Channel/Bump/5
-        [HttpPost("Bump/{id}")]
+        [HttpPut("TogglePromoPost/{id}")]
+        public async Task<IActionResult> TogglePromoPost(int id)
+        {
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            if (channel.PromoPost == null)
+            {
+                channel.PromoPost = true;
+            }
+            else
+            {
+                channel.PromoPost = !channel.PromoPost;
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ChannelExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+
+        [HttpPut("UpdatePromoPostTime/{id}")]
+        public async Task<IActionResult> UpdatePromoPostTime(int id, [FromBody] string promoPostTime)
+        {
+            try
+            {
+                var channel = await _context.Channels.FindAsync(id);
+
+                if (channel == null)
+                {
+                    return NotFound(); // Channel with the provided ID not found
+                }
+
+                // Convert the promoPostTime string to TimeOnly
+                if (TimeOnly.TryParse(promoPostTime, out var timeOnly))
+                {
+                    channel.PromoPostTime = timeOnly;
+                }
+                else
+                {
+                    return BadRequest("Invalid PromoPostTime format. Please use the 'HH:mm:ss' format.");
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok(); // Successfully updated the PromoPostTime
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        [HttpPut("UpdatePromoPostInterval/{id}")]
+        public async Task<IActionResult> UpdatePromoPostInterval(int id, [FromBody] int promoPostInterval)
+        {
+            try
+            {
+                var channel = await _context.Channels.FindAsync(id);
+
+                if (channel == null)
+                {
+                    return NotFound(); // Channel with the provided ID not found
+                }
+
+                // Validate that promoPostInterval is a positive value
+                if (promoPostInterval <= 0)
+                {
+                    return BadRequest("Invalid PromoPostInterval. Please use a positive integer value.");
+                }
+
+                channel.PromoPostInterval = promoPostInterval;
+
+                await _context.SaveChangesAsync();
+
+                return Ok(); // Successfully updated the PromoPostInterval
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+            // POST: api/Channel/Bump/5
+            [HttpPost("Bump/{id}")]
         public async Task<IActionResult> BumpChannel(int id)
         {
             var channel = await _context.Channels.FindAsync(id);

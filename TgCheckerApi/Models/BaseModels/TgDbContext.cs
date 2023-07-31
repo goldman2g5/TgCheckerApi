@@ -52,6 +52,13 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.NotificationSent).HasColumnName("notification_sent");
             entity.Property(e => e.Notifications).HasColumnName("notifications");
+            entity.Property(e => e.PromoPost).HasColumnName("promo_post");
+            entity.Property(e => e.PromoPostInterval).HasColumnName("promo_post_interval");
+            entity.Property(e => e.PromoPostLast)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("promo_post_last");
+            entity.Property(e => e.PromoPostSent).HasColumnName("promo_post_sent");
+            entity.Property(e => e.PromoPostTime).HasColumnName("promo_post_time");
             entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
             entity.Property(e => e.User).HasColumnName("user");
         });

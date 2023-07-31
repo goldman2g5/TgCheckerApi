@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TgCheckerApi.Models.BaseModels;
 
@@ -27,6 +27,16 @@ public partial class Channel
     public long? TelegramId { get; set; }
 
     public bool? NotificationSent { get; set; }
+
+    public bool? PromoPost { get; set; }
+
+    public TimeOnly? PromoPostTime { get; set; }
+
+    public int? PromoPostInterval { get; set; }
+
+    public bool? PromoPostSent { get; set; }
+
+    public DateTime? PromoPostLast { get; set; }
     [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
     [JsonIgnore]
