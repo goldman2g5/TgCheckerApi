@@ -62,6 +62,40 @@ namespace TgCheckerApi.Controllers
             return notifications;
         }
 
+        [HttpGet("GetPromoPosts")]
+        public ActionResult<IEnumerable<PromoPost>> GetEligiblePromoPosts()
+        {
+            DateTime currentTime = DateTime.Now;
+            TimeOnly currentTimeOnly = new TimeOnly(currentTime.Hour, currentTime.Minute, currentTime.Second);
+
+            // Get the eligible channels
+            var eligibleChannels = _context.Channels
+                .Where(c => c.PromoPost == true &&
+                            (c.PromoPostTime == null || c.PromoPostTime <= currentTimeOnly) &&
+                            (c.PromoPostLast == null || c.PromoPostLast.Value.AddDays(c.PromoPostInterval ?? 0) <= currentTime))
+                .ToList();
+
+            // Convert them into the PromoPost DTO
+            var eligiblePromoPosts = eligibleChannels
+                .Select(c => new PromoPost
+                {
+                    channelId = c.Id.ToString(),
+                    channelTelegramId = c.TelegramId.ToString()
+                })
+                .ToList();
+
+            // Update the PromoPostLast to the current time
+            foreach (var channel in eligibleChannels)
+            {
+                channel.PromoPostLast = currentTime;
+            }
+
+            // Save changes to the database
+            _context.SaveChanges();
+
+            return Ok(eligiblePromoPosts);
+        }
+
 
 
         private bool ChannelExists(int id)

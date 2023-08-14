@@ -348,8 +348,8 @@ namespace TgCheckerApi.Controllers
         }
 
 
-        [HttpPut("UpdatePromoPostTime/{id}")]
-        public async Task<IActionResult> UpdatePromoPostTime(int id, [FromBody] string promoPostTime)
+        [HttpPut("UpdatePromoPostDetails/{id}")]
+        public async Task<IActionResult> UpdatePromoPostDetails(int id, [FromBody] UpdatePromoDTO dto)
         {
             try
             {
@@ -360,8 +360,8 @@ namespace TgCheckerApi.Controllers
                     return NotFound(); // Channel with the provided ID not found
                 }
 
-                // Convert the promoPostTime string to TimeOnly
-                if (TimeOnly.TryParse(promoPostTime, out var timeOnly))
+                // Convert the PromoPostTime string to TimeOnly
+                if (TimeOnly.TryParse(dto.PromoPostTime, out var timeOnly))
                 {
                     channel.PromoPostTime = timeOnly;
                 }
@@ -370,9 +370,19 @@ namespace TgCheckerApi.Controllers
                     return BadRequest("Invalid PromoPostTime format. Please use the 'HH:mm:ss' format.");
                 }
 
+                // Update the PromoPostInterval
+                if (dto.PromoPostInterval.HasValue && dto.PromoPostInterval > 0)
+                {
+                    channel.PromoPostInterval = dto.PromoPostInterval;
+                }
+                else
+                {
+                    return BadRequest("Invalid PromoPostInterval value. Please provide a positive number.");
+                }
+
                 await _context.SaveChangesAsync();
 
-                return Ok(); // Successfully updated the PromoPostTime
+                return Ok(); // Successfully updated the PromoPostDetails
             }
             catch (Exception ex)
             {

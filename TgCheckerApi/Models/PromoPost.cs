@@ -2,8 +2,8 @@
 {
     public class PromoPost
     {
-        public string channelId;
+        public string channelId { get; set; }
 
-        public string channelTelegramId;
+        public string channelTelegramId { get; set; }
     }
 }
