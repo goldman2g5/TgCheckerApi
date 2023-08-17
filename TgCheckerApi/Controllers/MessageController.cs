@@ -1,6 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Websockets;
 
 namespace TgCheckerApi.Controllers
@@ -33,7 +39,7 @@ namespace TgCheckerApi.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage([FromQuery] string connectionId, [FromBody] SendMessagePayload payload)
         {
-            string token = GenerateUniqueToken();
+            string token = CreateToken(payload);
 
             SendMessageResponse response = new SendMessageResponse()
             {
@@ -43,12 +49,45 @@ namespace TgCheckerApi.Controllers
             };
 
             await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveMessage", JsonConvert.SerializeObject(response));
-            return Ok();
+            return Ok(token);
         }
 
         public class TokenPayload
         {
             public string EncryptedToken { get; set; }
+        }
+
+        private string CreateToken(SendMessagePayload payload)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, payload.Username),
+                new Claim("userId", payload.UserId.ToString())
+            };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super secret key"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                 claims: claims,
+                 expires: DateTime.Now.AddDays(7),
+                 signingCredentials: creds
+             );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using var hmac = new HMACSHA512();
+            passwordSalt = hmac.Key;
+            passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+        }
+
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using var hmac = new HMACSHA512(passwordSalt);
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return computedHash.SequenceEqual(passwordHash);
         }
 
         [HttpPost("DecryptToken")]
@@ -69,35 +108,6 @@ namespace TgCheckerApi.Controllers
                 // Handle decryption error
                 return BadRequest("Invalid token");
             }
-        }
-
-        private string GenerateUniqueToken()
-        {
-            string token = GenerateRandomToken();
-
-            // Check if the generated token is unique
-            while (!IsTokenUnique(token))
-            {
-                // If the token is not unique, generate a new one
-                token = GenerateRandomToken();
-            }
-
-            return token;
-        }
-
-        private string GenerateRandomToken()
-        {
-            // Generate a random string using a combination of characters or numbers
-            string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            Random random = new Random();
-            char[] tokenChars = new char[32];
-
-            for (int i = 0; i < tokenChars.Length; i++)
-            {
-                tokenChars[i] = characters[random.Next(characters.Length)];
-            }
-
-            return new string(tokenChars);
         }
 
         private bool IsTokenUnique(string token)
