@@ -61,6 +61,8 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.PromoPostTime).HasColumnName("promo_post_time");
             entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
             entity.Property(e => e.User).HasColumnName("user");
+            entity.Property(e => e.Language).HasColumnName("language");
+            entity.Property(e => e.Flag).HasColumnName("flag");
         });
 
         modelBuilder.Entity<ChannelAccess>(entity =>

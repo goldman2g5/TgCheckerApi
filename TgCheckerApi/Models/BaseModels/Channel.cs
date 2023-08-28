@@ -36,6 +36,10 @@ public partial class Channel
 
     public bool? PromoPostSent { get; set; }
 
+    public string? Language { get; set; }
+
+    public string? Flag { get; set; }
+
     public DateTime? PromoPostLast { get; set; }
     [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();

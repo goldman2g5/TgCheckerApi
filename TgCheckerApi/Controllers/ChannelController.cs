@@ -222,6 +222,43 @@ namespace TgCheckerApi.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}/flag")]
+        public async Task<IActionResult> UpdateFlag(int id, [FromBody] string flag)
+        {
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound("Channel not found");
+            }
+
+            channel.Flag = flag;
+
+            _context.Channels.Update(channel);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // Endpoint to update language
+        [HttpPut("{id}/language")]
+        public async Task<IActionResult> UpdateLanguage(int id, [FromBody] string language)
+        {
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound("Channel not found");
+            }
+
+            channel.Language = language;
+
+            _context.Channels.Update(channel);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
 
         // GET: api/Channel/ByUser/5
         [HttpGet("ByUser/{userId}")]
