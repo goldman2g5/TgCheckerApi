@@ -47,7 +47,7 @@ app.UseCors();
 
 app.UseRouting();
 
-app.UseMiddleware<ApiKeyMiddleware>();
+//app.UseMiddleware<ApiKeyMiddleware>();
 
 app.UseEndpoints(endpoints =>
 {
