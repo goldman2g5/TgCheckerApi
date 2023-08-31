@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using TgCheckerApi;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Websockets;
+using TgCheckerApi.MiddleWare;
 
 
 
@@ -45,6 +46,8 @@ app.MapControllers();
 app.UseCors();
 
 app.UseRouting();
+
+app.UseMiddleware<ApiKeyMiddleware>();
 
 app.UseEndpoints(endpoints =>
 {

@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Websockets;
+
 
 namespace TgCheckerApi.Controllers
 {
@@ -17,10 +19,12 @@ namespace TgCheckerApi.Controllers
     public class MessageController : ControllerBase
     {
         private readonly IHubContext<ChatHub> _hubContext;
+        private readonly IConfiguration _configuration;
 
-        public MessageController(IHubContext<ChatHub> hubContext)
+        public MessageController(IConfiguration configuration, IHubContext<ChatHub> hubContext)
         {
             _hubContext = hubContext;
+            _configuration = configuration;
         }
 
         public class SendMessagePayload
@@ -40,8 +44,7 @@ namespace TgCheckerApi.Controllers
         public async Task<IActionResult> SendMessage([FromQuery] string connectionId, [FromBody] SendMessagePayload payload)
         {
             //string token = CreateToken(payload);
-            string token = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVG9ueSBTdGFyayIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6Iklyb24gTWFuIiwiZXhwIjozMTY4NTQwMDAwfQ.IbVQa1lNYYOzwso69xYfsMOHnQfO3VLvVqV2SOXS7sTtyyZ8DEf5jmmwz2FGLJJvZnQKZuieHnmHkg7CGkDbvA";
-            Console.WriteLine("GIGAJOPPA");
+            string token = CreateTokenHuevo(payload);
 
             SendMessageResponse response = new SendMessageResponse()
             {
@@ -59,7 +62,7 @@ namespace TgCheckerApi.Controllers
             public string EncryptedToken { get; set; }
         }
 
-        private string CreateToken(SendMessagePayload payload)
+        private string CreateTokenHuevo(SendMessagePayload payload)
         {
             var claims = new List<Claim>
             {

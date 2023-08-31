@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
@@ -23,6 +24,7 @@ namespace TgCheckerApi.Controllers
         }
 
         // GET: api/Channel
+        [BypassApiKey]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels()
         {

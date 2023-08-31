@@ -15,6 +15,8 @@ public partial class TgDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Apikey> Apikeys { get; set; }
+
     public virtual DbSet<Channel> Channels { get; set; }
 
     public virtual DbSet<ChannelAccess> ChannelAccesses { get; set; }
@@ -35,6 +37,17 @@ public partial class TgDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Apikey>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("APIkeys_pkey");
+
+            entity.ToTable("APIkeys");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ClientName).HasColumnName("client_name");
+            entity.Property(e => e.Key).HasColumnName("key");
+        });
+
         modelBuilder.Entity<Channel>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Channel_pkey");
@@ -45,6 +58,8 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Avatar).HasColumnName("avatar");
             entity.Property(e => e.Bumps).HasColumnName("bumps");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Flag).HasColumnName("flag");
+            entity.Property(e => e.Language).HasColumnName("language");
             entity.Property(e => e.LastBump)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("last_bump");
@@ -61,8 +76,6 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.PromoPostTime).HasColumnName("promo_post_time");
             entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
             entity.Property(e => e.User).HasColumnName("user");
-            entity.Property(e => e.Language).HasColumnName("language");
-            entity.Property(e => e.Flag).HasColumnName("flag");
         });
 
         modelBuilder.Entity<ChannelAccess>(entity =>
