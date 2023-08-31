@@ -49,6 +49,8 @@ app.UseRouting();
 
 //app.UseMiddleware<ApiKeyMiddleware>();
 
+app.UseMiddleware<ThrottleMiddleware>(2, 60);
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapHub<ChatHub>("/chathub");
