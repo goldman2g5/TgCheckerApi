@@ -5,13 +5,13 @@ using TgCheckerApi.Models.GetModels;
 
 namespace TgCheckerApi.Utility
 {
-    public class ChannelUtility
+    public class ChannelService
     {
         private const string DefaultSortOption = "popularity";
         private const int PageSize = 10;
         private readonly TgDbContext _context;
 
-        public ChannelUtility(TgDbContext context)
+        public ChannelService(TgDbContext context)
         {
             _context = context;
         }

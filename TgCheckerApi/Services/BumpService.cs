@@ -2,7 +2,7 @@
 
 namespace TgCheckerApi.Utility
 {
-    public class BumpUtility
+    public class BumpService
     {
         private const int BumpIntervalMinutes = 3;
 

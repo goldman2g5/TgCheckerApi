@@ -3,11 +3,11 @@ using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Utility
 {
-    public class TagsUtility
+    public class TagsService
     {
         private readonly TgDbContext _context;
 
-        public TagsUtility(TgDbContext context)
+        public TagsService(TgDbContext context)
         {
             _context = context;
         }

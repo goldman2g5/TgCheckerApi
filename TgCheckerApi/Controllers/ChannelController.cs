@@ -19,18 +19,18 @@ namespace TgCheckerApi.Controllers
     public class ChannelController : ControllerBase
     {
         private readonly TgDbContext _context;
-        private readonly ChannelUtility _channelUtility;
-        private readonly TagsUtility _tagsUtility;
-        private readonly BumpUtility _bumpUtility;
+        private readonly ChannelService _channelUtility;
+        private readonly TagsService _tagsUtility;
+        private readonly BumpService _bumpUtility;
         private readonly SubscriptionService _subscriptionService;
 
 
         public ChannelController(TgDbContext context)
         {
             _context = context;
-            _channelUtility = new ChannelUtility(context);
-            _tagsUtility = new TagsUtility(context);
-            _bumpUtility = new BumpUtility();
+            _channelUtility = new ChannelService(context);
+            _tagsUtility = new TagsService(context);
+            _bumpUtility = new BumpService();
             _subscriptionService = new SubscriptionService(context);
         }
 
@@ -57,7 +57,7 @@ namespace TgCheckerApi.Controllers
         public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1, [FromQuery] string? tags = null, [FromQuery] string? sortOption = null)
         {
             IQueryable<Channel> channelsQuery = _context.Channels;
-            int PageSize = ChannelUtility.GetPageSize();
+            int PageSize = ChannelService.GetPageSize();
 
             channelsQuery = _channelUtility.ApplyTagFilter(channelsQuery, tags);
             channelsQuery = _channelUtility.ApplySort(channelsQuery, sortOption);
