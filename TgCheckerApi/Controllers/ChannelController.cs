@@ -22,6 +22,8 @@ namespace TgCheckerApi.Controllers
         private readonly ChannelUtility _channelUtility;
         private readonly TagsUtility _tagsUtility;
         private readonly BumpUtility _bumpUtility;
+        private readonly SubscriptionService _subscriptionService;
+
 
         public ChannelController(TgDbContext context)
         {
@@ -29,6 +31,7 @@ namespace TgCheckerApi.Controllers
             _channelUtility = new ChannelUtility(context);
             _tagsUtility = new TagsUtility(context);
             _bumpUtility = new BumpUtility();
+            _subscriptionService = new SubscriptionService(context);
         }
 
         // GET: api/Channel
@@ -297,55 +300,22 @@ namespace TgCheckerApi.Controllers
         [HttpPost("Subscribe/{id}")]
         public async Task<IActionResult> SubscribeChannel(int id, int subtypeId)
         {
-            // Find the channel based on the provided ID
-            var channel = await _context.Channels.FindAsync(id);
+            var channel = await FindChannelById(id);
+            if (channel == null) return NotFound();
 
-            if (channel == null)
-            {
-                return NotFound();
-            }
-
-            // Get the time zone for Russia/Moscow
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Russian Standard Time");
-
-            // Convert the current time to the server's time zone
-            var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
-
-            // Check if the channel already has an active subscription of the same type
-            var existingSubscription = await _context.ChannelHasSubscriptions
-                .FirstOrDefaultAsync(s => s.ChannelId == id && s.Expires > now && s.TypeId == subtypeId);
+            var currentServerTime = _subscriptionService.GetCurrentServerTime();
+            var existingSubscription = await _subscriptionService.GetExistingSubscription(id, subtypeId, currentServerTime);
 
             if (existingSubscription != null)
             {
-                // Extend the expiration date by 1 month
-                existingSubscription.Expires = existingSubscription.Expires.Value.AddMinutes(1);
-                await _context.SaveChangesAsync();
-
+                await _subscriptionService.ExtendExistingSubscription(existingSubscription);
                 return Ok($"Subscription for channel {id} has been extended by 1 month with subscription type {existingSubscription.Type.Name}.");
             }
 
-            // Get the subscription type based on subtypeId
-            var subscriptionType = await _context.SubTypes.FirstOrDefaultAsync(s => s.Id == subtypeId);
+            var subscriptionType = await _subscriptionService.GetSubscriptionType(subtypeId);
+            if (subscriptionType == null) return BadRequest("Invalid subscription type.");
 
-            if (subscriptionType == null)
-            {
-                return BadRequest("Invalid subscription type.");
-            }
-
-            // Calculate the expiration date for the subscription (1 month from now)
-            var expirationDate = now.AddMinutes(1);
-
-            // Create a new subscription record
-            var subscription = new ChannelHasSubscription
-            {
-                TypeId = subscriptionType.Id,
-                Expires = expirationDate,
-                ChannelId = id
-            };
-
-            _context.ChannelHasSubscriptions.Add(subscription);
-            await _context.SaveChangesAsync();
-
+            await _subscriptionService.AddNewSubscription(id, subtypeId, currentServerTime);
             return Ok($"Channel {id} has been subscribed for 1 month with subscription type {subscriptionType.Name}.");
         }
 
