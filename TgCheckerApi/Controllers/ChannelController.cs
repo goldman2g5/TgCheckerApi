@@ -20,11 +20,15 @@ namespace TgCheckerApi.Controllers
     {
         private readonly TgDbContext _context;
         private readonly ChannelUtility _channelUtility;
+        private readonly TagsUtility _tagsUtility;
+        private readonly BumpUtility _bumpUtility;
 
         public ChannelController(TgDbContext context)
         {
             _context = context;
             _channelUtility = new ChannelUtility(context);
+            _tagsUtility = new TagsUtility(context);
+            _bumpUtility = new BumpUtility();
         }
 
         // GET: api/Channel
@@ -32,50 +36,15 @@ namespace TgCheckerApi.Controllers
         public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels()
         {
             var channels = await _context.Channels
-                .OrderByDescending(channel => channel.Bumps)
-                .ToListAsync();
+                                         .OrderByDescending(channel => channel.Bumps)
+                                         .ToListAsync();
 
-            if (channels == null)
+            if (channels == null || channels.Count == 0)
             {
                 return NotFound();
             }
 
-            var channelGetModels = new List<ChannelGetModel>();
-
-            foreach (var channel in channels)
-            {
-                var channelGetModel = new ChannelGetModel
-                {
-                    Id = channel.Id,
-                    Name = channel.Name,
-                    Description = channel.Description,
-                    Members = channel.Members,
-                    Avatar = channel.Avatar,
-                    User = channel.User,
-                    Notifications = channel.Notifications,
-                    Bumps = channel.Bumps,
-                    LastBump = channel.LastBump,
-                    TelegramId = channel.TelegramId,
-                    NotificationSent = channel.NotificationSent,
-                    Tags = new List<string>()
-                };
-
-                var channelHasTags = await _context.ChannelHasTags
-                    .Include(cht => cht.TagNavigation)
-                    .Where(cht => cht.Channel == channel.Id)
-                    .ToListAsync();
-
-                foreach (var channelHasTag in channelHasTags)
-                {
-                    var tagText = channelHasTag.TagNavigation?.Text;
-                    if (!string.IsNullOrEmpty(tagText))
-                    {
-                        channelGetModel.Tags.Add(tagText);
-                    }
-                }
-
-                channelGetModels.Add(channelGetModel);
-            }
+            var channelGetModels = channels.Select(channel => _channelUtility.MapToChannelGetModel(channel)).ToList();
 
             return channelGetModels;
         }
@@ -132,119 +101,17 @@ namespace TgCheckerApi.Controllers
         public async Task<IActionResult> SetChannelTags(int id, List<string> tags)
         {
             var channel = await _context.Channels.FindAsync(id);
-
             if (channel == null)
             {
                 return NotFound();
             }
 
-            var existingTags = await _context.ChannelHasTags
-                .Where(cht => cht.Channel == id)
-                .ToListAsync();
-
-            _context.ChannelHasTags.RemoveRange(existingTags);
-
-            foreach (var tagText in tags)
-            {
-                var tag = await _context.Tags.FirstOrDefaultAsync(t => t.Text == tagText);
-                if (tag == null)
-                {
-                    tag = new Tag { Text = tagText };
-                    _context.Tags.Add(tag);
-                }
-
-                var channelHasTag = new ChannelHasTag { Channel = id, Tag = tag.Id };
-                _context.ChannelHasTags.Add(channelHasTag);
-            }
+            await _tagsUtility.RemoveExistingTagsFromChannel(id);
+            await _tagsUtility.AddNewTagsToChannel(id, tags);
 
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        [HttpPut("{id}/flag")]
-        public async Task<IActionResult> UpdateFlag(int id, [FromBody] string flag)
-        {
-            var channel = await _context.Channels.FindAsync(id);
-
-            if (channel == null)
-            {
-                return NotFound("Channel not found");
-            }
-
-            channel.Flag = flag;
-
-            _context.Channels.Update(channel);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        // Endpoint to update language
-        [HttpPut("{id}/language")]
-        public async Task<IActionResult> UpdateLanguage(int id, [FromBody] string language)
-        {
-            var channel = await _context.Channels.FindAsync(id);
-
-            if (channel == null)
-            {
-                return NotFound("Channel not found");
-            }
-
-            channel.Language = language;
-
-            _context.Channels.Update(channel);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-
-        // GET: api/Channel/ByUser/5
-        [HttpGet("ByUser/{userId}")]
-        public async Task<ActionResult<IEnumerable<Channel>>> GetChannelsByUser(int userId)
-        {
-            var channels = await _context.Channels.Where(c => c.User == userId).ToListAsync();
-
-            if (channels == null || channels.Count == 0)
-            {
-                return NotFound();
-            }
-
-            channels = channels.OrderBy(x => x.Id).ToList();
-
-            return channels;
-        }
-
-        // GET: api/Channel/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Channel>> GetChannel(int id)
-        {
-          if (_context.Channels == null)
-          {
-              return NotFound();
-          }
-            var channel = await _context.Channels.FindAsync(id);
-
-            if (channel == null)
-            {
-                return NotFound();
-            }
-
-            return channel;
-        }
-
-        [HttpGet("ByTelegramId/{telegramId}")]
-        public async Task<ActionResult<Channel>> GetChannelByTelegramId(long telegramId)
-        {
-            var channel = await _context.Channels.FirstOrDefaultAsync(c => c.TelegramId == telegramId);
-
-            if (channel == null)
-            {
-                return NotFound();
-            }
-
-            return channel;
         }
 
         // PUT: api/Channel/ToggleNotifications/5
@@ -397,56 +264,31 @@ namespace TgCheckerApi.Controllers
             }
         }
 
-            // POST: api/Channel/Bump/5
-            [HttpPost("Bump/{id}")]
+        // POST: api/Channel/Bump/5
+        [HttpPost("Bump/{id}")]
         public async Task<IActionResult> BumpChannel(int id)
         {
-            var channel = await _context.Channels.FindAsync(id);
+            var channel = await FindChannelById(id);
 
             if (channel == null)
             {
                 return NotFound();
             }
 
-            // Define the interval between bumps (in minutes)
-            int bumpIntervalMinutes = 1;
+            var nextBumpTime = _bumpUtility.CalculateNextBumpTime(channel.LastBump);
 
-            // Calculate the minimum time for the next bump to be available
-            DateTime nextBumpTime = channel.LastBump?.AddMinutes(bumpIntervalMinutes) ?? DateTime.MinValue;
-
-            // Check if the current time is before the next bump time
-            if (DateTime.Now < nextBumpTime)
+            if (_bumpUtility.IsBumpAvailable(nextBumpTime))
             {
-                // Calculate the remaining time until the next bump is available
-                var remainingTime = (int)(nextBumpTime - DateTime.Now).TotalSeconds;
+                var remainingTime = _bumpUtility.GetRemainingTimeInSeconds(nextBumpTime);
                 Response.Headers.Add("X-TimeLeft", remainingTime.ToString());
-
-                return BadRequest($"Next bump available in {bumpIntervalMinutes} minutes.");
+                return BadRequest($"Next bump available in {remainingTime} minutes.");
             }
 
-            // Increment the bumps value by 1
-            channel.Bumps = (channel.Bumps ?? 0) + 1;
+            _bumpUtility.UpdateChannelBumpDetails(channel);
 
-            // Update the last bump time to the current time
-            channel.LastBump = DateTime.Now;
-
-            // Set the NotificationSent property to false
-            channel.NotificationSent = false;
-
-            try
+            if (!await TrySaveChanges())
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ChannelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return NoContent();
@@ -505,6 +347,91 @@ namespace TgCheckerApi.Controllers
             await _context.SaveChangesAsync();
 
             return Ok($"Channel {id} has been subscribed for 1 month with subscription type {subscriptionType.Name}.");
+        }
+
+        [HttpPut("{id}/flag")]
+        public async Task<IActionResult> UpdateFlag(int id, [FromBody] string flag)
+        {
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound("Channel not found");
+            }
+
+            channel.Flag = flag;
+
+            _context.Channels.Update(channel);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // Endpoint to update language
+        [HttpPut("{id}/language")]
+        public async Task<IActionResult> UpdateLanguage(int id, [FromBody] string language)
+        {
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound("Channel not found");
+            }
+
+            channel.Language = language;
+
+            _context.Channels.Update(channel);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
+        // GET: api/Channel/ByUser/5
+        [HttpGet("ByUser/{userId}")]
+        public async Task<ActionResult<IEnumerable<Channel>>> GetChannelsByUser(int userId)
+        {
+            var channels = await _context.Channels.Where(c => c.User == userId).ToListAsync();
+
+            if (channels == null || channels.Count == 0)
+            {
+                return NotFound();
+            }
+
+            channels = channels.OrderBy(x => x.Id).ToList();
+
+            return channels;
+        }
+
+        // GET: api/Channel/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Channel>> GetChannel(int id)
+        {
+            if (_context.Channels == null)
+            {
+                return NotFound();
+            }
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            return channel;
+        }
+
+        [HttpGet("ByTelegramId/{telegramId}")]
+        public async Task<ActionResult<Channel>> GetChannelByTelegramId(long telegramId)
+        {
+            var channel = await _context.Channels.FirstOrDefaultAsync(c => c.TelegramId == telegramId);
+
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            return channel;
         }
 
         // PUT: api/Channel/5
@@ -571,6 +498,25 @@ namespace TgCheckerApi.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        private async Task<Channel> FindChannelById(int id)
+        {
+            return await _context.Channels.FindAsync(id);
+        }
+
+        private async Task<bool> TrySaveChanges()
+    {
+        try
+        {
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            // Here, you can further improve by adding logging or other handling as per your application needs
+            return false;
+        }
         }
 
         private bool ChannelExists(int id)

@@ -62,6 +62,16 @@ namespace TgCheckerApi.Utility
             return channelGetModel;
         }
 
+        public async Task<List<string>> GetChannelTagsAsync(int channelId)
+        {
+            return await _context.ChannelHasTags
+                                 .Include(cht => cht.TagNavigation)
+                                 .Where(cht => cht.Channel == channelId)
+                                 .Select(cht => cht.TagNavigation.Text)
+                                 .Where(tagText => !string.IsNullOrEmpty(tagText))
+                                 .ToListAsync();
+        }
+
         private List<string> GetChannelTags(Channel channel)
         {
             var tags = new List<string>();
