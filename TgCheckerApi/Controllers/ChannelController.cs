@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,7 @@ using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
+using TgCheckerApi.Utility;
 
 namespace TgCheckerApi.Controllers
 {
@@ -17,14 +19,15 @@ namespace TgCheckerApi.Controllers
     public class ChannelController : ControllerBase
     {
         private readonly TgDbContext _context;
+        private readonly ChannelUtility _channelUtility;
 
         public ChannelController(TgDbContext context)
         {
             _context = context;
+            _channelUtility = new ChannelUtility(context);
         }
 
         // GET: api/Channel
-        [BypassApiKey]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels()
         {
@@ -81,89 +84,24 @@ namespace TgCheckerApi.Controllers
         [HttpGet("Page/{page}")]
         public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1, [FromQuery] string? tags = null, [FromQuery] string? sortOption = null)
         {
-            int pageSize = 10;
             IQueryable<Channel> channelsQuery = _context.Channels;
+            int PageSize = ChannelUtility.GetPageSize();
 
-            if (!string.IsNullOrEmpty(tags))
-            {
-                string[] tagList = tags.Split(',').Select(tag => tag.Trim()).ToArray();
-                channelsQuery = channelsQuery.Where(channel => channel.ChannelHasTags.Any(cht => tagList.Any(tag => tag == cht.TagNavigation.Text)));
-            }
-
-
-            if (!string.IsNullOrEmpty(sortOption))
-            {
-                if (sortOption == "members")
-                {
-                    channelsQuery = channelsQuery.OrderByDescending(channel => channel.Members);
-                }
-                else if (sortOption == "activity")
-                {
-                    channelsQuery = channelsQuery.OrderByDescending(channel => channel.LastBump);
-                }
-                else if (sortOption == "popularity")
-                {
-                    channelsQuery = channelsQuery.OrderByDescending(channel => channel.Bumps);
-                }
-                else
-                {
-                    // Default sorting by bumps
-                    channelsQuery = channelsQuery.OrderByDescending(channel => channel.Bumps);
-                }
-            }
-            
+            channelsQuery = _channelUtility.ApplyTagFilter(channelsQuery, tags);
+            channelsQuery = _channelUtility.ApplySort(channelsQuery, sortOption);
 
             var totalChannelCount = await channelsQuery.CountAsync();
 
-            channelsQuery = channelsQuery.Skip((page - 1) * pageSize)
-                                         .Take(pageSize);
-
-
+            channelsQuery = channelsQuery.Skip((page - 1) * PageSize).Take(PageSize);
             var channels = await channelsQuery.ToListAsync();
 
-            if (channels == null || channels.Count == 0)
+            if (!channels.Any())
             {
                 return NotFound();
             }
 
-            var channelGetModels = new List<ChannelGetModel>();
-
-            foreach (var channel in channels)
-            {
-                var channelGetModel = new ChannelGetModel
-                {
-                    Id = channel.Id,
-                    Name = channel.Name,
-                    Description = channel.Description,
-                    Members = channel.Members,
-                    Avatar = channel.Avatar,
-                    User = channel.User,
-                    Notifications = channel.Notifications,
-                    Bumps = channel.Bumps,
-                    LastBump = channel.LastBump,
-                    TelegramId = channel.TelegramId,
-                    NotificationSent = channel.NotificationSent,
-                    Tags = new List<string>()
-                };
-
-                var channelHasTags = await _context.ChannelHasTags
-                    .Include(cht => cht.TagNavigation)
-                    .Where(cht => cht.Channel == channel.Id)
-                    .ToListAsync();
-
-                foreach (var channelHasTag in channelHasTags)
-                {
-                    var tagText = channelHasTag.TagNavigation?.Text;
-                    if (!string.IsNullOrEmpty(tagText))
-                    {
-                        channelGetModel.Tags.Add(tagText);
-                    }
-                }
-
-                channelGetModels.Add(channelGetModel);
-            }
-
-            int totalPages = (int)Math.Ceiling((double)totalChannelCount / pageSize);
+            var channelGetModels = channels.Select(channel => _channelUtility.MapToChannelGetModel(channel)).ToList();
+            int totalPages = (int)Math.Ceiling((double)totalChannelCount / PageSize);
 
             Response.Headers.Add("X-Total-Pages", totalPages.ToString());
 
