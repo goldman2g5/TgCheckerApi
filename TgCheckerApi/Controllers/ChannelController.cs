@@ -19,18 +19,18 @@ namespace TgCheckerApi.Controllers
     public class ChannelController : ControllerBase
     {
         private readonly TgDbContext _context;
-        private readonly ChannelService _channelUtility;
-        private readonly TagsService _tagsUtility;
-        private readonly BumpService _bumpUtility;
+        private readonly ChannelService _channelService;
+        private readonly TagsService _tagsService;
+        private readonly BumpService _bumpService;
         private readonly SubscriptionService _subscriptionService;
 
 
         public ChannelController(TgDbContext context)
         {
             _context = context;
-            _channelUtility = new ChannelService(context);
-            _tagsUtility = new TagsService(context);
-            _bumpUtility = new BumpService();
+            _channelService = new ChannelService(context);
+            _tagsService = new TagsService(context);
+            _bumpService = new BumpService();
             _subscriptionService = new SubscriptionService(context);
         }
 
@@ -47,7 +47,7 @@ namespace TgCheckerApi.Controllers
                 return NotFound();
             }
 
-            var channelGetModels = channels.Select(channel => _channelUtility.MapToChannelGetModel(channel)).ToList();
+            var channelGetModels = channels.Select(channel => _channelService.MapToChannelGetModel(channel)).ToList();
 
             return channelGetModels;
         }
@@ -59,8 +59,8 @@ namespace TgCheckerApi.Controllers
             IQueryable<Channel> channelsQuery = _context.Channels;
             int PageSize = ChannelService.GetPageSize();
 
-            channelsQuery = _channelUtility.ApplyTagFilter(channelsQuery, tags);
-            channelsQuery = _channelUtility.ApplySort(channelsQuery, sortOption);
+            channelsQuery = _channelService.ApplyTagFilter(channelsQuery, tags);
+            channelsQuery = _channelService.ApplySort(channelsQuery, sortOption);
 
             var totalChannelCount = await channelsQuery.CountAsync();
 
@@ -72,7 +72,7 @@ namespace TgCheckerApi.Controllers
                 return NotFound();
             }
 
-            var channelGetModels = channels.Select(channel => _channelUtility.MapToChannelGetModel(channel)).ToList();
+            var channelGetModels = channels.Select(channel => _channelService.MapToChannelGetModel(channel)).ToList();
             int totalPages = (int)Math.Ceiling((double)totalChannelCount / PageSize);
 
             Response.Headers.Add("X-Total-Pages", totalPages.ToString());
@@ -109,8 +109,8 @@ namespace TgCheckerApi.Controllers
                 return NotFound();
             }
 
-            await _tagsUtility.RemoveExistingTagsFromChannel(id);
-            await _tagsUtility.AddNewTagsToChannel(id, tags);
+            await _tagsService.RemoveExistingTagsFromChannel(id);
+            await _tagsService.AddNewTagsToChannel(id, tags);
 
             await _context.SaveChangesAsync();
 
@@ -278,16 +278,16 @@ namespace TgCheckerApi.Controllers
                 return NotFound();
             }
 
-            var nextBumpTime = _bumpUtility.CalculateNextBumpTime(channel.LastBump);
+            var nextBumpTime = _bumpService.CalculateNextBumpTime(channel.LastBump);
 
-            if (_bumpUtility.IsBumpAvailable(nextBumpTime))
+            if (_bumpService.IsBumpAvailable(nextBumpTime))
             {
-                var remainingTime = _bumpUtility.GetRemainingTimeInSeconds(nextBumpTime);
+                var remainingTime = _bumpService.GetRemainingTimeInSeconds(nextBumpTime);
                 Response.Headers.Add("X-TimeLeft", remainingTime.ToString());
                 return BadRequest($"Next bump available in {remainingTime} minutes.");
             }
 
-            _bumpUtility.UpdateChannelBumpDetails(channel);
+            _bumpService.UpdateChannelBumpDetails(channel);
 
             if (!await TrySaveChanges())
             {
