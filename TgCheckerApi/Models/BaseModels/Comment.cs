@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace TgCheckerApi.Models.BaseModels;
@@ -16,12 +17,12 @@ public partial class Comment
     public int? ParentId { get; set; }
 
     public DateTime CreatedAt { get; set; }
-
+    [JsonIgnore]
     public virtual Channel Channel { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual ICollection<Comment> InverseParent { get; set; } = new List<Comment>();
-
+    [JsonIgnore]
     public virtual Comment? Parent { get; set; }
-
+    [JsonIgnore]
     public virtual User User { get; set; } = null!;
 }
