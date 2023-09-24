@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
 
@@ -32,44 +33,18 @@ namespace TgCheckerApi.Controllers
             return await _context.Comments.ToListAsync();
         }
 
-        [HttpGet("{channelId}")]
-        public async Task<ActionResult<List<CommentGetModel>>> GetCommentsByChannel(int channelId)
+        // GET: api/Comment/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Comment>> GetComment(int id)
         {
-            // Get all comments belonging to the channel, including the user details
-            var comments = await _context.Comments
-                .Where(c => c.ChannelId == channelId)
-                .Include(c => c.User) // Include user details
-                .ToListAsync();
+            var comment = await _context.Comments.FindAsync(id);
 
-            // Filter top-level comments
-            var topLevelComments = comments
-                .Where(c => c.ParentId == null)
-                .ToList();
-
-            // Initialize the result list
-            var resultList = new List<CommentGetModel>();
-
-            // Populate the CommentGetModel object, which includes replies
-            foreach (var comment in topLevelComments)
+            if (comment == null)
             {
-                var commentGetModel = new CommentGetModel
-                {
-                    Id = comment.Id,
-                    Content = comment.Content,
-                    UserId = comment.UserId,
-                    ChannelId = comment.ChannelId,
-                    ParentId = comment.ParentId,
-                    CreatedAt = comment.CreatedAt,
-                    Username = comment.User?.Username ?? string.Empty, // Set username
-                    Replies = comments
-                        .Where(c => c.ParentId == comment.Id)
-                        .ToList()
-                };
-
-                resultList.Add(commentGetModel);
+                return NotFound();
             }
 
-            return Ok(resultList);
+            return comment;
         }
 
         // PUT: api/Comment/5
@@ -106,12 +81,18 @@ namespace TgCheckerApi.Controllers
         // POST: api/Comment
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Comment>> PostComment(Comment comment)
+        public async Task<ActionResult<Comment>> PostComment(CommentPostModel comment)
         {
             if (_context.Comments == null)
             {
                 return Problem("Entity set 'TgDbContext.Comments'  is null.");
             }
+
+            if (comment.ParentId == 0)
+            {
+                comment.ParentId = null;
+            }
+
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 

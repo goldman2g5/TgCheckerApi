@@ -319,6 +319,52 @@ namespace TgCheckerApi.Controllers
             return Ok($"Channel {id} has been subscribed for 1 month with subscription type {subscriptionType.Name}.");
         }
 
+        [HttpGet("Comments/{channelId}")]
+        public async Task<ActionResult<List<CommentGetModel>>> GetComments(int channelId)
+        {
+            var comments = await _context.Comments
+                .Where(c => c.ChannelId == channelId)
+                .Include(c => c.User)
+                .ToListAsync();
+
+            var topLevelComments = comments
+                .Where(c => c.ParentId == null)
+                .ToList();
+
+            var resultList = new List<CommentGetModel>();
+
+            foreach (var comment in topLevelComments)
+            {
+                var commentGetModel = new CommentGetModel
+                {
+                    Id = comment.Id,
+                    Content = comment.Content,
+                    UserId = comment.UserId,
+                    ChannelId = comment.ChannelId,
+                    ParentId = comment.ParentId,
+                    CreatedAt = comment.CreatedAt,
+                    Username = comment.User?.Username ?? string.Empty,
+                    Replies = comments
+                                .Where(c => c.ParentId == comment.Id)
+                                .Select(c => new ReplyGetModel
+                                {
+                                    Id = c.Id,
+                                    Content = c.Content,
+                                    UserId = c.UserId,
+                                    ChannelId = c.ChannelId,
+                                    ParentId = c.ParentId,
+                                    CreatedAt = c.CreatedAt,
+                                    Username = c.User?.Username ?? string.Empty
+                                })
+                                .ToList()
+                };
+
+                resultList.Add(commentGetModel);
+            }
+
+            return Ok(resultList);
+        }
+
         [HttpPut("{id}/flag")]
         public async Task<IActionResult> UpdateFlag(int id, [FromBody] string flag)
         {

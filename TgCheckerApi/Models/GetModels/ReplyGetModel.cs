@@ -2,9 +2,8 @@
 
 namespace TgCheckerApi.Models.GetModels
 {
-    public class CommentGetModel : Comment
+    public class ReplyGetModel : Comment
     {
-
         [System.Text.Json.Serialization.JsonIgnore]
         public int UserId { get; set; }
 
@@ -13,8 +12,6 @@ namespace TgCheckerApi.Models.GetModels
 
         [System.Text.Json.Serialization.JsonIgnore]
         public int? ParentId { get; set; }
-
-        public List<ReplyGetModel> Replies { get; set; }
 
         public string Username { get; set; }
     }

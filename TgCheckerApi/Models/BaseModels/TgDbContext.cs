@@ -150,7 +150,7 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.ChannelId).HasColumnName("channel_id");
             entity.Property(e => e.Content).HasColumnName("content");
             entity.Property(e => e.CreatedAt)
-                .HasColumnType("timestamp without time zone")
+                .HasColumnType("timestamp with time zone")
                 .HasColumnName("created_at");
             entity.Property(e => e.ParentId).HasColumnName("parent_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
