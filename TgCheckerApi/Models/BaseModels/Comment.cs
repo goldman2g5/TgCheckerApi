@@ -16,6 +16,8 @@ public partial class Comment
 
     public int? ParentId { get; set; }
 
+    public int? Rating { get; set; }
+
     public DateTime CreatedAt { get; set; }
     [JsonIgnore]
     public virtual Channel Channel { get; set; } = null!;

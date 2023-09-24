@@ -13,6 +13,9 @@ namespace TgCheckerApi.Models.GetModels
         [System.Text.Json.Serialization.JsonIgnore]
         public int? ParentId { get; set; }
 
+        [System.Text.Json.Serialization.JsonIgnore]
+        public int? Rating { get; set; }
+
         public string Username { get; set; }
     }
 }

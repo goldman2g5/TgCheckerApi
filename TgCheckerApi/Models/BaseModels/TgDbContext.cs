@@ -154,6 +154,7 @@ public partial class TgDbContext : DbContext
                 .HasColumnName("created_at");
             entity.Property(e => e.ParentId).HasColumnName("parent_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.Rating).HasColumnName("rating");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.ChannelId)

@@ -344,6 +344,7 @@ namespace TgCheckerApi.Controllers
                     ParentId = comment.ParentId,
                     CreatedAt = comment.CreatedAt,
                     Username = comment.User?.Username ?? string.Empty,
+                    Rating = comment.Rating,
                     Replies = comments
                                 .Where(c => c.ParentId == comment.Id)
                                 .Select(c => new ReplyGetModel
