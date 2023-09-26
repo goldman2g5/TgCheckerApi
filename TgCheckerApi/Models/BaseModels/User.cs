@@ -12,7 +12,11 @@ public partial class User
 
     public long? ChatId { get; set; }
 
-    public string? Username { get; set; }
+    public string Username { get; set; }
+
+    public byte[] Avatar { get; set; }
+
+    public string UniqueKey { get; set; }
     [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
     [JsonIgnore]

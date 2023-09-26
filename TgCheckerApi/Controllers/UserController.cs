@@ -103,6 +103,7 @@ namespace TgCheckerApi.Controllers
           {
               return Problem("Entity set 'TgCheckerDbContext.Users'  is null.");
           }
+            user.UniqueKey = "bebra";
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 

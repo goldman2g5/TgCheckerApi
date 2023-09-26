@@ -207,6 +207,8 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.ChatId).HasColumnName("chat_id");
             entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
             entity.Property(e => e.Username).HasColumnName("username");
+            entity.Property(e => e.Avatar).HasColumnName("avatar");
+            entity.Property(e => e.UniqueKey).HasColumnName("unique_key");
         });
 
         OnModelCreatingPartial(modelBuilder);

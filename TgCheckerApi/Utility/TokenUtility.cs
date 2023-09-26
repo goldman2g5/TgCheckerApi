@@ -14,7 +14,7 @@ namespace TgCheckerApi.Utility
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, payload.Username),
-                new Claim("userId", payload.UserId.ToString())
+                new Claim("userId", payload.UserId.ToString()),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoIdAdObEyTeViZhEvShIh"));
