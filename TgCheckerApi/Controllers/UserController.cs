@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 
@@ -19,6 +22,55 @@ namespace TgCheckerApi.Controllers
         public UserController(TgDbContext context)
         {
             _context = context;
+        }
+
+        // GET: api/User
+        [HttpGet("/GetMe")]
+        public async Task<ActionResult<User>> GetMotherfucker(string token)
+        {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoIdAdObEyTeViZhEvShIh"));
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            if (!tokenHandler.CanReadToken(token))
+            {
+                return BadRequest("Invalid token.");
+            }
+
+            TokenValidationParameters validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = key,
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+
+            try
+            {
+                var claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out var rawValidatedToken);
+                var uniqueKeyClaim = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "key")?.Value;
+
+                if (uniqueKeyClaim == null)
+                {
+                    return BadRequest("Token does not contain a unique key claim.");
+                }
+
+                var user = await _context.Users.SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return user;
+            }
+            catch (SecurityTokenException)
+            {
+                return BadRequest("Invalid token.");
+            }
         }
 
         // GET: api/User
