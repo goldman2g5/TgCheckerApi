@@ -15,6 +15,7 @@ namespace TgCheckerApi.Utility
             {
                 new Claim(ClaimTypes.Name, payload.Username),
                 new Claim("userId", payload.UserId.ToString()),
+                new Claim("key",  payload.Unique_key) 
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoIdAdObEyTeViZhEvShIh"));

@@ -99,11 +99,19 @@ namespace TgCheckerApi.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(UserPostModel user)
         {
-          if (_context.Users == null)
-          {
-              return Problem("Entity set 'TgCheckerDbContext.Users'  is null.");
-          }
-            user.UniqueKey = "bebra";
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'TgCheckerDbContext.Users' is null.");
+            }
+
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.TelegramId == user.TelegramId);
+            if (existingUser != null)
+            {
+                return BadRequest("User with the same Telegram ID already exists.");
+            }
+
+            user.UniqueKey = Guid.NewGuid().ToString();
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
