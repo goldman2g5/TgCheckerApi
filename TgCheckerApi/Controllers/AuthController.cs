@@ -45,5 +45,12 @@ namespace TgCheckerApi.Controllers
             await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveMessage", JsonConvert.SerializeObject(response));
             return Ok(token);
         }
+
+        [HttpGet("ValidateUniqueKey/{uniqueKey}")]
+        public async Task<IActionResult> ValidateUniqueKey(string uniqueKey)
+        {
+            var userExists = await _context.Users.AnyAsync(u => u.UniqueKey == uniqueKey);
+            return userExists ? (IActionResult)Ok() : NotFound();
+        }
     }
 }

@@ -9,6 +9,9 @@ using Microsoft.IdentityModel.Tokens;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
+using TgCheckerApi.MiddleWare;
+using TgCheckerApi.Utility;
+using TgCheckerApi.Services;
 
 namespace TgCheckerApi.Controllers
 {
@@ -18,38 +21,24 @@ namespace TgCheckerApi.Controllers
     {
         private readonly TgDbContext _context;
         private readonly IMapper _mapper;
+        private readonly UserService _userService;
 
 
         public UserController(TgDbContext context, IMapper mapper)
         {
             _context = context;
-            _mapper = mapper;
+            _userService = new UserService(context);
         }
 
         // GET: api/User
         [HttpGet("/GetMe")]
-        public async Task<ActionResult<UserProfileModel>> GetCurrentUserProfile(string token)
+        [RequiresJwtValidation]
+        public async Task<ActionResult<UserProfileModel>> GetMe()
         {
-            if (_context.Users == null)
-            {
-                return NotFound();
-            }
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+            Console.WriteLine(uniqueKeyClaim);
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoIdAdObEyTeViZhEvShIh"));
-
-            if (!IsValidToken(token, key, out ClaimsPrincipal claimsPrincipal))
-            {
-                return BadRequest("Invalid token.");
-            }
-
-            var uniqueKeyClaim = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "key")?.Value;
-
-            if (string.IsNullOrEmpty(uniqueKeyClaim))
-            {
-                return BadRequest("Token does not contain a unique key claim.");
-            }
-
-            var user = await GetUserWithRelations(uniqueKeyClaim);
+            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
 
             if (user == null)
             {
@@ -65,47 +54,6 @@ namespace TgCheckerApi.Controllers
 
             return userProfile;
 
-        }
-
-        private async Task<User> GetUserWithRelations(string uniqueKeyClaim)
-        {
-            return await _context.Users
-                           .Include(u => u.ChannelAccesses)
-                           .ThenInclude(ca => ca.Channel)
-                           .ThenInclude(c => c.ChannelHasTags)
-                           .ThenInclude(cht => cht.TagNavigation)
-                           .Include(u => u.Comments)
-                           .ThenInclude(c => c.Channel)
-                           .SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
-        }
-
-        private bool IsValidToken(string token, SymmetricSecurityKey key, out ClaimsPrincipal claimsPrincipal)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            if (!tokenHandler.CanReadToken(token))
-            {
-                claimsPrincipal = null;
-                return false;
-            }
-
-            TokenValidationParameters validationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = key,
-                ValidateIssuer = false,
-                ValidateAudience = false
-            };
-
-            try
-            {
-                claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out var rawValidatedToken);
-                return true;
-            }
-            catch (SecurityTokenException)
-            {
-                claimsPrincipal = null;
-                return false;
-            }
         }
 
         // GET: api/User

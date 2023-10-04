@@ -12,7 +12,7 @@ namespace TgCheckerApi.MapperProfiles
             .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.ChannelHasTags.Select(cht => cht.TagNavigation.Text)));
 
             CreateMap<Comment, CommentGetModel>()
-            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username)); // Mapping the username
+            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username));
         }
     }
 }
