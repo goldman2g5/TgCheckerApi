@@ -5,8 +5,8 @@ using TgCheckerApi;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Websockets;
 using TgCheckerApi.MiddleWare;
-
-
+using AutoMapper;
+using TgCheckerApi.MapperProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +30,7 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddSignalR();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 

@@ -5,9 +5,9 @@ namespace TgCheckerApi.Models.BaseModels
 {
     public class UserProfileModel
     {
-        public List<ChannelGetModel> Channels { get; set; }
+        public IList<ChannelGetModel> Channels { get; set; }
 
-        public IEnumerable<CommentGetModel> Comments { get; set; }
+        public IList<CommentGetModel> Comments { get; set; }
 
         public string SubType { get; set; }
 

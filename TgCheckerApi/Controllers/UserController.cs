@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Channels;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -19,15 +17,18 @@ namespace TgCheckerApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly TgDbContext _context;
+        private readonly IMapper _mapper;
 
-        public UserController(TgDbContext context)
+
+        public UserController(TgDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/User
         [HttpGet("/GetMe")]
-        public async Task<ActionResult<UserProfileModel>> GetMotherfucker(string token)
+        public async Task<ActionResult<UserProfileModel>> GetCurrentUserProfile(string token)
         {
             if (_context.Users == null)
             {
@@ -35,11 +36,42 @@ namespace TgCheckerApi.Controllers
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoIdAdObEyTeViZhEvShIh"));
-            var tokenHandler = new JwtSecurityTokenHandler();
 
-            if (!tokenHandler.CanReadToken(token))
+            if (!IsValidToken(token, key, out ClaimsPrincipal claimsPrincipal))
             {
                 return BadRequest("Invalid token.");
+            }
+
+            var uniqueKeyClaim = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "key")?.Value;
+
+            if (string.IsNullOrEmpty(uniqueKeyClaim))
+            {
+                return BadRequest("Token does not contain a unique key claim.");
+            }
+
+            var user = await GetUserWithRelations(uniqueKeyClaim);
+
+            if (user == null)
+            {
+                return NotFound("User does not exist");
+            }
+
+            var userProfile = new UserProfileModel
+            {
+                Channels = _mapper.Map<IEnumerable<ChannelGetModel>>(user.ChannelAccesses.Select(ca => ca.Channel)).ToList()
+            };
+
+            return userProfile;
+
+        }
+
+        private bool IsValidToken(string token, SymmetricSecurityKey key, out ClaimsPrincipal claimsPrincipal)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            if (!tokenHandler.CanReadToken(token))
+            {
+                claimsPrincipal = null;
+                return false;
             }
 
             TokenValidationParameters validationParameters = new TokenValidationParameters
@@ -52,78 +84,24 @@ namespace TgCheckerApi.Controllers
 
             try
             {
-                var claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out var rawValidatedToken);
-                var uniqueKeyClaim = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "key")?.Value;
-
-                if (uniqueKeyClaim == null)
-                {
-                    return BadRequest("Token does not contain a unique key claim.");
-                }
-
-                var user = await _context.Users
-                                        .Include(u => u.ChannelAccesses)
-                                        .ThenInclude(ca => ca.Channel)
-                                        .ThenInclude(c => c.ChannelHasTags)
-                                        .ThenInclude(cht => cht.TagNavigation)
-                                        .SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
-
-                if (user != null)
-                {
-
-                    var userProfile = new UserProfileModel
-                    {
-                        Channels = await GetUserChannels(user)
-                    };
-
-                    return userProfile;
-                }
-                return BadRequest("User does not exist");
+                claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out var rawValidatedToken);
+                return true;
             }
             catch (SecurityTokenException)
             {
-                return BadRequest("Invalid token.");
+                claimsPrincipal = null;
+                return false;
             }
         }
 
-        private async Task<List<ChannelGetModel>> GetUserChannels(User user)
+        private async Task<User> GetUserWithRelations(string uniqueKeyClaim)
         {
-            var channels = new List<ChannelGetModel>();
-
-            foreach (var access in user.ChannelAccesses)
-            {
-                if (access.Channel != null)
-                {
-                    var channelGetModel = new ChannelGetModel
-                    {
-                        Id = access.Channel.Id,
-                        Name = access.Channel.Name,
-                        Description = access.Channel.Description,
-                        Members = access.Channel.Members,
-                        Avatar = access.Channel.Avatar,
-                        User = access.Channel.User,
-                        Notifications = access.Channel.Notifications,
-                        Bumps = access.Channel.Bumps,
-                        LastBump = access.Channel.LastBump,
-                        TelegramId = access.Channel.TelegramId,
-                        NotificationSent = access.Channel.NotificationSent,
-                        PromoPost = access.Channel.PromoPost,
-                        PromoPostTime = access.Channel.PromoPostTime,
-                        PromoPostInterval = access.Channel.PromoPostInterval,
-                        PromoPostSent = access.Channel.PromoPostSent,
-                        PromoPostLast = access.Channel.PromoPostLast,
-                        Language = access.Channel.Language,
-                        Flag = access.Channel.Flag,
-                        Tags = await GetTags(access.Channel)
-                    };
-                    channels.Add(channelGetModel);
-                }
-            }
-            return channels;
-        }
-
-        private async Task<List<string>> GetTags(Channel channel)
-        {
-            return channel.ChannelHasTags?.Select(cht => cht.TagNavigation?.Text).Where(t => t != null).ToList() ?? new List<string>();
+            return await _context.Users
+                                   .Include(u => u.ChannelAccesses)
+                                   .ThenInclude(ca => ca.Channel)
+                                   .ThenInclude(c => c.ChannelHasTags)
+                                   .ThenInclude(cht => cht.TagNavigation)
+                                   .SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
         }
 
         // GET: api/User
