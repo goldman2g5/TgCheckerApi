@@ -58,11 +58,25 @@ namespace TgCheckerApi.Controllers
 
             var userProfile = new UserProfileModel
             {
-                Channels = _mapper.Map<IEnumerable<ChannelGetModel>>(user.ChannelAccesses.Select(ca => ca.Channel)).ToList()
+                Channels = _mapper.Map<IEnumerable<ChannelGetModel>>(user.ChannelAccesses.Select(ca => ca.Channel)).ToList(),
+                Comments = _mapper.Map<IEnumerable<CommentGetModel>>(user.Comments).ToList()
+
             };
 
             return userProfile;
 
+        }
+
+        private async Task<User> GetUserWithRelations(string uniqueKeyClaim)
+        {
+            return await _context.Users
+                           .Include(u => u.ChannelAccesses)
+                           .ThenInclude(ca => ca.Channel)
+                           .ThenInclude(c => c.ChannelHasTags)
+                           .ThenInclude(cht => cht.TagNavigation)
+                           .Include(u => u.Comments)
+                           .ThenInclude(c => c.Channel)
+                           .SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
         }
 
         private bool IsValidToken(string token, SymmetricSecurityKey key, out ClaimsPrincipal claimsPrincipal)
@@ -92,16 +106,6 @@ namespace TgCheckerApi.Controllers
                 claimsPrincipal = null;
                 return false;
             }
-        }
-
-        private async Task<User> GetUserWithRelations(string uniqueKeyClaim)
-        {
-            return await _context.Users
-                                   .Include(u => u.ChannelAccesses)
-                                   .ThenInclude(ca => ca.Channel)
-                                   .ThenInclude(c => c.ChannelHasTags)
-                                   .ThenInclude(cht => cht.TagNavigation)
-                                   .SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
         }
 
         // GET: api/User
