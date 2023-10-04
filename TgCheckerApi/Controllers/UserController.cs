@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
+using TgCheckerApi.Models.GetModels;
 
 namespace TgCheckerApi.Controllers
 {
@@ -26,7 +27,7 @@ namespace TgCheckerApi.Controllers
 
         // GET: api/User
         [HttpGet("/GetMe")]
-        public async Task<ActionResult<User>> GetMotherfucker(string token)
+        public async Task<ActionResult<UserProfileModel>> GetMotherfucker(string token)
         {
             if (_context.Users == null)
             {
@@ -59,18 +60,70 @@ namespace TgCheckerApi.Controllers
                     return BadRequest("Token does not contain a unique key claim.");
                 }
 
-                var user = await _context.Users.SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
-                if (user == null)
-                {
-                    return NotFound();
-                }
+                var user = await _context.Users
+                                        .Include(u => u.ChannelAccesses)
+                                        .ThenInclude(ca => ca.Channel)
+                                        .ThenInclude(c => c.ChannelHasTags)
+                                        .ThenInclude(cht => cht.TagNavigation)
+                                        .SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
 
-                return user;
+                if (user != null)
+                {
+
+                    var userProfile = new UserProfileModel
+                    {
+                        Channels = await GetUserChannels(user)
+                    };
+
+                    return userProfile;
+                }
+                return BadRequest("User does not exist");
             }
             catch (SecurityTokenException)
             {
                 return BadRequest("Invalid token.");
             }
+        }
+
+        private async Task<List<ChannelGetModel>> GetUserChannels(User user)
+        {
+            var channels = new List<ChannelGetModel>();
+
+            foreach (var access in user.ChannelAccesses)
+            {
+                if (access.Channel != null)
+                {
+                    var channelGetModel = new ChannelGetModel
+                    {
+                        Id = access.Channel.Id,
+                        Name = access.Channel.Name,
+                        Description = access.Channel.Description,
+                        Members = access.Channel.Members,
+                        Avatar = access.Channel.Avatar,
+                        User = access.Channel.User,
+                        Notifications = access.Channel.Notifications,
+                        Bumps = access.Channel.Bumps,
+                        LastBump = access.Channel.LastBump,
+                        TelegramId = access.Channel.TelegramId,
+                        NotificationSent = access.Channel.NotificationSent,
+                        PromoPost = access.Channel.PromoPost,
+                        PromoPostTime = access.Channel.PromoPostTime,
+                        PromoPostInterval = access.Channel.PromoPostInterval,
+                        PromoPostSent = access.Channel.PromoPostSent,
+                        PromoPostLast = access.Channel.PromoPostLast,
+                        Language = access.Channel.Language,
+                        Flag = access.Channel.Flag,
+                        Tags = await GetTags(access.Channel)
+                    };
+                    channels.Add(channelGetModel);
+                }
+            }
+            return channels;
+        }
+
+        private async Task<List<string>> GetTags(Channel channel)
+        {
+            return channel.ChannelHasTags?.Select(cht => cht.TagNavigation?.Text).Where(t => t != null).ToList() ?? new List<string>();
         }
 
         // GET: api/User
