@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace TgCheckerApi
+namespace TgCheckerApi.Utility
 {
     public static class Encryptor
     {

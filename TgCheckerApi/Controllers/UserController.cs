@@ -33,10 +33,9 @@ namespace TgCheckerApi.Controllers
         // GET: api/User
         [HttpGet("/GetMe")]
         [RequiresJwtValidation]
-        public async Task<ActionResult<UserProfileModel>> GetMe()
+        public async Task<ActionResult<UserProfileModel>> GetMotherfucker()
         {
             var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
-            Console.WriteLine(uniqueKeyClaim);
 
             var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
 

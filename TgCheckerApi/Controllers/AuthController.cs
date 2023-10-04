@@ -19,10 +19,10 @@ namespace TgCheckerApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IHubContext<ChatHub> _hubContext;
+        private readonly IHubContext<AuthHub> _hubContext;
         private readonly TgDbContext _context;
 
-        public AuthController(IHubContext<ChatHub> hubContext, TgDbContext context)
+        public AuthController(IHubContext<AuthHub> hubContext, TgDbContext context)
         {
             _hubContext = hubContext;
             _context = context;
