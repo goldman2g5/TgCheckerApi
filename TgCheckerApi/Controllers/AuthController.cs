@@ -12,6 +12,10 @@ using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Websockets;
 using TgCheckerApi.Utility;
 using Microsoft.EntityFrameworkCore;
+using TgCheckerApi.MiddleWare;
+using TgCheckerApi.Models.GetModels;
+using TgCheckerApi.Services;
+using AutoMapper;
 
 namespace TgCheckerApi.Controllers
 {
@@ -21,11 +25,15 @@ namespace TgCheckerApi.Controllers
     {
         private readonly IHubContext<AuthHub> _hubContext;
         private readonly TgDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly UserService _userService;
 
-        public AuthController(IHubContext<AuthHub> hubContext, TgDbContext context)
+        public AuthController(IHubContext<AuthHub> hubContext, TgDbContext context, IMapper mapper)
         {
             _hubContext = hubContext;
             _context = context;
+            _userService = new UserService(context);
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -44,6 +52,32 @@ namespace TgCheckerApi.Controllers
 
             await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveMessage", JsonConvert.SerializeObject(response));
             return Ok(token);
+        }
+
+        // GET: api/User
+        [HttpGet]
+        [RequiresJwtValidation]
+        public async Task<ActionResult<UserProfileModel>> GetMe()
+        {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+
+            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
+            Console.WriteLine(uniqueKeyClaim);
+
+            if (user == null)
+            {
+                return NotFound("User does not exist");
+            }
+
+            var userProfile = new UserProfileModel
+            {
+                Channels = _mapper.Map<IEnumerable<ChannelGetModel>>(user.ChannelAccesses.Select(ca => ca.Channel)).ToList(),
+                Comments = _mapper.Map<IEnumerable<CommentUserProfileGetModel>>(user.Comments.Where(c => c.ParentId == null)).ToList()
+
+            };
+
+            return userProfile;
+
         }
 
         [HttpGet("ValidateUniqueKey/{uniqueKey}")]

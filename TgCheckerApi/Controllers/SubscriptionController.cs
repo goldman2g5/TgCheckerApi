@@ -40,19 +40,14 @@ namespace TgCheckerApi.Controllers
         {
             DateTime currentTime = DateTime.Now;
 
-            // Get expired subscriptions
             var expiredSubscriptions = await _context.ChannelHasSubscriptions
                 .Include(s => s.Channel)
                 .Include(s => s.Type)
                 .Where(s => s.Expires != null && s.Expires <= DateTime.Now)
                 .ToListAsync();
 
-            Console.WriteLine(expiredSubscriptions.Count());
-
-            // Get channel access IDs with expired subscriptions
             var channelAccessIds = expiredSubscriptions.Select(s => s.ChannelId).Distinct().ToList();
 
-            // Generate notifications for expired subscriptions
             var notifications = await _context.ChannelAccesses
                 .Include(ca => ca.Channel)
                 .Include(ca => ca.User)
@@ -68,7 +63,6 @@ namespace TgCheckerApi.Controllers
                 })
                 .ToListAsync();
 
-            // Delete expired subscriptions
             _context.ChannelHasSubscriptions.RemoveRange(expiredSubscriptions);
             await _context.SaveChangesAsync();
 
