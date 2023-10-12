@@ -46,6 +46,15 @@ namespace TgCheckerApi.Utility
             return ascending ? query.OrderBy(orderFunc) : query.OrderByDescending(orderFunc);
         }
 
+        public IQueryable<Channel> ApplySearch(IQueryable<Channel> query, string search)
+        {
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(channel => channel.Name.Contains(search));
+            }
+            return query;
+        }
+
         public ChannelGetModel MapToChannelGetModel(Channel channel)
         {
             var channelGetModel = new ChannelGetModel
