@@ -112,6 +112,7 @@ namespace TgCheckerApi.Controllers
             return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
         }
 
+
         // DELETE: api/Comment/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComment(int id)
