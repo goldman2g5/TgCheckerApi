@@ -14,7 +14,7 @@ public partial class User
 
     public string Username { get; set; }
 
-    public byte[] Avatar { get; set; }
+    public byte[]? Avatar { get; set; }
 
     public string UniqueKey { get; set; }
     [JsonIgnore]

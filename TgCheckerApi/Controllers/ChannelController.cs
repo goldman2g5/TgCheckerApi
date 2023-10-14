@@ -423,7 +423,7 @@ namespace TgCheckerApi.Controllers
 
         // GET: api/Channel/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Channel>> GetChannel(int id)
+        public async Task<ActionResult<ChannelGetModel>> GetChannel(int id)
         {
             if (_context.Channels == null)
             {
@@ -436,7 +436,10 @@ namespace TgCheckerApi.Controllers
                 return NotFound();
             }
 
-            return channel;
+            var channelGetModel = _channelService.MapToChannelGetModel(channel);
+
+
+            return channelGetModel;
         }
 
         [HttpGet("ByTelegramId/{telegramId}")]
