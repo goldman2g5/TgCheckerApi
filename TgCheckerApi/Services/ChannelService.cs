@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Linq;
 using System.Linq.Expressions;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
@@ -50,7 +51,7 @@ namespace TgCheckerApi.Utility
         {
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(channel => channel.Name.Contains(search));
+                query = query.Include(channel => channel.ChannelHasTags).Where(channel =>channel.Name.Contains(search) || channel.ChannelHasTags.Any(cht => cht.TagNavigation.Text.ToLower().Contains(search.ToLower())));
             }
             return query;
         }
