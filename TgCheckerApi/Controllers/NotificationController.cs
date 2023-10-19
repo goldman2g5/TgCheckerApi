@@ -35,10 +35,10 @@ namespace TgCheckerApi.Controllers
                 .Include(ca => ca.User)
                 .Where(ca =>
                     ca.Channel.Notifications == true &&
-                    ca.Channel.NotificationSent != true && // Check if the notification hasn't been sent yet
+                    ca.Channel.NotificationSent != true &&
                     ca.Channel.LastBump != null &&
                     ca.Channel.LastBump.Value <= currentTime &&
-                    currentTime >= ca.Channel.LastBump.Value.AddMinutes(timeToNotify)) // Check if the current time is past the send time
+                    currentTime >= ca.Channel.LastBump.Value.AddMinutes(timeToNotify))
                 .Select(ca => new Notification
                 {
                     ChannelAccess = ca,

@@ -41,17 +41,17 @@ namespace TgCheckerApi.Controllers
             DateTime currentTime = DateTime.Now;
 
             var expiredSubscriptions = await _context.ChannelHasSubscriptions
-                .Include(s => s.Channel)
+                .Include(s => s.User)
                 .Include(s => s.Type)
                 .Where(s => s.Expires != null && s.Expires <= DateTime.Now)
                 .ToListAsync();
 
-            var channelAccessIds = expiredSubscriptions.Select(s => s.ChannelId).Distinct().ToList();
+            var channelAccessIds = expiredSubscriptions.Select(s => s.User.Id).Distinct().ToList();
 
             var notifications = await _context.ChannelAccesses
                 .Include(ca => ca.Channel)
                 .Include(ca => ca.User)
-                .Where(ca => channelAccessIds.Contains(ca.ChannelId))
+                .Where(ca => channelAccessIds.Contains(ca.UserId))
                 .Select(ca => new Notification
                 {
                     ChannelAccess = ca,

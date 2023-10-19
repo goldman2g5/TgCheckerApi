@@ -21,10 +21,10 @@ namespace TgCheckerApi.Utility
             return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
         }
 
-        public async Task<ChannelHasSubscription> GetExistingSubscription(int channelId, int subtypeId, DateTime currentTime)
+        public async Task<ChannelHasSubscription> GetExistingSubscription(int userId, int subtypeId, DateTime currentTime)
         {
             return await _context.ChannelHasSubscriptions
-                .FirstOrDefaultAsync(s => s.ChannelId == channelId && s.Expires > currentTime && s.TypeId == subtypeId);
+                .FirstOrDefaultAsync(s => s.UserId == userId && s.Expires > currentTime && s.TypeId == subtypeId);
         }
 
         public async Task ExtendExistingSubscription(ChannelHasSubscription subscription)
@@ -38,13 +38,13 @@ namespace TgCheckerApi.Utility
             return await _context.SubTypes.FirstOrDefaultAsync(s => s.Id == subtypeId);
         }
 
-        public async Task AddNewSubscription(int channelId, int subtypeId, DateTime currentServerTime)
+        public async Task AddNewSubscription(int userId, int subtypeId, DateTime currentServerTime)
         {
             var subscription = new ChannelHasSubscription
             {
                 TypeId = subtypeId,
                 Expires = currentServerTime.AddMinutes(SubscriptionDurationMinutes),
-                ChannelId = channelId
+                UserId = userId
             };
 
             _context.ChannelHasSubscriptions.Add(subscription);

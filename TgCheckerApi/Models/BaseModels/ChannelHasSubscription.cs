@@ -11,9 +11,9 @@ public partial class ChannelHasSubscription
 
     public DateTime? Expires { get; set; }
 
-    public int? ChannelId { get; set; }
-
-    public virtual Channel? Channel { get; set; }
+    public int UserId { get; set; }
 
     public virtual SubType? Type { get; set; }
+
+    public virtual User User { get; set; } = null!;
 }
