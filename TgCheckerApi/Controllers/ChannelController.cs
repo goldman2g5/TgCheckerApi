@@ -330,6 +330,28 @@ namespace TgCheckerApi.Controllers
             return NoContent();
         }
 
+        [HttpPost("Subscribe/{id}")]
+        public async Task<IActionResult> SubscribeChannel(int id, int subtypeId)
+        {
+            var channel = await FindChannelById(id);
+            if (channel == null) return NotFound();
+
+            var currentServerTime = _subscriptionService.GetCurrentServerTime();
+            var existingSubscription = await _subscriptionService.GetExistingSubscription(id, subtypeId, currentServerTime);
+
+            if (existingSubscription != null)
+            {
+                await _subscriptionService.ExtendExistingSubscription(existingSubscription);
+                return Ok($"Subscription for channel {id} has been extended by 1 month with subscription type {existingSubscription.Type.Name}.");
+            }
+
+            var subscriptionType = await _subscriptionService.GetSubscriptionType(subtypeId);
+            if (subscriptionType == null) return BadRequest("Invalid subscription type.");
+
+            await _subscriptionService.AddNewSubscription(id, subtypeId, currentServerTime);
+            return Ok($"Channel {id} has been subscribed for 1 month with subscription type {subscriptionType.Name}.");
+        }
+
         [HttpGet("Comments/{channelId}")]
         public async Task<ActionResult<List<CommentGetModel>>> GetComments(int channelId)
         {
