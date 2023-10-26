@@ -1,17 +1,27 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
+using TgCheckerApi.Interfaces;
 
 namespace TgCheckerApi.Websockets
 {
     [Authorize]
-    public class NotificationHub : Hub
+    public class NotificationHub : Hub<INotificationHub>
     {
+        private readonly ILogger<NotificationHub> _logger;
         public static ConcurrentDictionary<string, string> UserMap = new ConcurrentDictionary<string, string>();
+
+        public NotificationHub(ILogger<NotificationHub> logger)
+        {
+            _logger = logger;
+        }
 
         public override async Task OnConnectedAsync()
         {
+            Console.WriteLine($"User connected to NotificationHub.");
+
             var uniqueKey = Context.User.Claims.FirstOrDefault(c => c.Type == "key")?.Value;
+            Console.WriteLine($"Unique Key: {uniqueKey}");
 
             if (!string.IsNullOrEmpty(uniqueKey))
             {
@@ -23,6 +33,15 @@ namespace TgCheckerApi.Websockets
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
+            if (exception != null)
+            {
+                Console.WriteLine($"{exception}, \"User disconnected due to an error.\"\"User disconnected due to an error.\"");
+            }
+            else
+            {
+                _logger.LogInformation("User disconnected normally.");
+            }
+
             var uniqueKey = Context.User.Claims.FirstOrDefault(c => c.Type == "key")?.Value;
 
             if (!string.IsNullOrEmpty(uniqueKey))
@@ -37,8 +56,12 @@ namespace TgCheckerApi.Websockets
         {
             if (UserMap.TryGetValue(uniqueKey, out string connectionId))
             {
-                await Clients.Client(connectionId).SendAsync("ReceiveNotification", message);
+                var clientProxy = Clients.Client(connectionId) as IClientProxy;
+                if (clientProxy != null)
+                {
+                    await clientProxy.SendAsync("ReceiveNotification", message);
+                }
             }
         }
-    }
+    } 
 }

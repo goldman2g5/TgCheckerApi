@@ -6,13 +6,28 @@ using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Websockets;
 using TgCheckerApi.MiddleWare;
 using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
 using TgCheckerApi.MapperProfiles;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("bebrahsdfihjopuskdfghoujsdfghjkjskudfghdfgjskhdfgkhjdfghjkgdfhjk")),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -64,6 +79,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -72,14 +88,14 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.MapControllers();
 
 app.UseCors();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
 
 //app.UseMiddleware<ApiKeyMiddleware>();
 
@@ -87,8 +103,9 @@ app.UseRouting();
 
 app.UseEndpoints(endpoints =>
 {
+    endpoints.MapControllers();
     endpoints.MapHub<AuthHub>("/Authhub");
-    endpoints.MapHub<NotificationHub>("/Notificationhub");
+    endpoints.MapHub<NotificationHub>("/NotificationHub");
 });
 
 app.Run();

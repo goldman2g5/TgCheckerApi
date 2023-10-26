@@ -26,21 +26,22 @@ namespace TgCheckerApi.Services
                 .Include(ca => ca.User)
                 .Where(ca =>
                     ca.Channel.Notifications == true &&
-                    ca.Channel.NotificationSent != true && // Check if the notification hasn't been sent yet
+                    ca.Channel.NotificationSent != true &&
                     ca.Channel.LastBump != null &&
                     ca.Channel.LastBump.Value <= currentTime &&
-                    currentTime >= ca.Channel.LastBump.Value.AddMinutes(timeToNotify)) // Check if the current time is past the send time
+                    currentTime >= ca.Channel.LastBump.Value.AddMinutes(timeToNotify))
                 .Select(ca => new BumpNotification
                 {
                     ChannelAccess = ca,
                     ChannelName = ca.Channel.Name,
                     ChannelId = ca.Channel.Id,
-                    SendTime = ca.Channel.LastBump.Value <= currentTime ? currentTime : ca.Channel.LastBump.Value.AddMinutes(timeToNotify),
                     TelegramUserId = (int)ca.User.TelegramId,
                     TelegramChatId = (int)ca.User.ChatId,
-                    TelegamChannelId = (long)ca.Channel.TelegramId
+                    TelegamChannelId = (long)ca.Channel.TelegramId,
+                    UniqueKey = ca.User.UniqueKey
                 })
                 .ToListAsync();
+
 
             // Update the NotificationSent property of the channels that were selected for notification
             foreach (var notification in notifications)

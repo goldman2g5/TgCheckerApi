@@ -18,8 +18,8 @@ namespace TgCheckerApi.Utility
                 new Claim("key",  payload.Unique_key) 
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoIdAdObEyTeViZhEvShIh"));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("bebrahsdfihjopuskdfghoujsdfghjkjskudfghdfgjskhdfgkhjdfghjkgdfhjk"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                  claims: claims,
