@@ -21,6 +21,8 @@ public partial class TgDbContext : DbContext
 
     public virtual DbSet<ChannelAccess> ChannelAccesses { get; set; }
 
+    public virtual DbSet<ChannelBumpDetail> ChannelBumpDetails { get; set; }
+
     public virtual DbSet<ChannelHasSubscription> ChannelHasSubscriptions { get; set; }
 
     public virtual DbSet<ChannelHasTag> ChannelHasTags { get; set; }
@@ -92,11 +94,33 @@ public partial class TgDbContext : DbContext
 
             entity.HasOne(d => d.Channel).WithMany(p => p.ChannelAccesses)
                 .HasForeignKey(d => d.ChannelId)
-                .HasConstraintName("channel_fk");
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("fk_channelaccess_channel");
 
             entity.HasOne(d => d.User).WithMany(p => p.ChannelAccesses)
                 .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("user_fk");
+        });
+
+        modelBuilder.Entity<ChannelBumpDetail>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("ChannelBumpDetails_pkey");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.ChannelId).HasColumnName("channel_id");
+            entity.Property(e => e.LastBump)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("last_bump");
+            entity.Property(e => e.Bumps).HasColumnName("bumps");
+            entity.Property(e => e.NotificationSent).HasColumnName("notification_sent");
+
+            entity.HasOne(d => d.Channel).WithMany(p => p.ChannelBumpDetails)
+                .HasForeignKey(d => d.ChannelId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("ChannelBumpDetails_Channel_fk");
         });
 
         modelBuilder.Entity<ChannelHasSubscription>(entity =>
@@ -114,7 +138,8 @@ public partial class TgDbContext : DbContext
 
             entity.HasOne(d => d.Channel).WithMany(p => p.ChannelHasSubscriptions)
                 .HasForeignKey(d => d.ChannelId)
-                .HasConstraintName("fk_Sub_channel");
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("fk_channelhassubscription_channel");
 
             entity.HasOne(d => d.Type).WithMany(p => p.ChannelHasSubscriptions)
                 .HasForeignKey(d => d.TypeId)
@@ -133,7 +158,8 @@ public partial class TgDbContext : DbContext
 
             entity.HasOne(d => d.ChannelNavigation).WithMany(p => p.ChannelHasTags)
                 .HasForeignKey(d => d.Channel)
-                .HasConstraintName("fk_ChannelHasTag_Channel");
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("fk_channelhastag_channel");
 
             entity.HasOne(d => d.TagNavigation).WithMany(p => p.ChannelHasTags)
                 .HasForeignKey(d => d.Tag)
@@ -149,17 +175,14 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ChannelId).HasColumnName("channel_id");
             entity.Property(e => e.Content).HasColumnName("content");
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("timestamp with time zone")
-                .HasColumnName("created_at");
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.ParentId).HasColumnName("parent_id");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.Rating).HasColumnName("rating");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.ChannelId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("channel_id_fk");
+                .HasConstraintName("fk_comment_channel");
 
             entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
                 .HasForeignKey(d => d.ParentId)
@@ -167,7 +190,6 @@ public partial class TgDbContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("user_id_fk");
         });
 
@@ -204,11 +226,11 @@ public partial class TgDbContext : DbContext
             entity.HasIndex(e => e.TelegramId, "telegram_id_uq").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Avatar).HasColumnName("avatar");
             entity.Property(e => e.ChatId).HasColumnName("chat_id");
             entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
-            entity.Property(e => e.Username).HasColumnName("username");
-            entity.Property(e => e.Avatar).HasColumnName("avatar");
             entity.Property(e => e.UniqueKey).HasColumnName("unique_key");
+            entity.Property(e => e.Username).HasColumnName("username");
         });
 
         OnModelCreatingPartial(modelBuilder);

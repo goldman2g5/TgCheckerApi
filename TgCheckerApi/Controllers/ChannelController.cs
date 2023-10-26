@@ -272,10 +272,23 @@ namespace TgCheckerApi.Controllers
         public async Task<IActionResult> BumpChannel(int id)
         {
             var channel = await FindChannelById(id);
+            var bumpDetails = await _context.ChannelBumpDetails
+                                .Where(b => b.ChannelId == id)
+                                .FirstOrDefaultAsync();
+
 
             if (channel == null)
             {
                 return NotFound();
+            }
+
+            if (bumpDetails == null)
+            {
+                bumpDetails = new ChannelBumpDetail
+                {
+                    ChannelId = id,
+                };
+                _context.ChannelBumpDetails.Add(bumpDetails);
             }
 
             var nextBumpTime = _bumpService.CalculateNextBumpTime(channel.LastBump);
@@ -287,7 +300,7 @@ namespace TgCheckerApi.Controllers
                 return BadRequest($"Next bump available in {remainingTime} minutes.");
             }
 
-            _bumpService.UpdateChannelBumpDetails(channel);
+            _bumpService.UpdateChannelBumpDetails(channel, bumpDetails);
 
             if (!await TrySaveChanges())
             {
