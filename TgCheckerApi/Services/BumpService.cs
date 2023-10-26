@@ -21,15 +21,11 @@ namespace TgCheckerApi.Utility
             return (int)(nextBumpTime - DateTime.Now).TotalSeconds;
         }
 
-        public void UpdateChannelBumpDetails(Channel channel, ChannelBumpDetail dto)
+        public void UpdateChannelBumpDetails(Channel channel)
         {
             channel.Bumps = (channel.Bumps ?? 0) + 1;
             channel.LastBump = DateTime.Now;
             channel.NotificationSent = false;
-
-            dto.Bumps = (channel.Bumps ?? 0) + 1;
-            dto.LastBump = DateTime.Now;
-            dto.NotificationSent = false;
         }
 
         private static int GetBumpInterval() => BumpIntervalMinutes;

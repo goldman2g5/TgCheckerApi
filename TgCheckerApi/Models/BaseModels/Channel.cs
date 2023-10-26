@@ -44,8 +44,6 @@ public partial class Channel
     [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
     [JsonIgnore]
-    public virtual ICollection<ChannelBumpDetail> ChannelBumpDetails { get; set; } = new List<ChannelBumpDetail>();
-    [JsonIgnore]
     public virtual ICollection<ChannelHasSubscription> ChannelHasSubscriptions { get; set; } = new List<ChannelHasSubscription>();
     [JsonIgnore]
     public virtual ICollection<ChannelHasTag> ChannelHasTags { get; set; } = new List<ChannelHasTag>();
