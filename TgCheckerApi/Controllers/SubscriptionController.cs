@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
+using TgCheckerApi.Models.NotificationModels;
 
 namespace TgCheckerApi.Controllers
 {
@@ -36,7 +36,7 @@ namespace TgCheckerApi.Controllers
 
         // POST: api/Subscription/CheckExpiredSubscriptions
         [HttpGet("CheckExpiredSubscriptions")]
-        public async Task<ActionResult<IEnumerable<Notification>>> CheckExpiredSubscriptions()
+        public async Task<ActionResult<IEnumerable<BumpNotification>>> CheckExpiredSubscriptions()
         {
             DateTime currentTime = DateTime.Now;
 
@@ -52,7 +52,7 @@ namespace TgCheckerApi.Controllers
                 .Include(ca => ca.Channel)
                 .Include(ca => ca.User)
                 .Where(ca => channelAccessIds.Contains(ca.ChannelId))
-                .Select(ca => new Notification
+                .Select(ca => new BumpNotification
                 {
                     ChannelAccess = ca,
                     ChannelName = ca.Channel.Name,

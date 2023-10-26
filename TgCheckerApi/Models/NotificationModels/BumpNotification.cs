@@ -1,9 +1,9 @@
 ﻿using TgCheckerApi.Models.BaseModels;
 using Newtonsoft.Json;
 
-namespace TgCheckerApi.Models
+namespace TgCheckerApi.Models.NotificationModels
 {
-    public class Notification
+    public class BumpNotification
     {
         [JsonIgnore]
         public ChannelAccess ChannelAccess { get; set; }
@@ -15,11 +15,12 @@ namespace TgCheckerApi.Models
         public DateTime SendTime { get; set; }
 
         public int TelegramUserId { get; set; }
-        
-        
+
+
         public int TelegramChatId { get; set; }
 
         public long TelegamChannelId { get; set; }
 
+        public string UniqueKey { get; set; }
     }
 }

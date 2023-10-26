@@ -49,6 +49,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddDbContext<TgDbContext>(o => o.UseLazyLoadingProxies().UseNpgsql(builder.Configuration.GetConnectionString("MainConnectionString")));
+builder.Services.AddHostedService<NotificationTask>();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
@@ -79,6 +80,7 @@ app.UseCors();
 
 app.UseRouting();
 
+
 //app.UseMiddleware<ApiKeyMiddleware>();
 
 //app.UseMiddleware<ThrottleMiddleware>(2, 60);
@@ -86,6 +88,7 @@ app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapHub<AuthHub>("/Authhub");
+    endpoints.MapHub<NotificationHub>("/Notificationhub");
 });
 
 app.Run();
