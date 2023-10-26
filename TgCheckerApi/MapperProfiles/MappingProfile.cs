@@ -11,8 +11,9 @@ namespace TgCheckerApi.MapperProfiles
             CreateMap<Channel, ChannelGetModel>()
             .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.ChannelHasTags.Select(cht => cht.TagNavigation.Text)));
 
-            CreateMap<Comment, CommentGetModel>()
-            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username));
+            CreateMap<Comment, CommentUserProfileGetModel>()
+            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username))
+            .ForMember(dest => dest.ChannelName, opt => opt.MapFrom(src => src.Channel.Name));
         }
     }
 }

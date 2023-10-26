@@ -23,5 +23,10 @@ namespace TgCheckerApi.Services
                            .ThenInclude(c => c.Channel)
                            .SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
         }
+
+        public bool UserHasAccessToChannel(User user, Channel channel)
+        {
+            return user.ChannelAccesses.Any(ca => ca.ChannelId == channel.Id);
+        }
     }
 }

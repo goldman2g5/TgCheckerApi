@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Linq;
 using System.Linq.Expressions;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
@@ -26,20 +27,33 @@ namespace TgCheckerApi.Utility
             return query;
         }
 
-        public IQueryable<Channel> ApplySort(IQueryable<Channel> query, string sortOption)
+
+        public IQueryable<Channel> ApplySort(IQueryable<Channel> query, string sortOption, bool ascending)
         {
             var sortOptions = new Dictionary<string, Expression<Func<Channel, object>>>
-        {
-            {"members", channel => channel.Members},
-            {"activity", channel => channel.LastBump},
-            {"popularity", channel => channel.Bumps}
-        };
+                {
+        {"members", channel => channel.Members},
+        {"activity", channel => channel.LastBump},
+        {"popularity", channel => channel.Bumps}
+    };
+
+
 
             string effectiveSortOption = sortOption ?? DefaultSortOption;
+            var orderFunc = sortOptions.ContainsKey(effectiveSortOption)
+                ? sortOptions[effectiveSortOption]
+                : sortOptions[DefaultSortOption];
 
-            return sortOptions.ContainsKey(effectiveSortOption)
-                ? query.OrderByDescending(sortOptions[effectiveSortOption])
-                : query.OrderByDescending(sortOptions[DefaultSortOption]);
+            return ascending ? query.OrderBy(orderFunc) : query.OrderByDescending(orderFunc);
+        }
+
+        public IQueryable<Channel> ApplySearch(IQueryable<Channel> query, string search)
+        {
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Include(channel => channel.ChannelHasTags).Where(channel =>channel.Name.Contains(search) || channel.ChannelHasTags.Any(cht => cht.TagNavigation.Text.ToLower().Contains(search.ToLower())));
+            }
+            return query;
         }
 
         public ChannelGetModel MapToChannelGetModel(Channel channel)

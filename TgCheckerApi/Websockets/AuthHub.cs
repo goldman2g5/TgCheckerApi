@@ -2,7 +2,7 @@
 
 namespace TgCheckerApi.Websockets
 {
-    public class ChatHub : Hub
+    public class AuthHub : Hub
     {
         public async Task SendMessage(string connection_id)
         {

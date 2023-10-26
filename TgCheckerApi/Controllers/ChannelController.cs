@@ -10,6 +10,8 @@ using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
+using TgCheckerApi.Models.PutModels;
+using TgCheckerApi.Services;
 using TgCheckerApi.Utility;
 
 namespace TgCheckerApi.Controllers
@@ -23,6 +25,7 @@ namespace TgCheckerApi.Controllers
         private readonly TagsService _tagsService;
         private readonly BumpService _bumpService;
         private readonly SubscriptionService _subscriptionService;
+        private readonly UserService _userService;
 
 
         public ChannelController(TgDbContext context)
@@ -32,6 +35,7 @@ namespace TgCheckerApi.Controllers
             _tagsService = new TagsService(context);
             _bumpService = new BumpService();
             _subscriptionService = new SubscriptionService(context);
+            _userService = new UserService(context);
         }
 
         // GET: api/Channel
@@ -54,13 +58,14 @@ namespace TgCheckerApi.Controllers
 
         // GET: api/Channel/Page/{page}
         [HttpGet("Page/{page}")]
-        public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1, [FromQuery] string? tags = null, [FromQuery] string? sortOption = null)
+        public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1, [FromQuery] string? tags = null, [FromQuery] string? sortOption = null, [FromQuery] string? ascending = null, [FromQuery] string? search = null)
         {
             IQueryable<Channel> channelsQuery = _context.Channels;
             int PageSize = ChannelService.GetPageSize();
 
             channelsQuery = _channelService.ApplyTagFilter(channelsQuery, tags);
-            channelsQuery = _channelService.ApplySort(channelsQuery, sortOption);
+            channelsQuery = _channelService.ApplySort(channelsQuery, sortOption, Convert.ToBoolean(ascending));
+            channelsQuery = _channelService.ApplySearch(channelsQuery, search);
 
             var totalChannelCount = await channelsQuery.CountAsync();
 
@@ -78,6 +83,34 @@ namespace TgCheckerApi.Controllers
             Response.Headers.Add("X-Total-Pages", totalPages.ToString());
 
             return channelGetModels;
+        }
+
+        [RequiresJwtValidation]
+        [HttpPut("{id}/Details")]
+        public async Task<IActionResult> SetChannelDetails(int id, ChannelDetailsPutModel payload)
+        {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+
+            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
+
+            var channel = await _context.Channels.FindAsync(id);
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            if (!_userService.UserHasAccessToChannel(user, channel))
+            {
+                return Unauthorized();
+            }
+
+            channel.Description = payload.desc;
+            await _tagsService.RemoveExistingTagsFromChannel(id);
+            await _tagsService.AddNewTagsToChannel(id, payload.tags.ToList());
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         [HttpGet("{id}/Tags")]
@@ -435,7 +468,7 @@ namespace TgCheckerApi.Controllers
 
         // GET: api/Channel/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Channel>> GetChannel(int id)
+        public async Task<ActionResult<ChannelGetModel>> GetChannel(int id)
         {
             if (_context.Channels == null)
             {
@@ -448,7 +481,10 @@ namespace TgCheckerApi.Controllers
                 return NotFound();
             }
 
-            return channel;
+            var channelGetModel = _channelService.MapToChannelGetModel(channel);
+
+
+            return channelGetModel;
         }
 
         [HttpGet("ByTelegramId/{telegramId}")]

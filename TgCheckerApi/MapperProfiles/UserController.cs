@@ -13,7 +13,7 @@ using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Utility;
 using TgCheckerApi.Services;
 
-namespace TgCheckerApi.Controllers
+namespace TgCheckerApi.MapperProfiles
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -30,40 +30,16 @@ namespace TgCheckerApi.Controllers
             _userService = new UserService(context);
         }
 
-        // GET: api/User
-        [HttpGet("/GetMe")]
-        [RequiresJwtValidation]
-        public async Task<ActionResult<UserProfileModel>> GetMe()
-        {
-            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
-            Console.WriteLine(uniqueKeyClaim);
-
-            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
-
-            if (user == null)
-            {
-                return NotFound("User does not exist");
-            }
-
-            var userProfile = new UserProfileModel
-            {
-                Channels = _mapper.Map<IEnumerable<ChannelGetModel>>(user.ChannelAccesses.Select(ca => ca.Channel)).ToList(),
-                Comments = _mapper.Map<IEnumerable<CommentGetModel>>(user.Comments).ToList()
-
-            };
-
-            return userProfile;
-
-        }
+    
 
         // GET: api/User
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             return await _context.Users.ToListAsync();
         }
 
@@ -71,10 +47,10 @@ namespace TgCheckerApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)

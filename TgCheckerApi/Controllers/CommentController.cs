@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
+using TgCheckerApi.Services;
 
 namespace TgCheckerApi.Controllers
 {
@@ -16,10 +18,13 @@ namespace TgCheckerApi.Controllers
     public class CommentController : ControllerBase
     {
         private readonly TgDbContext _context;
+        private readonly UserService _userService;
+
 
         public CommentController(TgDbContext context)
         {
             _context = context;
+            _userService = new UserService(context);
         }
 
         // GET: api/Comment
@@ -80,13 +85,21 @@ namespace TgCheckerApi.Controllers
 
         // POST: api/Comment
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [RequiresJwtValidation]
         [HttpPost]
         public async Task<ActionResult<Comment>> PostComment(CommentPostModel comment)
         {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+
+            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
+
             if (_context.Comments == null)
             {
                 return Problem("Entity set 'TgDbContext.Comments'  is null.");
             }
+
+            comment.UserId = user.Id;
+            comment.CreatedAt = DateTime.UtcNow;
 
             if (comment.ParentId == 0)
             {
@@ -98,6 +111,7 @@ namespace TgCheckerApi.Controllers
 
             return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
         }
+
 
         // DELETE: api/Comment/5
         [HttpDelete("{id}")]
