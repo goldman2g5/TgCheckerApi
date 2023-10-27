@@ -30,25 +30,30 @@ public class NotificationTask : BackgroundService
                 List<BumpNotification> notiList = notifications.ToList();
                 Console.WriteLine($"\n\n\n\n\n\nNotification count: {notiList.Count}\n\n\n\n\n\n");
 
-                // Send notifications to users
                 foreach (var notification in notiList)
                 {
                     string uniqueKey = notification.UniqueKey;
-                    string message = "Your custom notification message"; // Define your message
+                    //ЗАХОДИТ СЮДА
+                    Console.WriteLine(uniqueKey);
+                    string message = "";
 
-                    // Send message to the specific user
                     if (NotificationHub.UserMap.TryGetValue(uniqueKey, out string connectionId))
                     {
+                        //ЗАХОДИТ СЮДА
+                        Console.WriteLine($"sending to {connectionId}");
+                        await _hubContext.Clients.All.SendToUserWithUniqueKey(uniqueKey, connectionId);
                         var clientProxy = _hubContext.Clients.Client(connectionId) as IClientProxy;
                         if (clientProxy != null)
                         {
+                            //НЕ СЮДА
+                            Console.WriteLine($"sending to {connectionId}");
                             await clientProxy.SendAsync("ReceiveNotification", message);
                         }
                     }
                 }
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken); // Run every minute (or adjust as needed).
+            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
         }
     }
 }
