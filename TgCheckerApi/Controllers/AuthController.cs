@@ -80,6 +80,31 @@ namespace TgCheckerApi.Controllers
 
         }
 
+        [HttpGet("/Reports")]
+        [RequiresJwtValidation]
+        public async Task<ActionResult<UserProfileModel>> GetReports()
+        {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+
+            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
+            Console.WriteLine(uniqueKeyClaim);
+
+            if (user == null)
+            {
+                return NotFound("User does not exist");
+            }
+
+            var userProfile = new UserProfileModel
+            {
+                Channels = _mapper.Map<IEnumerable<ChannelGetModel>>(user.ChannelAccesses.Select(ca => ca.Channel)).ToList(),
+                Comments = _mapper.Map<IEnumerable<CommentUserProfileGetModel>>(user.Comments.Where(c => c.ParentId == null)).ToList()
+
+            };
+
+            return userProfile;
+
+        }
+
         [HttpGet("ValidateUniqueKey/{uniqueKey}")]
         public async Task<IActionResult> ValidateUniqueKey(string uniqueKey)
         {

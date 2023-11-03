@@ -10,6 +10,7 @@ using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
+using TgCheckerApi.Models.PostModels;
 using TgCheckerApi.Models.PutModels;
 using TgCheckerApi.Services;
 using TgCheckerApi.Utility;
@@ -551,6 +552,32 @@ namespace TgCheckerApi.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [RequiresJwtValidation]
+        [HttpPost("Report/{id}")]
+        public async Task<ActionResult<Channel>> ReportChannel(int id, ReportPostModel report)
+        {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+
+            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
+
+            if (_context.Reports == null)
+            {
+                return Problem("Entity set 'TgCheckerDbContext.Reports'  is null.");
+            }
+
+            report.UserId = user.Id;
+            report.ReportTime = DateTime.Now;
+            report.ChannelId = id;
+
+            _context.Reports.Add(report);
+            await _context.SaveChangesAsync();
+
+            //Спросить чатгпт почему так не работает
+            //return CreatedAtAction("GetReport", new { id = report.Id }, report);
+
+            return Ok();
         }
 
         private async Task<Channel> FindChannelById(int id)

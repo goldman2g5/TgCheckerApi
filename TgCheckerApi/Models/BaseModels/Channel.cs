@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace TgCheckerApi.Models.BaseModels;
 
@@ -49,4 +49,6 @@ public partial class Channel
     public virtual ICollection<ChannelHasTag> ChannelHasTags { get; set; } = new List<ChannelHasTag>();
     [JsonIgnore]
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    [JsonIgnore]
+    public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace TgCheckerApi.Models.BaseModels;
 
@@ -12,11 +12,11 @@ public partial class User
 
     public long? ChatId { get; set; }
 
-    public string Username { get; set; }
+    public string Username { get; set; } = null!;
 
-    public byte[] Avatar { get; set; }
+    public byte[]? Avatar { get; set; }
 
-    public string UniqueKey { get; set; }
+    public string? UniqueKey { get; set; }
     [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
     [JsonIgnore]
