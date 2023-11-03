@@ -82,27 +82,32 @@ namespace TgCheckerApi.Controllers
 
         [HttpGet("/Reports")]
         [RequiresJwtValidation]
-        public async Task<ActionResult<UserProfileModel>> GetReports()
+        public async Task<ActionResult<IEnumerable<ReportGetModel>>> GetReports()
         {
             var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
 
             var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
-            Console.WriteLine(uniqueKeyClaim);
 
             if (user == null)
             {
                 return NotFound("User does not exist");
             }
 
-            var userProfile = new UserProfileModel
+            var adminRecord = await _context.Admins.FirstOrDefaultAsync(x => x.Key == uniqueKeyClaim);
+
+            if (adminRecord is null)
             {
-                Channels = _mapper.Map<IEnumerable<ChannelGetModel>>(user.ChannelAccesses.Select(ca => ca.Channel)).ToList(),
-                Comments = _mapper.Map<IEnumerable<CommentUserProfileGetModel>>(user.Comments.Where(c => c.ParentId == null)).ToList()
+                return Unauthorized();
+            }
 
-            };
+            var reports = await _context.Reports
+                .Include(r => r.Channel) // Include Channel to make sure it's loaded for mapping
+                .ToListAsync();
 
-            return userProfile;
+            // Use AutoMapper to map Report to ReportGetModel
+            var reportModels = _mapper.Map<IEnumerable<ReportGetModel>>(reports);
 
+            return Ok(reportModels);
         }
 
         [HttpGet("ValidateUniqueKey/{uniqueKey}")]

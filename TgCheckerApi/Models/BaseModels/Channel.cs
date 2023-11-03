@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace TgCheckerApi.Models.BaseModels;
 
@@ -41,6 +41,8 @@ public partial class Channel
     public string? Language { get; set; }
 
     public string? Flag { get; set; }
+
+    public string? Url { get; set; }
     [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
     [JsonIgnore]
