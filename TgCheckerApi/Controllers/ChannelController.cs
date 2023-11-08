@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models;
@@ -14,6 +16,7 @@ using TgCheckerApi.Models.PostModels;
 using TgCheckerApi.Models.PutModels;
 using TgCheckerApi.Services;
 using TgCheckerApi.Utility;
+using TgCheckerApi.Websockets;
 
 namespace TgCheckerApi.Controllers
 {
@@ -22,6 +25,8 @@ namespace TgCheckerApi.Controllers
     public class ChannelController : ControllerBase
     {
         private readonly TgDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly IHubContext<BotHub> _hubContext;
         private readonly ChannelService _channelService;
         private readonly TagsService _tagsService;
         private readonly BumpService _bumpService;
@@ -29,9 +34,12 @@ namespace TgCheckerApi.Controllers
         private readonly UserService _userService;
 
 
-        public ChannelController(TgDbContext context)
+
+        public ChannelController(TgDbContext context, IMapper mapper, IHubContext<BotHub> hubContext)
         {
             _context = context;
+            _mapper = mapper;
+            _hubContext = hubContext;
             _channelService = new ChannelService(context);
             _tagsService = new TagsService(context);
             _bumpService = new BumpService();
@@ -559,12 +567,11 @@ namespace TgCheckerApi.Controllers
         public async Task<ActionResult<Channel>> ReportChannel(int id, ReportPostModel report)
         {
             var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
-
             var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
 
             if (_context.Reports == null)
             {
-                return Problem("Entity set 'TgCheckerDbContext.Reports'  is null.");
+                return Problem("Entity set 'TgCheckerDbContext.Reports' is null.");
             }
 
             report.UserId = user.Id;
@@ -574,8 +581,11 @@ namespace TgCheckerApi.Controllers
             _context.Reports.Add(report);
             await _context.SaveChangesAsync();
 
-            //Спросить чатгпт почему так не работает
-            //return CreatedAtAction("GetReport", new { id = report.Id }, report);
+            var reportGetModel = _mapper.Map<ReportGetModel>(report);
+
+            reportGetModel.ReporteeName = user.Username;
+
+            await _hubContext.Clients.All.SendAsync("ReceiveReport", reportGetModel);
 
             return Ok();
         }

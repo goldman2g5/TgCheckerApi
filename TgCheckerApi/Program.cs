@@ -113,6 +113,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
     endpoints.MapHub<AuthHub>("/Authhub");
     endpoints.MapHub<NotificationHub>("/NotificationHub");
+    endpoints.MapHub<BotHub>("/BotHub");
 });
 
 app.Run();

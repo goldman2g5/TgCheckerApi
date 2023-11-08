@@ -80,20 +80,10 @@ namespace TgCheckerApi.Controllers
 
         }
 
-        [HttpGet("/Reports")]
-        [RequiresJwtValidation]
-        public async Task<ActionResult<IEnumerable<ReportGetModel>>> GetReports()
+        [HttpGet("Reports/{telegramId:long}")]
+        public async Task<ActionResult<IEnumerable<ReportGroup>>> GetReports(long telegramId)
         {
-            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
-
-            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
-
-            if (user == null)
-            {
-                return NotFound("User does not exist");
-            }
-
-            var adminRecord = await _context.Admins.FirstOrDefaultAsync(x => x.Key == uniqueKeyClaim);
+            var adminRecord = await _context.Admins.FirstOrDefaultAsync(x => x.TelegramId == telegramId);
 
             if (adminRecord is null)
             {
@@ -101,13 +91,32 @@ namespace TgCheckerApi.Controllers
             }
 
             var reports = await _context.Reports
-                .Include(r => r.Channel) // Include Channel to make sure it's loaded for mapping
+                .Include(r => r.Channel)
                 .ToListAsync();
 
-            // Use AutoMapper to map Report to ReportGetModel
-            var reportModels = _mapper.Map<IEnumerable<ReportGetModel>>(reports);
+            var reportGroups = reports
+                .GroupBy(r => r.ChannelId)
+                .Select(group => new ReportGroup
+                {
+                    ChannelId = group.Key,
+                    ChannelName = group.First().Channel.Name,
+                    ChannelUrl = group.First().Channel.Url,
+                    ChannelWebUrl = $"http://46.39.232.190:8063/Channel/{group.Key}",
+                    LastReport = group.Max(r => r.ReportTime),
+                    ReportCount = group.Count(),
+                    Reports = _mapper.Map<List<ReportGetModel>>(group.ToList())
+                })
+                .OrderByDescending(rg => rg.ReportCount)
+                .ToList();
 
-            return Ok(reportModels);
+            return Ok(reportGroups);
+        }
+
+        [HttpGet("IsAdmin/{telegramId:long}")]
+        public async Task<ActionResult<bool>> IsAdmin(long telegramId)
+        {
+            var isAdmin = await _userService.IsUserAdminByTelegramId(telegramId);
+            return Ok(isAdmin);
         }
 
         [HttpGet("ValidateUniqueKey/{uniqueKey}")]

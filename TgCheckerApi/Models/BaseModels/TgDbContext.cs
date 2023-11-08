@@ -51,6 +51,7 @@ public partial class TgDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Key).HasColumnName("key");
+            entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
         });
 
         modelBuilder.Entity<Apikey>(entity =>
@@ -199,6 +200,7 @@ public partial class TgDbContext : DbContext
                 .HasColumnName("report_time");
             entity.Property(e => e.Text).HasColumnName("text");
             entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.NotificationSent).HasColumnName("notification_sent");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Reports)
                 .HasForeignKey(d => d.ChannelId)
