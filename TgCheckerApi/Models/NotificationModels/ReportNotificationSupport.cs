@@ -11,5 +11,7 @@
         public string ChannelName { get; set; }
 
         public int ChannelId { get; set; }
+
+        public List<long?> Targets { get; set; }
     }
 }

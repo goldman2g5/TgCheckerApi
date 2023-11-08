@@ -65,6 +65,41 @@ namespace TgCheckerApi.Controllers
             return Ok(eligiblePromoPosts);
         }
 
+        [HttpGet("GetReportNotifications")]
+        public async Task<IActionResult> GetReportNotifications()
+        {
+            // Step 1: Retrieve Reports
+            var reports = await _context.Reports
+                .Where(r => r.NotificationSent == false || r.NotificationSent == null)
+                .Include(r => r.Channel)
+                // Assuming 'User' is navigable from 'Report'
+                .Include(r => r.User)
+                .ToListAsync();
+
+            // Step 2: Prepare Notification Data
+            var notifications = reports.Select(report => new ReportNotificationSupport
+            {
+                ReportId = report.Id,
+                ReporteeName = report.User.Username,
+                ReporteeId = report.UserId,
+                ChannelName = report.Channel.Name, // Assuming 'Channel' has a 'Name' property
+                ChannelId = report.ChannelId,
+                // Step 3: Get Chat IDs of Staff Members
+                Targets = _context.Staff
+                          .Include(s => s.User)
+                          .Select(s => s.User.ChatId)
+                          .ToList() // Get all staff member Chat IDs
+            }).ToList();
+
+            // Update Report Status (Set NotificationSent to true)
+            //reports.ForEach(report => report.NotificationSent = true);
+            //_context.Reports.UpdateRange(reports);
+            //await _context.SaveChangesAsync();
+
+            // Return the list of notifications
+            return Ok(notifications);
+        }
+
 
 
         private bool ChannelExists(int id)

@@ -21,4 +21,8 @@ public partial class User
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
     [JsonIgnore]
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    [JsonIgnore]
+    public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
+    [JsonIgnore]
+    public virtual ICollection<Staff> Staff { get; set; } = new List<Staff>();
 }

@@ -31,6 +31,8 @@ public partial class TgDbContext : DbContext
 
     public virtual DbSet<Report> Reports { get; set; }
 
+    public virtual DbSet<Staff> Staff { get; set; }
+
     public virtual DbSet<SubType> SubTypes { get; set; }
 
     public virtual DbSet<Tag> Tags { get; set; }
@@ -194,16 +196,34 @@ public partial class TgDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ChannelId).HasColumnName("channel_id");
+            entity.Property(e => e.NotificationSent).HasColumnName("notification_sent");
             entity.Property(e => e.Reason).HasColumnName("reason");
             entity.Property(e => e.ReportTime)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("report_time");
             entity.Property(e => e.Text).HasColumnName("text");
             entity.Property(e => e.UserId).HasColumnName("user_id");
-            entity.Property(e => e.NotificationSent).HasColumnName("notification_sent");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Reports)
                 .HasForeignKey(d => d.ChannelId)
+                .HasConstraintName("channel_id_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Reports)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("user_id_fk");
+        });
+
+        modelBuilder.Entity<Staff>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("Staff_pkey");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Staff)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("user_id_fk");
         });
 

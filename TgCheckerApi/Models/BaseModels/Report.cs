@@ -1,5 +1,4 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -19,7 +18,9 @@ public partial class Report
 
     public string? Reason { get; set; }
 
-    public bool NotificationSent { get; set; }
+    public bool? NotificationSent { get; set; }
     [JsonIgnore]
     public virtual Channel Channel { get; set; } = null!;
+    [JsonIgnore]
+    public virtual User User { get; set; } = null!;
 }
