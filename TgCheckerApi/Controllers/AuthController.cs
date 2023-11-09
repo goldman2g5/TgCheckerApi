@@ -112,6 +112,27 @@ namespace TgCheckerApi.Controllers
             return Ok(reportGroups);
         }
 
+        [HttpGet("Report/{id:int}")]
+        public async Task<ActionResult<ReportGetModel>> GetReport(int id)
+        {
+            // Fetch the report with the specified ID, including related Channel data
+            var report = await _context.Reports
+                .Include(r => r.Channel)
+                .FirstOrDefaultAsync(r => r.Id == id);
+
+            // If the report is not found, return a NotFound response
+            if (report == null)
+            {
+                return NotFound();
+            }
+
+            // Map the Report to a ReportGetModel (assuming you are using AutoMapper)
+            var reportModel = _mapper.Map<ReportGetModel>(report);
+
+            // Return the report model
+            return Ok(reportModel);
+        }
+
         [HttpGet("IsAdmin/{telegramId:long}")]
         public async Task<ActionResult<bool>> IsAdmin(long telegramId)
         {

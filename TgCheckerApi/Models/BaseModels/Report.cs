@@ -19,6 +19,11 @@ public partial class Report
     public string? Reason { get; set; }
 
     public bool? NotificationSent { get; set; }
+
+    public string Status { get; set; }
+
+    public string StaffName { get; set; }
+
     [JsonIgnore]
     public virtual Channel Channel { get; set; } = null!;
     [JsonIgnore]
