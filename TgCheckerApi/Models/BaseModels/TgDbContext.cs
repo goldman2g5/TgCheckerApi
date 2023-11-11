@@ -201,12 +201,18 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.ReportTime)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("report_time");
+            entity.Property(e => e.StaffId).HasColumnName("staff_id");
+            entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.Text).HasColumnName("text");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Reports)
                 .HasForeignKey(d => d.ChannelId)
                 .HasConstraintName("channel_id_fk");
+
+            entity.HasOne(d => d.Staff).WithMany(p => p.Reports)
+                .HasForeignKey(d => d.StaffId)
+                .HasConstraintName("staff_id_fk");
 
             entity.HasOne(d => d.User).WithMany(p => p.Reports)
                 .HasForeignKey(d => d.UserId)

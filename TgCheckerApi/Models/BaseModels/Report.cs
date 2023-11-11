@@ -20,12 +20,13 @@ public partial class Report
 
     public bool? NotificationSent { get; set; }
 
-    public string Status { get; set; }
+    public string? Status { get; set; }
 
-    public string StaffName { get; set; }
-
+    public int? StaffId { get; set; }
     [JsonIgnore]
     public virtual Channel Channel { get; set; } = null!;
+    [JsonIgnore]
+    public virtual Staff? Staff { get; set; }
     [JsonIgnore]
     public virtual User User { get; set; } = null!;
 }

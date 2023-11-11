@@ -70,7 +70,7 @@ namespace TgCheckerApi.Controllers
         {
             // Step 1: Retrieve Reports
             var reports = await _context.Reports
-                .Where(r => r.NotificationSent == false || r.NotificationSent == null)
+                .Where(r => (r.NotificationSent == false || r.NotificationSent == null) && r.Status == null)
                 .Include(r => r.Channel)
                 // Assuming 'User' is navigable from 'Report'
                 .Include(r => r.User)

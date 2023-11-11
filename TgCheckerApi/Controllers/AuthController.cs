@@ -92,6 +92,7 @@ namespace TgCheckerApi.Controllers
 
             var reports = await _context.Reports
                 .Include(r => r.Channel)
+                .Where(r => r.Status == "hidden")  // Add this line
                 .ToListAsync();
 
             var reportGroups = reports
@@ -112,25 +113,70 @@ namespace TgCheckerApi.Controllers
             return Ok(reportGroups);
         }
 
-        [HttpGet("Report/{id:int}")]
-        public async Task<ActionResult<ReportGetModel>> GetReport(int id)
+        [HttpGet("Report/{id:int}/{telegramId:long}")]
+        public async Task<ActionResult<ReportGetModel>> GetReport(int id, long telegramId)
         {
-            // Fetch the report with the specified ID, including related Channel data
+            var staffRecord = await _context.Staff.Include(s => s.User)
+                                                  .FirstOrDefaultAsync(s => s.User.TelegramId == telegramId);
+
+            if (staffRecord == null)
+            {
+                return Unauthorized();
+            }
+
             var report = await _context.Reports
                 .Include(r => r.Channel)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
-            // If the report is not found, return a NotFound response
             if (report == null)
             {
                 return NotFound();
             }
 
-            // Map the Report to a ReportGetModel (assuming you are using AutoMapper)
             var reportModel = _mapper.Map<ReportGetModel>(report);
 
-            // Return the report model
             return Ok(reportModel);
+        }
+
+        [HttpPost("CloseReport/{reportId:int}/{telegramId:long}/{status:int}")]
+        public async Task<IActionResult> CloseReport(int reportId, long telegramId, int status)
+        {
+            // Verify if the staff member is authorized
+            var staffRecord = await _context.Staff.Include(s => s.User)
+                                                  .FirstOrDefaultAsync(s => s.User.TelegramId == telegramId);
+
+            if (staffRecord == null)
+            {
+                return Unauthorized();
+            }
+
+            // Fetch the report
+            var report = await _context.Reports.Include(r => r.Channel)
+                                               .FirstOrDefaultAsync(r => r.Id == reportId);
+            if (report == null)
+            {
+                return NotFound();
+            }
+
+            // Update the report's status and staff ID
+            string newStatus = status == 1 ? "hidden" : "closed";
+            report.Status = newStatus;
+            report.StaffId = staffRecord.Id;
+
+            // If the status is "channel hidden", update the channel's Hidden property
+            if (newStatus == "hidden" && report.Channel != null)
+            {
+                report.Channel.Hidden = true;
+            }
+
+            _context.Update(report);
+            if (report.Channel != null)
+            {
+                _context.Update(report.Channel);
+            }
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         [HttpGet("IsAdmin/{telegramId:long}")]

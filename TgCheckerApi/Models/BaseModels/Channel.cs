@@ -44,8 +44,7 @@ public partial class Channel
 
     public string? Url { get; set; }
 
-    public bool Hidden { get; set; }
-
+    public bool? Hidden { get; set; }
     [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
     [JsonIgnore]
