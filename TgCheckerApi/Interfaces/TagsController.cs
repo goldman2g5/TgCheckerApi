@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TgCheckerApi.Models.BaseModels;
 
-namespace TgCheckerApi.Controllers
+namespace TgCheckerApi.Interfaces
 {
     [Route("api/[controller]")]
     [ApiController]
