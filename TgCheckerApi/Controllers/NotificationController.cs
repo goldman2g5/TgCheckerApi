@@ -91,10 +91,9 @@ namespace TgCheckerApi.Controllers
                           .ToList() // Get all staff member Chat IDs
             }).ToList();
 
-            // Update Report Status (Set NotificationSent to true)
-            //reports.ForEach(report => report.NotificationSent = true);
-            //_context.Reports.UpdateRange(reports);
-            //await _context.SaveChangesAsync();
+            reports.ForEach(report => report.NotificationSent = true);
+            _context.Reports.UpdateRange(reports);
+            await _context.SaveChangesAsync();
 
             // Return the list of notifications
             return Ok(notifications);

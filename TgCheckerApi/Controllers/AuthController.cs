@@ -84,16 +84,21 @@ namespace TgCheckerApi.Controllers
         public async Task<ActionResult<IEnumerable<ReportGroup>>> GetReports(long telegramId)
         {
             var adminRecord = await _context.Admins.FirstOrDefaultAsync(x => x.TelegramId == telegramId);
+            var staffRecord = await _context.Staff.FirstOrDefaultAsync(x => x.User.TelegramId == telegramId);
 
-            if (adminRecord is null)
+            if (adminRecord is null && staffRecord is null)
             {
                 return Unauthorized();
             }
 
-            var reports = await _context.Reports
-                .Include(r => r.Channel)
-                .Where(r => r.Status == "hidden")  // Add this line
-                .ToListAsync();
+            IQueryable<Report> query = _context.Reports.Include(r => r.Channel);
+
+            if (adminRecord != null)
+            {
+                query = query.Where(r => r.Status == "hidden");
+            }
+
+            var reports = await query.ToListAsync();
 
             var reportGroups = reports
                 .GroupBy(r => r.ChannelId)
@@ -177,6 +182,46 @@ namespace TgCheckerApi.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpPost("AdminCloseReport/{telegramId:long}/{reportId}")]
+        public async Task<IActionResult> CloseReport(long telegramId, int reportId)
+        {
+            var adminRecord = await _context.Admins.FirstOrDefaultAsync(x => x.TelegramId == telegramId);
+            if (adminRecord == null)
+            {
+                return Unauthorized();
+            }
+
+            var report = await _context.Reports.FirstOrDefaultAsync(r => r.Id == reportId);
+            if (report == null)
+            {
+                return NotFound("Report not found");
+            }
+
+            report.Status = "Closed";
+            await _context.SaveChangesAsync();
+            return Ok("Report closed successfully");
+        }
+
+        [HttpPost("AdminDeleteChannel/{telegramId:long}/{reportId}")]
+        public async Task<IActionResult> DeleteChannel(long telegramId, int reportId)
+        {
+            var adminRecord = await _context.Admins.FirstOrDefaultAsync(x => x.TelegramId == telegramId);
+            if (adminRecord == null)
+            {
+                return Unauthorized();
+            }
+
+            var report = await _context.Reports.Include(r => r.Channel).FirstOrDefaultAsync(r => r.Id == reportId);
+            if (report == null || report.Channel == null)
+            {
+                return NotFound("Report or associated channel not found");
+            }
+
+            _context.Channels.Remove(report.Channel);
+            await _context.SaveChangesAsync();
+            return Ok("Channel and related reports deleted successfully");
         }
 
         [HttpGet("IsAdmin/{telegramId:long}")]
