@@ -55,4 +55,6 @@ public partial class Channel
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     [JsonIgnore]
     public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
+    [JsonIgnore]
+    public virtual User? UserNavigation { get; set; }
 }

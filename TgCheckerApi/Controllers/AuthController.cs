@@ -91,7 +91,7 @@ namespace TgCheckerApi.Controllers
                 return Unauthorized();
             }
 
-            IQueryable<Report> query = _context.Reports.Include(r => r.Channel);
+            IQueryable<Report> query = _context.Reports.Include(r => r.Channel).ThenInclude(c => c.UserNavigation);
 
             if (adminRecord != null)
             {
@@ -131,6 +131,7 @@ namespace TgCheckerApi.Controllers
 
             var report = await _context.Reports
                 .Include(r => r.Channel)
+                .ThenInclude(c => c.UserNavigation)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
             if (report == null)

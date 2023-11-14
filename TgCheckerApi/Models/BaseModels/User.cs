@@ -20,6 +20,8 @@ public partial class User
     [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
     [JsonIgnore]
+    public virtual ICollection<Channel> Channels { get; set; } = new List<Channel>();
+    [JsonIgnore]
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     [JsonIgnore]
     public virtual ICollection<Report> Reports { get; set; } = new List<Report>();

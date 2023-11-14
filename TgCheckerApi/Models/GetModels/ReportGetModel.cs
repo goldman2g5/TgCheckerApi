@@ -12,5 +12,7 @@ namespace TgCheckerApi.Models.GetModels
         public string ChannelWebUrl { get; set; }
 
         public string ReporteeName { get; set; }
+
+        public string UserTelegramChatId { get; set; }
     }
 }

@@ -16,10 +16,11 @@ namespace TgCheckerApi.MapperProfiles
             .ForMember(dest => dest.ChannelName, opt => opt.MapFrom(src => src.Channel.Name));
 
             CreateMap<Report, ReportGetModel>()
-            .ForMember(dest => dest.ChannelName, opt => opt.MapFrom(src => src.Channel.Name))
-            .ForMember(dest => dest.ChannelUrl, opt => opt.MapFrom(src => src.Channel.Url))
-            .ForMember(dest => dest.ReporteeName, opt => opt.MapFrom(src => src.User.Username))
-            .ForMember(dest => dest.ChannelWebUrl, opt => opt.MapFrom(src => $"http://46.39.232.190:8063/Channel/{src.Channel.Id}"));
+                .ForMember(dest => dest.ChannelName, opt => opt.MapFrom(src => src.Channel.Name))
+                .ForMember(dest => dest.ChannelUrl, opt => opt.MapFrom(src => src.Channel.Url))
+                .ForMember(dest => dest.ReporteeName, opt => opt.MapFrom(src => src.User.Username))
+                .ForMember(dest => dest.UserTelegramChatId, opt => opt.MapFrom(src => src.Channel.UserNavigation.ChatId))
+                .ForMember(dest => dest.ChannelWebUrl, opt => opt.MapFrom(src => $"http://46.39.232.190:8063/Channel/{src.Channel.Id}"));
         }
     }
 }
