@@ -13,6 +13,6 @@ namespace TgCheckerApi.Models.GetModels
 
         public string ReporteeName { get; set; }
 
-        public long? UserTelegramChatId { get; set; }
+        public string UserTelegramChatId { get; set; }
     }
 }
