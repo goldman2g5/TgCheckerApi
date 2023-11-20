@@ -56,6 +56,7 @@ namespace TgCheckerApi.Controllers
 
         // GET: api/User
         [HttpGet]
+        [BypassApiKey]
         [RequiresJwtValidation]
         public async Task<ActionResult<UserProfileModel>> GetMe()
         {

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using TgCheckerApi.MiddleWare;
 
 namespace TgCheckerApi.Websockets
 {
+    [BypassApiKey]
     public class AuthHub : Hub
     {
         public async Task SendMessage(string connection_id)

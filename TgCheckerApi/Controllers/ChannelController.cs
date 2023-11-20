@@ -48,6 +48,7 @@ namespace TgCheckerApi.Controllers
         }
 
         // GET: api/Channel
+        [BypassApiKey]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels()
         {
@@ -66,6 +67,7 @@ namespace TgCheckerApi.Controllers
         }
 
         // GET: api/Channel/Page/{page}
+        [BypassApiKey]
         [HttpGet("Page/{page}")]
         public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1, [FromQuery] string? tags = null, [FromQuery] string? sortOption = null, [FromQuery] string? ascending = null, [FromQuery] string? search = null)
         {
@@ -94,6 +96,7 @@ namespace TgCheckerApi.Controllers
             return channelGetModels;
         }
 
+        [BypassApiKey]
         [RequiresJwtValidation]
         [HttpPut("{id}/Details")]
         public async Task<IActionResult> SetChannelDetails(int id, ChannelDetailsPutModel payload)
@@ -120,6 +123,28 @@ namespace TgCheckerApi.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        // GET: api/Channel/5
+        [BypassApiKey]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ChannelGetModel>> GetChannel(int id)
+        {
+            if (_context.Channels == null)
+            {
+                return NotFound();
+            }
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            var channelGetModel = _channelService.MapToChannelGetModel(channel);
+
+
+            return channelGetModel;
         }
 
         [HttpGet("{id}/Tags")]
@@ -460,27 +485,6 @@ namespace TgCheckerApi.Controllers
             channels = channels.OrderBy(x => x.Id).ToList();
 
             return channels;
-        }
-
-        // GET: api/Channel/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ChannelGetModel>> GetChannel(int id)
-        {
-            if (_context.Channels == null)
-            {
-                return NotFound();
-            }
-            var channel = await _context.Channels.FindAsync(id);
-
-            if (channel == null)
-            {
-                return NotFound();
-            }
-
-            var channelGetModel = _channelService.MapToChannelGetModel(channel);
-
-
-            return channelGetModel;
         }
 
         [HttpGet("ByTelegramId/{telegramId}")]

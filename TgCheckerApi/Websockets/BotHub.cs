@@ -2,6 +2,7 @@
 
 namespace TgCheckerApi.Websockets
 {
+
     public class BotHub : Hub
     {
         public async Task SendMessage(string connection_id)
