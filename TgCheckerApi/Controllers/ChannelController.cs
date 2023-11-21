@@ -32,6 +32,7 @@ namespace TgCheckerApi.Controllers
         private readonly BumpService _bumpService;
         private readonly SubscriptionService _subscriptionService;
         private readonly UserService _userService;
+        private readonly NotificationService _notificationService;
 
 
 
@@ -45,6 +46,7 @@ namespace TgCheckerApi.Controllers
             _bumpService = new BumpService();
             _subscriptionService = new SubscriptionService(context);
             _userService = new UserService(context);
+            _notificationService = new NotificationService(context);
         }
 
         // GET: api/Channel
@@ -590,6 +592,8 @@ namespace TgCheckerApi.Controllers
             reportGetModel.ReporteeName = user.Username;
 
             await _hubContext.Clients.All.SendAsync("ReceiveReport", reportGetModel);
+
+
 
             return Ok();
         }
