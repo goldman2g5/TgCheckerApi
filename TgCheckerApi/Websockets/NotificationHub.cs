@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
 using TgCheckerApi.Interfaces;
+using TgCheckerApi.MiddleWare;
 
 namespace TgCheckerApi.Websockets
 {
+    [BypassApiKey]
     [Authorize]
     public class NotificationHub : Hub<INotificationHub>
     {

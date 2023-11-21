@@ -1,15 +1,21 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using TgCheckerApi.MiddleWare;
 
 namespace TgCheckerApi.Websockets
 {
-    [BypassApiKey]
-    public class AuthHub : Hub
+
+    public class BotHub : Hub
     {
         public async Task SendMessage(string connection_id)
         {
             await Clients.Client(connection_id).SendAsync("ReceiveMessage", "RABOTAET");
 
+        }
+
+        public override async Task OnConnectedAsync()
+        {
+            Console.WriteLine($"User connected to BotHub.");
+
+            await base.OnConnectedAsync();
         }
 
         public string GetConnectionId()

@@ -24,6 +24,11 @@ namespace TgCheckerApi.Services
                            .SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
         }
 
+        public async Task<bool> IsUserAdminByTelegramId(long telegramId)
+        {
+            return await _context.Admins.AnyAsync(a => a.TelegramId == telegramId);
+        }
+
         public bool UserHasAccessToChannel(User user, Channel channel)
         {
             return user.ChannelAccesses.Any(ca => ca.ChannelId == channel.Id);

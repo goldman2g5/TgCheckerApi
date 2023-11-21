@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
+using TgCheckerApi.Models.PostModels;
 using TgCheckerApi.Models.PutModels;
 using TgCheckerApi.Services;
 using TgCheckerApi.Utility;
+using TgCheckerApi.Websockets;
 
 namespace TgCheckerApi.Controllers
 {
@@ -21,6 +25,8 @@ namespace TgCheckerApi.Controllers
     public class ChannelController : ControllerBase
     {
         private readonly TgDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly IHubContext<BotHub> _hubContext;
         private readonly ChannelService _channelService;
         private readonly TagsService _tagsService;
         private readonly BumpService _bumpService;
@@ -28,9 +34,12 @@ namespace TgCheckerApi.Controllers
         private readonly UserService _userService;
 
 
-        public ChannelController(TgDbContext context)
+
+        public ChannelController(TgDbContext context, IMapper mapper, IHubContext<BotHub> hubContext)
         {
             _context = context;
+            _mapper = mapper;
+            _hubContext = hubContext;
             _channelService = new ChannelService(context);
             _tagsService = new TagsService(context);
             _bumpService = new BumpService();
@@ -39,6 +48,7 @@ namespace TgCheckerApi.Controllers
         }
 
         // GET: api/Channel
+        [BypassApiKey]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels()
         {
@@ -57,6 +67,7 @@ namespace TgCheckerApi.Controllers
         }
 
         // GET: api/Channel/Page/{page}
+        [BypassApiKey]
         [HttpGet("Page/{page}")]
         public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1, [FromQuery] string? tags = null, [FromQuery] string? sortOption = null, [FromQuery] string? ascending = null, [FromQuery] string? search = null)
         {
@@ -85,6 +96,7 @@ namespace TgCheckerApi.Controllers
             return channelGetModels;
         }
 
+        [BypassApiKey]
         [RequiresJwtValidation]
         [HttpPut("{id}/Details")]
         public async Task<IActionResult> SetChannelDetails(int id, ChannelDetailsPutModel payload)
@@ -111,6 +123,28 @@ namespace TgCheckerApi.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        // GET: api/Channel/5
+        [BypassApiKey]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ChannelGetModel>> GetChannel(int id)
+        {
+            if (_context.Channels == null)
+            {
+                return NotFound();
+            }
+            var channel = await _context.Channels.FindAsync(id);
+
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            var channelGetModel = _channelService.MapToChannelGetModel(channel);
+
+
+            return channelGetModel;
         }
 
         [HttpGet("{id}/Tags")]
@@ -453,27 +487,6 @@ namespace TgCheckerApi.Controllers
             return channels;
         }
 
-        // GET: api/Channel/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ChannelGetModel>> GetChannel(int id)
-        {
-            if (_context.Channels == null)
-            {
-                return NotFound();
-            }
-            var channel = await _context.Channels.FindAsync(id);
-
-            if (channel == null)
-            {
-                return NotFound();
-            }
-
-            var channelGetModel = _channelService.MapToChannelGetModel(channel);
-
-
-            return channelGetModel;
-        }
-
         [HttpGet("ByTelegramId/{telegramId}")]
         public async Task<ActionResult<Channel>> GetChannelByTelegramId(long telegramId)
         {
@@ -551,6 +564,34 @@ namespace TgCheckerApi.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [RequiresJwtValidation]
+        [HttpPost("Report/{id}")]
+        public async Task<ActionResult<Channel>> ReportChannel(int id, ReportPostModel report)
+        {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
+
+            if (_context.Reports == null)
+            {
+                return Problem("Entity set 'TgCheckerDbContext.Reports' is null.");
+            }
+
+            report.UserId = user.Id;
+            report.ReportTime = DateTime.Now;
+            report.ChannelId = id;
+
+            _context.Reports.Add(report);
+            await _context.SaveChangesAsync();
+
+            var reportGetModel = _mapper.Map<ReportGetModel>(report);
+
+            reportGetModel.ReporteeName = user.Username;
+
+            await _hubContext.Clients.All.SendAsync("ReceiveReport", reportGetModel);
+
+            return Ok();
         }
 
         private async Task<Channel> FindChannelById(int id)

@@ -104,7 +104,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.UseMiddleware<ApiKeyMiddleware>();
+app.UseMiddleware<ApiKeyMiddleware>();
 
 //app.UseMiddleware<ThrottleMiddleware>(2, 60);
 
@@ -113,6 +113,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
     endpoints.MapHub<AuthHub>("/Authhub");
     endpoints.MapHub<NotificationHub>("/NotificationHub");
+    endpoints.MapHub<BotHub>("/BotHub");
 });
 
 app.Run();

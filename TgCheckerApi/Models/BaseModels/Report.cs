@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace TgCheckerApi.Models.BaseModels;
@@ -22,10 +23,10 @@ public partial class Report
     public string? Status { get; set; }
 
     public int? StaffId { get; set; }
-
+    [JsonIgnore]
     public virtual Channel Channel { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual Staff? Staff { get; set; }
-
+    [JsonIgnore]
     public virtual User User { get; set; } = null!;
 }

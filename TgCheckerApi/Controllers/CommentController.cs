@@ -86,6 +86,7 @@ namespace TgCheckerApi.Controllers
         // POST: api/Comment
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [RequiresJwtValidation]
+        [BypassApiKey]
         [HttpPost]
         public async Task<ActionResult<Comment>> PostComment(CommentPostModel comment)
         {
