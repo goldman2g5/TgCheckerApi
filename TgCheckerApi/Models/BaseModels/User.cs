@@ -22,6 +22,8 @@ public partial class User
     [JsonIgnore]
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     [JsonIgnore]
+    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+    [JsonIgnore]
     public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
     [JsonIgnore]
     public virtual ICollection<Staff> Staff { get; set; } = new List<Staff>();

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.NotificationModels;
@@ -30,6 +31,35 @@ namespace TgCheckerApi.Controllers
         public async Task<ActionResult<IEnumerable<BumpNotification>>> GetNotifications()
         {
             var notifications = await _notificationService.GetBumpNotifications();
+
+            return Ok(notifications);
+        }
+
+        [HttpGet("UserNotifications")]
+        [RequiresJwtValidation]
+        public async Task<IActionResult> GetUserNotifications()
+        {
+            // Retrieve the user's unique key from the JWT token claims
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+
+            if (string.IsNullOrEmpty(uniqueKeyClaim))
+            {
+                return Unauthorized("Unique key claim is missing from the token.");
+            }
+
+            // Retrieve user information based on the unique key
+            var user = await _context.Users
+                                     .SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Fetch notifications for the user
+            var notifications = await _context.Notifications
+                                              .Where(n => n.UserId == user.Id && n.IsNew)
+                                              .ToListAsync();
 
             return Ok(notifications);
         }
@@ -66,11 +96,11 @@ namespace TgCheckerApi.Controllers
         }
 
         [HttpPost("CreateNotification")]
-        public async Task<IActionResult> CreateNotification(int channelId, string content, int typeId)
+        public async Task<IActionResult> CreateNotification(int channelId, string content, int typeId, int userid)
         {
             try
             {
-                var notification = await _notificationService.CreateNotificationAsync(channelId, content, typeId);
+                var notification = await _notificationService.CreateNotificationAsync(channelId, content, typeId, userid);
                 return Ok(notification);
             }
             catch (ArgumentException ex)

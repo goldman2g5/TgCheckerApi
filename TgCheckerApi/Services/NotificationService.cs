@@ -54,7 +54,7 @@ namespace TgCheckerApi.Services
             return notifications;
         }
 
-        public async Task<Notification> CreateNotificationAsync(int channelId, string content, int typeId)
+        public async Task<Notification> CreateNotificationAsync(int channelId, string content, int typeId, int userid)
         {
             // Optional: Validate if the provided TypeId exists in the NotificationType table
             var notificationType = await _context.NotificationTypes
@@ -68,6 +68,7 @@ namespace TgCheckerApi.Services
             {
                 ChannelId = channelId,
                 Content = content,
+                UserId = userid,
                 Date = DateTime.UtcNow, // Assuming you want to set the current time as the notification date
                 IsNew = true, // Assuming a new notification is always set to IsNew = true
                 TypeId = typeId

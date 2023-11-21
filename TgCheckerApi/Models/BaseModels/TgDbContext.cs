@@ -222,6 +222,7 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.IsNew).HasColumnName("is_new");
             entity.Property(e => e.TypeId).HasColumnName("type_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.NotificationsNavigation)
                 .HasForeignKey(d => d.ChannelId)
@@ -230,6 +231,10 @@ public partial class TgDbContext : DbContext
             entity.HasOne(d => d.Type).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.TypeId)
                 .HasConstraintName("type_id_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("user_id_fk");
         });
 
         modelBuilder.Entity<NotificationType>(entity =>

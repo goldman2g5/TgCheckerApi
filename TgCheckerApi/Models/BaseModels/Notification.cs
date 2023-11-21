@@ -17,8 +17,12 @@ public partial class Notification
     public bool IsNew { get; set; }
 
     public int TypeId { get; set; }
+
+    public int UserId { get; set; }
     [JsonIgnore]
     public virtual Channel Channel { get; set; } = null!;
     [JsonIgnore]
     public virtual NotificationType Type { get; set; } = null!;
+    [JsonIgnore]
+    public virtual User User { get; set; } = null!;
 }
