@@ -54,6 +54,31 @@ namespace TgCheckerApi.Services
             return notifications;
         }
 
+        public async Task<Notification> CreateNotificationAsync(int channelId, string content, int typeId)
+        {
+            // Optional: Validate if the provided TypeId exists in the NotificationType table
+            var notificationType = await _context.NotificationTypes
+                .FirstOrDefaultAsync(nt => nt.Id == typeId);
+            if (notificationType == null)
+            {
+                throw new ArgumentException("Invalid notification type.");
+            }
+
+            var newNotification = new Notification
+            {
+                ChannelId = channelId,
+                Content = content,
+                Date = DateTime.UtcNow, // Assuming you want to set the current time as the notification date
+                IsNew = true, // Assuming a new notification is always set to IsNew = true
+                TypeId = typeId
+            };
+
+            _context.Notifications.Add(newNotification);
+            await _context.SaveChangesAsync();
+
+            return newNotification;
+        }
+
 
     }
 }

@@ -15,6 +15,8 @@ public partial class TgDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Admin> Admins { get; set; }
+
     public virtual DbSet<Apikey> Apikeys { get; set; }
 
     public virtual DbSet<Channel> Channels { get; set; }
@@ -26,6 +28,14 @@ public partial class TgDbContext : DbContext
     public virtual DbSet<ChannelHasTag> ChannelHasTags { get; set; }
 
     public virtual DbSet<Comment> Comments { get; set; }
+
+    public virtual DbSet<Notification> Notifications { get; set; }
+
+    public virtual DbSet<NotificationType> NotificationTypes { get; set; }
+
+    public virtual DbSet<Report> Reports { get; set; }
+
+    public virtual DbSet<Staff> Staff { get; set; }
 
     public virtual DbSet<SubType> SubTypes { get; set; }
 
@@ -39,6 +49,17 @@ public partial class TgDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Admin>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("Admin_pkey");
+
+            entity.ToTable("Admin");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Key).HasColumnName("key");
+            entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
+        });
+
         modelBuilder.Entity<Apikey>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("APIkeys_pkey");
@@ -86,16 +107,22 @@ public partial class TgDbContext : DbContext
 
             entity.ToTable("ChannelAccess");
 
+            entity.HasIndex(e => e.ChannelId, "IX_ChannelAccess_channel_id");
+
+            entity.HasIndex(e => e.UserId, "IX_ChannelAccess_user_id");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ChannelId).HasColumnName("channel_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.ChannelAccesses)
                 .HasForeignKey(d => d.ChannelId)
-                .HasConstraintName("channel_fk");
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("fk_channelaccess_channel");
 
             entity.HasOne(d => d.User).WithMany(p => p.ChannelAccesses)
                 .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("user_fk");
         });
 
@@ -104,6 +131,10 @@ public partial class TgDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("ChannelHasSubscription_pkey");
 
             entity.ToTable("ChannelHasSubscription");
+
+            entity.HasIndex(e => e.ChannelId, "IX_ChannelHasSubscription_channel_id");
+
+            entity.HasIndex(e => e.TypeId, "IX_ChannelHasSubscription_type_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ChannelId).HasColumnName("channel_id");
@@ -114,7 +145,8 @@ public partial class TgDbContext : DbContext
 
             entity.HasOne(d => d.Channel).WithMany(p => p.ChannelHasSubscriptions)
                 .HasForeignKey(d => d.ChannelId)
-                .HasConstraintName("fk_Sub_channel");
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("fk_channelhassubscription_channel");
 
             entity.HasOne(d => d.Type).WithMany(p => p.ChannelHasSubscriptions)
                 .HasForeignKey(d => d.TypeId)
@@ -127,13 +159,18 @@ public partial class TgDbContext : DbContext
 
             entity.ToTable("ChannelHasTag");
 
+            entity.HasIndex(e => e.Channel, "IX_ChannelHasTag_channel");
+
+            entity.HasIndex(e => e.Tag, "IX_ChannelHasTag_tag");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Channel).HasColumnName("channel");
             entity.Property(e => e.Tag).HasColumnName("tag");
 
             entity.HasOne(d => d.ChannelNavigation).WithMany(p => p.ChannelHasTags)
                 .HasForeignKey(d => d.Channel)
-                .HasConstraintName("fk_ChannelHasTag_Channel");
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("fk_channelhastag_channel");
 
             entity.HasOne(d => d.TagNavigation).WithMany(p => p.ChannelHasTags)
                 .HasForeignKey(d => d.Tag)
@@ -146,26 +183,113 @@ public partial class TgDbContext : DbContext
 
             entity.ToTable("Comment");
 
+            entity.HasIndex(e => e.ChannelId, "IX_Comment_channel_id");
+
+            entity.HasIndex(e => e.ParentId, "IX_Comment_parent_id");
+
+            entity.HasIndex(e => e.UserId, "IX_Comment_user_id");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ChannelId).HasColumnName("channel_id");
             entity.Property(e => e.Content).HasColumnName("content");
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("timestamp with time zone")
-                .HasColumnName("created_at");
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.ParentId).HasColumnName("parent_id");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.Rating).HasColumnName("rating");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.ChannelId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("channel_id_fk");
+                .HasConstraintName("fk_comment_channel");
 
             entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
                 .HasForeignKey(d => d.ParentId)
                 .HasConstraintName("parent_id_fk");
 
             entity.HasOne(d => d.User).WithMany(p => p.Comments)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("user_id_fk");
+        });
+
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("Notification_pkey");
+
+            entity.ToTable("Notification");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ChannelId).HasColumnName("channel_id");
+            entity.Property(e => e.Content).HasColumnName("content");
+            entity.Property(e => e.Date).HasColumnName("date");
+            entity.Property(e => e.IsNew).HasColumnName("is_new");
+            entity.Property(e => e.TypeId).HasColumnName("type_id");
+
+            entity.HasOne(d => d.Channel).WithMany(p => p.NotificationsNavigation)
+                .HasForeignKey(d => d.ChannelId)
+                .HasConstraintName("channel_id_fk");
+
+            entity.HasOne(d => d.Type).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.TypeId)
+                .HasConstraintName("type_id_fk");
+        });
+
+        modelBuilder.Entity<NotificationType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("NotificationType_pkey");
+
+            entity.ToTable("NotificationType");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Text).HasColumnName("text");
+        });
+
+        modelBuilder.Entity<Report>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("Report_pkey");
+
+            entity.ToTable("Report");
+
+            entity.HasIndex(e => e.ChannelId, "IX_Report_channel_id");
+
+            entity.HasIndex(e => e.StaffId, "IX_Report_staff_id");
+
+            entity.HasIndex(e => e.UserId, "IX_Report_user_id");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ChannelId).HasColumnName("channel_id");
+            entity.Property(e => e.NotificationSent).HasColumnName("notification_sent");
+            entity.Property(e => e.Reason).HasColumnName("reason");
+            entity.Property(e => e.ReportTime)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("report_time");
+            entity.Property(e => e.StaffId).HasColumnName("staff_id");
+            entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.Text).HasColumnName("text");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Channel).WithMany(p => p.Reports)
+                .HasForeignKey(d => d.ChannelId)
+                .HasConstraintName("channel_id_fk");
+
+            entity.HasOne(d => d.Staff).WithMany(p => p.Reports)
+                .HasForeignKey(d => d.StaffId)
+                .HasConstraintName("staff_id_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Reports)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("user_id_fk");
+        });
+
+        modelBuilder.Entity<Staff>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("Staff_pkey");
+
+            entity.HasIndex(e => e.UserId, "IX_Staff_user_id");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Staff)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("user_id_fk");
@@ -204,11 +328,11 @@ public partial class TgDbContext : DbContext
             entity.HasIndex(e => e.TelegramId, "telegram_id_uq").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Avatar).HasColumnName("avatar");
             entity.Property(e => e.ChatId).HasColumnName("chat_id");
             entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
-            entity.Property(e => e.Username).HasColumnName("username");
-            entity.Property(e => e.Avatar).HasColumnName("avatar");
             entity.Property(e => e.UniqueKey).HasColumnName("unique_key");
+            entity.Property(e => e.Username).HasColumnName("username");
         });
 
         OnModelCreatingPartial(modelBuilder);

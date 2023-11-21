@@ -16,15 +16,15 @@ public partial class Comment
 
     public int? ParentId { get; set; }
 
-    public int? Rating { get; set; }
-
     public DateTime CreatedAt { get; set; }
+
+    public int? Rating { get; set; }
     [JsonIgnore]
     public virtual Channel Channel { get; set; } = null!;
     [JsonIgnore]
     public virtual ICollection<Comment> InverseParent { get; set; } = new List<Comment>();
     [JsonIgnore]
     public virtual Comment? Parent { get; set; }
-    [JsonIgnore]
+    [JsonIgnore]    
     public virtual User User { get; set; } = null!;
 }

@@ -65,6 +65,25 @@ namespace TgCheckerApi.Controllers
             return Ok(eligiblePromoPosts);
         }
 
+        [HttpPost("CreateNotification")]
+        public async Task<IActionResult> CreateNotification(int channelId, string content, int typeId)
+        {
+            try
+            {
+                var notification = await _notificationService.CreateNotificationAsync(channelId, content, typeId);
+                return Ok(notification);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch
+            {
+                // Handle other potential exceptions
+                return StatusCode(500, "An error occurred while creating the notification");
+            }
+        }
+
 
 
         private bool ChannelExists(int id)
