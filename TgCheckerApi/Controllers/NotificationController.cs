@@ -84,11 +84,50 @@ namespace TgCheckerApi.Controllers
             }
         }
 
-
-
-        private bool ChannelExists(int id)
+        // POST: api/Notification/MarkAsRead
+        [HttpPost("MarkAsRead/{notificationId}")]
+        public async Task<IActionResult> MarkNotificationAsRead(int notificationId)
         {
-            return (_context.Channels?.Any(e => e.Id == id)).GetValueOrDefault();
+            // Find the notification by ID
+            var notification = await _context.Notifications.FindAsync(notificationId);
+            if (notification == null)
+            {
+                return NotFound($"Notification with ID {notificationId} not found.");
+            }
+
+            // Mark the notification as not new
+            notification.IsNew = false;
+
+            // Save changes to the database
+            try
+            {
+                await _context.SaveChangesAsync();
+                return NoContent(); // Standard response for a successful PATCH/PUT request
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!NotificationExists(notificationId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and return a 500 Internal Server Error
+                // Consider logging the exception details here
+                return StatusCode(500, "An error occurred while marking the notification as read");
+            }
+        }
+
+
+
+        private bool NotificationExists(int id)
+        {
+            return (_context.Notifications?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

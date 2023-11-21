@@ -104,7 +104,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseMiddleware<ApiKeyMiddleware>();
+//app.UseMiddleware<ApiKeyMiddleware>();
 
 //app.UseMiddleware<ThrottleMiddleware>(2, 60);
 
