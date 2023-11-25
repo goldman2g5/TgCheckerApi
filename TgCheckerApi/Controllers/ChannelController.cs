@@ -589,6 +589,14 @@ namespace TgCheckerApi.Controllers
             _context.Reports.Add(report);
             await _context.SaveChangesAsync();
 
+            // additional code to notify channel owner
+            var channel = await _context.Channels.FindAsync(id);
+            if (channel != null && channel.User.HasValue)
+            {
+                string notificationContent = $"Your channel {channel.Name} has been reported for {report.Reason}. Please review the channel content.";
+                await _notificationService.CreateNotificationAsync(channel.Id, notificationContent, 1, channel.User.Value);
+            }
+
             var reportGetModel = _mapper.Map<ReportGetModel>(report);
 
             reportGetModel.ReporteeName = user.Username;
