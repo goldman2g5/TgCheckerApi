@@ -101,6 +101,7 @@ namespace TgCheckerApi.Controllers
 
             var reports = await query.ToListAsync();
 
+
             var reportGroups = reports
                 .GroupBy(r => r.ChannelId)
                 .Select(group => new ReportGroup
