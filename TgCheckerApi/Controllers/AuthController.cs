@@ -124,7 +124,7 @@ namespace TgCheckerApi.Controllers
         public async Task<ActionResult<ReportGetModel>> GetReport(int id, long telegramId)
         {
             var staffRecord = await _context.Staff.Include(s => s.User)
-                                                  .FirstOrDefaultAsync(s => s.User.TelegramId == telegramId);
+                                                  .FirstOrDefaultAsync(s => s.User.Id == telegramId);
 
             if (staffRecord == null)
             {
@@ -135,7 +135,7 @@ namespace TgCheckerApi.Controllers
                 .Include(r => r.Channel)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.TelegramId == report.Channel.User);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == report.Channel.User);
 
             if (report == null)
             {

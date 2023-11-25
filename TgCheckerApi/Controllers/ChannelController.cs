@@ -477,7 +477,7 @@ namespace TgCheckerApi.Controllers
         [HttpGet("ByUser/{userId}")]
         public async Task<ActionResult<IEnumerable<Channel>>> GetChannelsByUser(int userId)
         {
-            var channels = await _context.Channels.Where(c => c.User == userId).ToListAsync();
+            var channels = await _context.Channels.Where(c => c.UserNavigation.TelegramId == userId).ToListAsync();
 
             if (channels == null || channels.Count == 0)
             {
@@ -538,6 +538,8 @@ namespace TgCheckerApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Channel>> PostChannel(ChannelPostModel channel)
         {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.TelegramId == channel.User);
+            channel.User = user.Id;
           if (_context.Channels == null)
           { 
               return Problem("Entity set 'TgCheckerDbContext.Channels'  is null.");
