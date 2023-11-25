@@ -118,6 +118,14 @@ namespace TgCheckerApi.Controllers
                 return Unauthorized();
             }
 
+            var validTags = await _context.Tags.Select(t => t.Text).ToListAsync();
+
+            var invalidTags = payload.tags.Where(pt => !validTags.Contains(pt)).ToList();
+            if (invalidTags.Any())
+            {
+                return BadRequest();
+            }
+
             channel.Description = payload.desc;
             await _tagsService.RemoveExistingTagsFromChannel(id);
             await _tagsService.AddNewTagsToChannel(id, payload.tags.ToList());
