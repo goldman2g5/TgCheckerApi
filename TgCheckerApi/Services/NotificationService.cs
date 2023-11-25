@@ -35,6 +35,7 @@ namespace TgCheckerApi.Services
                     ChannelAccess = ca,
                     ChannelName = ca.Channel.Name,
                     ChannelId = ca.Channel.Id,
+                    UserId = (int)ca.UserId,
                     TelegramUserId = (int)ca.User.TelegramId,
                     TelegramChatId = (int)ca.User.ChatId,
                     TelegamChannelId = (long)ca.Channel.TelegramId,
@@ -46,6 +47,9 @@ namespace TgCheckerApi.Services
             // Update the NotificationSent property of the channels that were selected for notification
             foreach (var notification in notifications)
             {
+                string content = $"Your channel {notification.ChannelName} is ready for a bump.";
+                int typeId = 3;
+                await CreateNotificationAsync(notification.ChannelId, content, typeId, notification.UserId);
                 notification.ChannelAccess.Channel.NotificationSent = true;
             }
 
@@ -56,7 +60,7 @@ namespace TgCheckerApi.Services
 
         public async Task<Notification> CreateNotificationAsync(int channelId, string content, int typeId, int userid)
         {
-            // Optional: Validate if the provided TypeId exists in the NotificationType table
+
             var notificationType = await _context.NotificationTypes
                 .FirstOrDefaultAsync(nt => nt.Id == typeId);
             if (notificationType == null)
@@ -69,8 +73,8 @@ namespace TgCheckerApi.Services
                 ChannelId = channelId,
                 Content = content,
                 UserId = userid,
-                Date = DateTime.UtcNow, // Assuming you want to set the current time as the notification date
-                IsNew = true, // Assuming a new notification is always set to IsNew = true
+                Date = DateTime.UtcNow,
+                IsNew = true,
                 TypeId = typeId
             };
 

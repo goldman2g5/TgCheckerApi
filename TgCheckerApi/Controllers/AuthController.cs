@@ -27,12 +27,14 @@ namespace TgCheckerApi.Controllers
         private readonly TgDbContext _context;
         private readonly IMapper _mapper;
         private readonly UserService _userService;
+        private readonly NotificationService _notificationService;
 
         public AuthController(IHubContext<AuthHub> hubContext, TgDbContext context, IMapper mapper)
         {
             _hubContext = hubContext;
             _context = context;
             _userService = new UserService(context);
+            _notificationService = new NotificationService(context);
             _mapper = mapper;
         }
 
@@ -124,7 +126,7 @@ namespace TgCheckerApi.Controllers
         public async Task<ActionResult<ReportGetModel>> GetReport(int id, long telegramId)
         {
             var staffRecord = await _context.Staff.Include(s => s.User)
-                                                  .FirstOrDefaultAsync(s => s.User.Id == telegramId);
+                                                  .FirstOrDefaultAsync(s => s.User.TelegramId == telegramId);
 
             if (staffRecord == null)
             {
@@ -152,7 +154,6 @@ namespace TgCheckerApi.Controllers
         [HttpPost("CloseReport/{reportId:int}/{telegramId:long}/{status:int}")]
         public async Task<IActionResult> CloseReport(int reportId, long telegramId, int status)
         {
-            // Verify if the staff member is authorized
             var staffRecord = await _context.Staff.Include(s => s.User)
                                                   .FirstOrDefaultAsync(s => s.User.TelegramId == telegramId);
 
@@ -161,7 +162,6 @@ namespace TgCheckerApi.Controllers
                 return Unauthorized();
             }
 
-            // Fetch the report
             var report = await _context.Reports.Include(r => r.Channel)
                                                .FirstOrDefaultAsync(r => r.Id == reportId);
             if (report == null)
@@ -169,15 +169,19 @@ namespace TgCheckerApi.Controllers
                 return NotFound();
             }
 
-            // Update the report's status and staff ID
             string newStatus = status == 1 ? "hidden" : "closed";
             report.Status = newStatus;
             report.StaffId = staffRecord.Id;
 
-            // If the status is "channel hidden", update the channel's Hidden property
             if (newStatus == "hidden" && report.Channel != null)
             {
                 report.Channel.Hidden = true;
+
+                if (report.Channel.UserNavigation != null)
+                {
+                    string notificationContent = $"Your channel {report.Channel.Name} has been hidden due to a report. Please review the channel content.";
+                    await _notificationService.CreateNotificationAsync(report.Channel.Id, notificationContent, 2, report.Channel.UserNavigation.Id);
+                }
             }
 
             _context.Update(report);

@@ -12,6 +12,8 @@ namespace TgCheckerApi.Models.NotificationModels
 
         public int ChannelId { get; set; }
 
+        public int UserId { get; set; }
+
         public int TelegramUserId { get; set; }
 
         public int TelegramChatId { get; set; }

@@ -35,34 +35,32 @@ namespace TgCheckerApi.Controllers
             return Ok(notifications);
         }
 
-        //[HttpGet("UserNotifications")]
-        //[RequiresJwtValidation]
-        //public async Task<IActionResult> GetUserNotifications()
-        //{
-        //    // Retrieve the user's unique key from the JWT token claims
-        //    var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+        [HttpGet("UserNotifications")]
+        [BypassApiKey]
+        [RequiresJwtValidation]
+        public async Task<IActionResult> GetUserNotifications()
+        {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
 
-        //    if (string.IsNullOrEmpty(uniqueKeyClaim))
-        //    {
-        //        return Unauthorized("Unique key claim is missing from the token.");
-        //    }
+            if (string.IsNullOrEmpty(uniqueKeyClaim))
+            {
+                return Unauthorized();
+            }
 
-        //    // Retrieve user information based on the unique key
-        //    var user = await _context.Users
-        //                             .SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
+            var user = await _context.Users
+                                     .SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
 
-        //    if (user == null)
-        //    {
-        //        return NotFound("User not found.");
-        //    }
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
 
-        //    // Fetch notifications for the user
-        //    var notifications = await _context.Notifications
-        //                                      .Where(n => n.UserId == user.Id && n.IsNew)
-        //                                      .ToListAsync();
+            var notifications = await _context.Notifications
+                                              .Where(n => n.UserId == user.Id && n.IsNew)
+                                              .ToListAsync();
 
-        //    return Ok(notifications);
-        //}
+            return Ok(notifications);
+        }
 
         [HttpGet("GetPromoPosts")]
         public ActionResult<IEnumerable<PromoPost>> GetEligiblePromoPosts()
