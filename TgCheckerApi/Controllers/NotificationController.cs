@@ -9,6 +9,7 @@ using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.NotificationModels;
+using TgCheckerApi.Models.PostModels;
 using TgCheckerApi.Services;
 
 namespace TgCheckerApi.Controllers
@@ -94,11 +95,11 @@ namespace TgCheckerApi.Controllers
         }
 
         [HttpPost("CreateNotification")]
-        public async Task<IActionResult> CreateNotification(int channelId, string content, int typeId, int userid)
+        public async Task<IActionResult> CreateNotification(CreateNotificationPostModel payload)
         {
             try
             {
-                var notification = await _notificationService.CreateNotificationAsync(channelId, content, typeId, userid);
+                var notification = await _notificationService.CreateNotificationAsync(payload.channelid, payload.content, payload.typeid, payload.userid);
                 return Ok(notification);
             }
             catch (ArgumentException ex)
@@ -113,14 +114,31 @@ namespace TgCheckerApi.Controllers
         }
 
         // POST: api/Notification/MarkAsRead
+        [BypassApiKey]
+        [RequiresJwtValidation]
         [HttpPost("MarkAsRead/{notificationId}")]
         public async Task<IActionResult> MarkNotificationAsRead(int notificationId)
         {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+
+            if (string.IsNullOrEmpty(uniqueKeyClaim))
+            {
+                return Unauthorized();
+            }
+
             // Find the notification by ID
             var notification = await _context.Notifications.FindAsync(notificationId);
             if (notification == null)
             {
                 return NotFound($"Notification with ID {notificationId} not found.");
+            }
+
+            var user = await _context.Users
+                                     .SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
+
+            if (user.Id != notification.UserId)
+            {
+                return Unauthorized();
             }
 
             // Mark the notification as not new
@@ -148,6 +166,47 @@ namespace TgCheckerApi.Controllers
                 // Log the exception and return a 500 Internal Server Error
                 // Consider logging the exception details here
                 return StatusCode(500, "An error occurred while marking the notification as read");
+            }
+        }
+
+        [BypassApiKey]
+        [RequiresJwtValidation]
+        [HttpPost("MarkAsReadByType/{typeId}")]
+        public async Task<IActionResult> MarkNotificationsAsReadByType(int typeId)
+        {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+
+            if (string.IsNullOrEmpty(uniqueKeyClaim))
+            {
+                return Unauthorized();
+            }
+
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.UniqueKey == uniqueKeyClaim);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var notifications = await _context.Notifications
+                                              .Where(n => n.TypeId == typeId && n.UserId == user.Id && n.IsNew)
+                                              .ToListAsync();
+
+            if (!notifications.Any())
+            {
+                return NotFound("No new notifications found for the specified type.");
+            }
+
+            notifications.ForEach(n => n.IsNew = false);
+
+            // Save changes to the database
+            try
+            {
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while marking the notifications as read");
             }
         }
 

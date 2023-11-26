@@ -130,7 +130,11 @@ namespace TgCheckerApi.Controllers
 
             if (staffRecord == null)
             {
-                return Unauthorized();
+                var adminRecord = await _context.Admins.FirstOrDefaultAsync(x => x.TelegramId == telegramId);
+                if (adminRecord == null)
+                {
+                    return Unauthorized();
+                }
             }
 
             var report = await _context.Reports
