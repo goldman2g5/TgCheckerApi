@@ -593,6 +593,7 @@ namespace TgCheckerApi.Controllers
             report.UserId = user.Id;
             report.ReportTime = DateTime.Now;
             report.ChannelId = id;
+            report.ReportType = 1;
 
             _context.Reports.Add(report);
             await _context.SaveChangesAsync();

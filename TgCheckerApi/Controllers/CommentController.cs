@@ -10,6 +10,8 @@ using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
 using TgCheckerApi.Services;
+using TgCheckerApi.Models.PostModels;
+using AutoMapper;
 
 namespace TgCheckerApi.Controllers
 {
@@ -19,12 +21,15 @@ namespace TgCheckerApi.Controllers
     {
         private readonly TgDbContext _context;
         private readonly UserService _userService;
+        private readonly NotificationService _notificationService;
+        private readonly IMapper _mapper;
 
-
-        public CommentController(TgDbContext context)
+        public CommentController(TgDbContext context, IMapper mapper)
         {
             _context = context;
             _userService = new UserService(context);
+            _notificationService = new NotificationService(context);
+            _mapper = mapper;
         }
 
         // GET: api/Comment
@@ -81,6 +86,44 @@ namespace TgCheckerApi.Controllers
             }
 
             return NoContent();
+        }
+
+        [RequiresJwtValidation]
+        [HttpPost("Report/{id}")]
+        public async Task<ActionResult<Channel>> ReportComment(int id, ReportPostModel report)
+        {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
+
+            if (_context.Reports == null)
+            {
+                return Problem("Entity set 'TgCheckerDbContext.Reports' is null.");
+            }
+
+            var comment = await _context.Comments.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+
+            report.UserId = user.Id;
+            report.ReportTime = DateTime.Now;
+            report.ChannelId = comment.ChannelId;
+            report.CommentId = id;
+            report.ReportType = 2;
+
+            _context.Reports.Add(report);
+            await _context.SaveChangesAsync();
+
+            var reportGetModel = _mapper.Map<ReportGetModel>(report);
+
+            reportGetModel.ReporteeName = user.Username;
+
+
+
+            return Ok();
         }
 
         // POST: api/Comment

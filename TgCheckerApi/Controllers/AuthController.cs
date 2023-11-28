@@ -108,7 +108,7 @@ namespace TgCheckerApi.Controllers
                 .GroupBy(r => r.ChannelId)
                 .Select(group => new ReportGroup
                 {
-                    ChannelId = group.Key,
+                    ChannelId = (int)group.Key,
                     ChannelName = group.First().Channel.Name,
                     ChannelUrl = group.First().Channel.Url,
                     ChannelWebUrl = $"http://46.39.232.190:8063/Channel/{group.Key}",

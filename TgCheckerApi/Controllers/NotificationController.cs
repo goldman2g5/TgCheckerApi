@@ -57,8 +57,13 @@ namespace TgCheckerApi.Controllers
             }
 
             var notifications = await _context.Notifications
-                                              .Where(n => n.UserId == user.Id && n.IsNew)
+                                              .Where(n => n.UserId == user.Id)
                                               .ToListAsync();
+            if (notifications == null)
+            {
+                return NoContent();
+            }
+
 
             return Ok(notifications);
         }
@@ -126,7 +131,6 @@ namespace TgCheckerApi.Controllers
                 return Unauthorized();
             }
 
-            // Find the notification by ID
             var notification = await _context.Notifications.FindAsync(notificationId);
             if (notification == null)
             {
@@ -148,7 +152,7 @@ namespace TgCheckerApi.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-                return NoContent(); // Standard response for a successful PATCH/PUT request
+                return NoContent();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -163,8 +167,6 @@ namespace TgCheckerApi.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception and return a 500 Internal Server Error
-                // Consider logging the exception details here
                 return StatusCode(500, "An error occurred while marking the notification as read");
             }
         }

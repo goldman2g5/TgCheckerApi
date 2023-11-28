@@ -35,6 +35,8 @@ public partial class TgDbContext : DbContext
 
     public virtual DbSet<Report> Reports { get; set; }
 
+    public virtual DbSet<ReportType> ReportTypes { get; set; }
+
     public virtual DbSet<Staff> Staff { get; set; }
 
     public virtual DbSet<SubType> SubTypes { get; set; }
@@ -266,11 +268,13 @@ public partial class TgDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ChannelId).HasColumnName("channel_id");
+            entity.Property(e => e.CommentId).HasColumnName("comment_id");
             entity.Property(e => e.NotificationSent).HasColumnName("notification_sent");
             entity.Property(e => e.Reason).HasColumnName("reason");
             entity.Property(e => e.ReportTime)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("report_time");
+            entity.Property(e => e.ReportType).HasColumnName("report_type");
             entity.Property(e => e.StaffId).HasColumnName("staff_id");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.Text).HasColumnName("text");
@@ -278,7 +282,18 @@ public partial class TgDbContext : DbContext
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Reports)
                 .HasForeignKey(d => d.ChannelId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("channel_id_fk");
+
+            entity.HasOne(d => d.Comment).WithMany(p => p.Reports)
+                .HasForeignKey(d => d.CommentId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("comment_id_fk");
+
+            entity.HasOne(d => d.ReportTypeNavigation).WithMany(p => p.Reports)
+                .HasForeignKey(d => d.ReportType)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("report_type_fk");
 
             entity.HasOne(d => d.Staff).WithMany(p => p.Reports)
                 .HasForeignKey(d => d.StaffId)
@@ -288,6 +303,16 @@ public partial class TgDbContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("user_id_fk");
+        });
+
+        modelBuilder.Entity<ReportType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("ReportType_pkey");
+
+            entity.ToTable("ReportType");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Text).HasColumnName("text");
         });
 
         modelBuilder.Entity<Staff>(entity =>
