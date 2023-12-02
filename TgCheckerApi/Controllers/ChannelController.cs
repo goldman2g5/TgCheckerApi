@@ -100,7 +100,7 @@ namespace TgCheckerApi.Controllers
 
         [BypassApiKey]
         [RequiresJwtValidation]
-        [HttpPut("{id}/Details")]
+        [HttpPost("{id}/Details")]
         public async Task<IActionResult> SetChannelDetails(int id, ChannelDetailsPutModel payload)
         {
             var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
@@ -127,6 +127,7 @@ namespace TgCheckerApi.Controllers
             }
 
             channel.Description = payload.desc;
+            channel.Language = payload.countrycode;
             await _tagsService.RemoveExistingTagsFromChannel(id);
             await _tagsService.AddNewTagsToChannel(id, payload.tags.ToList());
 
@@ -395,7 +396,7 @@ namespace TgCheckerApi.Controllers
             await _subscriptionService.AddNewSubscription(id, subtypeId, currentServerTime);
             return Ok($"Channel {id} has been subscribed for 1 month with subscription type {subscriptionType.Name}.");
         }
-
+        [BypassApiKey]
         [HttpGet("Comments/{channelId}")]
         public async Task<ActionResult<List<CommentGetModel>>> GetComments(int channelId)
         {
@@ -578,6 +579,7 @@ namespace TgCheckerApi.Controllers
             return NoContent();
         }
 
+        [BypassApiKey]
         [RequiresJwtValidation]
         [HttpPost("Report/{id}")]
         public async Task<ActionResult<Channel>> ReportChannel(int id, ReportPostModel report)

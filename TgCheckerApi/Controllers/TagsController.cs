@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Controllers
@@ -21,6 +22,7 @@ namespace TgCheckerApi.Controllers
         }
 
         // GET: api/Tags
+        [BypassApiKey]
         [HttpGet]
         public async Task<ActionResult<string>> GetTags()
         {

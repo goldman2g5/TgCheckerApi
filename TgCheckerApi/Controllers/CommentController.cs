@@ -87,7 +87,7 @@ namespace TgCheckerApi.Controllers
 
             return NoContent();
         }
-
+        [BypassApiKey]
         [RequiresJwtValidation]
         [HttpPost("Report/{id}")]
         public async Task<ActionResult<Channel>> ReportComment(int id, ReportPostModel report)

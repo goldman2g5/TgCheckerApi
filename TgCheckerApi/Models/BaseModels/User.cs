@@ -17,12 +17,16 @@ public partial class User
     public byte[]? Avatar { get; set; }
 
     public string? UniqueKey { get; set; }
+
+    public int? NotificationSettings { get; set; }
     [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
     [JsonIgnore]
     public virtual ICollection<Channel> Channels { get; set; } = new List<Channel>();
     [JsonIgnore]
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    [JsonIgnore]
+    public virtual NotificationSetting? NotificationSettingsNavigation { get; set; }
     [JsonIgnore]
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
     [JsonIgnore]

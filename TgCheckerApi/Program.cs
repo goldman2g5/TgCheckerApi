@@ -95,9 +95,9 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.MapControllers();
-
 app.UseCors();
+
+app.MapControllers();
 
 app.UseRouting();
 
@@ -106,7 +106,7 @@ app.UseAuthorization();
 
 //app.UseMiddleware<ApiKeyMiddleware>();
 
-//app.UseMiddleware<ThrottleMiddleware>(2, 60);
+//app.UseMiddleware<ThrottleMiddleware>(30, 60);
 
 app.UseEndpoints(endpoints =>
 {

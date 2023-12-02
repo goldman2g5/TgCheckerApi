@@ -5,5 +5,7 @@
         public string[] tags { get; set; }
 
         public string desc { get; set; }
+
+        public string countrycode { get; set; }
     }
 }

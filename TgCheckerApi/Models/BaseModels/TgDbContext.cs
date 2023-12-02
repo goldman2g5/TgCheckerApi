@@ -31,6 +31,8 @@ public partial class TgDbContext : DbContext
 
     public virtual DbSet<Notification> Notifications { get; set; }
 
+    public virtual DbSet<NotificationSetting> NotificationSettings { get; set; }
+
     public virtual DbSet<NotificationType> NotificationTypes { get; set; }
 
     public virtual DbSet<Report> Reports { get; set; }
@@ -244,6 +246,13 @@ public partial class TgDbContext : DbContext
                 .HasConstraintName("user_id_fk");
         });
 
+        modelBuilder.Entity<NotificationSetting>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("NotificationSettings_pkey");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+        });
+
         modelBuilder.Entity<NotificationType>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("NotificationType_pkey");
@@ -365,9 +374,15 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Avatar).HasColumnName("avatar");
             entity.Property(e => e.ChatId).HasColumnName("chat_id");
+            entity.Property(e => e.NotificationSettings).HasColumnName("notification_settings");
             entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
             entity.Property(e => e.UniqueKey).HasColumnName("unique_key");
             entity.Property(e => e.Username).HasColumnName("username");
+
+            entity.HasOne(d => d.NotificationSettingsNavigation).WithMany(p => p.Users)
+                .HasForeignKey(d => d.NotificationSettings)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("notification_settings_fk");
         });
 
         OnModelCreatingPartial(modelBuilder);

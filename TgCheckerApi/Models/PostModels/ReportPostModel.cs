@@ -14,8 +14,8 @@ namespace TgCheckerApi.Models.PostModels
         [JsonIgnore]
         new public virtual int ChannelId
         {
-            get { return (int)base.ChannelId; }
-            set { base.ChannelId = (int)value; }
+            get { return base.ChannelId; }
+            set { base.ChannelId = value; }
         }
 
         [JsonIgnore]

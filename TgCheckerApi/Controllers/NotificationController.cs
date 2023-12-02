@@ -212,9 +212,72 @@ namespace TgCheckerApi.Controllers
             }
         }
 
+        [HttpPost("SetNotificationSettings/{telegramId}")]
+        public async Task<IActionResult> SetNotificationSettings(long telegramId, [FromBody] NotificationSettingDto settingsDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
+            var user = await _context.Users.Include(u => u.NotificationSettingsNavigation)
+                                           .FirstOrDefaultAsync(u => u.TelegramId == telegramId);
 
-        private bool NotificationExists(int id)
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (user.NotificationSettingsNavigation == null)
+            {
+                user.NotificationSettingsNavigation = new NotificationSetting();
+            }
+
+            // Update the notification settings based on the provided DTO
+            user.NotificationSettingsNavigation.Bump = settingsDto.Bump;
+            user.NotificationSettingsNavigation.Important = settingsDto.Important;
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpGet("GetNotificationSettings/{telegramId}")]
+        public async Task<ActionResult<NotificationSettingDto>> GetNotificationSettings(long telegramId)
+        {
+            var user = await _context.Users.Include(u => u.NotificationSettingsNavigation)
+                                           .FirstOrDefaultAsync(u => u.TelegramId == telegramId);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            if (user.NotificationSettingsNavigation == null)
+            {
+                // Create new notification settings with all options set to true
+                var newSettings = new NotificationSetting
+                {
+                    Bump = true,
+                    Important = true
+                    // Set other notification properties to true as needed
+                };
+
+                user.NotificationSettingsNavigation = newSettings;
+                await _context.SaveChangesAsync(); // Save the new settings
+            }
+
+            var settingsDto = new NotificationSettingDto
+            {
+                Bump = user.NotificationSettingsNavigation.Bump,
+                Important = user.NotificationSettingsNavigation.Important
+                // Map other notification properties as needed
+            };
+
+            return Ok(settingsDto);
+        }
+
+    private bool NotificationExists(int id)
         {
             return (_context.Notifications?.Any(e => e.Id == id)).GetValueOrDefault();
         }
