@@ -158,7 +158,7 @@ namespace TgCheckerApi.Controllers
 
 
         // DELETE: api/Comment/5
-        [HttpDelete("{id}")]
+        [HttpPost("{id}")]
         public async Task<IActionResult> DeleteComment(int id)
         {
             if (_context.Comments == null)
