@@ -76,8 +76,10 @@ namespace TgCheckerApi.Controllers
             var userProfile = new UserProfileModel
             {
                 Channels = _mapper.Map<IEnumerable<ChannelGetModel>>(user.ChannelAccesses.Select(ca => ca.Channel)).ToList(),
-                Comments = _mapper.Map<IEnumerable<CommentUserProfileGetModel>>(user.Comments.Where(c => c.ParentId == null)).ToList()
-
+                Comments = _mapper.Map<IEnumerable<CommentUserProfileGetModel>>(user.Comments.Where(c => c.ParentId == null)).ToList(),
+                Avatar = user.Avatar,
+                UserName = user.Username,
+                UserId = user.Id
             };
 
             return userProfile;

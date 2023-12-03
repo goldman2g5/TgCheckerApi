@@ -71,7 +71,7 @@ namespace TgCheckerApi.Controllers
         // GET: api/Channel/Page/{page}
         [BypassApiKey]
         [HttpGet("Page/{page}")]
-        public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1, [FromQuery] string? tags = null, [FromQuery] string? sortOption = null, [FromQuery] string? ascending = null, [FromQuery] string? search = null)
+        public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1,[FromQuery] string? tags = null,[FromQuery] string? sortOption = null,[FromQuery] string? ascending = null,[FromQuery] string? search = null,[FromQuery] string? language = null)
         {
             IQueryable<Channel> channelsQuery = _context.Channels;
             int PageSize = ChannelService.GetPageSize();
@@ -79,6 +79,7 @@ namespace TgCheckerApi.Controllers
             channelsQuery = _channelService.ApplyTagFilter(channelsQuery, tags);
             channelsQuery = _channelService.ApplySort(channelsQuery, sortOption, Convert.ToBoolean(ascending));
             channelsQuery = _channelService.ApplySearch(channelsQuery, search);
+            channelsQuery = _channelService.ApplyLanguageFilter(channelsQuery, language);
 
             var totalChannelCount = await channelsQuery.CountAsync();
 

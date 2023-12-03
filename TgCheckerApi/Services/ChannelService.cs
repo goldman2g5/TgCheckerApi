@@ -70,6 +70,8 @@ namespace TgCheckerApi.Utility
                 Bumps = channel.Bumps,
                 LastBump = channel.LastBump,
                 TelegramId = channel.TelegramId,
+                Language = channel.Language,
+                Url = channel.Url,
                 NotificationSent = channel.NotificationSent,
                 Tags = GetChannelTags(channel)
             };
@@ -103,6 +105,16 @@ namespace TgCheckerApi.Utility
                 }
             }
             return tags;
+        }
+
+        public IQueryable<Channel> ApplyLanguageFilter(IQueryable<Channel> query, string? language)
+        {
+            if (!string.IsNullOrEmpty(language))
+            {
+                query = query.Where(c => c.Language == language);
+            }
+
+            return query;
         }
 
         public static int GetPageSize() => PageSize;
