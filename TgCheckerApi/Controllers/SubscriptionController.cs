@@ -34,6 +34,7 @@ namespace TgCheckerApi.Controllers
             return await _context.SubTypes.ToListAsync();
         }
 
+
         // POST: api/Subscription/CheckExpiredSubscriptions
         [HttpGet("CheckExpiredSubscriptions")]
         public async Task<ActionResult<IEnumerable<BumpNotification>>> CheckExpiredSubscriptions()

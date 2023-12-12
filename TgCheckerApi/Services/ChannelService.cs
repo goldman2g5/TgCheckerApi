@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using TgCheckerApi.Models.BaseModels;
@@ -73,8 +74,17 @@ namespace TgCheckerApi.Utility
                 Language = channel.Language,
                 Url = channel.Url,
                 NotificationSent = channel.NotificationSent,
-                Tags = GetChannelTags(channel)
+                Tags = GetChannelTags(channel),
+                
             };
+            if (channel.ChannelHasSubscriptions.Any())
+            {
+                channelGetModel.subType = channel.ChannelHasSubscriptions.FirstOrDefault().TypeId;
+            }
+            else
+            {
+                channelGetModel.subType = 0;
+            }
             return channelGetModel;
         }
 

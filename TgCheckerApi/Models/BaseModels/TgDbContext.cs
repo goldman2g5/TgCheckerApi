@@ -349,6 +349,7 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Multiplier).HasColumnName("multiplier");
             entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.Price).HasColumnName("price");
+            entity.Property(e => e.TagLimit).HasColumnName("tag_limit");
         });
 
         modelBuilder.Entity<Tag>(entity =>
