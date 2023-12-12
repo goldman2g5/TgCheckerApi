@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
+using TgCheckerApi.Models.DTO;
 using TgCheckerApi.Models.GetModels;
 using TgCheckerApi.Models.PostModels;
 using TgCheckerApi.Models.PutModels;
@@ -465,8 +466,10 @@ namespace TgCheckerApi.Controllers
 
         // Endpoint to update language
         [HttpPut("{id}/language")]
-        public async Task<IActionResult> UpdateLanguage(int id, [FromBody] string language)
+        public async Task<IActionResult> UpdateLanguage(int id, [FromBody] UpdateLanguageDto dto)
         {
+            Console.WriteLine(id);
+            Console.WriteLine(dto.language);
             var channel = await _context.Channels.FindAsync(id);
 
             if (channel == null)
@@ -474,7 +477,7 @@ namespace TgCheckerApi.Controllers
                 return NotFound("Channel not found");
             }
 
-            channel.Language = language;
+            channel.Language = dto.language;
 
             _context.Channels.Update(channel);
             await _context.SaveChangesAsync();
