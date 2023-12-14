@@ -10,7 +10,7 @@ namespace TgCheckerApi.Utility
     public class ChannelService
     {
         private const string DefaultSortOption = "popularity";
-        private const int PageSize = 10;
+        private const int PageSize = 50;
         private readonly TgDbContext _context;
 
         public ChannelService(TgDbContext context)
