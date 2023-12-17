@@ -11,6 +11,7 @@ using TgCheckerApi.MapperProfiles;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using TgCheckerApi.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -85,6 +86,8 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddSingleton<TaskManager>();
+builder.Services.AddSingleton<WebSocketService>();
 
 
 var app = builder.Build();
