@@ -89,7 +89,6 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddSingleton<TaskManager>();
 builder.Services.AddSingleton<WebSocketService>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
