@@ -28,7 +28,7 @@ public partial class Report
 
     public int? CommentId { get; set; }
     [JsonIgnore]
-    public virtual Channel? Channel { get; set; }
+    public virtual Channel Channel { get; set; } = null!;
     [JsonIgnore]
     public virtual Comment? Comment { get; set; }
     [JsonIgnore]

@@ -17,4 +17,6 @@ public partial class SubType
     public int TagLimit { get; set; }
     [JsonIgnore]
     public virtual ICollection<ChannelHasSubscription> ChannelHasSubscriptions { get; set; } = new List<ChannelHasSubscription>();
+    [JsonIgnore]
+    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 }

@@ -56,7 +56,11 @@ public partial class Channel
     [JsonIgnore]
     public virtual ICollection<Notification> NotificationsNavigation { get; set; } = new List<Notification>();
     [JsonIgnore]
+    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+    [JsonIgnore]
     public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
+    [JsonIgnore]
+    public virtual ICollection<StatisticsSheet> StatisticsSheets { get; set; } = new List<StatisticsSheet>();
     [JsonIgnore]
     public virtual User? UserNavigation { get; set; }
 }

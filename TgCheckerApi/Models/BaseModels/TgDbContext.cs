@@ -35,17 +35,23 @@ public partial class TgDbContext : DbContext
 
     public virtual DbSet<NotificationType> NotificationTypes { get; set; }
 
+    public virtual DbSet<Payment> Payments { get; set; }
+
     public virtual DbSet<Report> Reports { get; set; }
 
     public virtual DbSet<ReportType> ReportTypes { get; set; }
 
     public virtual DbSet<Staff> Staff { get; set; }
 
+    public virtual DbSet<StatisticsSheet> StatisticsSheets { get; set; }
+
     public virtual DbSet<SubType> SubTypes { get; set; }
 
     public virtual DbSet<Tag> Tags { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<ViewsRecord> ViewsRecords { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -263,6 +269,43 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Text).HasColumnName("text");
         });
 
+        modelBuilder.Entity<Payment>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("payments_pkey");
+
+            entity.ToTable("payments");
+
+            entity.Property(e => e.Id)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("id");
+            entity.Property(e => e.AutoRenewal).HasColumnName("autoRenewal");
+            entity.Property(e => e.ChannelId).HasColumnName("channelId");
+            entity.Property(e => e.ChannelName).HasColumnName("channel_name");
+            entity.Property(e => e.Discount).HasColumnName("discount");
+            entity.Property(e => e.Duration).HasColumnName("duration");
+            entity.Property(e => e.Expires)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("expires");
+            entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.SubscriptionTypeId).HasColumnName("subscription_type_id");
+            entity.Property(e => e.UserId).HasColumnName("userId");
+            entity.Property(e => e.Username).HasColumnName("username");
+
+            entity.HasOne(d => d.Channel).WithMany(p => p.Payments)
+                .HasForeignKey(d => d.ChannelId)
+                .HasConstraintName("channel_id_fk");
+
+            entity.HasOne(d => d.SubscriptionType).WithMany(p => p.Payments)
+                .HasForeignKey(d => d.SubscriptionTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("subtype_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Payments)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("user_id_fk");
+        });
+
         modelBuilder.Entity<Report>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Report_pkey");
@@ -291,7 +334,6 @@ public partial class TgDbContext : DbContext
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Reports)
                 .HasForeignKey(d => d.ChannelId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("channel_id_fk");
 
             entity.HasOne(d => d.Comment).WithMany(p => p.Reports)
@@ -339,6 +381,20 @@ public partial class TgDbContext : DbContext
                 .HasConstraintName("user_id_fk");
         });
 
+        modelBuilder.Entity<StatisticsSheet>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("StatisticsSheet_pkey");
+
+            entity.ToTable("StatisticsSheet");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ChannelId).HasColumnName("channel_id");
+
+            entity.HasOne(d => d.Channel).WithMany(p => p.StatisticsSheets)
+                .HasForeignKey(d => d.ChannelId)
+                .HasConstraintName("channel_id_fk");
+        });
+
         modelBuilder.Entity<SubType>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("SubType_pkey");
@@ -384,6 +440,28 @@ public partial class TgDbContext : DbContext
                 .HasForeignKey(d => d.NotificationSettings)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("notification_settings_fk");
+        });
+
+        modelBuilder.Entity<ViewsRecord>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("ViewsRecord_pkey");
+
+            entity.ToTable("ViewsRecord");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Date)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("date");
+            entity.Property(e => e.LastMessageId).HasColumnName("last_message_id");
+            entity.Property(e => e.Sheet).HasColumnName("sheet");
+            entity.Property(e => e.Updated)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated");
+            entity.Property(e => e.Views).HasColumnName("views");
+
+            entity.HasOne(d => d.SheetNavigation).WithMany(p => p.ViewsRecords)
+                .HasForeignKey(d => d.Sheet)
+                .HasConstraintName("StatisticsSheet_fk");
         });
 
         OnModelCreatingPartial(modelBuilder);
