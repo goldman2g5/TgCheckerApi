@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
 using TgCheckerApi.Models.NotificationModels;
 using TgCheckerApi.Models.PostModels;
+using TgCheckerApi.Services;
 
 namespace TgCheckerApi.Controllers
 {
@@ -18,10 +20,12 @@ namespace TgCheckerApi.Controllers
     {
 
         private readonly TgDbContext _context;
+        private readonly UserService _userService;
 
         public SubscriptionController(TgDbContext context)
         {
             _context = context;
+            _userService = new UserService(context);
         }
 
         // GET: api/Subscription/Types
@@ -83,9 +87,18 @@ namespace TgCheckerApi.Controllers
             return Ok(payment);
         }
 
+        [RequiresJwtValidation]
         [HttpPost("CreatePayment")]
-        public IActionResult Create([FromBody] CreatePaymentRequest request)
+        public async Task<IActionResult> Create([FromBody] CreatePaymentRequest request)
         {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
+
+            if (user is null)
+            {
+                return Unauthorized();
+            }
+
             try
             {
                 if (ModelState.IsValid)
@@ -98,13 +111,13 @@ namespace TgCheckerApi.Controllers
                         Discount = request.Discount,
                         ChannelId = request.ChannelId,
                         ChannelName = request.ChannelName,
-                        UserId = request.UserId,
-                        Username = request.Username,
+                        UserId = user.Id,
+                        Username = user.Username,
                         Expires = CalculateExpiryDate(request.Duration)
                     };
                     payment.Status = "pending";
-                    _context.Payments.Add(payment);
-                    _context.SaveChanges();
+                    await _context.Payments.AddAsync(payment);
+                    await _context.SaveChangesAsync();
                     return Ok(payment.Id);
                 }
             }

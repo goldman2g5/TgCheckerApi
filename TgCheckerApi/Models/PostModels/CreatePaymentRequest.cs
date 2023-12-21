@@ -8,7 +8,5 @@
         public int Discount { get; set; }
         public int ChannelId { get; set; }
         public string ChannelName { get; set; } = null!;
-        public int UserId { get; set; }
-        public string Username { get; set; } = null!;
     }
 }
