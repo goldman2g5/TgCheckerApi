@@ -6,6 +6,17 @@ using TgCheckerApi.Models.BaseModels;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
+using TgCheckerApi.MiddleWare;
+using TgCheckerApi.Models;
+using TgCheckerApi.Models.BaseModels;
+using TgCheckerApi.Models.DTO;
+using TgCheckerApi.Models.GetModels;
+using TgCheckerApi.Models.PostModels;
+using TgCheckerApi.Models.PutModels;
+using TgCheckerApi.Services;
+using TgCheckerApi.Utility;
+using TgCheckerApi.Websockets;
+using System.Diagnostics.Tracing;
 
 namespace TgCheckerApi.Controllers
 {
@@ -16,6 +27,7 @@ namespace TgCheckerApi.Controllers
         private readonly IHubContext<BotHub> _hubContext;
         private readonly TaskManager _taskManager;
         private readonly WebSocketService _webSocketService;
+        private readonly UserService _userService;
         private readonly TgDbContext _context;
         private readonly ILogger<BotController> _logger;
 
@@ -27,6 +39,7 @@ namespace TgCheckerApi.Controllers
             _taskManager = taskManager;
             _webSocketService = webSocketService;
             _logger = logger;
+            _userService = new UserService(context);
         }
 
         public class SumRequest
@@ -74,13 +87,30 @@ namespace TgCheckerApi.Controllers
             return Ok(response);
         }
 
+        [RequiresJwtValidation]
+        [BypassApiKey]
         [HttpPost("getDailyViewsByChannel")]
         public async Task<IActionResult> CallGetDailyViewsByChannel([FromBody] DailyViewsRequest dailyViewsRequest)
         {
+            Console.WriteLine("JOPA");
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+
+            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
             var channel = await FindChannelById(dailyViewsRequest.ChannelId);
             if (channel == null || string.IsNullOrEmpty(channel.Url))
             {
                 return BadRequest("Channel not found or URL is missing.");
+            }
+
+            if (!_userService.UserHasAccessToChannel(user, channel))
+            {
+                return Unauthorized();
             }
 
             var channelNameFormatted = "@" + channel.Url.Replace("https://t.me/", "");
@@ -102,8 +132,12 @@ namespace TgCheckerApi.Controllers
                         var viewsRecords = JsonConvert.DeserializeObject<List<ViewsRecord>>(jsonString);
                         if (viewsRecords != null)
                         {
+                            var viewsList = viewsRecords.Select(record => record.Views).ToList();
+
                             await UpdateDatabaseWithViewsRecords(viewsRecords, dailyViewsRequest.ChannelId);
-                            return Ok(viewsRecords);
+                            viewsList.Reverse();
+                            return Ok(viewsList);
+                            //return Ok(new { ViewsRecords = viewsRecords, ViewsList = viewsList });
                         }
                         else
                         {
@@ -117,17 +151,17 @@ namespace TgCheckerApi.Controllers
                 }
                 else
                 {
-                    return response; // Propagate other types of responses.
+                    return response;
                 }
             }
             catch (JsonException ex)
             {
-                //_logger.LogError(ex, "JSON deserialization error.");
+                _logger.LogError(ex, "JSON deserialization error.");
                 return BadRequest("Error processing the result data.");
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "An unexpected error occurred.");
+                _logger.LogError(ex, "An unexpected error occurred.");
                 return StatusCode(500, "Internal server error");
             }
         }
