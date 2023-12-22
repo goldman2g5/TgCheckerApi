@@ -122,12 +122,12 @@ namespace TgCheckerApi.Controllers
             }
             catch (JsonException ex)
             {
-                _logger.LogError(ex, "JSON deserialization error.");
+                //_logger.LogError(ex, "JSON deserialization error.");
                 return BadRequest("Error processing the result data.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred.");
+                //_logger.LogError(ex, "An unexpected error occurred.");
                 return StatusCode(500, "Internal server error");
             }
         }

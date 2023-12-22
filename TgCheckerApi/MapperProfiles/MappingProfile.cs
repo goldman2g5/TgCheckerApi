@@ -10,7 +10,8 @@ namespace TgCheckerApi.MapperProfiles
         {
             CreateMap<Channel, ChannelGetModel>()
             .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.ChannelHasTags.Select(cht => cht.TagNavigation.Text)))
-            .ForMember(dest => dest.subType, opt => opt.MapFrom(src => src.ChannelHasSubscriptions.Select(chs => chs.Id)));
+            .ForMember(dest => dest.subType, opt => opt.MapFrom(src =>
+            src.ChannelHasSubscriptions.Any() ? src.ChannelHasSubscriptions.Max(chs => (int?)chs.TypeId) : null));
 
             CreateMap<Comment, CommentUserProfileGetModel>()
             .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username))

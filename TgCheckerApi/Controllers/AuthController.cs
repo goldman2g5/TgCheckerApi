@@ -49,7 +49,7 @@ namespace TgCheckerApi.Controllers
             var response = new SendMessageResponse()
             {
                 Token = token,
-                UserId = user.Id,
+                UserId = user.Id.ToString(),
                 Username = payload.Username,
             };
 

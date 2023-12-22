@@ -88,6 +88,7 @@ namespace TgCheckerApi.Controllers
         }
 
         [RequiresJwtValidation]
+        [BypassApiKey]
         [HttpPost("CreatePayment")]
         public async Task<IActionResult> Create([FromBody] CreatePaymentRequest request)
         {

@@ -88,9 +88,11 @@ builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddSingleton<TaskManager>();
 builder.Services.AddSingleton<WebSocketService>();
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Logging.AddDebug();
+//builder.Logging.ClearProviders();
+//builder.Logging.AddConsole();
+//builder.Logging.AddDebug();
+
+
 
 var app = builder.Build();
 
