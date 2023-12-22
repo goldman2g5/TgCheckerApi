@@ -450,12 +450,12 @@ public partial class TgDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Date)
-                .HasColumnType("timestamp without time zone")
+                .HasColumnType("timestamp with time zone")
                 .HasColumnName("date");
             entity.Property(e => e.LastMessageId).HasColumnName("last_message_id");
             entity.Property(e => e.Sheet).HasColumnName("sheet");
             entity.Property(e => e.Updated)
-                .HasColumnType("timestamp without time zone")
+                .HasColumnType("timestamp with time zone")
                 .HasColumnName("updated");
             entity.Property(e => e.Views).HasColumnName("views");
 

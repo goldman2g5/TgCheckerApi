@@ -113,6 +113,23 @@ namespace TgCheckerApi.Controllers
                 return Unauthorized();
             }
 
+            bool isUpdateRequired = await IsUpdateRequiredForChannel(dailyViewsRequest);
+            if (!isUpdateRequired)
+            {
+                _logger.LogInformation("Data is up-to-date. Fetching current data from database.");
+
+                // Fetch and return the existing data from the database
+                var existingData = await _context.Channels
+                                                 .Where(c => c.Id == dailyViewsRequest.ChannelId)
+                                                 .SelectMany(c => c.StatisticsSheets)
+                                                 .SelectMany(ss => ss.ViewsRecords)
+                                                 .Where(vr => vr.Date >= DateTime.UtcNow.AddDays(-dailyViewsRequest.NumberOfDays) && vr.Date <= DateTime.UtcNow)
+                                                 .Select(vr => vr.Views)
+                                                 .ToListAsync();
+                existingData.Reverse();
+                return Ok(existingData);  // Return the actual data
+            }
+
             var channelNameFormatted = "@" + channel.Url.Replace("https://t.me/", "");
 
             var parameters = new
@@ -187,26 +204,56 @@ namespace TgCheckerApi.Controllers
 
             foreach (var record in viewsRecords)
             {
-                record.Sheet = statisticsSheet.Id;
+                record.Updated = DateTime.SpecifyKind(record.Updated, DateTimeKind.Utc);
+                record.Date = DateTime.SpecifyKind(record.Date, DateTimeKind.Utc);
 
+                record.Sheet = statisticsSheet.Id;
+                
                 var existingRecord = statisticsSheet.ViewsRecords
                                                      .FirstOrDefault(vr => vr.Date == record.Date);
                 if (existingRecord != null)
                 {
                     existingRecord.Views = record.Views;
                     existingRecord.LastMessageId = record.LastMessageId;
-                    // Convert to UTC if not already
-                    existingRecord.Updated = DateTime.Now;
+                    existingRecord.Updated = DateTime.UtcNow; // Set Updated to UtcNow
                 }
                 else
                 {
-                    // Ensure new records are in UTC
-                    record.Updated = DateTime.Now;
+                    record.Updated = DateTime.UtcNow; // Set Updated to UtcNow before adding
                     statisticsSheet.ViewsRecords.Add(record);
                 }
+
             }
 
             await _context.SaveChangesAsync();
+        }
+
+        private async Task<bool> IsUpdateRequiredForChannel(DailyViewsRequest dailyViewsRequest)
+        {
+            _logger.LogInformation("Starting IsUpdateRequiredForChannel method.");
+            _logger.LogInformation($"Parameters: ChannelId={dailyViewsRequest.ChannelId}, NumberOfDays={dailyViewsRequest.NumberOfDays}");
+
+            TimeSpan outdatedThreshold = TimeSpan.FromMinutes(1); // 5 minutes for testing
+            _logger.LogInformation($"Outdated threshold set to {outdatedThreshold.TotalMinutes} minutes.");
+
+            var today = DateTime.UtcNow.Date;
+            var startDate = today.AddDays(-dailyViewsRequest.NumberOfDays);
+            _logger.LogInformation($"Checking records from {startDate} to {today}.");
+
+            // Directly access the ViewsRecords through the Channel's navigational properties
+            var recordsInRange = await _context.Channels
+                                                .Where(c => c.Id == dailyViewsRequest.ChannelId)
+                                                .SelectMany(c => c.StatisticsSheets)
+                                                .SelectMany(ss => ss.ViewsRecords)
+                                                .Where(vr => vr.Date >= startDate && vr.Date <= today)
+                                                .ToListAsync();
+
+            // Update is required if there are no records in the specified range or if any record is outdated
+            var isUpdateRequired = !recordsInRange.Any() || recordsInRange.Any(vr => DateTime.UtcNow - vr.Updated > outdatedThreshold);
+            _logger.LogInformation($"{recordsInRange.Count} records found in date range.");
+            _logger.LogInformation($"Update required: {isUpdateRequired}");
+
+            return isUpdateRequired;
         }
 
 
