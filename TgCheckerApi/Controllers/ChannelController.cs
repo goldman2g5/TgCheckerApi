@@ -623,6 +623,20 @@ namespace TgCheckerApi.Controllers
             return Ok();
         }
 
+        [HttpGet("resetBumps")]
+        public async Task<IActionResult> ResetBumps()
+        {
+            // Perform the reset operation
+            var channels = _context.Channels.ToList();
+            foreach (var channel in channels)
+            {
+                channel.Bumps = 0;
+            }
+            await _context.SaveChangesAsync();
+
+            return Ok("Bumps reset successfully");
+        }
+
         private async Task<Channel> FindChannelById(int id)
         {
             return await _context.Channels.FindAsync(id);

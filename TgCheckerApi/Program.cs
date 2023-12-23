@@ -12,6 +12,10 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using TgCheckerApi.Services;
+using TgCheckerApi.Job;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,7 +76,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddDbContext<TgDbContext>(o => o.UseLazyLoadingProxies().UseNpgsql(builder.Configuration.GetConnectionString("MainConnectionString")));
-builder.Services.AddHostedService<NotificationTask>();
+//builder.Services.AddHostedService<NotificationTask>();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
@@ -88,6 +92,18 @@ builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddSingleton<TaskManager>();
 builder.Services.AddSingleton<WebSocketService>();
+builder.Services.AddSingleton<IJobFactory, QuartzJobFactory>();
+builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+builder.Services.AddSingleton<RatingResetJob>();
+builder.Services.AddSingleton(new JobSchedule(
+    jobType: typeof(RatingResetJob),
+    cronExpression: "0 27 0 * * ?")); // Runs at 23:48 every day
+builder.Services.AddHostedService<QuartzHostedService>(); // Ensure this is present and correctly implemented
+builder.Services.AddHttpClient("MyClient", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7256"); // Use your application's address
+});
+
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
@@ -110,6 +126,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 //app.UseMiddleware<ApiKeyMiddleware>();
 
