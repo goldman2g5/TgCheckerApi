@@ -97,7 +97,11 @@ builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 builder.Services.AddSingleton<RatingResetJob>();
 builder.Services.AddSingleton(new JobSchedule(
     jobType: typeof(RatingResetJob),
-    cronExpression: "0 27 0 * * ?")); // Runs at 23:48 every day
+    cronExpression: "0 0 3 1,15 * ?"));
+
+//builder.Services.AddSingleton(new JobSchedule(
+//    jobType: typeof(RatingResetJob),
+//    cronExpression: "0 27 0 * * ?")); // Runs at 23:48 every day
 builder.Services.AddHostedService<QuartzHostedService>(); // Ensure this is present and correctly implemented
 builder.Services.AddHttpClient("MyClient", client =>
 {

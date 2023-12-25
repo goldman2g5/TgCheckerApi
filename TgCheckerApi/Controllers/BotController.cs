@@ -87,31 +87,16 @@ namespace TgCheckerApi.Controllers
             return Ok(response);
         }
 
-        [RequiresJwtValidation]
         [BypassApiKey]
         [HttpPost("getDailyViewsByChannel")]
         public async Task<IActionResult> CallGetDailyViewsByChannel([FromBody] DailyViewsRequest dailyViewsRequest)
         {
-            Console.WriteLine("JOPA");
-            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
-
-            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
-
-            if (user == null)
-            {
-                return Unauthorized();
-            }
-
             var channel = await FindChannelById(dailyViewsRequest.ChannelId);
             if (channel == null || string.IsNullOrEmpty(channel.Url))
             {
                 return BadRequest("Channel not found or URL is missing.");
             }
 
-            if (!_userService.UserHasAccessToChannel(user, channel))
-            {
-                return Unauthorized();
-            }
 
             bool isUpdateRequired = await IsUpdateRequiredForChannel(dailyViewsRequest);
             if (!isUpdateRequired)

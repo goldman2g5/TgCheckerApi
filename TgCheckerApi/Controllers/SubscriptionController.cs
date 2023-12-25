@@ -11,6 +11,7 @@ using TgCheckerApi.Models.GetModels;
 using TgCheckerApi.Models.NotificationModels;
 using TgCheckerApi.Models.PostModels;
 using TgCheckerApi.Services;
+using TgCheckerApi.Utility;
 
 namespace TgCheckerApi.Controllers
 {
@@ -21,11 +22,13 @@ namespace TgCheckerApi.Controllers
 
         private readonly TgDbContext _context;
         private readonly UserService _userService;
+        private readonly SubscriptionService _subService;
 
         public SubscriptionController(TgDbContext context)
         {
             _context = context;
             _userService = new UserService(context);
+            _subService = new SubscriptionService(context);
         }
 
         // GET: api/Subscription/Types
@@ -104,29 +107,40 @@ namespace TgCheckerApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // Calculate the price using the GetSubscriptionPricing method.
+                    // Assumes 'Discount' is a boolean indicating whether the price is discounted.
+                    int price = _subService.GetSubscriptionPricing(request.SubscriptionTypeId, request.Duration, (request.Discount == 0));
+
+                    if (price <= 0)
+                    {
+                        return BadRequest("Invalid details");
+                    }
+
                     var payment = new Payment
                     {
                         SubscriptionTypeId = request.SubscriptionTypeId,
                         Duration = request.Duration,
                         AutoRenewal = request.AutoRenewal,
                         Discount = request.Discount,
+                        Price = price,
                         ChannelId = request.ChannelId,
                         ChannelName = request.ChannelName,
                         UserId = user.Id,
                         Username = user.Username,
-                        Expires = CalculateExpiryDate(request.Duration)
+                        Expires = CalculateExpiryDate(request.Duration),
+                        Status = "pending"
                     };
-                    payment.Status = "pending";
+
                     await _context.Payments.AddAsync(payment);
                     await _context.SaveChangesAsync();
                     return Ok(payment.Id);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-     
+
             return BadRequest(ModelState);
         }
 

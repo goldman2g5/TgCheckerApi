@@ -290,6 +290,7 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.SubscriptionTypeId).HasColumnName("subscription_type_id");
             entity.Property(e => e.UserId).HasColumnName("userId");
             entity.Property(e => e.Username).HasColumnName("username");
+            entity.Property(e => e.Price).HasColumnName("price");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.ChannelId)
