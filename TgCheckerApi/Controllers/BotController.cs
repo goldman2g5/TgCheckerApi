@@ -17,6 +17,7 @@ using TgCheckerApi.Services;
 using TgCheckerApi.Utility;
 using TgCheckerApi.Websockets;
 using System.Diagnostics.Tracing;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TgCheckerApi.Controllers
 {
@@ -29,15 +30,17 @@ namespace TgCheckerApi.Controllers
         private readonly WebSocketService _webSocketService;
         private readonly UserService _userService;
         private readonly TgDbContext _context;
+        private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<BotController> _logger;
 
 
-        public BotController(TgDbContext context, ILogger<BotController> logger, IHubContext<BotHub> hubContext, TaskManager taskManager, WebSocketService webSocketService)
+        public BotController(TgDbContext context, IServiceProvider serviceProvider, ILogger<BotController> logger, IHubContext<BotHub> hubContext, TaskManager taskManager, WebSocketService webSocketService)
         {
             _context = context;
             _hubContext = hubContext;
             _taskManager = taskManager;
             _webSocketService = webSocketService;
+            _serviceProvider = serviceProvider;
             _logger = logger;
             _userService = new UserService(context);
         }
@@ -82,7 +85,7 @@ namespace TgCheckerApi.Controllers
                 channel_name = channelNameFormatted,
             };
 
-            var response = await _webSocketService.CallFunctionAsync("getSubscribersCount", parameters, TimeSpan.FromSeconds(30));
+            var response = await _webSocketService.CallFunctionAsync("getSubscribersCount", parameters, TimeSpan.FromSeconds(600));
 
             return Ok(response);
         }
@@ -91,86 +94,175 @@ namespace TgCheckerApi.Controllers
         [HttpPost("getDailyViewsByChannel")]
         public async Task<IActionResult> CallGetDailyViewsByChannel([FromBody] DailyViewsRequest dailyViewsRequest)
         {
+            _logger.LogInformation("Starting CallGetDailyViewsByChannel method for ChannelId: {ChannelId}", dailyViewsRequest.ChannelId);
             var channel = await FindChannelById(dailyViewsRequest.ChannelId);
             if (channel == null || string.IsNullOrEmpty(channel.Url))
             {
+                _logger.LogWarning("Channel not found or URL is missing for ChannelId: {ChannelId}", dailyViewsRequest.ChannelId);
                 return BadRequest("Channel not found or URL is missing.");
             }
 
-
+            var viewsData = await FetchDataFromDatabase(dailyViewsRequest, considerOutdated: true);
+            bool isDataComplete = viewsData?.Count >= dailyViewsRequest.NumberOfDays;
             bool isUpdateRequired = await IsUpdateRequiredForChannel(dailyViewsRequest);
-            if (!isUpdateRequired)
-            {
-                _logger.LogInformation("Data is up-to-date. Fetching current data from database.");
 
-                // Fetch and return the existing data from the database
-                var existingData = await _context.Channels
-                                                 .Where(c => c.Id == dailyViewsRequest.ChannelId)
-                                                 .SelectMany(c => c.StatisticsSheets)
-                                                 .SelectMany(ss => ss.ViewsRecords)
-                                                 .Where(vr => vr.Date >= DateTime.UtcNow.AddDays(-dailyViewsRequest.NumberOfDays) && vr.Date <= DateTime.UtcNow)
-                                                 .Select(vr => vr.Views)
-                                                 .ToListAsync();
-                existingData.Reverse();
-                return Ok(existingData);  // Return the actual data
+            if (isDataComplete && !isUpdateRequired)
+            {
+                _logger.LogInformation("Data is complete and up-to-date for ChannelId: {ChannelId}.", dailyViewsRequest.ChannelId);
+            }
+            else
+            {
+                if (isDataComplete)
+                {
+                    _logger.LogInformation("Data is complete but outdated for ChannelId: {ChannelId}. Initiating background update.", dailyViewsRequest.ChannelId);
+                    _ = UpdateDataInBackground(dailyViewsRequest, channel, _serviceProvider);
+                }
+                else
+                {
+                    _logger.LogInformation("Data is incomplete for ChannelId: {ChannelId}. Awaiting new data from WebSocket.", dailyViewsRequest.ChannelId);
+                    viewsData = await WaitForWebSocketAndUpdate(dailyViewsRequest, channel);
+                }
             }
 
-            var channelNameFormatted = "@" + channel.Url.Replace("https://t.me/", "");
+            _logger.LogInformation("Returning data for ChannelId: {ChannelId} with {DataCount} view counts", dailyViewsRequest.ChannelId, viewsData?.Count ?? 0);
+            viewsData?.Reverse();
+            return Ok(viewsData);
+        }
 
-            var parameters = new
+        private async Task UpdateDataInBackground(DailyViewsRequest dailyViewsRequest, Channel channel, IServiceProvider services)
+        {
+            using (var scope = services.CreateScope())
             {
-                channel_name = channelNameFormatted,
-                number_of_days = dailyViewsRequest.NumberOfDays
-            };
+                var dbContext = scope.ServiceProvider.GetRequiredService<TgDbContext>();
+                var webSocketService = scope.ServiceProvider.GetRequiredService<WebSocketService>();
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<BotController>>();
 
-            try
-            {
-                var response = await _webSocketService.CallFunctionAsync("getDailyViewsByChannel", parameters, TimeSpan.FromSeconds(30));
-
-                if (response is OkObjectResult okResult)
+                try
                 {
-                    if (okResult.Value is string jsonString)
+                    // Construct parameters for WebSocket request
+                    var parameters = new
+                    {
+                        channel_name = "@" + channel.Url.Replace("https://t.me/", ""),
+                        number_of_days = dailyViewsRequest.NumberOfDays
+                    };
+
+                    // Call the WebSocket service and wait for the response
+                    var response = await webSocketService.CallFunctionAsync("getDailyViewsByChannel", parameters, TimeSpan.FromSeconds(30));
+                    if (response is OkObjectResult okResult && okResult.Value is string jsonString)
                     {
                         var viewsRecords = JsonConvert.DeserializeObject<List<ViewsRecord>>(jsonString);
-                        if (viewsRecords != null)
+                        if (viewsRecords != null && viewsRecords.Any())
                         {
-                            var viewsList = viewsRecords.Select(record => record.Views).ToList();
-
-                            await UpdateDatabaseWithViewsRecords(viewsRecords, dailyViewsRequest.ChannelId);
-                            viewsList.Reverse();
-                            return Ok(viewsList);
-                            //return Ok(new { ViewsRecords = viewsRecords, ViewsList = viewsList });
+                            // Update the database with the new records using the new DbContext instance
+                            await UpdateDatabaseWithViewsRecords(viewsRecords, dailyViewsRequest.ChannelId, dbContext);
+                            logger.LogInformation("Successfully updated database with new records for ChannelId: {ChannelId}", dailyViewsRequest.ChannelId);
                         }
                         else
                         {
-                            return BadRequest("Failed to deserialize the data.");
+                            logger.LogWarning("Received empty or invalid data from WebSocket for ChannelId: {ChannelId}", dailyViewsRequest.ChannelId);
                         }
                     }
                     else
                     {
-                        return BadRequest("Invalid response format.");
+                        logger.LogWarning("Invalid or no response from WebSocket service for ChannelId: {ChannelId}", dailyViewsRequest.ChannelId);
+                    }
+                }
+                catch (JsonException jsonEx)
+                {
+                    logger.LogError(jsonEx, "Error in deserializing the data received from WebSocket for ChannelId: {ChannelId}", dailyViewsRequest.ChannelId);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An unexpected error occurred while updating data in the background for ChannelId: {ChannelId}", dailyViewsRequest.ChannelId);
+                }
+            } // The DbContext, and any other scoped services, will be disposed here
+        }
+
+        private async Task<List<int>> WaitForWebSocketAndUpdate(DailyViewsRequest request, Channel channel)
+        {
+            try
+            {
+                // Construct parameters for WebSocket request
+                var parameters = new
+                {
+                    channel_name = "@" + channel.Url.Replace("https://t.me/", ""),
+                    number_of_days = request.NumberOfDays
+                };
+
+                // Call the WebSocket service and wait for the response
+                var response = await _webSocketService.CallFunctionAsync("getDailyViewsByChannel", parameters, TimeSpan.FromSeconds(30));
+                if (response is OkObjectResult okResult && okResult.Value is string jsonString)
+                {
+                    // Deserialize the response
+                    var viewsRecords = JsonConvert.DeserializeObject<List<ViewsRecord>>(jsonString);
+                    if (viewsRecords != null && viewsRecords.Any())
+                    {
+                        // Update the database with the new records
+                        await UpdateDatabaseWithViewsRecords(viewsRecords, request.ChannelId, _context);
+
+                        // Assuming UpdateDatabaseWithViewsRecords is well-behaved and doesn't change the order,
+                        // Convert the records to a list of view counts to return
+                        var viewsList = viewsRecords.Select(vr => vr.Views).ToList();
+                        return viewsList;
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Received empty or invalid data from WebSocket.");
                     }
                 }
                 else
                 {
-                    return response;
+                    _logger.LogWarning("Invalid or no response from WebSocket service.");
                 }
             }
-            catch (JsonException ex)
+            catch (JsonException jsonEx)
             {
-                _logger.LogError(ex, "JSON deserialization error.");
-                return BadRequest("Error processing the result data.");
+                _logger.LogError(jsonEx, "Error in deserializing the data received from WebSocket.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred.");
-                return StatusCode(500, "Internal server error");
+                _logger.LogError(ex, "An unexpected error occurred while waiting for WebSocket data and updating.");
             }
+            return new List<int>(); // Return an empty list if there's an error or no data
         }
 
-        private async Task UpdateDatabaseWithViewsRecords(List<ViewsRecord> viewsRecords, int channelId)
+        private async Task<List<int>> FetchDataFromDatabase(DailyViewsRequest dailyViewsRequest, bool considerOutdated = false)
         {
-            var channel = await _context.Channels
+            var endDate = DateTime.UtcNow;
+            var startDate = endDate.AddDays(-dailyViewsRequest.NumberOfDays);
+
+            // Fetch the records from the database
+            var records = await _context.Channels
+                                        .Where(c => c.Id == dailyViewsRequest.ChannelId)
+                                        .SelectMany(c => c.StatisticsSheets)
+                                        .SelectMany(ss => ss.ViewsRecords)
+                                        .Where(vr => vr.Date >= startDate && vr.Date <= endDate)
+                                        .OrderBy(vr => vr.Date) // Ensure the records are ordered
+                                        .ToListAsync();
+
+            if (!records.Any())
+            {
+                // No records found for the given date range and channel
+                return null;
+            }
+
+            // Determine if any of the data is outdated
+            bool isDataOutdated = records.Any(vr => DateTime.UtcNow - vr.Updated > TimeSpan.FromMinutes(1)); // Checking each record
+
+            if (isDataOutdated && !considerOutdated)
+            {
+                // If outdated data is not acceptable and any of the data is outdated, return null
+                return null;
+            }
+
+            // Convert the records to a list of view counts
+            var viewsList = records.Select(vr => vr.Views).ToList();
+            return viewsList;
+        }
+
+        private async Task UpdateDatabaseWithViewsRecords(List<ViewsRecord> viewsRecords, int channelId, TgDbContext dbContext)
+        {
+            var channel = await dbContext.Channels
                                         .Include(c => c.StatisticsSheets)
                                         .FirstOrDefaultAsync(c => c.Id == channelId);
 
@@ -183,8 +275,8 @@ namespace TgCheckerApi.Controllers
             if (statisticsSheet == null)
             {
                 statisticsSheet = new StatisticsSheet { ChannelId = channelId };
-                _context.StatisticsSheets.Add(statisticsSheet);
-                await _context.SaveChangesAsync();
+                dbContext.StatisticsSheets.Add(statisticsSheet);
+                await dbContext.SaveChangesAsync();
             }
 
             foreach (var record in viewsRecords)
@@ -200,17 +292,17 @@ namespace TgCheckerApi.Controllers
                 {
                     existingRecord.Views = record.Views;
                     existingRecord.LastMessageId = record.LastMessageId;
-                    existingRecord.Updated = DateTime.UtcNow; // Set Updated to UtcNow
+                    existingRecord.Updated = DateTime.UtcNow;
                 }
                 else
                 {
-                    record.Updated = DateTime.UtcNow; // Set Updated to UtcNow before adding
+                    record.Updated = DateTime.UtcNow;
                     statisticsSheet.ViewsRecords.Add(record);
                 }
 
             }
 
-            await _context.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
         }
 
         private async Task<bool> IsUpdateRequiredForChannel(DailyViewsRequest dailyViewsRequest)
@@ -218,14 +310,13 @@ namespace TgCheckerApi.Controllers
             _logger.LogInformation("Starting IsUpdateRequiredForChannel method.");
             _logger.LogInformation($"Parameters: ChannelId={dailyViewsRequest.ChannelId}, NumberOfDays={dailyViewsRequest.NumberOfDays}");
 
-            TimeSpan outdatedThreshold = TimeSpan.FromMinutes(1); // 5 minutes for testing
+            TimeSpan outdatedThreshold = TimeSpan.FromMinutes(1);
             _logger.LogInformation($"Outdated threshold set to {outdatedThreshold.TotalMinutes} minutes.");
 
             var today = DateTime.UtcNow.Date;
             var startDate = today.AddDays(-dailyViewsRequest.NumberOfDays);
             _logger.LogInformation($"Checking records from {startDate} to {today}.");
 
-            // Directly access the ViewsRecords through the Channel's navigational properties
             var recordsInRange = await _context.Channels
                                                 .Where(c => c.Id == dailyViewsRequest.ChannelId)
                                                 .SelectMany(c => c.StatisticsSheets)
@@ -233,7 +324,6 @@ namespace TgCheckerApi.Controllers
                                                 .Where(vr => vr.Date >= startDate && vr.Date <= today)
                                                 .ToListAsync();
 
-            // Update is required if there are no records in the specified range or if any record is outdated
             var isUpdateRequired = !recordsInRange.Any() || recordsInRange.Any(vr => DateTime.UtcNow - vr.Updated > outdatedThreshold);
             _logger.LogInformation($"{recordsInRange.Count} records found in date range.");
             _logger.LogInformation($"Update required: {isUpdateRequired}");
