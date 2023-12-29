@@ -12,5 +12,7 @@ public partial class StatisticsSheet
     [JsonIgnore]
     public virtual Channel Channel { get; set; } = null!;
     [JsonIgnore]
+    public virtual ICollection<SubscribersRecord> SubscribersRecords { get; set; } = new List<SubscribersRecord>();
+    [JsonIgnore]
     public virtual ICollection<ViewsRecord> ViewsRecords { get; set; } = new List<ViewsRecord>();
 }

@@ -58,6 +58,70 @@ namespace TgCheckerApi.Controllers
             return await _webSocketService.CallFunctionAsync("sumOfTwo", parameters, TimeSpan.FromSeconds(30));
         }
 
+        public class ProfileUpdateResponse
+        {
+            public string avatar { get; set; }
+            public string username { get; set; }
+        }
+
+        [BypassApiKey]
+        [RequiresJwtValidation]
+        [HttpGet("UpdateUserProfile")]
+        public async Task<IActionResult> UpdateUserProfile()
+        {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var parameters = new { user_id = user.TelegramId };
+            try
+            {
+                var response = await _webSocketService.CallFunctionAsync("getProfilePictureAndUsername", parameters, TimeSpan.FromSeconds(30));
+                if (response is OkObjectResult okResult && okResult.Value is string jsonString)
+                {
+                    var profileData = JsonConvert.DeserializeObject<ProfileUpdateResponse>(jsonString);
+
+                    if (profileData != null)
+                    {
+                        var avatarBase64 = profileData.avatar;
+                        var username = profileData.username;
+
+                        if (!string.IsNullOrEmpty(avatarBase64))
+                        {
+                            user.Avatar = Convert.FromBase64String(avatarBase64); // Update avatar
+                        }
+
+                        if (!string.IsNullOrEmpty(username))
+                        {
+                            user.Username = username; // Update username
+                        }
+
+                        // Save changes in the database
+                        await _context.SaveChangesAsync();
+
+                        return Ok(profileData);
+                    }
+                    else
+                    {
+                        return BadRequest("Invalid profile data.");
+                    }
+                }
+                else
+                {
+                    return StatusCode(500, "Invalid or no response from WebSocket service.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and return an error response
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
         public class DailyViewsRequest
         {
             public int ChannelId { get; set; }
@@ -82,12 +146,122 @@ namespace TgCheckerApi.Controllers
 
             var parameters = new
             {
-                channel_name = channelNameFormatted,
+                channel_id = channel.TelegramId,
             };
 
             var response = await _webSocketService.CallFunctionAsync("getSubscribersCount", parameters, TimeSpan.FromSeconds(600));
 
             return Ok(response);
+        }
+
+        public class DailySubRequest
+        {
+            public List<int> ChannelId { get; set; }
+        }
+
+        private async Task<List<long>> CollectTelegramIds(IEnumerable<int> channelIds)
+        {
+            var telegramIds = new List<long>();
+
+            foreach (var id in channelIds)
+            {
+                var channel = await _context.Channels.FindAsync(id);
+                if (channel?.TelegramId != null)
+                {
+                    telegramIds.Add(channel.TelegramId.Value);
+                }
+            }
+
+            return telegramIds;
+        }
+
+        private async Task<StatisticsSheet> EnsureStatisticsSheetExists(int channelId)
+        {
+            var channel = await _context.Channels.Include(c => c.StatisticsSheets)
+                                                .FirstOrDefaultAsync(c => c.Id == channelId);
+
+            var statisticsSheet = channel?.StatisticsSheets.FirstOrDefault();
+            if (statisticsSheet == null && channel != null)
+            {
+                statisticsSheet = new StatisticsSheet { ChannelId = channelId };
+                _context.StatisticsSheets.Add(statisticsSheet);
+                await _context.SaveChangesAsync();
+            }
+
+            return statisticsSheet;
+        }
+
+        private void AddSubscriberRecord(int subscribersCount, int sheetId)
+        {
+            var subscribersRecord = new SubscribersRecord
+            {
+                Subscribers = subscribersCount,
+                Date = DateTime.UtcNow,
+                Sheet = sheetId
+            };
+
+            _context.SubscribersRecords.Add(subscribersRecord);
+        }
+
+
+
+        [HttpPost("getSubscribersByChannels")]
+        public async Task<IActionResult> CallSubscribersByChannels([FromBody] DailySubRequest dailySubRequest)
+        {
+            if (dailySubRequest == null || dailySubRequest.ChannelId == null || !dailySubRequest.ChannelId.Any())
+            {
+                return BadRequest("Request must contain at least one channel ID.");
+            }
+
+            var telegramIds = await CollectTelegramIds(dailySubRequest.ChannelId);
+
+            if (!telegramIds.Any())
+            {
+                return BadRequest("No valid channels found.");
+            }
+
+            var results = new List<object>();
+            var parameters = new { channel_ids = telegramIds };
+
+            try
+            {
+                var response = await _webSocketService.CallFunctionAsync("get_subscribers_count_batch", parameters, TimeSpan.FromSeconds(600));
+                var subscribersCountDict = _webSocketService.ResponseToObject<Dictionary<long, int>>(response);
+
+                if (subscribersCountDict != null && subscribersCountDict.Any())
+                {
+                    foreach (var channelId in dailySubRequest.ChannelId)
+                    {
+                        var statisticsSheet = await EnsureStatisticsSheetExists(channelId);
+                        if (statisticsSheet == null || !subscribersCountDict.ContainsKey(statisticsSheet.ChannelId))
+                        {
+                            continue;
+                        }
+
+                        var subscribersCount = subscribersCountDict[statisticsSheet.ChannelId];
+                        AddSubscriberRecord(subscribersCount, statisticsSheet.Id);
+                    }
+
+                    await _context.SaveChangesAsync(); // Save all records at once after the loop
+                    results.Add(subscribersCountDict);
+                }
+                else
+                {
+                    _logger.LogWarning("No subscriber data received for channels.");
+                }
+            }
+            catch (JsonException jsonEx)
+            {
+                _logger.LogError(jsonEx, "Error in deserializing the data received from WebSocket.");
+                return BadRequest($"JSON Error: {jsonEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while processing the channels.");
+                return BadRequest($"Error: {ex.Message}");
+            }
+
+            return Ok(results);
         }
 
         [BypassApiKey]

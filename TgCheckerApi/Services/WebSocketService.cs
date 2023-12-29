@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System.Text.Json;
+using TgCheckerApi.Controllers;
 using TgCheckerApi.Websockets;
 
 namespace TgCheckerApi.Services
@@ -10,12 +11,13 @@ namespace TgCheckerApi.Services
         private readonly IHubContext<BotHub> _hubContext;
         private readonly TaskManager _taskManager;
         private Dictionary<string, TaskCompletionSource<string>> _pendingTasks = new Dictionary<string, TaskCompletionSource<string>>();
+        private readonly ILogger<BotController> _logger;
 
-
-        public WebSocketService(IHubContext<BotHub> hubContext, TaskManager taskManager)
+        public WebSocketService(IHubContext<BotHub> hubContext, ILogger<BotController> logger, TaskManager taskManager)
         {
             _hubContext = hubContext;
             _taskManager = taskManager;
+            _logger = logger;
         }
 
         public async Task<IActionResult> CallFunctionAsync(string functionName, object parameters, TimeSpan timeout)
@@ -56,6 +58,27 @@ namespace TgCheckerApi.Services
             }
 
             return new BadRequestObjectResult("Timeout waiting for the result");
+        }
+
+        public T ResponseToObject<T>(IActionResult response)
+        {
+            if (response is OkObjectResult okResult && okResult.Value is string jsonString)
+            {
+                try
+                {
+                    return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jsonString);
+                }
+                catch (JsonException jsonEx)
+                {
+                    _logger.LogError(jsonEx, $"Error deserializing WebSocket response to type {typeof(T)}.");
+                    throw; // or return default(T) or a specific error object depending on your error handling strategy.
+                }
+            }
+            else
+            {
+                _logger.LogWarning("Response is not in expected 'OkObjectResult' format or does not contain a string value.");
+                throw new InvalidOperationException("Invalid response format."); // or return default(T) or a specific error object depending on your error handling strategy.
+            }
         }
 
         private object ConvertJsonElement(JsonElement element)

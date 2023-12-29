@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -84,7 +85,7 @@ namespace TgCheckerApi.Controllers
                 .Select(c => new PromoPost
                 {
                     channelId = c.Id.ToString(),
-                    channelTelegramId = c.TelegramId.ToString(),
+                    channelTelegramId = "@" + c.Url.Replace("https://t.me/", ""),
                     channelTelegramName = c.Name.ToString()
                 })
                 .ToList();

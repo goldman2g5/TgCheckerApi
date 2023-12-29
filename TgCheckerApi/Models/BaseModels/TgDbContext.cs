@@ -47,6 +47,8 @@ public partial class TgDbContext : DbContext
 
     public virtual DbSet<SubType> SubTypes { get; set; }
 
+    public virtual DbSet<SubscribersRecord> SubscribersRecords { get; set; }
+
     public virtual DbSet<Tag> Tags { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -286,11 +288,11 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Expires)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("expires");
+            entity.Property(e => e.Price).HasColumnName("price");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.SubscriptionTypeId).HasColumnName("subscription_type_id");
             entity.Property(e => e.UserId).HasColumnName("userId");
             entity.Property(e => e.Username).HasColumnName("username");
-            entity.Property(e => e.Price).HasColumnName("price");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.ChannelId)
@@ -409,6 +411,22 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.TagLimit).HasColumnName("tag_limit");
         });
 
+        modelBuilder.Entity<SubscribersRecord>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("SubscribersRecord_pkey");
+
+            entity.ToTable("SubscribersRecord");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Date).HasColumnName("date");
+            entity.Property(e => e.Sheet).HasColumnName("sheet");
+            entity.Property(e => e.Subscribers).HasColumnName("subscribers");
+
+            entity.HasOne(d => d.SheetNavigation).WithMany(p => p.SubscribersRecords)
+                .HasForeignKey(d => d.Sheet)
+                .HasConstraintName("sub_sheet_fk");
+        });
+
         modelBuilder.Entity<Tag>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Tag_pkey");
@@ -450,14 +468,10 @@ public partial class TgDbContext : DbContext
             entity.ToTable("ViewsRecord");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Date)
-                .HasColumnType("timestamp with time zone")
-                .HasColumnName("date");
+            entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.LastMessageId).HasColumnName("last_message_id");
             entity.Property(e => e.Sheet).HasColumnName("sheet");
-            entity.Property(e => e.Updated)
-                .HasColumnType("timestamp with time zone")
-                .HasColumnName("updated");
+            entity.Property(e => e.Updated).HasColumnName("updated");
             entity.Property(e => e.Views).HasColumnName("views");
 
             entity.HasOne(d => d.SheetNavigation).WithMany(p => p.ViewsRecords)

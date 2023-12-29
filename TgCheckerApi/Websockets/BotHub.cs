@@ -46,8 +46,8 @@ namespace TgCheckerApi.Websockets
                     if (resultData != null && resultData.TryGetValue("invocationId", out var invocationIdObj)
                         && _taskManager._pendingTasks.TryGetValue(invocationIdObj.ToString(), out var tcs))
                     {
-                        tcs.SetResult(item);  // Set the result for the corresponding TaskCompletionSource
-                        _taskManager._pendingTasks.Remove(invocationIdObj.ToString());  // Remove the completed task
+                        tcs.SetResult(item);
+                        _taskManager._pendingTasks.Remove(invocationIdObj.ToString());
                     }
                 }
                 catch (JsonException ex)

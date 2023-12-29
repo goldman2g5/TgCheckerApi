@@ -24,11 +24,11 @@ public partial class Payment
 
     public string Username { get; set; } = null!;
 
-    public int Price { get; set; }
-
     public DateTime? Expires { get; set; }
 
     public string Status { get; set; } = null!;
+
+    public int Price { get; set; }
     [JsonIgnore]
     public virtual Channel Channel { get; set; } = null!;
     [JsonIgnore]
