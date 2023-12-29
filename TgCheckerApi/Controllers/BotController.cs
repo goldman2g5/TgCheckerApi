@@ -191,8 +191,18 @@ namespace TgCheckerApi.Controllers
             return statisticsSheet;
         }
 
-        private void AddSubscriberRecord(int subscribersCount, int sheetId)
+        private async Task<bool> AddSubscriberRecordAsync(int subscribersCount, int sheetId)
         {
+            var today = DateTime.UtcNow.Date;
+            var existingRecord = await _context.SubscribersRecords
+                                               .FirstOrDefaultAsync(sr => sr.Sheet == sheetId && sr.Date.Date == today);
+
+            if (existingRecord != null)
+            {
+                _logger.LogInformation($"A subscriber record for sheet {sheetId} already exists for today. Skipping creation.");
+                return false;  // Indicate that no new record was added
+            }
+
             var subscribersRecord = new SubscribersRecord
             {
                 Subscribers = subscribersCount,
@@ -200,7 +210,8 @@ namespace TgCheckerApi.Controllers
                 Sheet = sheetId
             };
 
-            _context.SubscribersRecords.Add(subscribersRecord);
+            await _context.SubscribersRecords.AddAsync(subscribersRecord);
+            return true; // Indicate that a new record was added
         }
 
 
@@ -213,7 +224,10 @@ namespace TgCheckerApi.Controllers
                 return BadRequest("Request must contain at least one channel ID.");
             }
 
-            var telegramIds = await CollectTelegramIds(dailySubRequest.ChannelId);
+            var telegramIds = dailySubRequest.ChannelId.Select(id => _context.Channels.Find(id))
+                                                       .Where(channel => channel?.TelegramId != null)
+                                                       .Select(channel => channel.TelegramId.Value)
+                                                       .ToList();
 
             if (!telegramIds.Any())
             {
@@ -232,14 +246,30 @@ namespace TgCheckerApi.Controllers
                 {
                     foreach (var channelId in dailySubRequest.ChannelId)
                     {
-                        var statisticsSheet = await EnsureStatisticsSheetExists(channelId);
-                        if (statisticsSheet == null || !subscribersCountDict.ContainsKey(statisticsSheet.ChannelId))
+                        var channel = await _context.Channels.Include(c => c.StatisticsSheets)
+                                                            .FirstOrDefaultAsync(c => c.Id == channelId);
+                        if (channel == null || !subscribersCountDict.ContainsKey(channel.TelegramId.Value))
                         {
-                            continue;
+                            continue; // Skip if the channel is not found or no data for it
                         }
 
-                        var subscribersCount = subscribersCountDict[statisticsSheet.ChannelId];
-                        AddSubscriberRecord(subscribersCount, statisticsSheet.Id);
+                        var statisticsSheet = channel.StatisticsSheets.FirstOrDefault();
+                        if (statisticsSheet == null)
+                        {
+                            statisticsSheet = new StatisticsSheet { ChannelId = channelId };
+                            _context.StatisticsSheets.Add(statisticsSheet);
+                            await _context.SaveChangesAsync(); // Ensure the StatisticsSheet is saved before trying to use it
+                        }
+
+                        var subscribersCount = subscribersCountDict[channel.TelegramId.Value];
+                        var subscribersRecord = new SubscribersRecord
+                        {
+                            Subscribers = subscribersCount,
+                            Date = DateTime.UtcNow,
+                            Sheet = statisticsSheet.Id
+                        };
+
+                        _context.SubscribersRecords.Add(subscribersRecord);
                     }
 
                     await _context.SaveChangesAsync(); // Save all records at once after the loop
