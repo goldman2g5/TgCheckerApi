@@ -261,6 +261,16 @@ namespace TgCheckerApi.Controllers
                             await _context.SaveChangesAsync(); // Ensure the StatisticsSheet is saved before trying to use it
                         }
 
+                        var today = DateTime.UtcNow.Date;
+                        // Check for existing record for today
+                        var existingRecord = await _context.SubscribersRecords
+                                                           .FirstOrDefaultAsync(sr => sr.Sheet == statisticsSheet.Id && sr.Date.Date == today);
+                        if (existingRecord != null)
+                        {
+                            // Skip adding a new record if one already exists for today
+                            continue;
+                        }
+
                         var subscribersCount = subscribersCountDict[channel.TelegramId.Value];
                         var subscribersRecord = new SubscribersRecord
                         {
