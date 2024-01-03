@@ -156,7 +156,8 @@ namespace TgCheckerApi.Controllers
 
         public class DailySubRequest
         {
-            public List<int> ChannelId { get; set; }
+            public List<int>? ChannelId { get; set; }
+            public bool AllChannels { get; set; }
         }
 
         private async Task<List<long>> CollectTelegramIds(IEnumerable<int> channelIds)
@@ -219,15 +220,34 @@ namespace TgCheckerApi.Controllers
         [HttpPost("getSubscribersByChannels")]
         public async Task<IActionResult> CallSubscribersByChannels([FromBody] DailySubRequest dailySubRequest)
         {
-            if (dailySubRequest == null || dailySubRequest.ChannelId == null || !dailySubRequest.ChannelId.Any())
-            {
-                return BadRequest("Request must contain at least one channel ID.");
-            }
+            List<long> telegramIds; // Changed to long to accommodate Telegram IDs
 
-            var telegramIds = dailySubRequest.ChannelId.Select(id => _context.Channels.Find(id))
-                                                       .Where(channel => channel?.TelegramId != null)
-                                                       .Select(channel => channel.TelegramId.Value)
-                                                       .ToList();
+            if (dailySubRequest.AllChannels)
+            {
+                // Fetch all channel Telegram IDs from the database
+                telegramIds = await _context.Channels
+                                            .Where(channel => channel.TelegramId != null)
+                                            .Select(channel => channel.TelegramId.Value)
+                                            .ToListAsync();
+
+                dailySubRequest.ChannelId = await _context.Channels
+                                                  .Where(channel => channel.TelegramId != null)
+                                                  .Select(channel => channel.Id) // Select the database channel ID
+                                                  .ToListAsync();
+            }
+            else
+            {
+                if (dailySubRequest == null || dailySubRequest.ChannelId == null || !dailySubRequest.ChannelId.Any())
+                {
+                    return BadRequest("Request must contain at least one channel ID.");
+                }
+
+                telegramIds = dailySubRequest.ChannelId
+                                             .Select(id => _context.Channels.Find(id))
+                                             .Where(channel => channel?.TelegramId != null)
+                                             .Select(channel => channel.TelegramId.Value)
+                                             .ToList();
+            }
 
             if (!telegramIds.Any())
             {

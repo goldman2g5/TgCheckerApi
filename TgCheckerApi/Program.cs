@@ -16,7 +16,7 @@ using TgCheckerApi.Job;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
-
+using TgCheckerApi.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -97,7 +97,6 @@ builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 builder.Services.AddSingleton<RatingResetJob>();
 builder.Services.AddSingleton<UpdateSubscribersJob>();
 
-
 builder.Services.AddSingleton(new JobSchedule(
     jobType: typeof(RatingResetJob),
     cronExpression: "0 0 3 1,15 * ?"));
@@ -108,10 +107,11 @@ builder.Services.AddSingleton(new JobSchedule(
 //builder.Services.AddSingleton(new JobSchedule(
 //    jobType: typeof(RatingResetJob),
 //    cronExpression: "0 27 0 * * ?")); // Runs at 23:48 every day
+
 builder.Services.AddHostedService<QuartzHostedService>();
 builder.Services.AddHttpClient("MyClient", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7256");
+    client.BaseAddress = new Uri("http://localhost:7256");
 });
 
 

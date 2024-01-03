@@ -29,6 +29,8 @@ public partial class TgDbContext : DbContext
 
     public virtual DbSet<Comment> Comments { get; set; }
 
+    public virtual DbSet<JobScheduleRecord> JobScheduleRecords { get; set; }
+
     public virtual DbSet<Notification> Notifications { get; set; }
 
     public virtual DbSet<NotificationSetting> NotificationSettings { get; set; }
@@ -88,6 +90,8 @@ public partial class TgDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("Channel_pkey");
 
             entity.ToTable("Channel");
+
+            entity.HasIndex(e => e.User, "IX_Channel_user");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Avatar).HasColumnName("avatar");
@@ -227,11 +231,26 @@ public partial class TgDbContext : DbContext
                 .HasConstraintName("user_id_fk");
         });
 
+        modelBuilder.Entity<JobScheduleRecord>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("JobSchedules_pkey");
+
+            entity.ToTable("JobScheduleRecord");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+        });
+
         modelBuilder.Entity<Notification>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Notification_pkey");
 
             entity.ToTable("Notification");
+
+            entity.HasIndex(e => e.ChannelId, "IX_Notification_channel_id");
+
+            entity.HasIndex(e => e.TypeId, "IX_Notification_type_id");
+
+            entity.HasIndex(e => e.UserId, "IX_Notification_user_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ChannelId).HasColumnName("channel_id");
@@ -277,6 +296,12 @@ public partial class TgDbContext : DbContext
 
             entity.ToTable("payments");
 
+            entity.HasIndex(e => e.ChannelId, "IX_payments_channelId");
+
+            entity.HasIndex(e => e.SubscriptionTypeId, "IX_payments_subscription_type_id");
+
+            entity.HasIndex(e => e.UserId, "IX_payments_userId");
+
             entity.Property(e => e.Id)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("id");
@@ -316,6 +341,10 @@ public partial class TgDbContext : DbContext
             entity.ToTable("Report");
 
             entity.HasIndex(e => e.ChannelId, "IX_Report_channel_id");
+
+            entity.HasIndex(e => e.CommentId, "IX_Report_comment_id");
+
+            entity.HasIndex(e => e.ReportType, "IX_Report_report_type");
 
             entity.HasIndex(e => e.StaffId, "IX_Report_staff_id");
 
@@ -390,6 +419,8 @@ public partial class TgDbContext : DbContext
 
             entity.ToTable("StatisticsSheet");
 
+            entity.HasIndex(e => e.ChannelId, "IX_StatisticsSheet_channel_id");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ChannelId).HasColumnName("channel_id");
 
@@ -417,6 +448,8 @@ public partial class TgDbContext : DbContext
 
             entity.ToTable("SubscribersRecord");
 
+            entity.HasIndex(e => e.Sheet, "IX_SubscribersRecord_sheet");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.Sheet).HasColumnName("sheet");
@@ -443,6 +476,8 @@ public partial class TgDbContext : DbContext
 
             entity.ToTable("User");
 
+            entity.HasIndex(e => e.NotificationSettings, "IX_User_notification_settings");
+
             entity.HasIndex(e => e.ChatId, "chat_id_uq").IsUnique();
 
             entity.HasIndex(e => e.TelegramId, "telegram_id_uq").IsUnique();
@@ -466,6 +501,8 @@ public partial class TgDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("ViewsRecord_pkey");
 
             entity.ToTable("ViewsRecord");
+
+            entity.HasIndex(e => e.Sheet, "IX_ViewsRecord_sheet");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Date).HasColumnName("date");
