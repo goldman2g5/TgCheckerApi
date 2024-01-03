@@ -95,18 +95,25 @@ builder.Services.AddSingleton<WebSocketService>();
 builder.Services.AddSingleton<IJobFactory, QuartzJobFactory>();
 builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 builder.Services.AddSingleton<RatingResetJob>();
+builder.Services.AddSingleton<UpdateSubscribersJob>();
+
+
 builder.Services.AddSingleton(new JobSchedule(
     jobType: typeof(RatingResetJob),
     cronExpression: "0 0 3 1,15 * ?"));
+builder.Services.AddSingleton(new JobSchedule(
+    jobType: typeof(UpdateSubscribersJob),
+    cronExpression: "0 0 4 * * ?"));
 
 //builder.Services.AddSingleton(new JobSchedule(
 //    jobType: typeof(RatingResetJob),
 //    cronExpression: "0 27 0 * * ?")); // Runs at 23:48 every day
-builder.Services.AddHostedService<QuartzHostedService>(); // Ensure this is present and correctly implemented
+builder.Services.AddHostedService<QuartzHostedService>();
 builder.Services.AddHttpClient("MyClient", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7256"); // Use your application's address
+    client.BaseAddress = new Uri("https://localhost:7256");
 });
+
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();

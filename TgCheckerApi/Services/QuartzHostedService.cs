@@ -32,6 +32,12 @@ namespace TgCheckerApi.Services
                 var trigger = CreateTrigger(jobSchedule);
 
                 await _scheduler.ScheduleJob(job, trigger, cancellationToken);
+
+                // Check if it's the UpdateSubscribersJob and trigger it immediately on startup
+                if (job.JobType == typeof(UpdateSubscribersJob))
+                {
+                    await _scheduler.TriggerJob(new JobKey(job.JobType.FullName), cancellationToken);
+                }
             }
 
             await _scheduler.Start(cancellationToken);

@@ -45,7 +45,6 @@ namespace TgCheckerApi.Services
                     using var jsonDoc = JsonDocument.Parse(resultJson);
                     if (jsonDoc.RootElement.TryGetProperty("data", out var dataElement))
                     {
-                        // Convert JsonElement to a type that can be serialized by Newtonsoft.Json
                         var dataObject = ConvertJsonElement(dataElement);
                         return new OkObjectResult(dataObject);
                     }
@@ -71,13 +70,13 @@ namespace TgCheckerApi.Services
                 catch (JsonException jsonEx)
                 {
                     _logger.LogError(jsonEx, $"Error deserializing WebSocket response to type {typeof(T)}.");
-                    throw; // or return default(T) or a specific error object depending on your error handling strategy.
+                    throw;
                 }
             }
             else
             {
                 _logger.LogWarning("Response is not in expected 'OkObjectResult' format or does not contain a string value.");
-                throw new InvalidOperationException("Invalid response format."); // or return default(T) or a specific error object depending on your error handling strategy.
+                throw new InvalidOperationException("Invalid response format.");
             }
         }
 
