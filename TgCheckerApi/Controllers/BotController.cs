@@ -126,6 +126,8 @@ namespace TgCheckerApi.Controllers
         {
             public int ChannelId { get; set; }
             public int NumberOfDays { get; set; }
+
+            public int Months  {  get; set; }
         }
 
         public class DailySukaRequest
@@ -160,71 +162,13 @@ namespace TgCheckerApi.Controllers
             public bool AllChannels { get; set; }
         }
 
-        private async Task<List<long>> CollectTelegramIds(IEnumerable<int> channelIds)
-        {
-            var telegramIds = new List<long>();
-
-            foreach (var id in channelIds)
-            {
-                var channel = await _context.Channels.FindAsync(id);
-                if (channel?.TelegramId != null)
-                {
-                    telegramIds.Add(channel.TelegramId.Value);
-                }
-            }
-
-            return telegramIds;
-        }
-
-        private async Task<StatisticsSheet> EnsureStatisticsSheetExists(int channelId)
-        {
-            var channel = await _context.Channels.Include(c => c.StatisticsSheets)
-                                                .FirstOrDefaultAsync(c => c.Id == channelId);
-
-            var statisticsSheet = channel?.StatisticsSheets.FirstOrDefault();
-            if (statisticsSheet == null && channel != null)
-            {
-                statisticsSheet = new StatisticsSheet { ChannelId = channelId };
-                _context.StatisticsSheets.Add(statisticsSheet);
-                await _context.SaveChangesAsync();
-            }
-
-            return statisticsSheet;
-        }
-
-        private async Task<bool> AddSubscriberRecordAsync(int subscribersCount, int sheetId)
-        {
-            var today = DateTime.UtcNow.Date;
-            var existingRecord = await _context.SubscribersRecords
-                                               .FirstOrDefaultAsync(sr => sr.Sheet == sheetId && sr.Date.Date == today);
-
-            if (existingRecord != null)
-            {
-                _logger.LogInformation($"A subscriber record for sheet {sheetId} already exists for today. Skipping creation.");
-                return false;  // Indicate that no new record was added
-            }
-
-            var subscribersRecord = new SubscribersRecord
-            {
-                Subscribers = subscribersCount,
-                Date = DateTime.UtcNow,
-                Sheet = sheetId
-            };
-
-            await _context.SubscribersRecords.AddAsync(subscribersRecord);
-            return true; // Indicate that a new record was added
-        }
-
-
-
         [HttpPost("getSubscribersByChannels")]
         public async Task<IActionResult> CallSubscribersByChannels([FromBody] DailySubRequest dailySubRequest)
         {
-            List<long> telegramIds; // Changed to long to accommodate Telegram IDs
+            List<long> telegramIds;
 
             if (dailySubRequest.AllChannels)
             {
-                // Fetch all channel Telegram IDs from the database
                 telegramIds = await _context.Channels
                                             .Where(channel => channel.TelegramId != null)
                                             .Select(channel => channel.TelegramId.Value)
@@ -325,6 +269,50 @@ namespace TgCheckerApi.Controllers
         }
 
         [BypassApiKey]
+        [HttpPost("SubscribersHistory")]
+        public async Task<ActionResult<List<double>>> GetSubscribersHistoryAsync([FromBody] DailyViewsRequest dailyViewsRequest)
+        {
+            DateTime startDate = DateTime.UtcNow.AddDays(-dailyViewsRequest.NumberOfDays);
+            DateTime endDate = DateTime.UtcNow;
+
+            // Create a complete sequence of dates
+            var allDates = Enumerable.Range(0, 1 + (endDate - startDate).Days)
+                                     .Select(offset => startDate.AddDays(offset))
+                                     .ToList();
+
+            // Retrieve the relevant subscriber records
+            var subscriberRecords = await _context.SubscribersRecords
+                .Where(sr => sr.SheetNavigation.ChannelId == dailyViewsRequest.ChannelId && sr.Date >= startDate && sr.Date <= endDate)
+                .ToListAsync();
+
+            // Convert records to a dictionary for faster lookup
+            var recordDict = subscriberRecords.ToDictionary(sr => sr.Date.Date, sr => (double)sr.Subscribers);
+
+            // Prepare a list to hold the final subscriber history
+            var subscriberHistory = new List<double>();
+
+            for (int i = 0; i < allDates.Count; i++)
+            {
+                DateTime currentDate = allDates[i];
+                double? calculatedSubscribers = null;
+
+                if (recordDict.TryGetValue(currentDate.Date, out double subscribers))
+                {
+                    calculatedSubscribers = subscribers;
+                }
+                else
+                {
+                    // Calculate average of neighbors if current date is missing
+                    calculatedSubscribers = CalculateAverageOfNeighbors(allDates, recordDict, subscriberHistory, i);
+                }
+
+                subscriberHistory.Add(calculatedSubscribers ?? 0); // Handle nulls by defaulting to 0
+            }
+
+            return subscriberHistory;
+        }
+
+        [BypassApiKey]
         [HttpPost("getDailyViewsByChannel")]
         public async Task<IActionResult> CallGetDailyViewsByChannel([FromBody] DailyViewsRequest dailyViewsRequest)
         {
@@ -376,7 +364,7 @@ namespace TgCheckerApi.Controllers
                     // Construct parameters for WebSocket request
                     var parameters = new
                     {
-                        channel_name = "@" + channel.Url.Replace("https://t.me/", ""),
+                        channel_name = channel.TelegramId,
                         number_of_days = dailyViewsRequest.NumberOfDays
                     };
 
@@ -419,7 +407,7 @@ namespace TgCheckerApi.Controllers
                 // Construct parameters for WebSocket request
                 var parameters = new
                 {
-                    channel_name = "@" + channel.Url.Replace("https://t.me/", ""),
+                    channel_name = channel.TelegramId,
                     number_of_days = request.NumberOfDays
                 };
 
@@ -563,6 +551,88 @@ namespace TgCheckerApi.Controllers
             _logger.LogInformation($"Update required: {isUpdateRequired}");
 
             return isUpdateRequired;
+        }
+
+        private async Task<List<long>> CollectTelegramIds(IEnumerable<int> channelIds)
+        {
+            var telegramIds = new List<long>();
+
+            foreach (var id in channelIds)
+            {
+                var channel = await _context.Channels.FindAsync(id);
+                if (channel?.TelegramId != null)
+                {
+                    telegramIds.Add(channel.TelegramId.Value);
+                }
+            }
+
+            return telegramIds;
+        }
+
+        private async Task<StatisticsSheet> EnsureStatisticsSheetExists(int channelId)
+        {
+            var channel = await _context.Channels.Include(c => c.StatisticsSheets)
+                                                .FirstOrDefaultAsync(c => c.Id == channelId);
+
+            var statisticsSheet = channel?.StatisticsSheets.FirstOrDefault();
+            if (statisticsSheet == null && channel != null)
+            {
+                statisticsSheet = new StatisticsSheet { ChannelId = channelId };
+                _context.StatisticsSheets.Add(statisticsSheet);
+                await _context.SaveChangesAsync();
+            }
+
+            return statisticsSheet;
+        }
+
+        private async Task<bool> AddSubscriberRecordAsync(int subscribersCount, int sheetId)
+        {
+            var today = DateTime.UtcNow.Date;
+            var existingRecord = await _context.SubscribersRecords
+                                               .FirstOrDefaultAsync(sr => sr.Sheet == sheetId && sr.Date.Date == today);
+
+            if (existingRecord != null)
+            {
+                _logger.LogInformation($"A subscriber record for sheet {sheetId} already exists for today. Skipping creation.");
+                return false;  // Indicate that no new record was added
+            }
+
+            var subscribersRecord = new SubscribersRecord
+            {
+                Subscribers = subscribersCount,
+                Date = DateTime.UtcNow,
+                Sheet = sheetId
+            };
+
+            await _context.SubscribersRecords.AddAsync(subscribersRecord);
+            return true; // Indicate that a new record was added
+        }
+
+        private double? CalculateAverageOfNeighbors(List<DateTime> allDates, Dictionary<DateTime, double> recordDict, List<double> subscriberHistory, int currentIndex)
+        {
+            double? prevValue = currentIndex > 0 ? subscriberHistory[currentIndex - 1] : null; // Previous day's subscribers
+
+            // Find next non-null value
+            double? nextValue = null;
+            for (int j = currentIndex + 1; j < allDates.Count; j++)
+            {
+                if (recordDict.TryGetValue(allDates[j].Date, out double nextSubscribers))
+                {
+                    nextValue = nextSubscribers;
+                    break;
+                }
+            }
+
+            // Return the average of the neighbors if both are available
+            if (prevValue.HasValue && nextValue.HasValue)
+            {
+                return (prevValue.Value + nextValue.Value) / 2;
+            }
+            else
+            {
+                // Return whichever neighbor is available, or null if neither is
+                return prevValue ?? nextValue;
+            }
         }
 
 
