@@ -18,6 +18,7 @@ using TgCheckerApi.Utility;
 using TgCheckerApi.Websockets;
 using System.Diagnostics.Tracing;
 using Microsoft.Extensions.DependencyInjection;
+using static TgCheckerApi.Controllers.BotController;
 
 namespace TgCheckerApi.Controllers
 {
@@ -44,18 +45,97 @@ namespace TgCheckerApi.Controllers
             _logger = logger;
             _userService = new UserService(context);
         }
-
-        public class SumRequest
+        
+        public class MessageRequest
         {
-            public double number1 { get; set; }
-            public double number2 { get; set; }
+            public int ChannelId { get; set; }
         }
 
-        [HttpPost("sumOfTwo")]
-        public async Task<IActionResult> CallSumOfTwo([FromBody] SumRequest sumRequest)
+        public class BroadcastStatsRequest
         {
-            var parameters = new { sumRequest.number1, sumRequest.number2 };
-            return await _webSocketService.CallFunctionAsync("sumOfTwo", parameters, TimeSpan.FromSeconds(30));
+            public int ChannelId { get; set; }
+        }
+
+        [BypassApiKey]
+        [HttpPost("getBroadcastStats")]
+        public async Task<IActionResult> CallGetBroadcastStats([FromBody] BroadcastStatsRequest statsRequest)
+        {
+            var channel = await FindChannelById(statsRequest.ChannelId);
+
+            if (channel == null || string.IsNullOrEmpty(channel.Url))
+            {
+                return BadRequest("Channel not found or URL is missing.");
+            }
+
+            _logger.LogInformation("Starting CallGetBroadcastStats method for ChannelUsername: {ChannelUsername}", channel.TelegramId);
+
+            if (channel.TelegramId == null)
+            {
+                return BadRequest("Channel username is missing.");
+            }
+
+            try
+            {
+                // Prepare parameters for WebSocket call
+                var parameters = new { channel_username = channel.TelegramId };
+
+                // Calling the WebSocket function
+                var response = await _webSocketService.CallFunctionAsync("getBroadcastStats", parameters, TimeSpan.FromSeconds(600));
+
+                if (response == null)
+                {
+                    _logger.LogWarning("No response received for ChannelUsername: {ChannelUsername}", channel.TelegramId);
+                    return NotFound("No statistics found.");
+                }
+
+                _logger.LogInformation("Returning broadcast statistics for ChannelUsername: {ChannelUsername}", channel.TelegramId);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching broadcast statistics for ChannelUsername: {ChannelUsername}", channel.TelegramId);
+                return StatusCode(500, "Internal server error.");
+            }
+        }
+
+        [BypassApiKey]
+        [HttpPost("getMessagesFromPastYear")]
+        public async Task<IActionResult> CallGetMessagesFromPastYear([FromBody] MessageRequest messageRequest)
+        {
+            _logger.LogInformation("Starting CallGetMessagesFromPastYear method for ChannelId: {ChannelId}", messageRequest.ChannelId);
+
+            var channel = await FindChannelById(messageRequest.ChannelId);
+
+            if (channel == null || string.IsNullOrEmpty(channel.Url))
+            {
+                return BadRequest("Channel not found or URL is missing.");
+            }
+
+            try
+            {
+                // Define the months parameter internally, set to a specific value (e.g., 12)
+                int months = 5;
+
+                // Prepare parameters for WebSocket call including the months parameter
+                var parameters = new { chat_id = channel.TelegramId, months = months };
+
+                // Calling the WebSocket function
+                var response = await _webSocketService.CallFunctionAsync("getMessagesFromPastYear", parameters, TimeSpan.FromSeconds(600));
+
+                if (response == null)
+                {
+                    _logger.LogWarning("No response received for ChannelId: {ChannelId}", channel.TelegramId);
+                    return NotFound("No messages found.");
+                }
+
+                _logger.LogInformation("Returning messages for ChannelId: {ChannelId}", channel.TelegramId);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching messages for ChannelId: {ChannelId}", channel.TelegramId);
+                return StatusCode(500, "Internal server error.");
+            }
         }
 
         public class ProfileUpdateResponse
