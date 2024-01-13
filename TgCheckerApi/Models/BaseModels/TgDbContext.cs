@@ -31,6 +31,8 @@ public partial class TgDbContext : DbContext
 
     public virtual DbSet<JobScheduleRecord> JobScheduleRecords { get; set; }
 
+    public virtual DbSet<MonthViewsRecord> MonthViewsRecords { get; set; }
+
     public virtual DbSet<Notification> Notifications { get; set; }
 
     public virtual DbSet<NotificationSetting> NotificationSettings { get; set; }
@@ -238,6 +240,24 @@ public partial class TgDbContext : DbContext
             entity.ToTable("JobScheduleRecord");
 
             entity.Property(e => e.Id).HasColumnName("id");
+        });
+
+        modelBuilder.Entity<MonthViewsRecord>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("MonthViewsRecord_pkey");
+
+            entity.ToTable("MonthViewsRecord");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Date).HasColumnName("date");
+            entity.Property(e => e.LastMessageId).HasColumnName("last_message_id");
+            entity.Property(e => e.Sheet).HasColumnName("sheet");
+            entity.Property(e => e.Updated).HasColumnName("updated");
+            entity.Property(e => e.Views).HasColumnName("views");
+
+            entity.HasOne(d => d.SheetNavigation).WithMany(p => p.MonthViewsRecords)
+                .HasForeignKey(d => d.Sheet)
+                .HasConstraintName("sheet_fk");
         });
 
         modelBuilder.Entity<Notification>(entity =>

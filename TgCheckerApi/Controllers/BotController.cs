@@ -46,9 +46,10 @@ namespace TgCheckerApi.Controllers
             _userService = new UserService(context);
         }
         
-        public class MessageRequest
+        public class MonthViewsRequest
         {
             public int ChannelId { get; set; }
+            public int Months { get; set; }
         }
 
         public class BroadcastStatsRequest
@@ -99,13 +100,12 @@ namespace TgCheckerApi.Controllers
         }
 
         [BypassApiKey]
-        [HttpPost("getMessagesFromPastYear")]
-        public async Task<IActionResult> CallGetMessagesFromPastYear([FromBody] MessageRequest messageRequest)
+        [HttpPost("getMonthlyViews")]
+        public async Task<IActionResult> CallGetMonthViews([FromBody] MonthViewsRequest monthViewsRequest)
         {
-            _logger.LogInformation("Starting CallGetMessagesFromPastYear method for ChannelId: {ChannelId}", messageRequest.ChannelId);
+            _logger.LogInformation("Starting CallGetMonthViewsFromPastYear method for ChannelId: {ChannelId}", monthViewsRequest.ChannelId);
 
-            var channel = await FindChannelById(messageRequest.ChannelId);
-
+            var channel = await FindChannelById(monthViewsRequest.ChannelId);
             if (channel == null || string.IsNullOrEmpty(channel.Url))
             {
                 return BadRequest("Channel not found or URL is missing.");
@@ -114,26 +114,29 @@ namespace TgCheckerApi.Controllers
             try
             {
                 // Define the months parameter internally, set to a specific value (e.g., 12)
-                int months = 5;
+                int months = monthViewsRequest.Months;
 
                 // Prepare parameters for WebSocket call including the months parameter
                 var parameters = new { chat_id = channel.TelegramId, months = months };
 
                 // Calling the WebSocket function
-                var response = await _webSocketService.CallFunctionAsync("getMessagesFromPastYear", parameters, TimeSpan.FromSeconds(600));
+                var response = await _webSocketService.CallFunctionAsync("getMonthlyViews", parameters, TimeSpan.FromSeconds(600));
 
                 if (response == null)
                 {
                     _logger.LogWarning("No response received for ChannelId: {ChannelId}", channel.TelegramId);
-                    return NotFound("No messages found.");
+                    return NotFound("No month views data found.");
                 }
 
-                _logger.LogInformation("Returning messages for ChannelId: {ChannelId}", channel.TelegramId);
-                return Ok(response);
+                // Deserialize and process the data here as needed
+                var monthViewsData = _webSocketService.ResponseToObject<List<MonthViewsRecord>>(response);
+
+                _logger.LogInformation("Returning month views data for ChannelId: {ChannelId}", channel.TelegramId);
+                return Ok(monthViewsData);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while fetching messages for ChannelId: {ChannelId}", channel.TelegramId);
+                _logger.LogError(ex, "Error occurred while fetching month views data for ChannelId: {ChannelId}", channel.TelegramId);
                 return StatusCode(500, "Internal server error.");
             }
         }
