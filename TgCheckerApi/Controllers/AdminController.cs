@@ -48,6 +48,11 @@ namespace TgCheckerApi.Controllers
                 query = query.Where(r => r.Status == "hidden");
             }
 
+            if (staffRecord != null)
+            {
+                query = query.Where(r => r.Status != "hidden");
+            }
+
             var reports = await query.ToListAsync();
 
 

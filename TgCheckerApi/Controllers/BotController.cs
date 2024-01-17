@@ -57,6 +57,30 @@ namespace TgCheckerApi.Controllers
             public int ChannelId { get; set; }
         }
 
+        public class DailyViewsRequest
+        {
+            public int ChannelId { get; set; }
+            public int NumberOfDays { get; set; }
+        }
+
+        public class DailySukaRequest
+        {
+            public int ChannelId { get; set; }
+        }
+
+        public class DailySubRequest
+        {
+            public List<int>? ChannelId { get; set; }
+            public bool AllChannels { get; set; }
+        }
+
+        public class SubHistoryRequest
+        {
+            public int ChannelId { get; set; }
+            public int NumberOfDays { get; set; }
+            public int? Months { get; set; } // Number of months for which to calculate the average
+        }
+
         [BypassApiKey]
         [HttpPost("getBroadcastStats")]
         public async Task<IActionResult> CallGetBroadcastStats([FromBody] BroadcastStatsRequest statsRequest)
@@ -103,7 +127,7 @@ namespace TgCheckerApi.Controllers
         [HttpPost("getMonthlyViews")]
         public async Task<IActionResult> CallGetMonthViews([FromBody] MonthViewsRequest monthViewsRequest)
         {
-            _logger.LogInformation("Starting CallGetMonthViewsFromPastYear method for ChannelId: {ChannelId}", monthViewsRequest.ChannelId);
+            _logger.LogInformation("Starting CallGetMonthViews method for ChannelId: {ChannelId}", monthViewsRequest.ChannelId);
 
             var channel = await FindChannelById(monthViewsRequest.ChannelId);
             if (channel == null || string.IsNullOrEmpty(channel.Url))
@@ -111,34 +135,33 @@ namespace TgCheckerApi.Controllers
                 return BadRequest("Channel not found or URL is missing.");
             }
 
-            try
+            var monthViewsData = await FetchMonthDataFromDatabase(monthViewsRequest);
+            bool isDataComplete = monthViewsData?.Count >= monthViewsRequest.Months;
+            bool isUpdateRequired = await IsUpdateRequiredForMonth(monthViewsRequest);
+
+            if (isDataComplete && !isUpdateRequired)
             {
-                // Define the months parameter internally, set to a specific value (e.g., 12)
-                int months = monthViewsRequest.Months;
-
-                // Prepare parameters for WebSocket call including the months parameter
-                var parameters = new { chat_id = channel.TelegramId, months = months };
-
-                // Calling the WebSocket function
-                var response = await _webSocketService.CallFunctionAsync("getMonthlyViews", parameters, TimeSpan.FromSeconds(600));
-
-                if (response == null)
+                _logger.LogInformation("Data is complete and up-to-date for ChannelId: {ChannelId}.", monthViewsRequest.ChannelId);
+            }
+            else
+            {
+                if (isDataComplete)
                 {
-                    _logger.LogWarning("No response received for ChannelId: {ChannelId}", channel.TelegramId);
-                    return NotFound("No month views data found.");
+                    _logger.LogInformation("First month data is outdated for ChannelId: {ChannelId}. Initiating background update.", monthViewsRequest.ChannelId);
+                    _ = UpdateMonthDataInBackground(monthViewsRequest, channel, _serviceProvider, updateOnlyFirstMonth: true);
                 }
-
-                // Deserialize and process the data here as needed
-                var monthViewsData = _webSocketService.ResponseToObject<List<MonthViewsRecord>>(response);
-
-                _logger.LogInformation("Returning month views data for ChannelId: {ChannelId}", channel.TelegramId);
-                return Ok(monthViewsData);
+                else
+                {
+                    _logger.LogInformation("Data is incomplete for ChannelId: {ChannelId}. Awaiting new data from WebSocket.", monthViewsRequest.ChannelId);
+                    monthViewsData = await WaitForWebSocketAndUpdateForMonth(monthViewsRequest, channel);
+                }
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while fetching month views data for ChannelId: {ChannelId}", channel.TelegramId);
-                return StatusCode(500, "Internal server error.");
-            }
+
+            var viewsList = monthViewsData?.Select(record => (double)record.Views).ToList();
+
+
+            _logger.LogInformation("Returning data for ChannelId: {ChannelId} with {DataCount} month view counts", monthViewsRequest.ChannelId, monthViewsData?.Count ?? 0);
+            return Ok(viewsList);
         }
 
         public class ProfileUpdateResponse
@@ -203,46 +226,6 @@ namespace TgCheckerApi.Controllers
                 // Log the exception and return an error response
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
-        }
-
-        public class DailyViewsRequest
-        {
-            public int ChannelId { get; set; }
-            public int NumberOfDays { get; set; }
-
-            public int Months  {  get; set; }
-        }
-
-        public class DailySukaRequest
-        {
-            public int ChannelId { get; set; }
-        }
-
-        [HttpPost("getSubscribersByChannel")]
-        public async Task<IActionResult> CallSubscribersByChannel([FromBody] DailySukaRequest dailyViewsRequest)
-        {
-            var channel = await FindChannelById(dailyViewsRequest.ChannelId);
-            if (channel == null || string.IsNullOrEmpty(channel.Url))
-            {
-                return BadRequest("Channel not found or URL is missing.");
-            }
-
-            var channelNameFormatted = "@" + channel.Url.Replace("https://t.me/", "");
-
-            var parameters = new
-            {
-                channel_id = channel.TelegramId,
-            };
-
-            var response = await _webSocketService.CallFunctionAsync("getSubscribersCount", parameters, TimeSpan.FromSeconds(600));
-
-            return Ok(response);
-        }
-
-        public class DailySubRequest
-        {
-            public List<int>? ChannelId { get; set; }
-            public bool AllChannels { get; set; }
         }
 
         [HttpPost("getSubscribersByChannels")]
@@ -353,11 +336,35 @@ namespace TgCheckerApi.Controllers
 
         [BypassApiKey]
         [HttpPost("SubscribersHistory")]
-        public async Task<ActionResult<List<double>>> GetSubscribersHistoryAsync([FromBody] DailyViewsRequest dailyViewsRequest)
+        public async Task<ActionResult<List<double>>> GetSubscribersHistoryAsync([FromBody] SubHistoryRequest dailyViewsRequest)
         {
-            DateTime startDate = DateTime.UtcNow.AddDays(-dailyViewsRequest.NumberOfDays);
+            DateTime startDate;
             DateTime endDate = DateTime.UtcNow;
 
+            if (dailyViewsRequest.Months != null & dailyViewsRequest.Months > 0)
+            {
+                startDate = DateTime.UtcNow.AddMonths((int)-dailyViewsRequest.Months);
+                startDate = new DateTime(startDate.Year, startDate.Month, 1); // Set to the first day of the month
+
+                List<double> bebra = await CalculateDailySubscribersHistory(startDate, endDate, dailyViewsRequest.ChannelId);
+
+                var monthlyTotals = bebra
+                   .Select((value, index) => new { Value = value, Month = startDate.AddMonths(index / 30).Month }) // Adjust index to month
+                   .GroupBy(x => x.Month)
+                   .Select(g => g.Average(x => x.Value)) // Only return the sum (or average)
+                   .ToList();
+
+                return monthlyTotals; // This now matches the expected return type
+            }
+            else
+            {
+                startDate = DateTime.UtcNow.AddDays(-dailyViewsRequest.NumberOfDays);
+                return await CalculateDailySubscribersHistory(startDate, endDate, dailyViewsRequest.ChannelId);
+            }
+        }
+
+        private async Task<List<double>> CalculateDailySubscribersHistory(DateTime startDate, DateTime endDate, int channelId)
+        {
             // Create a complete sequence of dates
             var allDates = Enumerable.Range(0, 1 + (endDate - startDate).Days)
                                      .Select(offset => startDate.AddDays(offset))
@@ -365,7 +372,7 @@ namespace TgCheckerApi.Controllers
 
             // Retrieve the relevant subscriber records
             var subscriberRecords = await _context.SubscribersRecords
-                .Where(sr => sr.SheetNavigation.ChannelId == dailyViewsRequest.ChannelId && sr.Date >= startDate && sr.Date <= endDate)
+                .Where(sr => sr.SheetNavigation.ChannelId == channelId && sr.Date >= startDate && sr.Date <= endDate)
                 .ToListAsync();
 
             // Convert records to a dictionary for faster lookup
@@ -393,6 +400,31 @@ namespace TgCheckerApi.Controllers
             }
 
             return subscriberHistory;
+        }
+
+        private async Task<List<double>> CalculateMonthlyAverageSubscribers(DateTime startDate, DateTime endDate, int channelId)
+        {
+            var subscriberRecords = await _context.SubscribersRecords
+                .Where(sr => sr.SheetNavigation.ChannelId == channelId && sr.Date >= startDate && sr.Date <= endDate)
+                .ToListAsync();
+
+            var monthlyAverages = new List<double>();
+
+            for (var date = startDate; date <= endDate; date = date.AddMonths(1))
+            {
+                var monthEnd = date.AddMonths(1).AddDays(-1);
+                var monthlyRecords = subscriberRecords.Where(sr => sr.Date >= date && sr.Date <= monthEnd).ToList();
+
+                double monthlyAverage = 0;
+                if (monthlyRecords.Any())
+                {
+                    monthlyAverage = monthlyRecords.Average(sr => sr.Subscribers);
+                }
+
+                monthlyAverages.Add(monthlyAverage);
+            }
+
+            return monthlyAverages;
         }
 
         [BypassApiKey]
@@ -716,6 +748,206 @@ namespace TgCheckerApi.Controllers
                 // Return whichever neighbor is available, or null if neither is
                 return prevValue ?? nextValue;
             }
+        }
+
+        private async Task<List<MonthViewsRecord>> FetchMonthDataFromDatabase(MonthViewsRequest monthViewsRequest)
+        {
+            var endDate = DateTime.UtcNow;
+            var startDate = endDate.AddMonths(-monthViewsRequest.Months);
+
+            // Fetch the records from the database
+            var records = await _context.Channels
+                                        .Where(c => c.Id == monthViewsRequest.ChannelId)
+                                        .SelectMany(c => c.StatisticsSheets)
+                                        .SelectMany(ss => ss.MonthViewsRecords)
+                                        .Where(mvr => mvr.Date >= startDate && mvr.Date <= endDate)
+                                        .OrderBy(mvr => mvr.Date) // Ensure the records are ordered by date
+                                        .ToListAsync();
+
+            if (!records.Any())
+            {
+                // No records found for the given date range and channel
+                return new List<MonthViewsRecord>();
+            }
+
+            return records;
+        }
+
+        private async Task<bool> IsUpdateRequiredForMonth(MonthViewsRequest monthViewsRequest)
+        {
+            _logger.LogInformation("Starting IsUpdateRequiredForMonth method.");
+            _logger.LogInformation($"Parameters: ChannelId={monthViewsRequest.ChannelId}, Months={monthViewsRequest.Months}");
+
+            TimeSpan outdatedThreshold = TimeSpan.FromMinutes(1); // Define your threshold for outdated data
+            _logger.LogInformation($"Outdated threshold set to {outdatedThreshold.TotalMinutes} minutes.");
+
+            var latestMonth = DateTime.UtcNow.AddMonths(-1);
+            var year = latestMonth.Year;
+            var month = latestMonth.Month;
+
+            var latestRecord = await _context.Channels
+                                             .Where(c => c.Id == monthViewsRequest.ChannelId)
+                                             .SelectMany(c => c.StatisticsSheets)
+                                             .SelectMany(ss => ss.MonthViewsRecords)
+                                             .Where(mvr => mvr.Date.Year == year && mvr.Date.Month == month)
+                                             .OrderByDescending(mvr => mvr.Date)
+                                             .FirstOrDefaultAsync();
+
+            if (latestRecord == null)
+            {
+                _logger.LogInformation("No records found for the latest month.");
+                return true; // No data for the latest month, update required
+            }
+
+            var isUpdateRequired = DateTime.UtcNow - latestRecord.Updated > outdatedThreshold;
+            _logger.LogInformation($"Update required for the latest month: {isUpdateRequired}");
+
+            return isUpdateRequired;
+        }
+
+        private async Task UpdateMonthDataInBackground(MonthViewsRequest monthViewsRequest, Channel channel, IServiceProvider services, bool updateOnlyFirstMonth)
+        {
+            using (var scope = services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<TgDbContext>();
+                var webSocketService = scope.ServiceProvider.GetRequiredService<WebSocketService>();
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<BotController>>();
+
+                try
+                {
+                    // Construct parameters for WebSocket request
+                    var parameters = new
+                    {
+                        channel_id = channel.TelegramId,
+                        months = updateOnlyFirstMonth ? 1 : monthViewsRequest.Months
+                    };
+
+                    // Call the WebSocket service and wait for the response
+                    var response = await webSocketService.CallFunctionAsync("getMonthlyViews", parameters, TimeSpan.FromSeconds(30));
+                    if (response is OkObjectResult okResult && okResult.Value is string jsonString)
+                    {
+                        var monthViewsRecords = JsonConvert.DeserializeObject<List<MonthViewsRecord>>(jsonString);
+                        if (monthViewsRecords != null && monthViewsRecords.Any())
+                        {
+                            // Update the database with the new records using the new DbContext instance
+                            await UpdateDatabaseWithMonthViewsRecords(monthViewsRecords, monthViewsRequest.ChannelId, dbContext, updateOnlyFirstMonth);
+                            logger.LogInformation("Successfully updated database with new month views records for ChannelId: {ChannelId}", monthViewsRequest.ChannelId);
+                        }
+                        else
+                        {
+                            logger.LogWarning("Received empty or invalid data from WebSocket for ChannelId: {ChannelId}", monthViewsRequest.ChannelId);
+                        }
+                    }
+                    else
+                    {
+                        logger.LogWarning("Invalid or no response from WebSocket service for ChannelId: {ChannelId}", monthViewsRequest.ChannelId);
+                    }
+                }
+                catch (JsonException jsonEx)
+                {
+                    logger.LogError(jsonEx, "Error in deserializing the data received from WebSocket for ChannelId: {ChannelId}", monthViewsRequest.ChannelId);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An unexpected error occurred while updating month views data in the background for ChannelId: {ChannelId}", monthViewsRequest.ChannelId);
+                }
+            }
+        }
+
+        private async Task UpdateDatabaseWithMonthViewsRecords(List<MonthViewsRecord> monthViewsRecords, int channelId, TgDbContext dbContext, bool updateOnlyFirstMonth)
+        {
+            var channel = await dbContext.Channels
+                                         .Include(c => c.StatisticsSheets)
+                                         .FirstOrDefaultAsync(c => c.Id == channelId);
+
+            if (channel == null)
+            {
+                throw new Exception("Channel not found.");
+            }
+
+            var statisticsSheet = channel.StatisticsSheets.FirstOrDefault();
+            if (statisticsSheet == null)
+            {
+                statisticsSheet = new StatisticsSheet { ChannelId = channelId };
+                dbContext.StatisticsSheets.Add(statisticsSheet);
+                await dbContext.SaveChangesAsync();
+            }
+
+            foreach (var record in monthViewsRecords)
+            {
+                // Ensure the record dates are handled correctly (e.g., UTC)
+                record.Updated = DateTime.SpecifyKind(record.Updated, DateTimeKind.Utc);
+                record.Date = DateTime.SpecifyKind(record.Date, DateTimeKind.Utc);
+
+                record.Sheet = statisticsSheet.Id;
+
+                var existingRecord = statisticsSheet.MonthViewsRecords
+                                                    .FirstOrDefault(mvr => mvr.Date == record.Date);
+                if (existingRecord != null)
+                {
+                    // Update existing record
+                    existingRecord.Views = record.Views;
+                    existingRecord.LastMessageId = record.LastMessageId;
+                    existingRecord.Updated = DateTime.UtcNow;
+                }
+                else
+                {
+                    // Add new record
+                    record.Updated = DateTime.UtcNow;
+                    statisticsSheet.MonthViewsRecords.Add(record);
+                }
+
+                if (updateOnlyFirstMonth)
+                    break; // Update only the first record if specified
+            }
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        private async Task<List<MonthViewsRecord>> WaitForWebSocketAndUpdateForMonth(MonthViewsRequest request, Channel channel)
+        {
+            try
+            {
+                // Construct parameters for WebSocket request
+                var parameters = new
+                {
+                    channel_id = channel.TelegramId,
+                    months = request.Months
+                };
+
+                // Call the WebSocket service and wait for the response
+                var response = await _webSocketService.CallFunctionAsync("getMonthlyViews", parameters, TimeSpan.FromSeconds(600));
+                if (response is OkObjectResult okResult && okResult.Value is string jsonString)
+                {
+                    // Deserialize the response
+                    var monthViewsRecords = JsonConvert.DeserializeObject<List<MonthViewsRecord>>(jsonString);
+                    if (monthViewsRecords != null && monthViewsRecords.Any())
+                    {
+                        // Update the database with the new records
+                        await UpdateDatabaseWithMonthViewsRecords(monthViewsRecords, request.ChannelId, _context, false);
+
+                        // Convert the records to a list of month views to return
+                        return monthViewsRecords;
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Received empty or invalid data from WebSocket.");
+                    }
+                }
+                else
+                {
+                    _logger.LogWarning("Invalid or no response from WebSocket service.");
+                }
+            }
+            catch (JsonException jsonEx)
+            {
+                _logger.LogError(jsonEx, "Error in deserializing the data received from WebSocket.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while waiting for WebSocket data and updating.");
+            }
+            return new List<MonthViewsRecord>(); // Return an empty list if there's an error or no data
         }
 
 
