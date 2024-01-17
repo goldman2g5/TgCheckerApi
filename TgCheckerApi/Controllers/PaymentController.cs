@@ -13,7 +13,7 @@ namespace TgCheckerApi.Controllers
 
         public PaymentController()
         {
-            var client = new Client("287545", "live_REV-pY_i7jxVgHlnwFlkH5mxEvtUmQATqY2Z4vTgVo4");
+            var client = new Client("306141", "test_aFnqFN78UeQ7Hsi-xe5W5Cwcd5IzAJwHF43PsghF45c");
             _asyncClient = client.MakeAsync();
         }
 

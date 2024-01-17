@@ -338,20 +338,23 @@ namespace TgCheckerApi.Controllers
         [HttpPost("SubscribersHistory")]
         public async Task<ActionResult<List<double>>> GetSubscribersHistoryAsync([FromBody] SubHistoryRequest dailyViewsRequest)
         {
-            DateTime startDate;
+            DateTime startDate = DateTime.UtcNow;
             DateTime endDate = DateTime.UtcNow;
+            startDate = startDate.ToUniversalTime();
+            endDate = endDate.ToUniversalTime();
 
             if (dailyViewsRequest.Months != null & dailyViewsRequest.Months > 0)
             {
-                startDate = DateTime.UtcNow.AddMonths((int)-dailyViewsRequest.Months);
-                startDate = new DateTime(startDate.Year, startDate.Month, 1); // Set to the first day of the month
+                startDate = DateTime.UtcNow.AddMonths((int)-dailyViewsRequest.Months).ToUniversalTime();
+                startDate = new DateTime(startDate.Year, startDate.Month, 1).ToUniversalTime(); // Set to the first day of the month
 
                 List<double> bebra = await CalculateDailySubscribersHistory(startDate, endDate, dailyViewsRequest.ChannelId);
 
                 var monthlyTotals = bebra
                    .Select((value, index) => new { Value = value, Month = startDate.AddMonths(index / 30).Month }) // Adjust index to month
                    .GroupBy(x => x.Month)
-                   .Select(g => g.Average(x => x.Value)) // Only return the sum (or average)
+                   .Select(g => g.Average(x => x.Value)) // Calculate the average
+                   .Skip(1) // Skip the first result
                    .ToList();
 
                 return monthlyTotals; // This now matches the expected return type
@@ -361,6 +364,7 @@ namespace TgCheckerApi.Controllers
                 startDate = DateTime.UtcNow.AddDays(-dailyViewsRequest.NumberOfDays);
                 return await CalculateDailySubscribersHistory(startDate, endDate, dailyViewsRequest.ChannelId);
             }
+
         }
 
         private async Task<List<double>> CalculateDailySubscribersHistory(DateTime startDate, DateTime endDate, int channelId)
