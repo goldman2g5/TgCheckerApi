@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TgCheckerApi.Models.TempScaffold;
+namespace TgCheckerApi.Models.BaseModels;
 
-public partial class Payment
+public partial class TelegramPayment
 {
     public int Id { get; set; }
 

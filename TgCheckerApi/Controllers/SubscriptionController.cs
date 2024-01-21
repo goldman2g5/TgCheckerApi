@@ -81,7 +81,7 @@ namespace TgCheckerApi.Controllers
         [HttpGet("GetPayment/{id}")]
         public async Task<IActionResult> GetPayment(int id)
         {
-            var payment = await _context.Payments.FirstOrDefaultAsync(p => p.Id == id);
+            var payment = await _context.TelegramPayments.FirstOrDefaultAsync(p => p.Id == id);
             if (payment == null)
             {
                 return NotFound();
@@ -116,7 +116,7 @@ namespace TgCheckerApi.Controllers
                         return BadRequest("Invalid details");
                     }
 
-                    var payment = new Payment
+                    var payment = new TelegramPayment
                     {
                         SubscriptionTypeId = request.SubscriptionTypeId,
                         Duration = request.Duration,
@@ -131,7 +131,7 @@ namespace TgCheckerApi.Controllers
                         Status = "pending"
                     };
 
-                    await _context.Payments.AddAsync(payment);
+                    await _context.TelegramPayments.AddAsync(payment);
                     await _context.SaveChangesAsync();
                     return Ok(payment.Id);
                 }

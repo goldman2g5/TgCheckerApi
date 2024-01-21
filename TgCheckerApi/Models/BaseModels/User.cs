@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Models.BaseModels;
 
@@ -35,4 +36,6 @@ public partial class User
     public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
     [JsonIgnore]
     public virtual ICollection<Staff> Staff { get; set; } = new List<Staff>();
+    [JsonIgnore]
+    public virtual ICollection<TelegramPayment> TelegramPayments { get; set; } = new List<TelegramPayment>();
 }

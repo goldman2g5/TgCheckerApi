@@ -51,8 +51,15 @@ namespace TgCheckerApi.Controllers
             {
                 var payment = await _asyncClient.CreatePaymentAsync(newPayment);
 
-                // Instead of redirecting, return a JSON object with the payment details
-                return new JsonResult(payment);
+                // Check if confirmation URL is available and return it along with the payment ID
+                if (payment.Confirmation?.ConfirmationUrl != null)
+                {
+                    return Ok(new { PaymentId = payment.Id, RedirectUrl = payment.Confirmation.ConfirmationUrl });
+                }
+                else
+                {
+                    return BadRequest("Confirmation URL is not available.");
+                }
             }
             catch (Exception ex)
             {

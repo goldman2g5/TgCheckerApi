@@ -1,38 +1,85 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace TgCheckerApi.Models.BaseModels;
 
 public partial class Payment
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public int SubscriptionTypeId { get; set; }
+    public string? Status { get; set; }
 
-    public int Duration { get; set; }
+    public bool? Paid { get; set; }
 
-    public bool AutoRenewal { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
-    public int Discount { get; set; }
+    public string? ReceiptRegistration { get; set; }
 
-    public int ChannelId { get; set; }
+    public DateTime? CapturedAt { get; set; }
 
-    public string ChannelName { get; set; } = null!;
+    public DateTime? ExpiresAt { get; set; }
+
+    public string? PaymentMethod { get; set; }
+
+    public bool? Test { get; set; }
+
+    public decimal? RefundedAmount { get; set; }
+
+    public string? CancellationDetails { get; set; }
+
+    public string? AuthorizationDetails { get; set; }
+
+    public string? PayoutDestination { get; set; }
+
+    public decimal? AmountValue { get; set; }
+
+    public string? AmountCurrency { get; set; }
+
+    public string? Description { get; set; }
+
+    public bool? Capture { get; set; }
+
+    public string? ConfirmationType { get; set; }
+
+    public string? ConfirmationReturnUrl { get; set; }
+
+    public string? ConfirmationConfirmationUrl { get; set; }
+
+    public bool? ConfirmationEnforce { get; set; }
+
+    public string? ConfirmationLocale { get; set; }
+
+    public string? ConfirmationConfirmationToken { get; set; }
+
+    public string? Metadata { get; set; }
+
+    public string? Receipt { get; set; }
+
+    public string? RecipientAccountId { get; set; }
+
+    public string? RecipientGatewayId { get; set; }
+
+    public string? PaymentToken { get; set; }
+
+    public string? PaymentMethodId { get; set; }
+
+    public string? PaymentMethodData { get; set; }
+
+    public bool? SavePaymentMethod { get; set; }
+
+    public string? ClientIp { get; set; }
+
+    public string? Airline { get; set; }
+
+    public string? Deal { get; set; }
+
+    public string? MerchantCustomerId { get; set; }
 
     public int UserId { get; set; }
 
-    public string Username { get; set; } = null!;
+    public int ChannelId { get; set; }
 
-    public DateTime? Expires { get; set; }
-
-    public string Status { get; set; } = null!;
-
-    public int Price { get; set; }
-    [JsonIgnore]
     public virtual Channel Channel { get; set; } = null!;
-    [JsonIgnore]
-    public virtual SubType SubscriptionType { get; set; } = null!;
-    [JsonIgnore]
+
     public virtual User User { get; set; } = null!;
 }

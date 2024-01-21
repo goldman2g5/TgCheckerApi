@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Models.BaseModels;
 
@@ -54,6 +55,8 @@ public partial class TgDbContext : DbContext
     public virtual DbSet<SubscribersRecord> SubscribersRecords { get; set; }
 
     public virtual DbSet<Tag> Tags { get; set; }
+
+    public virtual DbSet<TelegramPayment> TelegramPayments { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -312,46 +315,99 @@ public partial class TgDbContext : DbContext
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("payments_pkey");
-
-            entity.ToTable("payments");
-
-            entity.HasIndex(e => e.ChannelId, "IX_payments_channelId");
-
-            entity.HasIndex(e => e.SubscriptionTypeId, "IX_payments_subscription_type_id");
-
-            entity.HasIndex(e => e.UserId, "IX_payments_userId");
+            entity.HasKey(e => e.Id).HasName("payments_pkey1");
 
             entity.Property(e => e.Id)
-                .UseIdentityAlwaysColumn()
+                .ValueGeneratedNever()
                 .HasColumnName("id");
-            entity.Property(e => e.AutoRenewal).HasColumnName("autoRenewal");
-            entity.Property(e => e.ChannelId).HasColumnName("channelId");
-            entity.Property(e => e.ChannelName).HasColumnName("channel_name");
-            entity.Property(e => e.Discount).HasColumnName("discount");
-            entity.Property(e => e.Duration).HasColumnName("duration");
-            entity.Property(e => e.Expires)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("expires");
-            entity.Property(e => e.Price).HasColumnName("price");
-            entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.SubscriptionTypeId).HasColumnName("subscription_type_id");
-            entity.Property(e => e.UserId).HasColumnName("userId");
-            entity.Property(e => e.Username).HasColumnName("username");
+            entity.Property(e => e.Airline)
+                .HasColumnType("jsonb")
+                .HasColumnName("airline");
+            entity.Property(e => e.AmountCurrency)
+                .HasMaxLength(3)
+                .HasColumnName("amount_currency");
+            entity.Property(e => e.AmountValue).HasColumnName("amount_value");
+            entity.Property(e => e.AuthorizationDetails)
+                .HasColumnType("jsonb")
+                .HasColumnName("authorization_details");
+            entity.Property(e => e.CancellationDetails)
+                .HasColumnType("jsonb")
+                .HasColumnName("cancellation_details");
+            entity.Property(e => e.Capture).HasColumnName("capture");
+            entity.Property(e => e.CapturedAt).HasColumnName("captured_at");
+            entity.Property(e => e.ChannelId).HasColumnName("channel_id");
+            entity.Property(e => e.ClientIp)
+                .HasMaxLength(255)
+                .HasColumnName("client_ip");
+            entity.Property(e => e.ConfirmationConfirmationToken)
+                .HasMaxLength(255)
+                .HasColumnName("confirmation_confirmation_token");
+            entity.Property(e => e.ConfirmationConfirmationUrl).HasColumnName("confirmation_confirmation_url");
+            entity.Property(e => e.ConfirmationEnforce).HasColumnName("confirmation_enforce");
+            entity.Property(e => e.ConfirmationLocale)
+                .HasMaxLength(50)
+                .HasColumnName("confirmation_locale");
+            entity.Property(e => e.ConfirmationReturnUrl).HasColumnName("confirmation_return_url");
+            entity.Property(e => e.ConfirmationType)
+                .HasMaxLength(50)
+                .HasColumnName("confirmation_type");
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+            entity.Property(e => e.Deal)
+                .HasColumnType("jsonb")
+                .HasColumnName("deal");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.ExpiresAt).HasColumnName("expires_at");
+            entity.Property(e => e.MerchantCustomerId)
+                .HasMaxLength(255)
+                .HasColumnName("merchant_customer_id");
+            entity.Property(e => e.Metadata)
+                .HasColumnType("jsonb")
+                .HasColumnName("metadata");
+            entity.Property(e => e.Paid).HasColumnName("paid");
+            entity.Property(e => e.PaymentMethod)
+                .HasMaxLength(255)
+                .HasColumnName("payment_method");
+            entity.Property(e => e.PaymentMethodData)
+                .HasColumnType("jsonb")
+                .HasColumnName("payment_method_data");
+            entity.Property(e => e.PaymentMethodId)
+                .HasMaxLength(255)
+                .HasColumnName("payment_method_id");
+            entity.Property(e => e.PaymentToken)
+                .HasMaxLength(255)
+                .HasColumnName("payment_token");
+            entity.Property(e => e.PayoutDestination)
+                .HasMaxLength(255)
+                .HasColumnName("payout_destination");
+            entity.Property(e => e.Receipt)
+                .HasColumnType("jsonb")
+                .HasColumnName("receipt");
+            entity.Property(e => e.ReceiptRegistration)
+                .HasMaxLength(255)
+                .HasColumnName("receipt_registration");
+            entity.Property(e => e.RecipientAccountId)
+                .HasMaxLength(255)
+                .HasColumnName("recipient_account_id");
+            entity.Property(e => e.RecipientGatewayId)
+                .HasMaxLength(255)
+                .HasColumnName("recipient_gateway_id");
+            entity.Property(e => e.RefundedAmount).HasColumnName("refunded_amount");
+            entity.Property(e => e.SavePaymentMethod).HasColumnName("save_payment_method");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+            entity.Property(e => e.Test).HasColumnName("test");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.ChannelId)
-                .HasConstraintName("channel_id_fk");
-
-            entity.HasOne(d => d.SubscriptionType).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.SubscriptionTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("subtype_fk");
+                .HasConstraintName("channel_fk");
 
             entity.HasOne(d => d.User).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("user_id_fk");
+                .HasConstraintName("user_fk");
         });
 
         modelBuilder.Entity<Report>(entity =>
@@ -488,6 +544,48 @@ public partial class TgDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Text).HasColumnName("text");
+        });
+
+        modelBuilder.Entity<TelegramPayment>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("payments_pkey");
+
+            entity.HasIndex(e => e.ChannelId, "IX_payments_channelId");
+
+            entity.HasIndex(e => e.SubscriptionTypeId, "IX_payments_subscription_type_id");
+
+            entity.HasIndex(e => e.UserId, "IX_payments_userId");
+
+            entity.Property(e => e.Id)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("id");
+            entity.Property(e => e.AutoRenewal).HasColumnName("autoRenewal");
+            entity.Property(e => e.ChannelId).HasColumnName("channelId");
+            entity.Property(e => e.ChannelName).HasColumnName("channel_name");
+            entity.Property(e => e.Discount).HasColumnName("discount");
+            entity.Property(e => e.Duration).HasColumnName("duration");
+            entity.Property(e => e.Expires)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("expires");
+            entity.Property(e => e.Price).HasColumnName("price");
+            entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.SubscriptionTypeId).HasColumnName("subscription_type_id");
+            entity.Property(e => e.UserId).HasColumnName("userId");
+            entity.Property(e => e.Username).HasColumnName("username");
+
+            entity.HasOne(d => d.Channel).WithMany(p => p.TelegramPayments)
+                .HasForeignKey(d => d.ChannelId)
+                .HasConstraintName("channel_id_fk");
+
+            entity.HasOne(d => d.SubscriptionType).WithMany(p => p.TelegramPayments)
+                .HasForeignKey(d => d.SubscriptionTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("subtype_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.TelegramPayments)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("user_id_fk");
         });
 
         modelBuilder.Entity<User>(entity =>

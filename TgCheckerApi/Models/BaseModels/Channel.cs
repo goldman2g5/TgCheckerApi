@@ -62,5 +62,7 @@ public partial class Channel
     [JsonIgnore]
     public virtual ICollection<StatisticsSheet> StatisticsSheets { get; set; } = new List<StatisticsSheet>();
     [JsonIgnore]
+    public virtual ICollection<TelegramPayment> TelegramPayments { get; set; } = new List<TelegramPayment>();
+    [JsonIgnore]
     public virtual User? UserNavigation { get; set; }
 }
