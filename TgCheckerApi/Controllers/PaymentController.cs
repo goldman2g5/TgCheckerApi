@@ -5,8 +5,9 @@ using TgCheckerApi.Models.BaseModels;
 using Yandex.Checkout.V3;
 using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Services;
-using System.Threading.Channels;
 using Microsoft.EntityFrameworkCore;
+using TgCheckerApi.Utility;
+using TgCheckerApi.Models;
 
 namespace TgCheckerApi.Controllers
 {
@@ -17,12 +18,14 @@ namespace TgCheckerApi.Controllers
         private readonly AsyncClient _asyncClient;
         private readonly TgDbContext _context;
         private readonly UserService _userService;
+        private readonly SubscriptionService _subscriptionService;
 
         public PaymentController(TgDbContext context)
         {
             var client = new Client("306141", "test_aFnqFN78UeQ7Hsi-xe5W5Cwcd5IzAJwHF43PsghF45c");
             _asyncClient = client.MakeAsync();
             _context = context;
+            _subscriptionService = new SubscriptionService(context);
             _userService = new UserService(context);
         }
 
@@ -34,6 +37,10 @@ namespace TgCheckerApi.Controllers
             public string Description { get; set; }
 
             public int ChannelId { get; set; }
+
+            public int SubType { get; set; }
+
+            public int Duration { get; set; }
             // Include additional fields as necessary
         }
 
@@ -54,6 +61,34 @@ namespace TgCheckerApi.Controllers
             if (!_userService.UserHasAccessToChannel(user, channel))
             {
                 return Unauthorized();
+            }
+
+            bool isValidSubscription = false;
+            Dictionary<int, PriceDetail> pricing = null;
+
+            switch (paymentRequest.SubType)
+            {
+                case 1: // Lite
+                    pricing = SubscriptionService.LiteSubPricing;
+                    break;
+                case 2: // Pro
+                    pricing = SubscriptionService.ProSubPricing;
+                    break;
+                case 3: // Super
+                    pricing = SubscriptionService.SuperSubPricing;
+                    break;
+                default:
+                    return BadRequest("Invalid subscription type.");
+            }
+
+            if (pricing != null && pricing.ContainsKey(paymentRequest.Duration))
+            {
+                isValidSubscription = true;
+            }
+
+            if (!isValidSubscription)
+            {
+                return BadRequest("Invalid subscription duration.");
             }
 
             // Create an instance of NewPayment class with necessary details
@@ -88,18 +123,16 @@ namespace TgCheckerApi.Controllers
                         Status = payment.Status.ToString(),
                         Paid = payment.Paid,
                         CreatedAt = payment.CreatedAt,
-                        CapturedAt = payment.CapturedAt, // Assuming these are DateTime?
+                        CapturedAt = payment.CapturedAt,
                         ExpiresAt = payment.ExpiresAt,
                         AmountValue = payment.Amount.Value,
                         AmountCurrency = payment.Amount.Currency,
                         Description = payment.Description,
                         Capture = payment.Capture,
                         ClientIp = payment.ClientIp,
-                        UserId = user.Id, // Hardcoded for example; replace with actual data
-                        ChannelId = channel.Id, // Hardcoded for example; replace with actual data
-                        FullJson = JsonConvert.SerializeObject(payment) // Serialize the full payment object
-
-                        // ... Populate other fields ...
+                        UserId = user.Id,
+                        ChannelId = channel.Id,
+                        FullJson = JsonConvert.SerializeObject(payment)
                     };
 
                     // Insert the new record into the database
@@ -131,17 +164,48 @@ namespace TgCheckerApi.Controllers
                 if (capturedPayment != null)
                 {
                     // Find the payment in the database
-                    var paymentToUpdate = await _context.Payments.FirstOrDefaultAsync(p => p.Id == Guid.Parse(paymentId));
+                    var paymentToUpdate = await _context.Payments
+                                        .Include(p => p.Channel) // Assuming the Payment entity includes a navigation property to Channel
+                                        .FirstOrDefaultAsync(p => p.Id == Guid.Parse(paymentId));
                     if (paymentToUpdate != null)
                     {
                         // Update the necessary fields in the payment record
                         paymentToUpdate.Status = capturedPayment.Status.ToString();
                         paymentToUpdate.CapturedAt = DateTime.UtcNow; // or use capturedPayment.CapturedAt if available
-                        paymentToUpdate.Capture = true; // Assuming capture is successful
+                        paymentToUpdate.Capture = capturedPayment.Capture; // Assuming capture is successful
+                        paymentToUpdate.Paid = capturedPayment.Paid;
                         paymentToUpdate.CaptureJson = JsonConvert.SerializeObject(capturedPayment); // Serialize the captured payment details
 
                         _context.Payments.Update(paymentToUpdate);
                         await _context.SaveChangesAsync();
+
+                        // Check if the payment capture was successful and subscribe the channel
+                        Console.WriteLine(capturedPayment.Status.ToString());
+                        if (capturedPayment.Status.ToString() == "Succeeded") // Replace "Success" with the actual success status
+                        {
+                            int channelId = paymentToUpdate.ChannelId;
+                            int subtypeId = 1; // Determine the subscription type ID
+
+                            // Replicated subscription logic
+                            var channel = await FindChannelById(channelId);
+                            //Console.WriteLine(channelId);
+                            if (channel == null) return NotFound();
+
+                            var currentServerTime = _subscriptionService.GetCurrentServerTime();
+                            var existingSubscription = await _subscriptionService.GetExistingSubscription(channelId, subtypeId, currentServerTime);
+
+                            if (existingSubscription != null)
+                            {
+                                await _subscriptionService.ExtendExistingSubscription(existingSubscription);
+                                return Ok($"Subscription for channel {channelId} has been extended by 1 month with subscription type {existingSubscription.Type.Name}.");
+                            }
+
+                            var subscriptionType = await _subscriptionService.GetSubscriptionType(subtypeId);
+                            if (subscriptionType == null) return BadRequest("Invalid subscription type.");
+
+                            await _subscriptionService.AddNewSubscription(channelId, subtypeId, currentServerTime);
+                            return Ok($"Channel {channelId} has been subscribed for 1 month with subscription type {subscriptionType.Name}.");
+                        }
                     }
                     else
                     {
@@ -161,6 +225,10 @@ namespace TgCheckerApi.Controllers
                 // Handle any exceptions and return an appropriate message or error code.
                 return BadRequest(ex.Message);
             }
+        }
+        private async Task<Channel> FindChannelById(int id)
+        {
+            return await _context.Channels.FindAsync(id);
         }
     }
 

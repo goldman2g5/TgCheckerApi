@@ -60,9 +60,9 @@ namespace TgCheckerApi.Utility
                 .FirstOrDefaultAsync(s => s.ChannelId == channelId && s.Expires > currentTime && s.TypeId == subtypeId);
         }
 
-        public async Task ExtendExistingSubscription(ChannelHasSubscription subscription)
+        public async Task ExtendExistingSubscription(ChannelHasSubscription subscription, int duration = SubscriptionDurationMinutes)
         {
-            subscription.Expires = subscription.Expires.Value.AddMinutes(SubscriptionDurationMinutes);
+            subscription.Expires = subscription.Expires.Value.AddMinutes(duration);
             await _context.SaveChangesAsync();
         }
 
@@ -71,12 +71,12 @@ namespace TgCheckerApi.Utility
             return await _context.SubTypes.FirstOrDefaultAsync(s => s.Id == subtypeId);
         }
 
-        public async Task AddNewSubscription(int channelId, int subtypeId, DateTime currentServerTime)
+        public async Task AddNewSubscription(int channelId, int subtypeId, DateTime currentServerTime, int duration = SubscriptionDurationMinutes)
         {
             var subscription = new ChannelHasSubscription
             {
                 TypeId = subtypeId,
-                Expires = currentServerTime.AddMinutes(SubscriptionDurationMinutes),
+                Expires = currentServerTime.AddMinutes(duration),
                 ChannelId = channelId
             };
 
