@@ -236,6 +236,7 @@ namespace TgCheckerApi.Controllers
 
             // Update the notification settings based on the provided DTO
             user.NotificationSettingsNavigation.Bump = settingsDto.Bump;
+            user.NotificationSettingsNavigation.General = settingsDto.General;
             user.NotificationSettingsNavigation.Important = settingsDto.Important;
 
             await _context.SaveChangesAsync();

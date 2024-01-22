@@ -18,5 +18,7 @@ public partial class SubType
     [JsonIgnore]
     public virtual ICollection<ChannelHasSubscription> ChannelHasSubscriptions { get; set; } = new List<ChannelHasSubscription>();
     [JsonIgnore]
+    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+    [JsonIgnore]
     public virtual ICollection<TelegramPayment> TelegramPayments { get; set; } = new List<TelegramPayment>();
 }

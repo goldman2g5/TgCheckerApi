@@ -324,6 +324,9 @@ public partial class TgDbContext : DbContext
                 .HasColumnName("amount_currency");
             entity.Property(e => e.AmountValue).HasColumnName("amount_value");
             entity.Property(e => e.Capture).HasColumnName("capture");
+            entity.Property(e => e.CaptureJson)
+                .HasColumnType("json")
+                .HasColumnName("capture_json");
             entity.Property(e => e.CapturedAt).HasColumnName("captured_at");
             entity.Property(e => e.ChannelId).HasColumnName("channel_id");
             entity.Property(e => e.ClientIp)
@@ -331,26 +334,30 @@ public partial class TgDbContext : DbContext
                 .HasColumnName("client_ip");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Duration).HasColumnName("duration");
             entity.Property(e => e.ExpiresAt).HasColumnName("expires_at");
             entity.Property(e => e.FullJson)
                 .HasColumnType("json")
                 .HasColumnName("full_json");
-            entity.Property(e => e.FullJson)
-                .HasColumnType("json")
-                .HasColumnName("full_json");
-            entity.Property(e => e.CaptureJson)
-                .HasColumnType("json")
-                .HasColumnName("capture_json");
             entity.Property(e => e.Paid).HasColumnName("paid");
+            entity.Property(e => e.PaymentMethod)
+                .HasMaxLength(255)
+                .HasColumnName("payment_method");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.SubtypeId).HasColumnName("subtype_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.ChannelId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("channel_fk");
+
+            entity.HasOne(d => d.Subtype).WithMany(p => p.Payments)
+                .HasForeignKey(d => d.SubtypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("subtype_fk");
 
             entity.HasOne(d => d.User).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.UserId)

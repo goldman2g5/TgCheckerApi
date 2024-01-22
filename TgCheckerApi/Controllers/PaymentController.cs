@@ -63,7 +63,7 @@ namespace TgCheckerApi.Controllers
                 return Unauthorized();
             }
 
-            bool isValidSubscription = false;
+            bool isPriceValid = false;
             Dictionary<int, PriceDetail> pricing = null;
 
             switch (paymentRequest.SubType)
@@ -81,14 +81,17 @@ namespace TgCheckerApi.Controllers
                     return BadRequest("Invalid subscription type.");
             }
 
-            if (pricing != null && pricing.ContainsKey(paymentRequest.Duration))
+            if (pricing != null && pricing.TryGetValue(paymentRequest.Duration, out PriceDetail priceDetail))
             {
-                isValidSubscription = true;
+                // Compare the requested amount with the expected price
+                // Assuming Amount is the default price or discounted price
+                isPriceValid = (paymentRequest.Amount == priceDetail.DefaultPrice) ||
+                               (paymentRequest.Amount == priceDetail.DiscountedPrice);
             }
 
-            if (!isValidSubscription)
+            if (!isPriceValid)
             {
-                return BadRequest("Invalid subscription duration.");
+                return BadRequest("Invalid amount for the specified subscription type and duration.");
             }
 
             // Create an instance of NewPayment class with necessary details
@@ -132,6 +135,8 @@ namespace TgCheckerApi.Controllers
                         ClientIp = payment.ClientIp,
                         UserId = user.Id,
                         ChannelId = channel.Id,
+                        Duration = paymentRequest.Duration,
+                        SubtypeId = paymentRequest.SubType,
                         FullJson = JsonConvert.SerializeObject(payment)
                     };
 
@@ -184,7 +189,7 @@ namespace TgCheckerApi.Controllers
                         if (capturedPayment.Status.ToString() == "Succeeded") // Replace "Success" with the actual success status
                         {
                             int channelId = paymentToUpdate.ChannelId;
-                            int subtypeId = 1; // Determine the subscription type ID
+                            int subtypeId = paymentToUpdate.SubtypeId; // Determine the subscription type ID
 
                             // Replicated subscription logic
                             var channel = await FindChannelById(channelId);
@@ -196,14 +201,14 @@ namespace TgCheckerApi.Controllers
 
                             if (existingSubscription != null)
                             {
-                                await _subscriptionService.ExtendExistingSubscription(existingSubscription);
+                                await _subscriptionService.ExtendExistingSubscription(existingSubscription, paymentToUpdate.Duration);
                                 return Ok($"Subscription for channel {channelId} has been extended by 1 month with subscription type {existingSubscription.Type.Name}.");
                             }
 
                             var subscriptionType = await _subscriptionService.GetSubscriptionType(subtypeId);
                             if (subscriptionType == null) return BadRequest("Invalid subscription type.");
 
-                            await _subscriptionService.AddNewSubscription(channelId, subtypeId, currentServerTime);
+                            await _subscriptionService.AddNewSubscription(channelId, subtypeId, currentServerTime, paymentToUpdate.Duration);
                             return Ok($"Channel {channelId} has been subscribed for 1 month with subscription type {subscriptionType.Name}.");
                         }
                     }
