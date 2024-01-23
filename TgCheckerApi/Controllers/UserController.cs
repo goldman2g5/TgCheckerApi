@@ -30,7 +30,37 @@ namespace TgCheckerApi.MapperProfiles
             _userService = new UserService(context);
         }
 
-    
+        [HttpGet("PaymentHistory")]
+        [RequiresJwtValidation]
+        public async Task<ActionResult<IEnumerable<PaymentHistoryModel>>> GetPaymentHistory()
+        {
+            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+
+            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
+
+            if (user == null)
+            {
+                return Unauthorized(); // Now valid with the ActionResult return type
+            }
+
+            int userId = user.Id;
+
+            var paymentHistory = await _context.Payments
+                .Where(p => p.UserId == userId)
+                .Select(p => new PaymentHistoryModel
+                {
+                    ChannelId = p.ChannelId,
+                    PaymentId = p.Id,
+                    ChannelSubscriptionType = p.SubtypeId, // Adjust according to actual subscription type
+                    PurchaseDate = p.CreatedAt,
+                    SubscriptionDuration = p.Duration,
+                    AmountValue = p.AmountValue,
+                    AmountCurrency = p.AmountCurrency
+                })
+                .ToListAsync();
+
+            return paymentHistory;
+        }
 
         // GET: api/User
         [HttpGet]
