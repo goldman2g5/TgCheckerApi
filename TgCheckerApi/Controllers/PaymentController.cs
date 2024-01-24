@@ -163,37 +163,31 @@ namespace TgCheckerApi.Controllers
         {
             try
             {
-                // Capture the payment asynchronously
                 var capturedPayment = await _asyncClient.CapturePaymentAsync(paymentId);
 
                 if (capturedPayment != null)
                 {
-                    // Find the payment in the database
                     var paymentToUpdate = await _context.Payments
-                                        .Include(p => p.Channel) // Assuming the Payment entity includes a navigation property to Channel
+                                        .Include(p => p.Channel)
                                         .FirstOrDefaultAsync(p => p.Id == Guid.Parse(paymentId));
+
                     if (paymentToUpdate != null)
                     {
-                        // Update the necessary fields in the payment record
                         paymentToUpdate.Status = capturedPayment.Status.ToString();
-                        paymentToUpdate.CapturedAt = DateTime.UtcNow; // or use capturedPayment.CapturedAt if available
-                        paymentToUpdate.Capture = capturedPayment.Capture; // Assuming capture is successful
+                        paymentToUpdate.CapturedAt = DateTime.UtcNow;
+                        paymentToUpdate.Capture = capturedPayment.Capture;
                         paymentToUpdate.Paid = capturedPayment.Paid;
-                        paymentToUpdate.CaptureJson = JsonConvert.SerializeObject(capturedPayment); // Serialize the captured payment details
 
                         _context.Payments.Update(paymentToUpdate);
                         await _context.SaveChangesAsync();
 
-                        // Check if the payment capture was successful and subscribe the channel
-                        Console.WriteLine(capturedPayment.Status.ToString());
-                        if (capturedPayment.Status.ToString() == "Succeeded") // Replace "Success" with the actual success status
+                        string message;
+                        if (capturedPayment.Status.ToString() == "Succeeded" && !(paymentToUpdate.SubGiven ?? false))
                         {
                             int channelId = paymentToUpdate.ChannelId;
-                            int subtypeId = paymentToUpdate.SubtypeId; // Determine the subscription type ID
+                            int subtypeId = paymentToUpdate.SubtypeId;
 
-                            // Replicated subscription logic
                             var channel = await FindChannelById(channelId);
-                            //Console.WriteLine(channelId);
                             if (channel == null) return NotFound();
 
                             var currentServerTime = _subscriptionService.GetCurrentServerTime();
@@ -202,15 +196,35 @@ namespace TgCheckerApi.Controllers
                             if (existingSubscription != null)
                             {
                                 await _subscriptionService.ExtendExistingSubscription(existingSubscription, paymentToUpdate.Duration);
-                                return Ok($"Subscription for channel {channelId} has been extended by 1 month with subscription type {existingSubscription.Type.Name}.");
+                                message = $"Subscription for channel {channelId} has been extended by {paymentToUpdate.Duration} days.";
+                            }
+                            else
+                            {
+                                var subscriptionType = await _subscriptionService.GetSubscriptionType(subtypeId);
+                                if (subscriptionType == null) return BadRequest("Invalid subscription type.");
+
+                                await _subscriptionService.AddNewSubscription(channelId, subtypeId, currentServerTime, paymentToUpdate.Duration);
+                                message = $"Channel {channelId} has been subscribed for {paymentToUpdate.Duration} days.";
                             }
 
-                            var subscriptionType = await _subscriptionService.GetSubscriptionType(subtypeId);
-                            if (subscriptionType == null) return BadRequest("Invalid subscription type.");
-
-                            await _subscriptionService.AddNewSubscription(channelId, subtypeId, currentServerTime, paymentToUpdate.Duration);
-                            return Ok($"Channel {channelId} has been subscribed for 1 month with subscription type {subscriptionType.Name}.");
+                            // Mark that subscription is given
+                            paymentToUpdate.SubGiven = true;
+                            _context.Payments.Update(paymentToUpdate);
+                            await _context.SaveChangesAsync();
                         }
+                        else
+                        {
+                            message = paymentToUpdate.SubGiven ?? false
+                                      ? "Subscription already given for this payment."
+                                      : "Payment capture was not successful.";
+                        }
+
+                        return new JsonResult(new
+                        {
+                            Status = capturedPayment.Status.ToString(),
+                            ChannelId = paymentToUpdate.ChannelId,
+                            Message = message
+                        });
                     }
                     else
                     {
@@ -221,16 +235,13 @@ namespace TgCheckerApi.Controllers
                 {
                     return BadRequest("Failed to capture payment.");
                 }
-
-                // Return a JSON object with the captured payment details
-                return new JsonResult(capturedPayment);
             }
             catch (Exception ex)
             {
-                // Handle any exceptions and return an appropriate message or error code.
                 return BadRequest(ex.Message);
             }
         }
+
         private async Task<Channel> FindChannelById(int id)
         {
             return await _context.Channels.FindAsync(id);

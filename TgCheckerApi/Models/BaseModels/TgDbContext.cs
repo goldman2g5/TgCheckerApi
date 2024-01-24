@@ -346,6 +346,7 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.SubGiven).HasColumnName("sub_given");
             entity.Property(e => e.SubtypeId).HasColumnName("subtype_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 

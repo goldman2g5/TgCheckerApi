@@ -1,0 +1,58 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System;
+using System.Threading.Tasks;
+using TgCheckerApi.Models;
+using TgCheckerApi.Models.BaseModels;
+using Yandex.Checkout.V3;
+
+namespace TgCheckerApi.Services
+{
+    public class YooKassaService
+    {
+        private readonly TgDbContext _context;    // Replace with your actual DbContext
+        private readonly AsyncClient _asyncClient;
+
+        public YooKassaService(TgDbContext context)
+        {
+            var client = new Client("306141", "test_aFnqFN78UeQ7Hsi-xe5W5Cwcd5IzAJwHF43PsghF45c");
+            _asyncClient = client.MakeAsync();
+            _context = context;
+        }
+
+        public async Task<Yandex.Checkout.V3.Payment> CapturePaymentAsync(string paymentId)
+        {
+            var capturedPayment = await _asyncClient.CapturePaymentAsync(paymentId);
+            // Add any additional logic if needed
+            return capturedPayment;
+        }
+
+        public async Task<Yandex.Checkout.V3.Payment> UpdatePaymentRecordAsync(string paymentId)
+        {
+            var capturedPayment = await _asyncClient.CapturePaymentAsync(paymentId);
+            if (capturedPayment == null) return null;
+
+            var paymentToUpdate = await _context.Payments
+                                    .Include(p => p.Channel) // Include navigation property
+                                    .FirstOrDefaultAsync(p => p.Id == Guid.Parse(paymentId));
+
+            if (paymentToUpdate != null)
+            {
+                // Update the necessary fields in the payment record
+                paymentToUpdate.Status = capturedPayment.Status.ToString();
+                paymentToUpdate.CapturedAt = capturedPayment.CapturedAt;
+                paymentToUpdate.ExpiresAt = capturedPayment.ExpiresAt;
+                paymentToUpdate.Capture = capturedPayment.Capture;
+                paymentToUpdate.Paid = capturedPayment.Paid;
+                paymentToUpdate.CaptureJson = JsonConvert.SerializeObject(capturedPayment);
+
+                _context.Payments.Update(paymentToUpdate);
+                await _context.SaveChangesAsync();
+            }
+
+            return capturedPayment;
+        }
+
+        // Include other methods as needed
+    }
+}

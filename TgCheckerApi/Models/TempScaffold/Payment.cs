@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TgCheckerApi.Models.BaseModels;
+namespace TgCheckerApi.Models.TempScaffold;
 
 public partial class Payment
 {
