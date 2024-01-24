@@ -19,14 +19,16 @@ namespace TgCheckerApi.Controllers
         private readonly TgDbContext _context;
         private readonly UserService _userService;
         private readonly SubscriptionService _subscriptionService;
+        private readonly YooKassaService _yooKassaService;
 
-        public PaymentController(TgDbContext context)
+        public PaymentController(TgDbContext context, YooKassaService yooKassaService)
         {
             var client = new Client("306141", "test_aFnqFN78UeQ7Hsi-xe5W5Cwcd5IzAJwHF43PsghF45c");
             _asyncClient = client.MakeAsync();
             _context = context;
             _subscriptionService = new SubscriptionService(context);
             _userService = new UserService(context);
+            _yooKassaService = yooKassaService;
         }
 
         public class PaymentRequest
@@ -164,78 +166,54 @@ namespace TgCheckerApi.Controllers
         {
             try
             {
-                var capturedPayment = await _asyncClient.CapturePaymentAsync(paymentId);
+                var capturedPayment = await _yooKassaService.CapturePaymentAsync(paymentId);
 
-                if (capturedPayment != null)
+                if (capturedPayment == null)
                 {
-                    var paymentToUpdate = await _context.Payments
-                                        .Include(p => p.Channel)
-                                        .FirstOrDefaultAsync(p => p.Id == Guid.Parse(paymentId));
+                    return BadRequest("Failed to capture payment.");
+                }
 
-                    if (paymentToUpdate != null)
+                var paymentToUpdate = await _yooKassaService.UpdatePaymentRecordAsync(paymentId);
+                if (paymentToUpdate == null)
+                {
+                    return NotFound($"Payment with ID {paymentId} not found.");
+                }
+
+                string message;
+
+                if (capturedPayment.Status.ToString() == "Succeeded")
+                {
+                    if (!(paymentToUpdate.SubGiven ?? false)) // Subscription processing if SubGiven is null or false
                     {
-                        paymentToUpdate.Status = capturedPayment.Status.ToString();
-                        paymentToUpdate.CapturedAt = DateTime.UtcNow;
-                        paymentToUpdate.Capture = capturedPayment.Capture;
-                        paymentToUpdate.Paid = capturedPayment.Paid;
+                        var subscriptionResult = await _subscriptionService.HandleSubscription(paymentToUpdate.ChannelId, paymentToUpdate.SubtypeId, paymentToUpdate.Duration, paymentToUpdate.UserId);
 
-                        _context.Payments.Update(paymentToUpdate);
-                        await _context.SaveChangesAsync();
-
-                        string message;
-                        if (capturedPayment.Status.ToString() == "Succeeded" && !(paymentToUpdate.SubGiven ?? false))
+                        if (subscriptionResult is OkObjectResult okResult)
                         {
-                            int channelId = paymentToUpdate.ChannelId;
-                            int subtypeId = paymentToUpdate.SubtypeId;
-
-                            var channel = await FindChannelById(channelId);
-                            if (channel == null) return NotFound();
-
-                            var currentServerTime = _subscriptionService.GetCurrentServerTime();
-                            var existingSubscription = await _subscriptionService.GetExistingSubscription(channelId, subtypeId, currentServerTime);
-
-                            if (existingSubscription != null)
-                            {
-                                await _subscriptionService.ExtendExistingSubscription(existingSubscription, paymentToUpdate.Duration);
-                                message = $"Subscription for channel {channelId} has been extended by {paymentToUpdate.Duration} days.";
-                            }
-                            else
-                            {
-                                var subscriptionType = await _subscriptionService.GetSubscriptionType(subtypeId);
-                                if (subscriptionType == null) return BadRequest("Invalid subscription type.");
-
-                                await _subscriptionService.AddNewSubscription(channelId, subtypeId, currentServerTime, paymentToUpdate.Duration);
-                                message = $"Channel {channelId} has been subscribed for {paymentToUpdate.Duration} days.";
-                            }
-
-                            // Mark that subscription is given
+                            message = okResult.Value.ToString();
                             paymentToUpdate.SubGiven = true;
-                            _context.Payments.Update(paymentToUpdate);
-                            await _context.SaveChangesAsync();
+                            await _context.SaveChangesAsync(); // Consider moving this inside the subscription service
                         }
                         else
                         {
-                            message = paymentToUpdate.SubGiven ?? false
-                                      ? "Subscription already given for this payment."
-                                      : "Payment capture was not successful.";
+                            return subscriptionResult; // Returns BadRequest or NotFound based on the HandleSubscription method.
                         }
-
-                        return new JsonResult(new
-                        {
-                            Status = capturedPayment.Status.ToString(),
-                            ChannelId = paymentToUpdate.ChannelId,
-                            Message = message
-                        });
                     }
                     else
                     {
-                        return NotFound($"Payment with ID {paymentId} not found.");
+                        message = "Subscription already given for this payment.";
                     }
                 }
                 else
                 {
-                    return BadRequest("Failed to capture payment.");
+                    message = "Payment capture was not successful.";
                 }
+
+                return new JsonResult(new
+                {
+                    Status = capturedPayment.Status.ToString(),
+                    ChannelId = paymentToUpdate.ChannelId,
+                    Message = message
+                });
             }
             catch (Exception ex)
             {

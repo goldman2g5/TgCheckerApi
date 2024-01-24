@@ -92,6 +92,7 @@ builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddSingleton<TaskManager>();
 builder.Services.AddSingleton<WebSocketService>();
+builder.Services.AddScoped<YooKassaService>();
 builder.Services.AddSingleton<IJobFactory, QuartzJobFactory>();
 builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 builder.Services.AddSingleton<RatingResetJob>();
