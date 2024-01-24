@@ -44,6 +44,7 @@ namespace TgCheckerApi.Controllers
             // Include additional fields as necessary
         }
 
+        [BypassApiKey]
         [RequiresJwtValidation]
         [HttpPost]
         public async Task<IActionResult> CreatePaymentAsync([FromBody] PaymentRequest paymentRequest)

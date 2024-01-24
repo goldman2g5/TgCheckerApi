@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TgCheckerApi.Utility
 {
@@ -46,6 +47,33 @@ namespace TgCheckerApi.Utility
         public SubscriptionService(TgDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<IActionResult> HandleSubscription(int channelId, int subtypeId, int durationInDays, int userId)
+        {
+            var channel = await FindChannelById(channelId);
+            if (channel == null) return new NotFoundResult();
+
+            var currentServerTime = GetCurrentServerTime();
+            var existingSubscription = await GetExistingSubscription(channelId, subtypeId, currentServerTime);
+
+            if (existingSubscription != null)
+            {
+                await ExtendExistingSubscription(existingSubscription, durationInDays);
+                return new OkObjectResult($"Subscription for channel {channelId} has been extended by {durationInDays} days with subscription type {existingSubscription.Type.Name}.");
+            }
+
+            var subscriptionType = await GetSubscriptionType(subtypeId);
+            if (subscriptionType == null) return new BadRequestObjectResult("Invalid subscription type.");
+
+            await AddNewSubscription(channelId, subtypeId, currentServerTime, durationInDays);
+            return new OkObjectResult($"Channel {channelId} has been subscribed for {durationInDays} days with subscription type {subscriptionType.Name}.");
+        }
+
+        // Helper method to find a channel by its ID
+        private async Task<Channel> FindChannelById(int channelId)
+        {
+            return await _context.Channels.FindAsync(channelId);
         }
 
         public DateTime GetCurrentServerTime()
