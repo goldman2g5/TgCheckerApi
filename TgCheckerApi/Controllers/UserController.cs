@@ -62,6 +62,44 @@ namespace TgCheckerApi.MapperProfiles
             return paymentHistory;
         }
 
+        [HttpGet("ActiveSubscriptions/{telegramId}")]
+        public async Task<ActionResult<IEnumerable<SubscriptionModel>>> GetActiveSubscriptionsByTelegramId(long telegramId)
+        {
+            // Retrieve the user based on Telegram ID
+            var user = await _context.Users
+                .Include(u => u.Channels)
+                .ThenInclude(c => c.ChannelHasSubscriptions)
+                .ThenInclude(s => s.Type)
+                .FirstOrDefaultAsync(u => u.TelegramId == telegramId);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Filter and project the active subscriptions, prioritizing by highest SubTypeId
+            var currentDate = DateTime.UtcNow;
+            var activeSubscriptions = user.Channels
+                .SelectMany(c => c.ChannelHasSubscriptions)
+                .Where(s => s.Expires == null || s.Expires > currentDate)
+                .GroupBy(s => s.ChannelId)
+                .Select(g => g.OrderByDescending(s => s.TypeId).FirstOrDefault()) // Selecting the highest SubTypeId subscription
+                .Where(s => s != null)
+                .Select(s => new SubscriptionModel
+                {
+                    SubscriptionId = s.Id,
+                    ChannelId = s.ChannelId ?? 0,
+                    ChannelName = s.Channel?.Name,
+                    SubscriptionTypeId = s.TypeId ?? 0,
+                    SubscriptionTypeName = s.Type?.Name,
+                    ExpirationDate = s.Expires
+                    // Add other relevant fields as needed
+                })
+                .ToList();
+
+            return activeSubscriptions;
+        }
+
         // GET: api/User
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
