@@ -105,7 +105,7 @@ namespace TgCheckerApi.Controllers
                 var parameters = new { channel_username = channel.TelegramId };
 
                 // Calling the WebSocket function
-                var response = await _webSocketService.CallFunctionAsync("getBroadcastStats", parameters, TimeSpan.FromSeconds(600));
+                var response = await _webSocketService.CallFunctionAsync("getBroadcastStats", parameters, TimeSpan.FromSeconds(30));
 
                 if (response == null)
                 {
@@ -269,7 +269,7 @@ namespace TgCheckerApi.Controllers
 
             try
             {
-                var response = await _webSocketService.CallFunctionAsync("get_subscribers_count_batch", parameters, TimeSpan.FromSeconds(600));
+                var response = await _webSocketService.CallFunctionAsync("get_subscribers_count_batch", parameters, TimeSpan.FromSeconds(300));
                 var subscribersCountDict = _webSocketService.ResponseToObject<Dictionary<long, int>>(response);
 
                 if (subscribersCountDict != null && subscribersCountDict.Any())
@@ -920,7 +920,7 @@ namespace TgCheckerApi.Controllers
                 };
 
                 // Call the WebSocket service and wait for the response
-                var response = await _webSocketService.CallFunctionAsync("getMonthlyViews", parameters, TimeSpan.FromSeconds(600));
+                var response = await _webSocketService.CallFunctionAsync("getMonthlyViews", parameters, TimeSpan.FromSeconds(300));
                 if (response is OkObjectResult okResult && okResult.Value is string jsonString)
                 {
                     // Deserialize the response

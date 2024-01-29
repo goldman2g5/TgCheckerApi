@@ -8,6 +8,7 @@ using TgCheckerApi.Services;
 using Microsoft.EntityFrameworkCore;
 using TgCheckerApi.Utility;
 using TgCheckerApi.Models;
+using Serilog;
 
 namespace TgCheckerApi.Controllers
 {
@@ -20,8 +21,9 @@ namespace TgCheckerApi.Controllers
         private readonly UserService _userService;
         private readonly SubscriptionService _subscriptionService;
         private readonly YooKassaService _yooKassaService;
+        private readonly ILogger<PaymentController> _logger;
 
-        public PaymentController(TgDbContext context, YooKassaService yooKassaService)
+        public PaymentController(TgDbContext context, YooKassaService yooKassaService, ILogger<PaymentController> logger)
         {
             var client = new Client("306141", "test_aFnqFN78UeQ7Hsi-xe5W5Cwcd5IzAJwHF43PsghF45c");
             _asyncClient = client.MakeAsync();
@@ -29,6 +31,7 @@ namespace TgCheckerApi.Controllers
             _subscriptionService = new SubscriptionService(context);
             _userService = new UserService(context);
             _yooKassaService = yooKassaService;
+            _logger = logger;
         }
 
         public class PaymentRequest
@@ -167,7 +170,6 @@ namespace TgCheckerApi.Controllers
             try
             {
                 var capturedPayment = await _yooKassaService.CapturePaymentAsync(paymentId);
-
                 if (capturedPayment == null)
                 {
                     return BadRequest("Failed to capture payment.");
@@ -179,46 +181,80 @@ namespace TgCheckerApi.Controllers
                     return NotFound($"Payment with ID {paymentId} not found.");
                 }
 
-                string message;
-
                 if (capturedPayment.Status.ToString() == "Succeeded")
                 {
-                    if (!(paymentToUpdate.SubGiven ?? false)) // Subscription processing if SubGiven is null or false
-                    {
-                        var subscriptionResult = await _subscriptionService.HandleSubscription(paymentToUpdate.ChannelId, paymentToUpdate.SubtypeId, paymentToUpdate.Duration, paymentToUpdate.UserId);
-
-                        if (subscriptionResult is OkObjectResult okResult)
-                        {
-                            message = okResult.Value.ToString();
-                            paymentToUpdate.SubGiven = true;
-                            await _context.SaveChangesAsync(); // Consider moving this inside the subscription service
-                        }
-                        else
-                        {
-                            return subscriptionResult; // Returns BadRequest or NotFound based on the HandleSubscription method.
-                        }
-                    }
-                    else
-                    {
-                        message = "Subscription already given for this payment.";
-                    }
+                    return await ProcessSubscriptionAsync(paymentToUpdate);
                 }
                 else
                 {
-                    message = "Payment capture was not successful.";
+                    return new JsonResult(new
+                    {
+                        Status = capturedPayment.Status.ToString(),
+                        ChannelId = paymentToUpdate.ChannelId,
+                        Message = "Payment capture was not successful."
+                    });
                 }
-
-                return new JsonResult(new
-                {
-                    Status = capturedPayment.Status.ToString(),
-                    ChannelId = paymentToUpdate.ChannelId,
-                    Message = message
-                });
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        private async Task<IActionResult> ProcessSubscriptionAsync(Models.BaseModels.Payment paymentToUpdate)
+        {
+            string message;
+
+            if (!(paymentToUpdate.SubGiven ?? false))
+            {
+                var subscriptionResult = await _subscriptionService.HandleSubscription(paymentToUpdate.ChannelId, paymentToUpdate.SubtypeId, paymentToUpdate.Duration, paymentToUpdate.UserId);
+
+                if (subscriptionResult is OkObjectResult okResult)
+                {
+                    message = okResult.Value.ToString();
+                    paymentToUpdate.SubGiven = true;
+                    await _context.SaveChangesAsync(); // Consider moving this inside the subscription service
+                }
+                else
+                {
+                    return subscriptionResult; // Returns BadRequest or NotFound based on the HandleSubscription method.
+                }
+            }
+            else
+            {
+                message = "Subscription already given for this payment.";
+            }
+
+            return new JsonResult(new
+            {
+                Status = "Succeeded",
+                ChannelId = paymentToUpdate.ChannelId,
+                Message = message
+            });
+        }
+
+        public class YookassaWebhookEvent
+        {
+            public string Id { get; set; }
+            public string Event { get; set; }
+            public string Url { get; set; }
+
+        }
+
+        [HttpPost("Webhook")]
+        public async Task<IActionResult> Receive()
+        {
+            var body = new byte[Request.ContentLength ?? 0];
+            _ = await Request.Body.ReadAsync(body);
+            var payment = _yooKassaService.DecodeWebhookRequest(
+                Request.Method, Request.ContentType!, new MemoryStream(body));
+            _logger.LogInformation($"{payment.Id}, {payment.Status}");
+            if (payment.Status == PaymentStatus.WaitingForCapture)
+            {
+                await _yooKassaService.CapturePaymentAsync(payment.Id);
+            }
+
+            return Ok();
         }
 
         private async Task<Channel> FindChannelById(int id)

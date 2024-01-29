@@ -17,6 +17,7 @@ using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
 using TgCheckerApi.Controllers;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -112,10 +113,17 @@ builder.Services.AddSingleton(new JobSchedule(
 builder.Services.AddHostedService<QuartzHostedService>();
 builder.Services.AddHttpClient("MyClient", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:7256");
+    client.BaseAddress = new Uri("https://tgsearch.info:8443");
 });
 
-
+builder.Host.UseSerilog((_, conf) =>
+{
+    conf
+        .WriteTo.Console()
+        .WriteTo.File("log-.txt",
+ rollingInterval: RollingInterval.Day)
+    ;
+});
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();

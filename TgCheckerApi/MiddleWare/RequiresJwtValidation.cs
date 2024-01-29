@@ -35,7 +35,7 @@ namespace TgCheckerApi.MiddleWare
 
             using (var httpClient = new HttpClient())
             {
-                var response = await httpClient.GetAsync($"http://46.39.232.190:8053/api/Auth/ValidateUniqueKey/{uniqueKeyClaim}");
+                var response = await httpClient.GetAsync($"https://tgsearch.info:8443/api/Auth/ValidateUniqueKey/{uniqueKeyClaim}");
 
                 if (!response.IsSuccessStatusCode)
                 {

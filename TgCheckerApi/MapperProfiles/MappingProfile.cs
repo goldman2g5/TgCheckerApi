@@ -22,7 +22,7 @@ namespace TgCheckerApi.MapperProfiles
                 .ForMember(dest => dest.ChannelUrl, opt => opt.MapFrom(src => src.Channel.Url))
                 .ForMember(dest => dest.ReporteeName, opt => opt.MapFrom(src => src.User.Username))
                 .ForMember(dest => dest.UserTelegramChatId, opt => opt.MapFrom(src => src.User.TelegramId))
-                .ForMember(dest => dest.ChannelWebUrl, opt => opt.MapFrom(src => $"http://46.39.232.190:8063/Channel/{src.Channel.Id}"));
+                .ForMember(dest => dest.ChannelWebUrl, opt => opt.MapFrom(src => $"https://tgsearch.info/Channel/{src.Channel.Id}"));
         }
     }
 }

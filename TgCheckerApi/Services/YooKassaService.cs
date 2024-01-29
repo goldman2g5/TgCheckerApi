@@ -26,7 +26,7 @@ namespace TgCheckerApi.Services
             // Add any additional logic if needed
             return capturedPayment;
         }
-
+            
         public async Task<Models.BaseModels.Payment> UpdatePaymentRecordAsync(string paymentId)
         {
             var capturedPayment = await _asyncClient.CapturePaymentAsync(paymentId);
@@ -53,6 +53,21 @@ namespace TgCheckerApi.Services
             return paymentToUpdate;
         }
 
-        // Include other methods as needed
+        public Yandex.Checkout.V3.Payment DecodeWebhookRequest(
+            string requestMethod, string requestContentType, Stream requestBody)
+        {
+            if (requestMethod == null) throw new ArgumentNullException(nameof(requestMethod));
+            if (requestContentType == null) throw new ArgumentNullException(nameof(requestContentType));
+            if (requestBody == null) throw new ArgumentNullException(nameof(requestBody));
+
+            var message = Client.ParseMessage(requestMethod, requestContentType, requestBody);
+            if (message == null)
+            {
+                throw new NullReferenceException(nameof(message));
+            }
+            var payment = message.Object;
+            return payment;
+        }
+
     }
 }

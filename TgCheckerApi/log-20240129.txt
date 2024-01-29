@@ -1,0 +1,1403 @@
+2024-01-29 11:38:06.642 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-01-29 11:38:06.805 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-01-29 11:38:06.873 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-01-29 11:38:06.879 +03:00 [INF] Quartz Scheduler created
+2024-01-29 11:38:06.880 +03:00 [INF] RAMJobStore initialized.
+2024-01-29 11:38:06.882 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-01-29 11:38:06.883 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-01-29 11:38:06.884 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-01-29 11:38:06.886 +03:00 [INF] JobFactory set to: TgCheckerApi.Job.QuartzJobFactory
+2024-01-29 11:38:06.943 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-01-29 11:38:07.060 +03:00 [INF] Now listening on: http://localhost:7256
+2024-01-29 11:38:07.061 +03:00 [INF] Now listening on: http://localhost:5244
+2024-01-29 11:38:07.065 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-01-29 11:38:07.066 +03:00 [INF] Hosting environment: Development
+2024-01-29 11:38:07.067 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\
+2024-01-29 11:38:07.906 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger - -
+2024-01-29 11:38:08.043 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger - - - 301 0 - 142.1032ms
+2024-01-29 11:38:08.052 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-01-29 11:38:08.261 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui.css - -
+2024-01-29 11:38:08.261 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui-bundle.js - -
+2024-01-29 11:38:08.261 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui-standalone-preset.js - -
+2024-01-29 11:38:08.265 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 212.1860ms
+2024-01-29 11:38:08.275 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-01-29 11:38:08.277 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-01-29 11:38:08.285 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 7.6709ms
+2024-01-29 11:38:08.319 +03:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2024-01-29 11:38:08.319 +03:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2024-01-29 11:38:08.319 +03:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2024-01-29 11:38:08.320 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui-bundle.js - - - 200 1061536 application/javascript 59.5320ms
+2024-01-29 11:38:08.321 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui-standalone-preset.js - - - 200 312163 application/javascript 59.8423ms
+2024-01-29 11:38:08.322 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 46.3505ms
+2024-01-29 11:38:08.322 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui.css - - - 200 144929 text/css 61.1419ms
+2024-01-29 11:38:08.447 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-01-29 11:38:08.460 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/favicon-32x32.png - -
+2024-01-29 11:38:08.461 +03:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2024-01-29 11:38:08.462 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/favicon-32x32.png - - - 200 628 image/png 2.4513ms
+2024-01-29 11:38:08.571 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 124.4181ms
+2024-01-29 11:38:17.207 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:1488/api/Bot/getSubscribersByChannels"
+2024-01-29 11:38:17.215 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:1488/api/Bot/getSubscribersByChannels"
+2024-01-29 11:38:18.894 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:7256/api/Payment/Webhook application/json-patch+json 60
+2024-01-29 11:38:18.903 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-01-29 11:38:18.905 +03:00 [INF] CORS policy execution successful.
+2024-01-29 11:38:19.029 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.PaymentController.Receive (TgCheckerApi)'
+2024-01-29 11:38:19.068 +03:00 [INF] Route matched with {action = "Receive", controller = "Payment"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Receive(YookassaWebhookEvent) on controller TgCheckerApi.Controllers.PaymentController (TgCheckerApi).
+2024-01-29 11:38:19.467 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2024-01-29 11:38:19.475 +03:00 [INF] Executed action TgCheckerApi.Controllers.PaymentController.Receive (TgCheckerApi) in 397.4475ms
+2024-01-29 11:38:19.477 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.PaymentController.Receive (TgCheckerApi)'
+2024-01-29 11:38:19.484 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:7256/api/Payment/Webhook application/json-patch+json 60 - 200 0 - 589.8972ms
+2024-01-29 11:39:20.752 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-01-29 11:39:20.912 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-01-29 11:39:20.954 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-01-29 11:39:20.954 +03:00 [INF] Quartz Scheduler created
+2024-01-29 11:39:20.959 +03:00 [INF] RAMJobStore initialized.
+2024-01-29 11:39:20.959 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-01-29 11:39:20.960 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-01-29 11:39:20.961 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-01-29 11:39:20.962 +03:00 [INF] JobFactory set to: TgCheckerApi.Job.QuartzJobFactory
+2024-01-29 11:39:21.002 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-01-29 11:39:21.087 +03:00 [INF] Now listening on: http://localhost:7256
+2024-01-29 11:39:21.088 +03:00 [INF] Now listening on: http://localhost:5244
+2024-01-29 11:39:21.093 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-01-29 11:39:21.093 +03:00 [INF] Hosting environment: Development
+2024-01-29 11:39:21.094 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\
+2024-01-29 11:39:21.621 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-01-29 11:39:21.909 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-01-29 11:39:21.914 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 297.1765ms
+2024-01-29 11:39:21.914 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 3.8385ms
+2024-01-29 11:39:21.924 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-01-29 11:39:21.946 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 21.6036ms
+2024-01-29 11:39:22.099 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-01-29 11:39:22.246 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 147.0027ms
+2024-01-29 11:39:29.077 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:7256/api/Payment/Webhook application/json-patch+json 60
+2024-01-29 11:39:29.087 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-01-29 11:39:29.089 +03:00 [INF] CORS policy execution successful.
+2024-01-29 11:39:29.203 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.PaymentController.Receive (TgCheckerApi)'
+2024-01-29 11:39:29.241 +03:00 [INF] Route matched with {action = "Receive", controller = "Payment"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Receive(YookassaWebhookEvent) on controller TgCheckerApi.Controllers.PaymentController (TgCheckerApi).
+2024-01-29 11:39:29.635 +03:00 [INF] bebra
+2024-01-29 11:39:29.641 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2024-01-29 11:39:29.655 +03:00 [INF] Executed action TgCheckerApi.Controllers.PaymentController.Receive (TgCheckerApi) in 402.9123ms
+2024-01-29 11:39:29.657 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.PaymentController.Receive (TgCheckerApi)'
+2024-01-29 11:39:29.663 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:7256/api/Payment/Webhook application/json-patch+json 60 - 200 0 - 586.1239ms
+2024-01-29 11:39:31.130 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:1488/api/Bot/getSubscribersByChannels"
+2024-01-29 11:39:31.135 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:1488/api/Bot/getSubscribersByChannels"
+2024-01-29 14:49:32.651 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-01-29 14:49:32.904 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-01-29 14:49:32.956 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-01-29 14:49:32.957 +03:00 [INF] Quartz Scheduler created
+2024-01-29 14:49:32.958 +03:00 [INF] RAMJobStore initialized.
+2024-01-29 14:49:32.959 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-01-29 14:49:32.960 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-01-29 14:49:32.960 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-01-29 14:49:32.962 +03:00 [INF] JobFactory set to: TgCheckerApi.Job.QuartzJobFactory
+2024-01-29 14:49:33.013 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-01-29 14:49:33.138 +03:00 [INF] Now listening on: http://localhost:7256
+2024-01-29 14:49:33.139 +03:00 [INF] Now listening on: http://localhost:5244
+2024-01-29 14:49:33.144 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-01-29 14:49:33.145 +03:00 [INF] Hosting environment: Development
+2024-01-29 14:49:33.146 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\
+2024-01-29 14:49:33.930 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger - -
+2024-01-29 14:49:33.993 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger - - - 301 0 - 65.5167ms
+2024-01-29 14:49:34.002 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-01-29 14:49:34.236 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui-bundle.js - -
+2024-01-29 14:49:34.236 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui-standalone-preset.js - -
+2024-01-29 14:49:34.237 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui.css - -
+2024-01-29 14:49:34.239 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 236.9394ms
+2024-01-29 14:49:34.252 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-01-29 14:49:34.253 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-01-29 14:49:34.301 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 48.9440ms
+2024-01-29 14:49:34.327 +03:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2024-01-29 14:49:34.328 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui.css - - - 200 144929 text/css 90.7879ms
+2024-01-29 14:49:34.327 +03:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2024-01-29 14:49:34.330 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 78.0257ms
+2024-01-29 14:49:34.330 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui-standalone-preset.js - - - 200 312163 application/javascript 93.9651ms
+2024-01-29 14:49:34.354 +03:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2024-01-29 14:49:34.356 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui-bundle.js - - - 200 1061536 application/javascript 119.5522ms
+2024-01-29 14:49:34.468 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/favicon-32x32.png - -
+2024-01-29 14:49:34.468 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-01-29 14:49:34.469 +03:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2024-01-29 14:49:34.470 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/favicon-32x32.png - - - 200 628 image/png 2.7181ms
+2024-01-29 14:49:34.596 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 128.4219ms
+2024-01-29 14:49:43.281 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:1488/api/Bot/getSubscribersByChannels"
+2024-01-29 14:49:43.290 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:1488/api/Bot/getSubscribersByChannels"
+2024-01-29 14:49:44.165 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Channel/Page/1?&sortOption=members&ascending=False&language= - -
+2024-01-29 14:49:44.173 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-01-29 14:49:44.174 +03:00 [INF] CORS policy execution successful.
+2024-01-29 14:49:44.311 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi)'
+2024-01-29 14:49:44.355 +03:00 [INF] Route matched with {action = "GetChannels", controller = "Channel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TgCheckerApi.Models.GetModels.ChannelGetModel]]] GetChannels(Int32, System.String, System.String, System.String, System.String, System.String) on controller TgCheckerApi.Controllers.ChannelController (TgCheckerApi).
+2024-01-29 14:49:44.464 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 14:49:44.465 +03:00 [INF] CORS policy execution successful.
+2024-01-29 14:49:44.467 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:7256/api/Notification/UserNotifications - - - 204 - - 2.7438ms
+2024-01-29 14:49:44.469 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 14:49:44.478 +03:00 [INF] CORS policy execution successful.
+2024-01-29 14:49:44.585 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi)'
+2024-01-29 14:49:44.589 +03:00 [INF] Route matched with {action = "GetUserNotifications", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserNotifications() on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-01-29 14:49:45.540 +03:00 [ERR] Error occurred executing UpdateSubscribersJob via HTTP request.
+System.Net.Http.HttpRequestException: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение. (tgsearch.info:1488)
+ ---> System.Net.Sockets.SocketException (10061): Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at TgCheckerApi.Job.UpdateSubscribersJob.Execute(IJobExecutionContext context) in C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\Job\UpdateSubscribersJob.cs:line 49
+2024-01-29 14:50:52.949 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-01-29 14:50:53.115 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-01-29 14:50:53.159 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-01-29 14:50:53.164 +03:00 [INF] Quartz Scheduler created
+2024-01-29 14:50:53.166 +03:00 [INF] RAMJobStore initialized.
+2024-01-29 14:50:53.167 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-01-29 14:50:53.167 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-01-29 14:50:53.168 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-01-29 14:50:53.170 +03:00 [INF] JobFactory set to: TgCheckerApi.Job.QuartzJobFactory
+2024-01-29 14:50:53.213 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-01-29 14:50:53.316 +03:00 [INF] Now listening on: http://localhost:7256
+2024-01-29 14:50:53.321 +03:00 [INF] Now listening on: http://localhost:5244
+2024-01-29 14:50:53.327 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-01-29 14:50:53.328 +03:00 [INF] Hosting environment: Development
+2024-01-29 14:50:53.329 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\
+2024-01-29 14:50:53.892 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-01-29 14:50:54.134 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 243.7991ms
+2024-01-29 14:50:54.143 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-01-29 14:50:54.144 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-01-29 14:50:54.146 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 3.1923ms
+2024-01-29 14:50:54.157 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 12.9650ms
+2024-01-29 14:50:54.254 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-01-29 14:50:54.374 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 120.0017ms
+2024-01-29 14:51:03.395 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:1488/api/Bot/getSubscribersByChannels"
+2024-01-29 14:51:03.405 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:1488/api/Bot/getSubscribersByChannels"
+2024-01-29 14:51:05.552 +03:00 [ERR] Error occurred executing UpdateSubscribersJob via HTTP request.
+System.Net.Http.HttpRequestException: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение. (tgsearch.info:1488)
+ ---> System.Net.Sockets.SocketException (10061): Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at TgCheckerApi.Job.UpdateSubscribersJob.Execute(IJobExecutionContext context) in C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\Job\UpdateSubscribersJob.cs:line 49
+2024-01-29 14:51:14.432 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Channel/Page/1?&sortOption=members&ascending=False&language= - -
+2024-01-29 14:51:14.440 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-01-29 14:51:14.441 +03:00 [INF] CORS policy execution successful.
+2024-01-29 14:51:14.539 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi)'
+2024-01-29 14:51:14.582 +03:00 [INF] Route matched with {action = "GetChannels", controller = "Channel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TgCheckerApi.Models.GetModels.ChannelGetModel]]] GetChannels(Int32, System.String, System.String, System.String, System.String, System.String) on controller TgCheckerApi.Controllers.ChannelController (TgCheckerApi).
+2024-01-29 14:51:14.655 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 14:51:14.656 +03:00 [INF] CORS policy execution successful.
+2024-01-29 14:51:14.664 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:7256/api/Notification/UserNotifications - - - 204 - - 9.4499ms
+2024-01-29 14:51:14.668 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 14:51:14.669 +03:00 [INF] CORS policy execution successful.
+2024-01-29 14:51:14.779 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi)'
+2024-01-29 14:51:14.783 +03:00 [INF] Route matched with {action = "GetUserNotifications", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserNotifications() on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-01-29 14:54:13.542 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-01-29 14:54:13.705 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-01-29 14:54:13.742 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-01-29 14:54:13.743 +03:00 [INF] Quartz Scheduler created
+2024-01-29 14:54:13.747 +03:00 [INF] RAMJobStore initialized.
+2024-01-29 14:54:13.748 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-01-29 14:54:13.749 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-01-29 14:54:13.750 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-01-29 14:54:13.752 +03:00 [INF] JobFactory set to: TgCheckerApi.Job.QuartzJobFactory
+2024-01-29 14:54:13.791 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-01-29 14:54:13.918 +03:00 [INF] Now listening on: https://localhost:7256
+2024-01-29 14:54:13.919 +03:00 [INF] Now listening on: https://localhost:5244
+2024-01-29 14:54:13.923 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-01-29 14:54:13.923 +03:00 [INF] Hosting environment: Development
+2024-01-29 14:54:13.924 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\
+2024-01-29 14:54:14.258 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger - -
+2024-01-29 14:54:14.363 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger - - - 301 0 - 108.2533ms
+2024-01-29 14:54:14.370 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/index.html - -
+2024-01-29 14:54:14.571 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 200.4646ms
+2024-01-29 14:54:14.576 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-01-29 14:54:14.576 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/swagger-ui-standalone-preset.js - -
+2024-01-29 14:54:14.576 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/swagger-ui.css - -
+2024-01-29 14:54:14.576 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/swagger-ui-bundle.js - -
+2024-01-29 14:54:14.581 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 4.6484ms
+2024-01-29 14:54:14.584 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_vs/browserLink - -
+2024-01-29 14:54:14.617 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 33.5525ms
+2024-01-29 14:54:14.621 +03:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2024-01-29 14:54:14.621 +03:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2024-01-29 14:54:14.621 +03:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2024-01-29 14:54:14.621 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/swagger-ui-standalone-preset.js - - - 200 312163 application/javascript 45.5425ms
+2024-01-29 14:54:14.622 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/swagger-ui-bundle.js - - - 200 1061536 application/javascript 45.9684ms
+2024-01-29 14:54:14.623 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/swagger-ui.css - - - 200 144929 text/css 47.0708ms
+2024-01-29 14:54:14.711 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - -
+2024-01-29 14:54:14.723 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/favicon-32x32.png - -
+2024-01-29 14:54:14.725 +03:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2024-01-29 14:54:14.728 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/favicon-32x32.png - - - 200 628 image/png 5.1739ms
+2024-01-29 14:54:14.828 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 117.3684ms
+2024-01-29 14:54:23.983 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:1488/api/Bot/getSubscribersByChannels"
+2024-01-29 14:54:23.991 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:1488/api/Bot/getSubscribersByChannels"
+2024-01-29 14:54:26.114 +03:00 [ERR] Error occurred executing UpdateSubscribersJob via HTTP request.
+System.Net.Http.HttpRequestException: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение. (tgsearch.info:1488)
+ ---> System.Net.Sockets.SocketException (10061): Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at TgCheckerApi.Job.UpdateSubscribersJob.Execute(IJobExecutionContext context) in C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\Job\UpdateSubscribersJob.cs:line 49
+2024-01-29 14:55:09.795 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Channel/Page/1?&sortOption=members&ascending=False&language= - -
+2024-01-29 14:55:09.804 +03:00 [INF] CORS policy execution successful.
+2024-01-29 14:55:09.904 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi)'
+2024-01-29 14:55:09.939 +03:00 [INF] Route matched with {action = "GetChannels", controller = "Channel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TgCheckerApi.Models.GetModels.ChannelGetModel]]] GetChannels(Int32, System.String, System.String, System.String, System.String, System.String) on controller TgCheckerApi.Controllers.ChannelController (TgCheckerApi).
+2024-01-29 14:55:10.036 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 14:55:10.037 +03:00 [INF] CORS policy execution successful.
+2024-01-29 14:55:10.039 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7256/api/Notification/UserNotifications - - - 204 - - 2.9765ms
+2024-01-29 14:55:10.043 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 14:55:10.044 +03:00 [INF] CORS policy execution successful.
+2024-01-29 14:55:10.142 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi)'
+2024-01-29 14:55:10.146 +03:00 [INF] Route matched with {action = "GetUserNotifications", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserNotifications() on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-01-29 15:12:41.704 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-01-29 15:12:41.893 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-01-29 15:12:41.934 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-01-29 15:12:41.937 +03:00 [INF] Quartz Scheduler created
+2024-01-29 15:12:41.938 +03:00 [INF] RAMJobStore initialized.
+2024-01-29 15:12:41.939 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-01-29 15:12:41.939 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-01-29 15:12:41.940 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-01-29 15:12:41.941 +03:00 [INF] JobFactory set to: TgCheckerApi.Job.QuartzJobFactory
+2024-01-29 15:12:41.985 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-01-29 15:12:42.112 +03:00 [INF] Now listening on: https://localhost:7256
+2024-01-29 15:12:42.113 +03:00 [INF] Now listening on: https://localhost:5244
+2024-01-29 15:12:42.116 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-01-29 15:12:42.117 +03:00 [INF] Hosting environment: Development
+2024-01-29 15:12:42.118 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\
+2024-01-29 15:12:42.534 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/index.html - -
+2024-01-29 15:12:42.814 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 282.1855ms
+2024-01-29 15:12:42.821 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-01-29 15:12:42.825 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_vs/browserLink - -
+2024-01-29 15:12:42.826 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 4.5559ms
+2024-01-29 15:12:42.835 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 10.7350ms
+2024-01-29 15:12:42.941 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - -
+2024-01-29 15:12:43.069 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 127.8686ms
+2024-01-29 15:12:49.367 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Channel/Page/1?&sortOption=members&ascending=False&language= - -
+2024-01-29 15:12:49.376 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:12:49.473 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi)'
+2024-01-29 15:12:49.511 +03:00 [INF] Route matched with {action = "GetChannels", controller = "Channel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TgCheckerApi.Models.GetModels.ChannelGetModel]]] GetChannels(Int32, System.String, System.String, System.String, System.String, System.String) on controller TgCheckerApi.Controllers.ChannelController (TgCheckerApi).
+2024-01-29 15:12:49.658 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 15:12:49.658 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:12:49.660 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7256/api/Notification/UserNotifications - - - 204 - - 2.6772ms
+2024-01-29 15:12:49.661 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 15:12:49.662 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:12:49.757 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi)'
+2024-01-29 15:12:49.761 +03:00 [INF] Route matched with {action = "GetUserNotifications", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserNotifications() on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-01-29 15:13:12.708 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-01-29 15:13:12.859 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-01-29 15:13:12.901 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-01-29 15:13:12.902 +03:00 [INF] Quartz Scheduler created
+2024-01-29 15:13:12.903 +03:00 [INF] RAMJobStore initialized.
+2024-01-29 15:13:12.905 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-01-29 15:13:12.905 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-01-29 15:13:12.906 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-01-29 15:13:12.907 +03:00 [INF] JobFactory set to: TgCheckerApi.Job.QuartzJobFactory
+2024-01-29 15:13:12.950 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-01-29 15:13:13.114 +03:00 [INF] Now listening on: https://localhost:7256
+2024-01-29 15:13:13.115 +03:00 [INF] Now listening on: https://localhost:5244
+2024-01-29 15:13:13.118 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-01-29 15:13:13.119 +03:00 [INF] Hosting environment: Development
+2024-01-29 15:13:13.120 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\
+2024-01-29 15:13:13.616 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/index.html - -
+2024-01-29 15:13:13.867 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 252.6516ms
+2024-01-29 15:13:13.878 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_vs/browserLink - -
+2024-01-29 15:13:13.878 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-01-29 15:13:13.883 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 4.6258ms
+2024-01-29 15:13:13.892 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 13.9463ms
+2024-01-29 15:13:13.928 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - -
+2024-01-29 15:13:14.048 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 119.5952ms
+2024-01-29 15:13:20.636 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Channel/Page/1?&sortOption=members&ascending=False&language= - -
+2024-01-29 15:13:20.642 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:20.743 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi)'
+2024-01-29 15:13:20.783 +03:00 [INF] Route matched with {action = "GetChannels", controller = "Channel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TgCheckerApi.Models.GetModels.ChannelGetModel]]] GetChannels(Int32, System.String, System.String, System.String, System.String, System.String) on controller TgCheckerApi.Controllers.ChannelController (TgCheckerApi).
+2024-01-29 15:13:20.841 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 15:13:20.842 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:20.844 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7256/api/Notification/UserNotifications - - - 204 - - 3.0349ms
+2024-01-29 15:13:20.845 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 15:13:20.849 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:20.948 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi)'
+2024-01-29 15:13:20.953 +03:00 [INF] Route matched with {action = "GetUserNotifications", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserNotifications() on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-01-29 15:13:23.183 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:1488/api/Bot/getSubscribersByChannels"
+2024-01-29 15:13:23.191 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:1488/api/Bot/getSubscribersByChannels"
+2024-01-29 15:13:23.556 +03:00 [INF] Executed DbCommand (166ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Channel" AS c
+WHERE c."Hidden" <> TRUE OR c."Hidden" IS NULL
+2024-01-29 15:13:23.614 +03:00 [INF] Executed DbCommand (227ms) [Parameters=[@__uniqueKeyClaim_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.unique_key = @__uniqueKeyClaim_0
+LIMIT 2
+2024-01-29 15:13:23.740 +03:00 [INF] Executed DbCommand (36ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."Url", c."user"
+FROM "Channel" AS c
+WHERE c."Hidden" <> TRUE OR c."Hidden" IS NULL
+ORDER BY c.members DESC
+LIMIT @__p_1 OFFSET @__p_0
+2024-01-29 15:13:23.862 +03:00 [INF] Executed DbCommand (55ms) [Parameters=[@__user_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.user_id = @__user_Id_0
+2024-01-29 15:13:23.926 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.BaseModels.Notification, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-01-29 15:13:23.961 +03:00 [INF] Executed DbCommand (47ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:23.965 +03:00 [INF] Executed action TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi) in 3004.4368ms
+2024-01-29 15:13:23.968 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi)'
+2024-01-29 15:13:23.989 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Notification/UserNotifications - - - 200 524 application/json;+charset=utf-8 3144.3448ms
+2024-01-29 15:13:24.086 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7256/api/Auth - -
+2024-01-29 15:13:24.087 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:24.087 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7256/api/Auth - - - 204 - - 1.7249ms
+2024-01-29 15:13:24.089 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Auth - -
+2024-01-29 15:13:24.089 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:24.093 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi)'
+2024-01-29 15:13:24.096 +03:00 [INF] Route matched with {action = "GetMe", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TgCheckerApi.Models.GetModels.UserProfileModel]] GetMe() on controller TgCheckerApi.Controllers.AuthController (TgCheckerApi).
+2024-01-29 15:13:24.102 +03:00 [INF] Executed DbCommand (53ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.121 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.128 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.129 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.132 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.134 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.137 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.139 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.141 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.143 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.145 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.147 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.149 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.151 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.153 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.157 +03:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.GetModels.ChannelGetModel, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-01-29 15:13:24.172 +03:00 [INF] Executed action TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi) in 3386.9835ms
+2024-01-29 15:13:24.174 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi)'
+2024-01-29 15:13:24.175 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Channel/Page/1?&sortOption=members&ascending=False&language= - - - 200 18441 application/json;+charset=utf-8 3539.0548ms
+2024-01-29 15:13:24.249 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Channel/Page/1?&sortOption=members&ascending=False&language= - -
+2024-01-29 15:13:24.249 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:24.253 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi)'
+2024-01-29 15:13:24.253 +03:00 [INF] Route matched with {action = "GetChannels", controller = "Channel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TgCheckerApi.Models.GetModels.ChannelGetModel]]] GetChannels(Int32, System.String, System.String, System.String, System.String, System.String) on controller TgCheckerApi.Controllers.ChannelController (TgCheckerApi).
+2024-01-29 15:13:24.257 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Channel" AS c
+WHERE c."Hidden" <> TRUE OR c."Hidden" IS NULL
+2024-01-29 15:13:24.262 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."Url", c."user"
+FROM "Channel" AS c
+WHERE c."Hidden" <> TRUE OR c."Hidden" IS NULL
+ORDER BY c.members DESC
+LIMIT @__p_1 OFFSET @__p_0
+2024-01-29 15:13:24.265 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.267 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.269 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.271 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.275 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.277 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.278 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.280 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.282 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.284 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.286 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.288 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.290 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.292 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.294 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.296 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.297 +03:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.GetModels.ChannelGetModel, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-01-29 15:13:24.299 +03:00 [INF] Executed action TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi) in 43.9705ms
+2024-01-29 15:13:24.299 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi)'
+2024-01-29 15:13:24.300 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Channel/Page/1?&sortOption=members&ascending=False&language= - - - 200 18441 application/json;+charset=utf-8 51.8847ms
+2024-01-29 15:13:24.310 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Channel/Page/1?&sortOption=members&ascending=False&language= - -
+2024-01-29 15:13:24.310 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:24.311 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi)'
+2024-01-29 15:13:24.312 +03:00 [INF] Route matched with {action = "GetChannels", controller = "Channel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TgCheckerApi.Models.GetModels.ChannelGetModel]]] GetChannels(Int32, System.String, System.String, System.String, System.String, System.String) on controller TgCheckerApi.Controllers.ChannelController (TgCheckerApi).
+2024-01-29 15:13:24.315 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Channel" AS c
+WHERE c."Hidden" <> TRUE OR c."Hidden" IS NULL
+2024-01-29 15:13:24.318 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."Url", c."user"
+FROM "Channel" AS c
+WHERE c."Hidden" <> TRUE OR c."Hidden" IS NULL
+ORDER BY c.members DESC
+LIMIT @__p_1 OFFSET @__p_0
+2024-01-29 15:13:24.321 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.326 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.334 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.343 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.347 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.349 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.352 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.354 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.356 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.358 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.360 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.362 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.363 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.367 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.371 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag
+FROM "ChannelHasTag" AS c
+WHERE c.channel = @__channel_Id_0
+2024-01-29 15:13:24.384 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.396 +03:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.GetModels.ChannelGetModel, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-01-29 15:13:24.402 +03:00 [INF] Executed action TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi) in 86.7819ms
+2024-01-29 15:13:24.403 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi)'
+2024-01-29 15:13:24.403 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Channel/Page/1?&sortOption=members&ascending=False&language= - - - 200 18441 application/json;+charset=utf-8 93.7896ms
+2024-01-29 15:13:24.414 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Tags - -
+2024-01-29 15:13:24.415 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:24.416 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TagsController.GetTags (TgCheckerApi)'
+2024-01-29 15:13:24.417 +03:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-01-29 15:13:24.419 +03:00 [INF] Route matched with {action = "GetTags", controller = "Tags"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.String]] GetTags() on controller TgCheckerApi.Controllers.TagsController (TgCheckerApi).
+2024-01-29 15:13:24.485 +03:00 [INF] Executed DbCommand (56ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT t.text
+FROM "Tag" AS t
+2024-01-29 15:13:24.487 +03:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2024-01-29 15:13:24.488 +03:00 [INF] Executed action TgCheckerApi.Controllers.TagsController.GetTags (TgCheckerApi) in 67.543ms
+2024-01-29 15:13:24.489 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TagsController.GetTags (TgCheckerApi)'
+2024-01-29 15:13:24.490 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Tags - - - 200 - text/plain;+charset=utf-8 75.9891ms
+2024-01-29 15:13:24.570 +03:00 [INF] Executed DbCommand (146ms) [Parameters=[@__uniqueKeyClaim_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t.avatar, t.chat_id, t.notification_settings, t.telegram_id, t.unique_key, t.username, t1.id, t1.channel_id, t1.user_id, t1.id0, t1.avatar, t1.bumps, t1.description, t1.flag, t1."Hidden", t1.language, t1.last_bump, t1.members, t1.name, t1.notification_sent, t1.notifications, t1.promo_post, t1.promo_post_interval, t1.promo_post_last, t1.promo_post_sent, t1.promo_post_time, t1.telegram_id, t1."Url", t1."user", t1.id1, t1.channel, t1.tag, t1.id00, t1.text, t3.id, t3.channel_id, t3.content, t3.created_at, t3.parent_id, t3.rating, t3.user_id, t3.id0, t3.avatar, t3.bumps, t3.description, t3.flag, t3."Hidden", t3.language, t3.last_bump, t3.members, t3.name, t3.notification_sent, t3.notifications, t3.promo_post, t3.promo_post_interval, t3.promo_post_last, t3.promo_post_sent, t3.promo_post_time, t3.telegram_id, t3."Url", t3."user"
+FROM (
+    SELECT u.id, u.avatar, u.chat_id, u.notification_settings, u.telegram_id, u.unique_key, u.username
+    FROM "User" AS u
+    WHERE u.unique_key = @__uniqueKeyClaim_0
+    LIMIT 2
+) AS t
+LEFT JOIN (
+    SELECT c.id, c.channel_id, c.user_id, c0.id AS id0, c0.avatar, c0.bumps, c0.description, c0.flag, c0."Hidden", c0.language, c0.last_bump, c0.members, c0.name, c0.notification_sent, c0.notifications, c0.promo_post, c0.promo_post_interval, c0.promo_post_last, c0.promo_post_sent, c0.promo_post_time, c0.telegram_id, c0."Url", c0."user", t0.id AS id1, t0.channel, t0.tag, t0.id0 AS id00, t0.text
+    FROM "ChannelAccess" AS c
+    LEFT JOIN "Channel" AS c0 ON c.channel_id = c0.id
+    LEFT JOIN (
+        SELECT c1.id, c1.channel, c1.tag, t2.id AS id0, t2.text
+        FROM "ChannelHasTag" AS c1
+        LEFT JOIN "Tag" AS t2 ON c1.tag = t2.id
+    ) AS t0 ON c0.id = t0.channel
+) AS t1 ON t.id = t1.user_id
+LEFT JOIN (
+    SELECT c2.id, c2.channel_id, c2.content, c2.created_at, c2.parent_id, c2.rating, c2.user_id, c3.id AS id0, c3.avatar, c3.bumps, c3.description, c3.flag, c3."Hidden", c3.language, c3.last_bump, c3.members, c3.name, c3.notification_sent, c3.notifications, c3.promo_post, c3.promo_post_interval, c3.promo_post_last, c3.promo_post_sent, c3.promo_post_time, c3.telegram_id, c3."Url", c3."user"
+    FROM "Comment" AS c2
+    INNER JOIN "Channel" AS c3 ON c2.channel_id = c3.id
+) AS t3 ON t.id = t3.user_id
+ORDER BY t.id, t1.id, t1.id0, t1.id1, t1.id00, t3.id
+2024-01-29 15:13:24.641 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.644 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.651 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.658 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:13:24.692 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:13:24.845 +03:00 [INF] Executed DbCommand (47ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:13:24.918 +03:00 [INF] Executed DbCommand (41ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:13:24.973 +03:00 [INF] Executed DbCommand (24ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:13:24.978 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.981 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.984 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:24.986 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:13:24.989 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:13:24.992 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:13:25.020 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:13:25.027 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:13:25.030 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:25.033 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:25.036 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:25.039 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:13:25.042 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:13:25.046 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:13:25.049 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:13:25.051 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:13:25.056 +03:00 [INF] Executing OkObjectResult, writing value of type 'TgCheckerApi.Models.GetModels.UserProfileModel'.
+2024-01-29 15:13:25.063 +03:00 [INF] Executed action TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi) in 966.064ms
+2024-01-29 15:13:25.065 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi)'
+2024-01-29 15:13:25.070 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Auth - - - 200 28578 application/json;+charset=utf-8 980.8606ms
+2024-01-29 15:13:25.334 +03:00 [ERR] Error occurred executing UpdateSubscribersJob via HTTP request.
+System.Net.Http.HttpRequestException: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение. (tgsearch.info:1488)
+ ---> System.Net.Sockets.SocketException (10061): Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at TgCheckerApi.Job.UpdateSubscribersJob.Execute(IJobExecutionContext context) in C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\Job\UpdateSubscribersJob.cs:line 49
+2024-01-29 15:13:25.658 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Auth - -
+2024-01-29 15:13:25.659 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:25.660 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi)'
+2024-01-29 15:13:25.661 +03:00 [INF] Route matched with {action = "GetMe", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TgCheckerApi.Models.GetModels.UserProfileModel]] GetMe() on controller TgCheckerApi.Controllers.AuthController (TgCheckerApi).
+2024-01-29 15:13:25.668 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__uniqueKeyClaim_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t.avatar, t.chat_id, t.notification_settings, t.telegram_id, t.unique_key, t.username, t1.id, t1.channel_id, t1.user_id, t1.id0, t1.avatar, t1.bumps, t1.description, t1.flag, t1."Hidden", t1.language, t1.last_bump, t1.members, t1.name, t1.notification_sent, t1.notifications, t1.promo_post, t1.promo_post_interval, t1.promo_post_last, t1.promo_post_sent, t1.promo_post_time, t1.telegram_id, t1."Url", t1."user", t1.id1, t1.channel, t1.tag, t1.id00, t1.text, t3.id, t3.channel_id, t3.content, t3.created_at, t3.parent_id, t3.rating, t3.user_id, t3.id0, t3.avatar, t3.bumps, t3.description, t3.flag, t3."Hidden", t3.language, t3.last_bump, t3.members, t3.name, t3.notification_sent, t3.notifications, t3.promo_post, t3.promo_post_interval, t3.promo_post_last, t3.promo_post_sent, t3.promo_post_time, t3.telegram_id, t3."Url", t3."user"
+FROM (
+    SELECT u.id, u.avatar, u.chat_id, u.notification_settings, u.telegram_id, u.unique_key, u.username
+    FROM "User" AS u
+    WHERE u.unique_key = @__uniqueKeyClaim_0
+    LIMIT 2
+) AS t
+LEFT JOIN (
+    SELECT c.id, c.channel_id, c.user_id, c0.id AS id0, c0.avatar, c0.bumps, c0.description, c0.flag, c0."Hidden", c0.language, c0.last_bump, c0.members, c0.name, c0.notification_sent, c0.notifications, c0.promo_post, c0.promo_post_interval, c0.promo_post_last, c0.promo_post_sent, c0.promo_post_time, c0.telegram_id, c0."Url", c0."user", t0.id AS id1, t0.channel, t0.tag, t0.id0 AS id00, t0.text
+    FROM "ChannelAccess" AS c
+    LEFT JOIN "Channel" AS c0 ON c.channel_id = c0.id
+    LEFT JOIN (
+        SELECT c1.id, c1.channel, c1.tag, t2.id AS id0, t2.text
+        FROM "ChannelHasTag" AS c1
+        LEFT JOIN "Tag" AS t2 ON c1.tag = t2.id
+    ) AS t0 ON c0.id = t0.channel
+) AS t1 ON t.id = t1.user_id
+LEFT JOIN (
+    SELECT c2.id, c2.channel_id, c2.content, c2.created_at, c2.parent_id, c2.rating, c2.user_id, c3.id AS id0, c3.avatar, c3.bumps, c3.description, c3.flag, c3."Hidden", c3.language, c3.last_bump, c3.members, c3.name, c3.notification_sent, c3.notifications, c3.promo_post, c3.promo_post_interval, c3.promo_post_last, c3.promo_post_sent, c3.promo_post_time, c3.telegram_id, c3."Url", c3."user"
+    FROM "Comment" AS c2
+    INNER JOIN "Channel" AS c3 ON c2.channel_id = c3.id
+) AS t3 ON t.id = t3.user_id
+ORDER BY t.id, t1.id, t1.id0, t1.id1, t1.id00, t3.id
+2024-01-29 15:13:25.674 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:25.678 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:25.681 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:25.684 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:13:25.687 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:13:25.690 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:13:25.693 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:13:25.695 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:13:25.699 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:25.702 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:25.705 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:25.709 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:13:25.712 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:13:25.716 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:13:25.718 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:13:25.721 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:13:25.727 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:25.732 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:25.736 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:25.739 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:13:25.742 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:13:25.747 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:13:25.750 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:13:25.753 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:13:25.757 +03:00 [INF] Executing OkObjectResult, writing value of type 'TgCheckerApi.Models.GetModels.UserProfileModel'.
+2024-01-29 15:13:25.758 +03:00 [INF] Executed action TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi) in 95.1954ms
+2024-01-29 15:13:25.760 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi)'
+2024-01-29 15:13:25.764 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Auth - - - 200 28578 application/json;+charset=utf-8 105.3300ms
+2024-01-29 15:13:56.280 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7256/api/Auth - -
+2024-01-29 15:13:56.281 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:56.283 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7256/api/Auth - - - 204 - - 2.0573ms
+2024-01-29 15:13:56.284 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Auth - -
+2024-01-29 15:13:56.284 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:56.285 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi)'
+2024-01-29 15:13:56.286 +03:00 [INF] Route matched with {action = "GetMe", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TgCheckerApi.Models.GetModels.UserProfileModel]] GetMe() on controller TgCheckerApi.Controllers.AuthController (TgCheckerApi).
+2024-01-29 15:13:56.300 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[@__uniqueKeyClaim_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t.avatar, t.chat_id, t.notification_settings, t.telegram_id, t.unique_key, t.username, t1.id, t1.channel_id, t1.user_id, t1.id0, t1.avatar, t1.bumps, t1.description, t1.flag, t1."Hidden", t1.language, t1.last_bump, t1.members, t1.name, t1.notification_sent, t1.notifications, t1.promo_post, t1.promo_post_interval, t1.promo_post_last, t1.promo_post_sent, t1.promo_post_time, t1.telegram_id, t1."Url", t1."user", t1.id1, t1.channel, t1.tag, t1.id00, t1.text, t3.id, t3.channel_id, t3.content, t3.created_at, t3.parent_id, t3.rating, t3.user_id, t3.id0, t3.avatar, t3.bumps, t3.description, t3.flag, t3."Hidden", t3.language, t3.last_bump, t3.members, t3.name, t3.notification_sent, t3.notifications, t3.promo_post, t3.promo_post_interval, t3.promo_post_last, t3.promo_post_sent, t3.promo_post_time, t3.telegram_id, t3."Url", t3."user"
+FROM (
+    SELECT u.id, u.avatar, u.chat_id, u.notification_settings, u.telegram_id, u.unique_key, u.username
+    FROM "User" AS u
+    WHERE u.unique_key = @__uniqueKeyClaim_0
+    LIMIT 2
+) AS t
+LEFT JOIN (
+    SELECT c.id, c.channel_id, c.user_id, c0.id AS id0, c0.avatar, c0.bumps, c0.description, c0.flag, c0."Hidden", c0.language, c0.last_bump, c0.members, c0.name, c0.notification_sent, c0.notifications, c0.promo_post, c0.promo_post_interval, c0.promo_post_last, c0.promo_post_sent, c0.promo_post_time, c0.telegram_id, c0."Url", c0."user", t0.id AS id1, t0.channel, t0.tag, t0.id0 AS id00, t0.text
+    FROM "ChannelAccess" AS c
+    LEFT JOIN "Channel" AS c0 ON c.channel_id = c0.id
+    LEFT JOIN (
+        SELECT c1.id, c1.channel, c1.tag, t2.id AS id0, t2.text
+        FROM "ChannelHasTag" AS c1
+        LEFT JOIN "Tag" AS t2 ON c1.tag = t2.id
+    ) AS t0 ON c0.id = t0.channel
+) AS t1 ON t.id = t1.user_id
+LEFT JOIN (
+    SELECT c2.id, c2.channel_id, c2.content, c2.created_at, c2.parent_id, c2.rating, c2.user_id, c3.id AS id0, c3.avatar, c3.bumps, c3.description, c3.flag, c3."Hidden", c3.language, c3.last_bump, c3.members, c3.name, c3.notification_sent, c3.notifications, c3.promo_post, c3.promo_post_interval, c3.promo_post_last, c3.promo_post_sent, c3.promo_post_time, c3.telegram_id, c3."Url", c3."user"
+    FROM "Comment" AS c2
+    INNER JOIN "Channel" AS c3 ON c2.channel_id = c3.id
+) AS t3 ON t.id = t3.user_id
+ORDER BY t.id, t1.id, t1.id0, t1.id1, t1.id00, t3.id
+2024-01-29 15:13:56.307 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.309 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.311 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.316 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:13:56.320 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:13:56.323 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:13:56.328 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:13:56.330 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:13:56.336 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.339 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.343 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.345 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:13:56.348 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:13:56.352 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:13:56.354 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:13:56.356 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:13:56.358 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.360 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.362 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.365 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:13:56.368 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:13:56.371 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:13:56.374 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:13:56.376 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:13:56.378 +03:00 [INF] Executing OkObjectResult, writing value of type 'TgCheckerApi.Models.GetModels.UserProfileModel'.
+2024-01-29 15:13:56.379 +03:00 [INF] Executed action TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi) in 89.2926ms
+2024-01-29 15:13:56.381 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi)'
+2024-01-29 15:13:56.382 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Auth - - - 200 28584 application/json;+charset=utf-8 98.2084ms
+2024-01-29 15:13:56.721 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 15:13:56.721 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:56.722 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7256/api/Notification/UserNotifications - - - 204 - - 1.7654ms
+2024-01-29 15:13:56.723 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 15:13:56.724 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:56.727 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi)'
+2024-01-29 15:13:56.728 +03:00 [INF] Route matched with {action = "GetUserNotifications", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserNotifications() on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-01-29 15:13:56.734 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__uniqueKeyClaim_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.unique_key = @__uniqueKeyClaim_0
+LIMIT 2
+2024-01-29 15:13:56.739 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__user_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.user_id = @__user_Id_0
+2024-01-29 15:13:56.743 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.BaseModels.Notification, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-01-29 15:13:56.744 +03:00 [INF] Executed action TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi) in 14.4673ms
+2024-01-29 15:13:56.745 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi)'
+2024-01-29 15:13:56.746 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Notification/UserNotifications - - - 200 524 application/json;+charset=utf-8 23.0037ms
+2024-01-29 15:13:56.763 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Auth - -
+2024-01-29 15:13:56.763 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:13:56.764 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi)'
+2024-01-29 15:13:56.765 +03:00 [INF] Route matched with {action = "GetMe", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TgCheckerApi.Models.GetModels.UserProfileModel]] GetMe() on controller TgCheckerApi.Controllers.AuthController (TgCheckerApi).
+2024-01-29 15:13:56.770 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__uniqueKeyClaim_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t.avatar, t.chat_id, t.notification_settings, t.telegram_id, t.unique_key, t.username, t1.id, t1.channel_id, t1.user_id, t1.id0, t1.avatar, t1.bumps, t1.description, t1.flag, t1."Hidden", t1.language, t1.last_bump, t1.members, t1.name, t1.notification_sent, t1.notifications, t1.promo_post, t1.promo_post_interval, t1.promo_post_last, t1.promo_post_sent, t1.promo_post_time, t1.telegram_id, t1."Url", t1."user", t1.id1, t1.channel, t1.tag, t1.id00, t1.text, t3.id, t3.channel_id, t3.content, t3.created_at, t3.parent_id, t3.rating, t3.user_id, t3.id0, t3.avatar, t3.bumps, t3.description, t3.flag, t3."Hidden", t3.language, t3.last_bump, t3.members, t3.name, t3.notification_sent, t3.notifications, t3.promo_post, t3.promo_post_interval, t3.promo_post_last, t3.promo_post_sent, t3.promo_post_time, t3.telegram_id, t3."Url", t3."user"
+FROM (
+    SELECT u.id, u.avatar, u.chat_id, u.notification_settings, u.telegram_id, u.unique_key, u.username
+    FROM "User" AS u
+    WHERE u.unique_key = @__uniqueKeyClaim_0
+    LIMIT 2
+) AS t
+LEFT JOIN (
+    SELECT c.id, c.channel_id, c.user_id, c0.id AS id0, c0.avatar, c0.bumps, c0.description, c0.flag, c0."Hidden", c0.language, c0.last_bump, c0.members, c0.name, c0.notification_sent, c0.notifications, c0.promo_post, c0.promo_post_interval, c0.promo_post_last, c0.promo_post_sent, c0.promo_post_time, c0.telegram_id, c0."Url", c0."user", t0.id AS id1, t0.channel, t0.tag, t0.id0 AS id00, t0.text
+    FROM "ChannelAccess" AS c
+    LEFT JOIN "Channel" AS c0 ON c.channel_id = c0.id
+    LEFT JOIN (
+        SELECT c1.id, c1.channel, c1.tag, t2.id AS id0, t2.text
+        FROM "ChannelHasTag" AS c1
+        LEFT JOIN "Tag" AS t2 ON c1.tag = t2.id
+    ) AS t0 ON c0.id = t0.channel
+) AS t1 ON t.id = t1.user_id
+LEFT JOIN (
+    SELECT c2.id, c2.channel_id, c2.content, c2.created_at, c2.parent_id, c2.rating, c2.user_id, c3.id AS id0, c3.avatar, c3.bumps, c3.description, c3.flag, c3."Hidden", c3.language, c3.last_bump, c3.members, c3.name, c3.notification_sent, c3.notifications, c3.promo_post, c3.promo_post_interval, c3.promo_post_last, c3.promo_post_sent, c3.promo_post_time, c3.telegram_id, c3."Url", c3."user"
+    FROM "Comment" AS c2
+    INNER JOIN "Channel" AS c3 ON c2.channel_id = c3.id
+) AS t3 ON t.id = t3.user_id
+ORDER BY t.id, t1.id, t1.id0, t1.id1, t1.id00, t3.id
+2024-01-29 15:13:56.775 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.777 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.779 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.781 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:13:56.783 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:13:56.786 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:13:56.788 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:13:56.790 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:13:56.792 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.794 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.796 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.798 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:13:56.800 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:13:56.802 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:13:56.806 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:13:56.808 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:13:56.810 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.812 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.814 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:13:56.816 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:13:56.818 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:13:56.822 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:13:56.824 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:13:56.826 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:13:56.828 +03:00 [INF] Executing OkObjectResult, writing value of type 'TgCheckerApi.Models.GetModels.UserProfileModel'.
+2024-01-29 15:13:56.830 +03:00 [INF] Executed action TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi) in 63.4379ms
+2024-01-29 15:13:56.831 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi)'
+2024-01-29 15:13:56.832 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Auth - - - 200 28584 application/json;+charset=utf-8 69.8332ms
+2024-01-29 15:14:02.625 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7256/api/Payment - -
+2024-01-29 15:14:02.626 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:14:02.627 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7256/api/Payment - - - 204 - - 2.1634ms
+2024-01-29 15:14:02.628 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7256/api/Payment application/json;+charset=utf-8 201
+2024-01-29 15:14:02.629 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:14:02.630 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.PaymentController.CreatePaymentAsync (TgCheckerApi)'
+2024-01-29 15:14:02.634 +03:00 [INF] Route matched with {action = "CreatePayment", controller = "Payment"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreatePaymentAsync(PaymentRequest) on controller TgCheckerApi.Controllers.PaymentController (TgCheckerApi).
+2024-01-29 15:14:02.726 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__uniqueKeyClaim_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t.avatar, t.chat_id, t.notification_settings, t.telegram_id, t.unique_key, t.username, t1.id, t1.channel_id, t1.user_id, t1.id0, t1.avatar, t1.bumps, t1.description, t1.flag, t1."Hidden", t1.language, t1.last_bump, t1.members, t1.name, t1.notification_sent, t1.notifications, t1.promo_post, t1.promo_post_interval, t1.promo_post_last, t1.promo_post_sent, t1.promo_post_time, t1.telegram_id, t1."Url", t1."user", t1.id1, t1.channel, t1.tag, t1.id00, t1.text, t3.id, t3.channel_id, t3.content, t3.created_at, t3.parent_id, t3.rating, t3.user_id, t3.id0, t3.avatar, t3.bumps, t3.description, t3.flag, t3."Hidden", t3.language, t3.last_bump, t3.members, t3.name, t3.notification_sent, t3.notifications, t3.promo_post, t3.promo_post_interval, t3.promo_post_last, t3.promo_post_sent, t3.promo_post_time, t3.telegram_id, t3."Url", t3."user"
+FROM (
+    SELECT u.id, u.avatar, u.chat_id, u.notification_settings, u.telegram_id, u.unique_key, u.username
+    FROM "User" AS u
+    WHERE u.unique_key = @__uniqueKeyClaim_0
+    LIMIT 2
+) AS t
+LEFT JOIN (
+    SELECT c.id, c.channel_id, c.user_id, c0.id AS id0, c0.avatar, c0.bumps, c0.description, c0.flag, c0."Hidden", c0.language, c0.last_bump, c0.members, c0.name, c0.notification_sent, c0.notifications, c0.promo_post, c0.promo_post_interval, c0.promo_post_last, c0.promo_post_sent, c0.promo_post_time, c0.telegram_id, c0."Url", c0."user", t0.id AS id1, t0.channel, t0.tag, t0.id0 AS id00, t0.text
+    FROM "ChannelAccess" AS c
+    LEFT JOIN "Channel" AS c0 ON c.channel_id = c0.id
+    LEFT JOIN (
+        SELECT c1.id, c1.channel, c1.tag, t2.id AS id0, t2.text
+        FROM "ChannelHasTag" AS c1
+        LEFT JOIN "Tag" AS t2 ON c1.tag = t2.id
+    ) AS t0 ON c0.id = t0.channel
+) AS t1 ON t.id = t1.user_id
+LEFT JOIN (
+    SELECT c2.id, c2.channel_id, c2.content, c2.created_at, c2.parent_id, c2.rating, c2.user_id, c3.id AS id0, c3.avatar, c3.bumps, c3.description, c3.flag, c3."Hidden", c3.language, c3.last_bump, c3.members, c3.name, c3.notification_sent, c3.notifications, c3.promo_post, c3.promo_post_interval, c3.promo_post_last, c3.promo_post_sent, c3.promo_post_time, c3.telegram_id, c3."Url", c3."user"
+    FROM "Comment" AS c2
+    INNER JOIN "Channel" AS c3 ON c2.channel_id = c3.id
+) AS t3 ON t.id = t3.user_id
+ORDER BY t.id, t1.id, t1.id0, t1.id1, t1.id00, t3.id
+2024-01-29 15:14:03.396 +03:00 [INF] Executed DbCommand (199ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?', @p2='?' (DbType = Decimal), @p3='?' (DbType = Boolean), @p4='?' (DbType = Object), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?', @p8='?' (DbType = DateTime), @p9='?', @p10='?' (DbType = Int32), @p11='?' (DbType = DateTime), @p12='?' (DbType = Object), @p13='?' (DbType = Boolean), @p14='?', @p15='?', @p16='?' (DbType = Boolean), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Payments" (id, amount_currency, amount_value, capture, capture_json, captured_at, channel_id, client_ip, created_at, description, duration, expires_at, full_json, paid, payment_method, status, sub_given, subtype_id, user_id)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18);
+2024-01-29 15:14:03.421 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType9`2[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-01-29 15:14:03.429 +03:00 [INF] Executed action TgCheckerApi.Controllers.PaymentController.CreatePaymentAsync (TgCheckerApi) in 794.4959ms
+2024-01-29 15:14:03.431 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.PaymentController.CreatePaymentAsync (TgCheckerApi)'
+2024-01-29 15:14:03.432 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7256/api/Payment application/json;+charset=utf-8 201 - 200 163 application/json;+charset=utf-8 803.6350ms
+2024-01-29 15:14:14.998 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7256/api/Payment/capture/2d49aa4b-000f-5000-8000-1045cbe8d549 - -
+2024-01-29 15:14:14.999 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:14:15.000 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7256/api/Payment/capture/2d49aa4b-000f-5000-8000-1045cbe8d549 - - - 204 - - 1.7155ms
+2024-01-29 15:14:15.001 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7256/api/Payment/capture/2d49aa4b-000f-5000-8000-1045cbe8d549 - 0
+2024-01-29 15:14:15.001 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:14:15.003 +03:00 [INF] Bearer was not authenticated. Failure message: No SecurityTokenValidator available for token.
+2024-01-29 15:14:15.003 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.PaymentController.CapturePaymentAsync (TgCheckerApi)'
+2024-01-29 15:14:15.007 +03:00 [INF] Route matched with {action = "CapturePayment", controller = "Payment"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CapturePaymentAsync(System.String) on controller TgCheckerApi.Controllers.PaymentController (TgCheckerApi).
+2024-01-29 15:14:15.299 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 15:14:15.299 +03:00 [INF] Executed DbCommand (65ms) [Parameters=[@__Parse_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id, c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."Url", c."user"
+FROM "Payments" AS p
+INNER JOIN "Channel" AS c ON p.channel_id = c.id
+WHERE p.id = @__Parse_0
+LIMIT 1
+2024-01-29 15:14:15.301 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:14:15.304 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7256/api/Notification/UserNotifications - - - 204 - - 9.2455ms
+2024-01-29 15:14:15.312 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Notification/UserNotifications - -
+2024-01-29 15:14:15.315 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:14:15.316 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi)'
+2024-01-29 15:14:15.317 +03:00 [INF] Route matched with {action = "GetUserNotifications", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserNotifications() on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-01-29 15:14:15.324 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__uniqueKeyClaim_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.unique_key = @__uniqueKeyClaim_0
+LIMIT 2
+2024-01-29 15:14:15.335 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__user_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.user_id = @__user_Id_0
+2024-01-29 15:14:15.340 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.BaseModels.Notification, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-01-29 15:14:15.343 +03:00 [INF] Executed action TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi) in 24.7638ms
+2024-01-29 15:14:15.344 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.NotificationController.GetUserNotifications (TgCheckerApi)'
+2024-01-29 15:14:15.345 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Notification/UserNotifications - - - 200 524 application/json;+charset=utf-8 33.4018ms
+2024-01-29 15:14:15.363 +03:00 [INF] Executed DbCommand (35ms) [Parameters=[@p18='?' (DbType = Guid), @p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Boolean), @p3='?' (DbType = Object), @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32), @p6='?', @p7='?' (DbType = DateTime), @p8='?', @p9='?' (DbType = Int32), @p10='?' (DbType = DateTime), @p11='?' (DbType = Object), @p12='?' (DbType = Boolean), @p13='?', @p14='?', @p15='?' (DbType = Boolean), @p16='?' (DbType = Int32), @p17='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Payments" SET amount_currency = @p0, amount_value = @p1, capture = @p2, capture_json = @p3, captured_at = @p4, channel_id = @p5, client_ip = @p6, created_at = @p7, description = @p8, duration = @p9, expires_at = @p10, full_json = @p11, paid = @p12, payment_method = @p13, status = @p14, sub_given = @p15, subtype_id = @p16, user_id = @p17
+WHERE id = @p18;
+2024-01-29 15:14:15.378 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__channelId_0='?' (DbType = Int32), @__currentTime_1='?' (DbType = DateTime2), @__subtypeId_2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__channelId_0 AND c.expires > @__currentTime_1 AND c.type_id = @__subtypeId_2
+LIMIT 1
+2024-01-29 15:14:15.405 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__subtypeId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.multiplier, s.name, s.price, s.tag_limit
+FROM "SubType" AS s
+WHERE s.id = @__subtypeId_0
+LIMIT 1
+2024-01-29 15:14:15.465 +03:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7256/api/Auth - -
+2024-01-29 15:14:15.466 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:14:15.467 +03:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7256/api/Auth - - - 204 - - 1.7222ms
+2024-01-29 15:14:15.468 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Auth - -
+2024-01-29 15:14:15.468 +03:00 [INF] CORS policy execution successful.
+2024-01-29 15:14:15.469 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi)'
+2024-01-29 15:14:15.470 +03:00 [INF] Route matched with {action = "GetMe", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TgCheckerApi.Models.GetModels.UserProfileModel]] GetMe() on controller TgCheckerApi.Controllers.AuthController (TgCheckerApi).
+2024-01-29 15:14:15.475 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__uniqueKeyClaim_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t.avatar, t.chat_id, t.notification_settings, t.telegram_id, t.unique_key, t.username, t1.id, t1.channel_id, t1.user_id, t1.id0, t1.avatar, t1.bumps, t1.description, t1.flag, t1."Hidden", t1.language, t1.last_bump, t1.members, t1.name, t1.notification_sent, t1.notifications, t1.promo_post, t1.promo_post_interval, t1.promo_post_last, t1.promo_post_sent, t1.promo_post_time, t1.telegram_id, t1."Url", t1."user", t1.id1, t1.channel, t1.tag, t1.id00, t1.text, t3.id, t3.channel_id, t3.content, t3.created_at, t3.parent_id, t3.rating, t3.user_id, t3.id0, t3.avatar, t3.bumps, t3.description, t3.flag, t3."Hidden", t3.language, t3.last_bump, t3.members, t3.name, t3.notification_sent, t3.notifications, t3.promo_post, t3.promo_post_interval, t3.promo_post_last, t3.promo_post_sent, t3.promo_post_time, t3.telegram_id, t3."Url", t3."user"
+FROM (
+    SELECT u.id, u.avatar, u.chat_id, u.notification_settings, u.telegram_id, u.unique_key, u.username
+    FROM "User" AS u
+    WHERE u.unique_key = @__uniqueKeyClaim_0
+    LIMIT 2
+) AS t
+LEFT JOIN (
+    SELECT c.id, c.channel_id, c.user_id, c0.id AS id0, c0.avatar, c0.bumps, c0.description, c0.flag, c0."Hidden", c0.language, c0.last_bump, c0.members, c0.name, c0.notification_sent, c0.notifications, c0.promo_post, c0.promo_post_interval, c0.promo_post_last, c0.promo_post_sent, c0.promo_post_time, c0.telegram_id, c0."Url", c0."user", t0.id AS id1, t0.channel, t0.tag, t0.id0 AS id00, t0.text
+    FROM "ChannelAccess" AS c
+    LEFT JOIN "Channel" AS c0 ON c.channel_id = c0.id
+    LEFT JOIN (
+        SELECT c1.id, c1.channel, c1.tag, t2.id AS id0, t2.text
+        FROM "ChannelHasTag" AS c1
+        LEFT JOIN "Tag" AS t2 ON c1.tag = t2.id
+    ) AS t0 ON c0.id = t0.channel
+) AS t1 ON t.id = t1.user_id
+LEFT JOIN (
+    SELECT c2.id, c2.channel_id, c2.content, c2.created_at, c2.parent_id, c2.rating, c2.user_id, c3.id AS id0, c3.avatar, c3.bumps, c3.description, c3.flag, c3."Hidden", c3.language, c3.last_bump, c3.members, c3.name, c3.notification_sent, c3.notifications, c3.promo_post, c3.promo_post_interval, c3.promo_post_last, c3.promo_post_sent, c3.promo_post_time, c3.telegram_id, c3."Url", c3."user"
+    FROM "Comment" AS c2
+    INNER JOIN "Channel" AS c3 ON c2.channel_id = c3.id
+) AS t3 ON t.id = t3.user_id
+ORDER BY t.id, t1.id, t1.id0, t1.id1, t1.id00, t3.id
+2024-01-29 15:14:15.480 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:14:15.483 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:14:15.485 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:14:15.487 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:14:15.490 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:14:15.492 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:14:15.495 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:14:15.499 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:14:15.501 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:14:15.504 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:14:15.506 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:14:15.508 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:14:15.510 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:14:15.513 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:14:15.516 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:14:15.518 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:14:15.520 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:14:15.522 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:14:15.524 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.content, c.created_at, c.parent_id, c.rating, c.user_id
+FROM "Comment" AS c
+WHERE c.channel_id = @__p_0
+2024-01-29 15:14:15.526 +03:00 [INF] Executed DbCommand (83ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ChannelHasSubscription" (channel_id, expires, type_id)
+VALUES (@p0, @p1, @p2)
+RETURNING id;
+2024-01-29 15:14:15.526 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.date, n.is_new, n.type_id, n.user_id
+FROM "Notification" AS n
+WHERE n.channel_id = @__p_0
+2024-01-29 15:14:15.530 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.id, p.amount_currency, p.amount_value, p.capture, p.capture_json, p.captured_at, p.channel_id, p.client_ip, p.created_at, p.description, p.duration, p.expires_at, p.full_json, p.paid, p.payment_method, p.status, p.sub_given, p.subtype_id, p.user_id
+FROM "Payments" AS p
+WHERE p.channel_id = @__p_0
+2024-01-29 15:14:15.532 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.channel_id, r.comment_id, r.notification_sent, r.reason, r.report_time, r.report_type, r.staff_id, r.status, r.text, r.user_id
+FROM "Report" AS r
+WHERE r.channel_id = @__p_0
+2024-01-29 15:14:15.535 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.id, s.channel_id
+FROM "StatisticsSheet" AS s
+WHERE s.channel_id = @__p_0
+2024-01-29 15:14:15.537 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.id, t."autoRenewal", t."channelId", t.channel_name, t.discount, t.duration, t.expires, t.price, t.status, t.subscription_type_id, t."userId", t.username
+FROM "TelegramPayments" AS t
+WHERE t."channelId" = @__p_0
+2024-01-29 15:14:15.538 +03:00 [INF] Executing OkObjectResult, writing value of type 'TgCheckerApi.Models.GetModels.UserProfileModel'.
+2024-01-29 15:14:15.540 +03:00 [INF] Executed action TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi) in 69.0451ms
+2024-01-29 15:14:15.541 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.AuthController.GetMe (TgCheckerApi)'
+2024-01-29 15:14:15.542 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Auth - - - 200 28584 application/json;+charset=utf-8 74.2164ms
+2024-01-29 15:14:15.554 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@p1='?' (DbType = Guid), @p0='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Payments" SET sub_given = @p0
+WHERE id = @p1;
+2024-01-29 15:14:15.564 +03:00 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType10`3[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-01-29 15:14:15.567 +03:00 [INF] Executed action TgCheckerApi.Controllers.PaymentController.CapturePaymentAsync (TgCheckerApi) in 557.5212ms
+2024-01-29 15:14:15.569 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.PaymentController.CapturePaymentAsync (TgCheckerApi)'
+2024-01-29 15:14:15.571 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7256/api/Payment/capture/2d49aa4b-000f-5000-8000-1045cbe8d549 - 0 - 200 - application/json;+charset=utf-8 570.1063ms

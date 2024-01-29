@@ -1,7 +1,6 @@
 ﻿using System.Net;
-using TgCheckerApi.Models.GetModels;
 
-namespace TgCheckerApi.Models.BaseModels
+namespace TgCheckerApi.Models.GetModels
 {
     public class UserProfileModel
     {

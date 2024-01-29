@@ -16,6 +16,7 @@ using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models.GetModels;
 using TgCheckerApi.Services;
 using AutoMapper;
+using System.IO;
 
 namespace TgCheckerApi.Controllers
 {
@@ -27,14 +28,16 @@ namespace TgCheckerApi.Controllers
         private readonly TgDbContext _context;
         private readonly IMapper _mapper;
         private readonly UserService _userService;
+        private readonly ILogger<AuthController> _logger;
         private readonly NotificationService _notificationService;
 
-        public AuthController(IHubContext<AuthHub> hubContext, TgDbContext context, IMapper mapper)
+        public AuthController(IHubContext<AuthHub> hubContext, TgDbContext context, IMapper mapper, ILogger<AuthController> logger)
         {
             _hubContext = hubContext;
             _context = context;
             _userService = new UserService(context);
             _notificationService = new NotificationService(context);
+            _logger = logger;
             _mapper = mapper;
         }
 
@@ -58,32 +61,44 @@ namespace TgCheckerApi.Controllers
         }
 
         // GET: api/User
-        [HttpGet]
+
         [BypassApiKey]
         [RequiresJwtValidation]
+        [HttpGet("")]
         public async Task<ActionResult<UserProfileModel>> GetMe()
         {
-            var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
-
-            var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
-            Console.WriteLine(uniqueKeyClaim);
-
-            if (user == null)
+            try
             {
-                return NotFound("User does not exist");
+                var uniqueKeyClaim = User.FindFirst(c => c.Type == "key")?.Value;
+
+                var user = await _userService.GetUserWithRelations(uniqueKeyClaim);
+
+                if (user == null)
+                {
+                    return NotFound("User does not exist");
+                }
+
+                
+
+                var userProfile = new UserProfileModel
+                {
+                    Comments = _mapper.Map<IEnumerable<CommentUserProfileGetModel>>(user.Comments.Where(c => c.ParentId == null)).ToList(),
+                    Avatar = user.Avatar,
+                    UserName = user.Username,
+                    UserId = user.Id
+                };
+
+                var channels = user.ChannelAccesses.Select(ca => ca.Channel).ToList();
+                var mappedChannels = _mapper.Map<IEnumerable<ChannelGetModel>>(channels);
+                userProfile.Channels = mappedChannels.ToList();
+
+                return Ok(userProfile);
             }
-
-            var userProfile = new UserProfileModel
+            catch (Exception ex)
             {
-                Channels = _mapper.Map<IEnumerable<ChannelGetModel>>(user.ChannelAccesses.Select(ca => ca.Channel)).ToList(),
-                Comments = _mapper.Map<IEnumerable<CommentUserProfileGetModel>>(user.Comments.Where(c => c.ParentId == null)).ToList(),
-                Avatar = user.Avatar,
-                UserName = user.Username,
-                UserId = user.Id
-            };
-
-            return userProfile;
-
+                _logger.LogError(ex, "Error in GetMe method");
+                return StatusCode(500, $"Error on {DateTime.UtcNow}: {ex.Message}\n{ex.StackTrace}\n");
+            }
         }
 
         [HttpGet("ValidateUniqueKey/{uniqueKey}")]

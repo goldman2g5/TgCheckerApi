@@ -63,7 +63,7 @@ namespace TgCheckerApi.Controllers
                     ChannelId = (int)group.Key,
                     ChannelName = group.First().Channel.Name,
                     ChannelUrl = group.First().Channel.Url,
-                    ChannelWebUrl = $"http://46.39.232.190:8063/Channel/{group.Key}",
+                    ChannelWebUrl = $"https://tgsearch.info/Channel/{group.Key}",
                     LastReport = group.Max(r => r.ReportTime),
                     ReportCount = group.Count(),
                     Reports = _mapper.Map<List<ReportGetModel>>(group.ToList())
