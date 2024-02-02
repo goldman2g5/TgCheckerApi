@@ -175,7 +175,7 @@ namespace TgCheckerApi.Controllers
                     return BadRequest("Failed to capture payment.");
                 }
 
-                var paymentToUpdate = await _yooKassaService.UpdatePaymentRecordAsync(paymentId);
+                var paymentToUpdate = await _yooKassaService.UpdatePaymentRecordAsync(paymentId, capturedPayment);
                 if (paymentToUpdate == null)
                 {
                     return NotFound($"Payment with ID {paymentId} not found.");
@@ -249,9 +249,20 @@ namespace TgCheckerApi.Controllers
             var payment = _yooKassaService.DecodeWebhookRequest(
                 Request.Method, Request.ContentType!, new MemoryStream(body));
             _logger.LogInformation($"{payment.Id}, {payment.Status}");
+
             if (payment.Status == PaymentStatus.WaitingForCapture)
             {
-                await _yooKassaService.CapturePaymentAsync(payment.Id);
+                var capturedPayment = await _yooKassaService.CapturePaymentAsync(payment.Id);
+                if (capturedPayment.Status.ToString() == "Succeeded")
+                {
+                    var paymentToUpdate = await _yooKassaService.UpdatePaymentRecordAsync(payment.Id, capturedPayment);
+                    return await ProcessSubscriptionAsync(paymentToUpdate);
+                }
+            }
+            else if (payment.Status == PaymentStatus.Succeeded)
+            {
+                var paymentToUpdate = await _yooKassaService.UpdatePaymentRecordAsync(payment.Id, payment);
+                return await ProcessSubscriptionAsync(paymentToUpdate);
             }
 
             return Ok();

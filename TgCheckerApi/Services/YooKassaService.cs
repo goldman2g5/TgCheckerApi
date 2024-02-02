@@ -27,9 +27,8 @@ namespace TgCheckerApi.Services
             return capturedPayment;
         }
             
-        public async Task<Models.BaseModels.Payment> UpdatePaymentRecordAsync(string paymentId)
+        public async Task<Models.BaseModels.Payment> UpdatePaymentRecordAsync(string paymentId, Yandex.Checkout.V3.Payment capturedPayment)
         {
-            var capturedPayment = await _asyncClient.CapturePaymentAsync(paymentId);
             if (capturedPayment == null) return null;
 
             var paymentToUpdate = await _context.Payments

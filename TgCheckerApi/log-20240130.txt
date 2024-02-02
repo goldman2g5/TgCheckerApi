@@ -1,0 +1,52 @@
+2024-01-30 22:31:57.649 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-01-30 22:31:57.749 +03:00 [INF] Creating key {e4b5d42f-e7e2-4830-9f74-ecc45c9e0e0c} with creation date 2024-01-30 19:31:57Z, activation date 2024-02-01 15:24:28Z, and expiration date 2024-04-29 19:31:57Z.
+2024-01-30 22:31:57.763 +03:00 [INF] Writing data to file 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys\key-e4b5d42f-e7e2-4830-9f74-ecc45c9e0e0c.xml'.
+2024-01-30 22:31:57.941 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-01-30 22:31:57.991 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-01-30 22:31:57.991 +03:00 [INF] Quartz Scheduler created
+2024-01-30 22:31:57.992 +03:00 [INF] RAMJobStore initialized.
+2024-01-30 22:31:57.993 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-01-30 22:31:57.994 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-01-30 22:31:57.995 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-01-30 22:31:57.997 +03:00 [INF] JobFactory set to: TgCheckerApi.Job.QuartzJobFactory
+2024-01-30 22:31:58.116 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-01-30 22:31:58.319 +03:00 [INF] Now listening on: https://localhost:7256
+2024-01-30 22:31:58.319 +03:00 [INF] Now listening on: https://localhost:5244
+2024-01-30 22:31:58.323 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-01-30 22:31:58.324 +03:00 [INF] Hosting environment: Development
+2024-01-30 22:31:58.324 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\
+2024-01-30 22:31:58.807 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/index.html - -
+2024-01-30 22:31:59.157 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 353.1030ms
+2024-01-30 22:31:59.188 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-01-30 22:31:59.192 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 3.5547ms
+2024-01-30 22:31:59.240 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_vs/browserLink - -
+2024-01-30 22:31:59.261 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 21.0145ms
+2024-01-30 22:31:59.373 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - -
+2024-01-30 22:31:59.507 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 133.4821ms
+2024-01-30 22:32:08.447 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-01-30 22:32:08.453 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-01-30 22:33:48.533 +03:00 [ERR] Error occurred executing UpdateSubscribersJob via HTTP request.
+System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 100 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.IO.IOException: Unable to read data from the transport connection: Операция ввода/вывода была прервана из-за завершения потока команд или по запросу приложения..
+ ---> System.Net.Sockets.SocketException (995): Операция ввода/вывода была прервана из-за завершения потока команд или по запросу приложения.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter adapter, Memory`1 buffer)
+   at System.Net.Http.HttpConnection.InitialFillAsync(Boolean async)
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.HandleFailure(Exception e, Boolean telemetryStarted, HttpResponseMessage response, CancellationTokenSource cts, CancellationToken cancellationToken, CancellationTokenSource pendingRequestsCts)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at TgCheckerApi.Job.UpdateSubscribersJob.Execute(IJobExecutionContext context) in C:\Users\timar\source\Repos\TgCheckerApiIGOGOG\TgCheckerApi\Job\UpdateSubscribersJob.cs:line 49
