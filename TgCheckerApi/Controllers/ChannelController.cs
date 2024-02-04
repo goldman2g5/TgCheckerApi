@@ -623,6 +623,18 @@ namespace TgCheckerApi.Controllers
             return Ok();
         }
 
+        [HttpGet("ExistsByUrl")]
+        public async Task<ActionResult<bool>> ChannelExists(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                return BadRequest("URL is required.");
+            }
+
+            var exists = await _context.Channels.AnyAsync(c => c.Url == url);
+            return Ok(exists);
+        }
+
         [HttpGet("resetBumps")]
         public async Task<IActionResult> ResetBumps()
         {

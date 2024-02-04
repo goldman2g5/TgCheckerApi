@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace TgCheckerApi.Models.BaseModels;
+namespace TgCheckerApi.Models.TempScaffold;
 
 public partial class TgDbContext : DbContext
 {
@@ -559,11 +559,11 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Avatar).HasColumnName("avatar");
             entity.Property(e => e.ChatId).HasColumnName("chat_id");
+            entity.Property(e => e.LastUpdate).HasColumnName("last_update");
             entity.Property(e => e.NotificationSettings).HasColumnName("notification_settings");
             entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
             entity.Property(e => e.UniqueKey).HasColumnName("unique_key");
             entity.Property(e => e.Username).HasColumnName("username");
-            entity.Property(e => e.LastUpdate).HasColumnName("last_update");
 
             entity.HasOne(d => d.NotificationSettingsNavigation).WithMany(p => p.Users)
                 .HasForeignKey(d => d.NotificationSettings)

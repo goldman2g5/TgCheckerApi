@@ -20,6 +20,8 @@ public partial class User
     public string? UniqueKey { get; set; }
 
     public int? NotificationSettings { get; set; }
+
+    public DateTime? LastUpdate { get; set; }
     [JsonIgnore]
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
     [JsonIgnore]

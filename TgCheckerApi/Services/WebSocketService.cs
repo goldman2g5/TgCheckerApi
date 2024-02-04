@@ -5,22 +5,24 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using TgCheckerApi.Controllers;
 using TgCheckerApi.Websockets;
-
+using System.Net.Http;
+using TgCheckerApi.Interfaces;
 
 namespace TgCheckerApi.Services
 {
-    public class WebSocketService
+    public class WebSocketService : IStatisticsService
     {
         private readonly IHubContext<BotHub> _hubContext;
         private readonly TaskManager _taskManager;
-        private Dictionary<string, TaskCompletionSource<string>> _pendingTasks = new Dictionary<string, TaskCompletionSource<string>>();
         private readonly ILogger<BotController> _logger;
+        private HttpClient _httpClient;
 
-        public WebSocketService(IHubContext<BotHub> hubContext, ILogger<BotController> logger, TaskManager taskManager)
+        public WebSocketService(IHubContext<BotHub> hubContext, ILogger<BotController> logger, TaskManager taskManager, IHttpClientFactory httpClientFactory)
         {
             _hubContext = hubContext;
             _taskManager = taskManager;
             _logger = logger;
+            _httpClient = httpClientFactory.CreateClient();
         }
 
         public async Task<IActionResult> CallFunctionAsync(string functionName, object parameters, TimeSpan timeout)

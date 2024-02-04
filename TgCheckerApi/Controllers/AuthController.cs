@@ -17,6 +17,7 @@ using TgCheckerApi.Models.GetModels;
 using TgCheckerApi.Services;
 using AutoMapper;
 using System.IO;
+using static TgCheckerApi.Controllers.BotController;
 
 namespace TgCheckerApi.Controllers
 {
@@ -30,8 +31,10 @@ namespace TgCheckerApi.Controllers
         private readonly UserService _userService;
         private readonly ILogger<AuthController> _logger;
         private readonly NotificationService _notificationService;
+        private readonly WebSocketService _webSocketService;
+        private readonly IServiceProvider _serviceProvider;
 
-        public AuthController(IHubContext<AuthHub> hubContext, TgDbContext context, IMapper mapper, ILogger<AuthController> logger)
+        public AuthController(IHubContext<AuthHub> hubContext, TgDbContext context, WebSocketService webSocketService, IMapper mapper, ILogger<AuthController> logger, IServiceProvider serviceProvider)
         {
             _hubContext = hubContext;
             _context = context;
@@ -39,6 +42,8 @@ namespace TgCheckerApi.Controllers
             _notificationService = new NotificationService(context);
             _logger = logger;
             _mapper = mapper;
+            _webSocketService = webSocketService;
+            _serviceProvider = serviceProvider;
         }
 
         [HttpPost]
@@ -78,7 +83,19 @@ namespace TgCheckerApi.Controllers
                     return NotFound("User does not exist");
                 }
 
-                
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await UpdateUserProfileIfNeeded(user);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error updating user profile in background");
+                        // Depending on your error handling policies, you might log this error or handle it differently.
+                        // Be cautious about swallowing exceptions without logging or monitoring, as it can make debugging difficult.
+                    }
+                });
 
                 var userProfile = new UserProfileModel
                 {
@@ -98,6 +115,72 @@ namespace TgCheckerApi.Controllers
             {
                 _logger.LogError(ex, "Error in GetMe method");
                 return StatusCode(500, $"Error on {DateTime.UtcNow}: {ex.Message}\n{ex.StackTrace}\n");
+            }
+        }
+
+        private async Task UpdateUserProfileIfNeeded(User user)
+        {
+
+            // Check if update is needed based on LastUpdate
+            if (user == null || user.LastUpdate.HasValue && (DateTime.UtcNow - user.LastUpdate.Value).TotalDays <= 1)
+            {
+                return;
+            }
+
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var scopedDbContext = scope.ServiceProvider.GetRequiredService<TgDbContext>();
+                var webSocketService = scope.ServiceProvider.GetRequiredService<WebSocketService>();
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<AuthController>>();
+
+                if (scopedDbContext.Entry(user).State == EntityState.Detached)
+                {
+                    scopedDbContext.Users.Attach(user);
+                }
+
+                try
+                {
+                    var parameters = new { user_id = user.TelegramId };
+                    var response = await webSocketService.CallFunctionAsync("getProfilePictureAndUsername", parameters, TimeSpan.FromSeconds(30));
+
+                    // Use the ResponseToObject<T> method to simplify deserialization
+                    var profileData = webSocketService.ResponseToObject<ProfileUpdateResponse>(response);
+
+                    if (profileData != null)
+                    {
+                        bool updated = false;
+                        if (!string.IsNullOrEmpty(profileData.avatar))
+                        {
+                            user.Avatar = Convert.FromBase64String(profileData.avatar); // Update avatar
+                            scopedDbContext.Entry(user).State = EntityState.Modified;
+                            updated = true;
+                        }
+
+                        if (!string.IsNullOrEmpty(profileData.username))
+                        {
+                            user.Username = profileData.username; // Update username
+                            scopedDbContext.Entry(user).State = EntityState.Modified;
+                            updated = true;
+                        }
+
+                        if (updated)
+                        {
+                            user.LastUpdate = DateTime.UtcNow; // Update last update timestamp
+                            var result = await scopedDbContext.SaveChangesAsync();
+                            logger.LogInformation($"{result} entities were saved to the database.");
+
+                        }
+                    }
+                }
+                catch (InvalidOperationException ex)
+                {
+                    logger.LogError(ex, "Invalid operation when updating user profile.");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Error updating user profile in background");
+                    // Handle or log the error as needed
+                }
             }
         }
 

@@ -19,6 +19,8 @@ public partial class User
 
     public int? NotificationSettings { get; set; }
 
+    public DateTime? LastUpdate { get; set; }
+
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
 
     public virtual ICollection<Channel> Channels { get; set; } = new List<Channel>();
