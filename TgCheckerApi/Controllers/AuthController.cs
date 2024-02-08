@@ -87,6 +87,7 @@ namespace TgCheckerApi.Controllers
                 {
                     try
                     {
+                        _logger.LogInformation($"initializing user data update");
                         await UpdateUserProfileIfNeeded(user);
                     }
                     catch (Exception ex)
@@ -121,7 +122,6 @@ namespace TgCheckerApi.Controllers
         private async Task UpdateUserProfileIfNeeded(User user)
         {
 
-            // Check if update is needed based on LastUpdate
             if (user == null || user.LastUpdate.HasValue && (DateTime.UtcNow - user.LastUpdate.Value).TotalDays <= 1)
             {
                 return;
@@ -143,7 +143,6 @@ namespace TgCheckerApi.Controllers
                     var parameters = new { user_id = user.TelegramId };
                     var response = await webSocketService.CallFunctionAsync("getProfilePictureAndUsername", parameters, TimeSpan.FromSeconds(30));
 
-                    // Use the ResponseToObject<T> method to simplify deserialization
                     var profileData = webSocketService.ResponseToObject<ProfileUpdateResponse>(response);
 
                     if (profileData != null)
@@ -151,21 +150,21 @@ namespace TgCheckerApi.Controllers
                         bool updated = false;
                         if (!string.IsNullOrEmpty(profileData.avatar))
                         {
-                            user.Avatar = Convert.FromBase64String(profileData.avatar); // Update avatar
+                            user.Avatar = Convert.FromBase64String(profileData.avatar);
                             scopedDbContext.Entry(user).State = EntityState.Modified;
                             updated = true;
                         }
 
                         if (!string.IsNullOrEmpty(profileData.username))
                         {
-                            user.Username = profileData.username; // Update username
+                            user.Username = profileData.username;
                             scopedDbContext.Entry(user).State = EntityState.Modified;
                             updated = true;
                         }
 
                         if (updated)
                         {
-                            user.LastUpdate = DateTime.UtcNow; // Update last update timestamp
+                            user.LastUpdate = DateTime.UtcNow;
                             var result = await scopedDbContext.SaveChangesAsync();
                             logger.LogInformation($"{result} entities were saved to the database.");
 
