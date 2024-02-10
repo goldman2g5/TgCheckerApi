@@ -86,10 +86,10 @@ namespace TgCheckerApi.Services
             _logger.LogInformation("Starting IsUpdateRequiredForMonth method.");
             _logger.LogInformation($"Parameters: ChannelId={monthViewsRequest.ChannelId}, Months={monthViewsRequest.Months}");
 
-            TimeSpan outdatedThreshold = TimeSpan.FromMinutes(1); // Define your threshold for outdated data
+            TimeSpan outdatedThreshold = TimeSpan.FromHours(6); // Define your threshold for outdated data
             _logger.LogInformation($"Outdated threshold set to {outdatedThreshold.TotalMinutes} minutes.");
 
-            var latestMonth = DateTime.UtcNow.AddMonths(-1);
+            var latestMonth = DateTime.UtcNow;
             var year = latestMonth.Year;
             var month = latestMonth.Month;
 
@@ -464,7 +464,7 @@ namespace TgCheckerApi.Services
             _logger.LogInformation("Starting IsUpdateRequiredForChannel method.");
             _logger.LogInformation($"Parameters: ChannelId={dailyViewsRequest.ChannelId}, NumberOfDays={dailyViewsRequest.NumberOfDays}");
 
-            TimeSpan outdatedThreshold = TimeSpan.FromMinutes(1);
+            TimeSpan outdatedThreshold = TimeSpan.FromHours(6);
             _logger.LogInformation($"Outdated threshold set to {outdatedThreshold.TotalMinutes} minutes.");
 
             var today = DateTime.UtcNow.Date;

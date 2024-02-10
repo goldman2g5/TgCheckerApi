@@ -9,7 +9,7 @@ namespace TgCheckerApi.Utility
 {
     public class ChannelService
     {
-        private const string DefaultSortOption = "popularity";
+        private const string DefaultSortOption = "rating";
         private const int PageSize = 50;
         private readonly TgDbContext _context;
 
@@ -35,7 +35,7 @@ namespace TgCheckerApi.Utility
                 {
         {"members", channel => channel.Members},
         {"activity", channel => channel.LastBump},
-        {"popularity", channel => channel.Bumps}
+        {"rating", channel => channel.Bumps ?? 0}
     };
 
 
