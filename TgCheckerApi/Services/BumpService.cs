@@ -13,7 +13,7 @@ namespace TgCheckerApi.Utility
 
         public bool IsBumpAvailable(DateTime nextBumpTime)
         {
-            return DateTime.Now < nextBumpTime;
+            return DateTime.Now >= nextBumpTime;
         }
 
         public int GetRemainingTimeInSeconds(DateTime nextBumpTime)
@@ -21,9 +21,13 @@ namespace TgCheckerApi.Utility
             return (int)(nextBumpTime - DateTime.Now).TotalSeconds;
         }
 
-        public void UpdateChannelBumpDetails(Channel channel)
+        public void UpdateChannelBumpDetails(Channel channel, decimal multiplier)
         {
-            channel.Bumps = (channel.Bumps ?? 0) + 1;
+            // Apply the multiplier to the bump increment
+            var bumpIncrement = 1 * multiplier;
+
+            // Update channel details
+            channel.Bumps = (channel.Bumps ?? 0) + bumpIncrement;
             channel.LastBump = DateTime.Now;
             channel.NotificationSent = false;
         }

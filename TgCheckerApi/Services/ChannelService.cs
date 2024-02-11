@@ -1,9 +1,10 @@
 ﻿using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
+using TgCheckerApi.Models.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace TgCheckerApi.Utility
 {
@@ -26,6 +27,18 @@ namespace TgCheckerApi.Utility
                 return query.Where(channel => channel.ChannelHasTags.Any(cht => tagList.Contains(cht.TagNavigation.Text)));
             }
             return query;
+        }
+
+        public async Task<decimal> GetChannelMultiplierAsync(int channelId)
+        {
+            var multiplier = await _context.ChannelHasSubscriptions
+                .Where(sub => sub.ChannelId == channelId)
+                .Include(sub => sub.Type)
+                .OrderByDescending(sub => sub.TypeId)
+                .Select(sub => sub.Type.Multiplier)
+                .FirstOrDefaultAsync();
+
+            return multiplier ?? 1; // Return 1 as the default multiplier if no subscriptions are found
         }
 
 

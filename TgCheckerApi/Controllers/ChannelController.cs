@@ -352,22 +352,24 @@ namespace TgCheckerApi.Controllers
         public async Task<IActionResult> BumpChannel(int id)
         {
             var channel = await FindChannelById(id);
-
             if (channel == null)
             {
                 return NotFound();
             }
 
             var nextBumpTime = _bumpService.CalculateNextBumpTime(channel.LastBump);
-
-            if (_bumpService.IsBumpAvailable(nextBumpTime))
+            if (!_bumpService.IsBumpAvailable(nextBumpTime))
             {
                 var remainingTime = _bumpService.GetRemainingTimeInSeconds(nextBumpTime);
                 Response.Headers.Add("X-TimeLeft", remainingTime.ToString());
                 return BadRequest($"Next bump available in {remainingTime} minutes.");
             }
 
-            _bumpService.UpdateChannelBumpDetails(channel);
+            // Retrieve the subscription multiplier for the channel
+            decimal multiplier = await _channelService.GetChannelMultiplierAsync(channel.Id);
+
+            // Pass the multiplier to the method
+            _bumpService.UpdateChannelBumpDetails(channel, multiplier);
 
             if (!await TrySaveChanges())
             {
