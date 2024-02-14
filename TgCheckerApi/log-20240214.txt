@@ -1,0 +1,237 @@
+2024-02-14 21:12:43.563 +03:00 [INF] User profile is available. Using 'C:\Users\79103\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-02-14 21:12:43.941 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-02-14 21:12:44.034 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-02-14 21:12:44.035 +03:00 [INF] Quartz Scheduler created
+2024-02-14 21:12:44.036 +03:00 [INF] RAMJobStore initialized.
+2024-02-14 21:12:44.038 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-02-14 21:12:44.039 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-02-14 21:12:44.039 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-02-14 21:12:44.047 +03:00 [INF] JobFactory set to: TgCheckerApi.Job.QuartzJobFactory
+2024-02-14 21:12:44.121 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-02-14 21:12:44.365 +03:00 [INF] Now listening on: https://localhost:7256
+2024-02-14 21:12:44.366 +03:00 [INF] Now listening on: https://localhost:5244
+2024-02-14 21:12:44.372 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-02-14 21:12:44.373 +03:00 [INF] Hosting environment: Development
+2024-02-14 21:12:44.373 +03:00 [INF] Content root path: C:\Users\79103\source\Repos\TgCheckerApiCurrent\TgCheckerApi\
+2024-02-14 21:12:45.311 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/index.html - -
+2024-02-14 21:12:45.783 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 475.2999ms
+2024-02-14 21:12:45.786 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-02-14 21:12:45.805 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 19.0626ms
+2024-02-14 21:12:45.809 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_vs/browserLink - -
+2024-02-14 21:12:45.842 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 33.0038ms
+2024-02-14 21:12:45.884 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - -
+2024-02-14 21:12:46.061 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 177.8462ms
+2024-02-14 21:12:54.373 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-02-14 21:12:54.380 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-02-14 21:12:55.538 +03:00 [INF] Received HTTP response headers after 1154.2351ms - 200
+2024-02-14 21:12:55.542 +03:00 [INF] End processing HTTP request after 1176.315ms - 200
+2024-02-14 21:12:55.546 +03:00 [INF] Successfully processed all channels via HTTP request at: {DateTime.UtcNow}
+2024-02-14 21:23:23.056 +03:00 [INF] User profile is available. Using 'C:\Users\79103\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-02-14 21:23:23.239 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-02-14 21:23:23.282 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-02-14 21:23:23.287 +03:00 [INF] Quartz Scheduler created
+2024-02-14 21:23:23.289 +03:00 [INF] RAMJobStore initialized.
+2024-02-14 21:23:23.290 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-02-14 21:23:23.291 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-02-14 21:23:23.292 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-02-14 21:23:23.293 +03:00 [INF] JobFactory set to: TgCheckerApi.Job.QuartzJobFactory
+2024-02-14 21:23:23.341 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-02-14 21:23:23.471 +03:00 [INF] Now listening on: https://localhost:7256
+2024-02-14 21:23:23.472 +03:00 [INF] Now listening on: https://localhost:5244
+2024-02-14 21:23:23.476 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-02-14 21:23:23.477 +03:00 [INF] Hosting environment: Development
+2024-02-14 21:23:23.478 +03:00 [INF] Content root path: C:\Users\79103\source\Repos\TgCheckerApiCurrent\TgCheckerApi\
+2024-02-14 21:23:24.169 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/index.html - -
+2024-02-14 21:23:24.467 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 301.4123ms
+2024-02-14 21:23:24.470 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-02-14 21:23:24.479 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 8.8328ms
+2024-02-14 21:23:24.483 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_vs/browserLink - -
+2024-02-14 21:23:24.499 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 15.8453ms
+2024-02-14 21:23:24.552 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - -
+2024-02-14 21:23:24.738 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 185.8938ms
+2024-02-14 21:23:33.543 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-02-14 21:23:33.552 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-02-14 21:23:34.439 +03:00 [INF] Received HTTP response headers after 881.6786ms - 200
+2024-02-14 21:23:34.443 +03:00 [INF] End processing HTTP request after 908.3009ms - 200
+2024-02-14 21:23:34.448 +03:00 [INF] Successfully processed all channels via HTTP request at: {DateTime.UtcNow}
+2024-02-14 21:24:14.493 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Notification/GetNotificationSettings/1976370679 - -
+2024-02-14 21:24:14.620 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.GetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:24:14.653 +03:00 [INF] Route matched with {action = "GetNotificationSettings", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TgCheckerApi.Models.PostModels.NotificationSettingDto]] GetNotificationSettings(Int64) on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-02-14 21:24:16.930 +03:00 [INF] Executed DbCommand (63ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n."Bump", n."General", n."Important"
+FROM "User" AS u
+LEFT JOIN "NotificationSettings" AS n ON u.notification_settings = n.id
+WHERE u.telegram_id = @__telegramId_0
+LIMIT 1
+2024-02-14 21:24:17.035 +03:00 [INF] Executing OkObjectResult, writing value of type 'TgCheckerApi.Models.PostModels.NotificationSettingDto'.
+2024-02-14 21:24:17.061 +03:00 [INF] Executed action TgCheckerApi.Controllers.NotificationController.GetNotificationSettings (TgCheckerApi) in 2398.4313ms
+2024-02-14 21:24:17.063 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.NotificationController.GetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:24:17.086 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Notification/GetNotificationSettings/1976370679 - - - 200 46 application/json;+charset=utf-8 2593.3856ms
+2024-02-14 21:24:19.020 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Notification/GetNotificationSettings/1976370679 - -
+2024-02-14 21:24:19.027 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.GetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:24:19.029 +03:00 [INF] Route matched with {action = "GetNotificationSettings", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TgCheckerApi.Models.PostModels.NotificationSettingDto]] GetNotificationSettings(Int64) on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-02-14 21:24:19.054 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n."Bump", n."General", n."Important"
+FROM "User" AS u
+LEFT JOIN "NotificationSettings" AS n ON u.notification_settings = n.id
+WHERE u.telegram_id = @__telegramId_0
+LIMIT 1
+2024-02-14 21:24:19.057 +03:00 [INF] Executing OkObjectResult, writing value of type 'TgCheckerApi.Models.PostModels.NotificationSettingDto'.
+2024-02-14 21:24:19.058 +03:00 [INF] Executed action TgCheckerApi.Controllers.NotificationController.GetNotificationSettings (TgCheckerApi) in 27.1931ms
+2024-02-14 21:24:19.060 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.NotificationController.GetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:24:19.062 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Notification/GetNotificationSettings/1976370679 - - - 200 46 application/json;+charset=utf-8 41.8243ms
+2024-02-14 21:29:00.647 +03:00 [INF] User profile is available. Using 'C:\Users\79103\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-02-14 21:29:00.848 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-02-14 21:29:00.896 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-02-14 21:29:00.901 +03:00 [INF] Quartz Scheduler created
+2024-02-14 21:29:00.903 +03:00 [INF] RAMJobStore initialized.
+2024-02-14 21:29:00.904 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-02-14 21:29:00.904 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-02-14 21:29:00.905 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-02-14 21:29:00.907 +03:00 [INF] JobFactory set to: TgCheckerApi.Job.QuartzJobFactory
+2024-02-14 21:29:00.957 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-02-14 21:29:01.090 +03:00 [INF] Now listening on: https://localhost:7256
+2024-02-14 21:29:01.091 +03:00 [INF] Now listening on: https://localhost:5244
+2024-02-14 21:29:01.095 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-02-14 21:29:01.096 +03:00 [INF] Hosting environment: Development
+2024-02-14 21:29:01.097 +03:00 [INF] Content root path: C:\Users\79103\source\Repos\TgCheckerApiCurrent\TgCheckerApi\
+2024-02-14 21:29:01.753 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/index.html - -
+2024-02-14 21:29:02.056 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 306.2463ms
+2024-02-14 21:29:02.058 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-02-14 21:29:02.068 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 10.3012ms
+2024-02-14 21:29:02.071 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_vs/browserLink - -
+2024-02-14 21:29:02.087 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 16.2654ms
+2024-02-14 21:29:02.140 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - -
+2024-02-14 21:29:02.322 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 182.2788ms
+2024-02-14 21:29:11.152 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-02-14 21:29:11.160 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-02-14 21:29:12.308 +03:00 [INF] Received HTTP response headers after 1143.2105ms - 200
+2024-02-14 21:29:12.314 +03:00 [INF] End processing HTTP request after 1169.9754ms - 200
+2024-02-14 21:29:12.319 +03:00 [INF] Successfully processed all channels via HTTP request at: {DateTime.UtcNow}
+2024-02-14 21:29:31.286 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7256/api/Notification/SetNotificationSettings/1976370679 application/json-patch+json 58
+2024-02-14 21:29:31.293 +03:00 [INF] CORS policy execution successful.
+2024-02-14 21:29:31.375 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:29:31.403 +03:00 [INF] Route matched with {action = "SetNotificationSettings", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SetNotificationSettings(Int64, TgCheckerApi.Models.PostModels.NotificationSettingDto) on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-02-14 21:29:33.452 +03:00 [INF] Executed DbCommand (64ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.last_update, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.telegram_id = @__telegramId_0
+LIMIT 1
+2024-02-14 21:29:33.689 +03:00 [INF] Executed DbCommand (8ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n."Bump", n."General", n."Important"
+FROM "NotificationSettings" AS n
+WHERE EXISTS (
+    SELECT 1
+    FROM "User" AS u
+    WHERE n.id = u.notification_settings AND u.telegram_id = @__telegramId_0)
+LIMIT 1
+2024-02-14 21:29:33.823 +03:00 [INF] Executed DbCommand (14ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "NotificationSettings" SET "General" = @p0
+WHERE id = @p1;
+2024-02-14 21:29:33.844 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2024-02-14 21:29:33.850 +03:00 [INF] Executed action TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi) in 2440.2727ms
+2024-02-14 21:29:33.853 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:29:33.869 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7256/api/Notification/SetNotificationSettings/1976370679 application/json-patch+json 58 - 200 0 - 2582.7591ms
+2024-02-14 21:29:37.804 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7256/api/Notification/SetNotificationSettings/1976370679 application/json-patch+json 58
+2024-02-14 21:29:37.805 +03:00 [INF] CORS policy execution successful.
+2024-02-14 21:29:37.809 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:29:37.811 +03:00 [INF] Route matched with {action = "SetNotificationSettings", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SetNotificationSettings(Int64, TgCheckerApi.Models.PostModels.NotificationSettingDto) on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-02-14 21:29:37.818 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.last_update, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.telegram_id = @__telegramId_0
+LIMIT 1
+2024-02-14 21:29:37.825 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n."Bump", n."General", n."Important"
+FROM "NotificationSettings" AS n
+WHERE EXISTS (
+    SELECT 1
+    FROM "User" AS u
+    WHERE n.id = u.notification_settings AND u.telegram_id = @__telegramId_0)
+LIMIT 1
+2024-02-14 21:29:37.828 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2024-02-14 21:29:37.829 +03:00 [INF] Executed action TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi) in 16.5775ms
+2024-02-14 21:29:37.829 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:29:37.830 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7256/api/Notification/SetNotificationSettings/1976370679 application/json-patch+json 58 - 200 0 - 26.3664ms
+2024-02-14 21:29:43.670 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7256/api/Notification/SetNotificationSettings/1976370679 application/json-patch+json 59
+2024-02-14 21:29:43.672 +03:00 [INF] CORS policy execution successful.
+2024-02-14 21:29:43.673 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:29:43.674 +03:00 [INF] Route matched with {action = "SetNotificationSettings", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SetNotificationSettings(Int64, TgCheckerApi.Models.PostModels.NotificationSettingDto) on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-02-14 21:29:43.715 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.last_update, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.telegram_id = @__telegramId_0
+LIMIT 1
+2024-02-14 21:29:43.719 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n."Bump", n."General", n."Important"
+FROM "NotificationSettings" AS n
+WHERE EXISTS (
+    SELECT 1
+    FROM "User" AS u
+    WHERE n.id = u.notification_settings AND u.telegram_id = @__telegramId_0)
+LIMIT 1
+2024-02-14 21:29:43.723 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "NotificationSettings" SET "Important" = @p0
+WHERE id = @p1;
+2024-02-14 21:29:43.725 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2024-02-14 21:29:43.725 +03:00 [INF] Executed action TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi) in 48.9623ms
+2024-02-14 21:29:43.726 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:29:43.727 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7256/api/Notification/SetNotificationSettings/1976370679 application/json-patch+json 59 - 200 0 - 57.2195ms
+2024-02-14 21:29:54.390 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Notification/GetNotificationSettings/1976370679 - -
+2024-02-14 21:29:54.391 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.GetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:29:54.394 +03:00 [INF] Route matched with {action = "GetNotificationSettings", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TgCheckerApi.Models.PostModels.NotificationSettingDto]] GetNotificationSettings(Int64) on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-02-14 21:29:54.434 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n."Bump", n."General", n."Important"
+FROM "User" AS u
+LEFT JOIN "NotificationSettings" AS n ON u.notification_settings = n.id
+WHERE u.telegram_id = @__telegramId_0
+LIMIT 1
+2024-02-14 21:29:54.442 +03:00 [INF] Executing OkObjectResult, writing value of type 'TgCheckerApi.Models.PostModels.NotificationSettingDto'.
+2024-02-14 21:29:54.456 +03:00 [INF] Executed action TgCheckerApi.Controllers.NotificationController.GetNotificationSettings (TgCheckerApi) in 59.0242ms
+2024-02-14 21:29:54.457 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.NotificationController.GetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:29:54.458 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Notification/GetNotificationSettings/1976370679 - - - 200 46 application/json;+charset=utf-8 69.1219ms
+2024-02-14 21:29:57.411 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7256/api/Notification/SetNotificationSettings/1976370679 application/json-patch+json 59
+2024-02-14 21:29:57.413 +03:00 [INF] CORS policy execution successful.
+2024-02-14 21:29:57.413 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:29:57.414 +03:00 [INF] Route matched with {action = "SetNotificationSettings", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SetNotificationSettings(Int64, TgCheckerApi.Models.PostModels.NotificationSettingDto) on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-02-14 21:29:57.418 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.last_update, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.telegram_id = @__telegramId_0
+LIMIT 1
+2024-02-14 21:29:57.422 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n."Bump", n."General", n."Important"
+FROM "NotificationSettings" AS n
+WHERE EXISTS (
+    SELECT 1
+    FROM "User" AS u
+    WHERE n.id = u.notification_settings AND u.telegram_id = @__telegramId_0)
+LIMIT 1
+2024-02-14 21:29:57.425 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2024-02-14 21:29:57.426 +03:00 [INF] Executed action TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi) in 9.6748ms
+2024-02-14 21:29:57.427 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:29:57.428 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7256/api/Notification/SetNotificationSettings/1976370679 application/json-patch+json 59 - 200 0 - 16.6649ms
+2024-02-14 21:30:03.326 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7256/api/Notification/SetNotificationSettings/1976370679 application/json-patch+json 60
+2024-02-14 21:30:03.327 +03:00 [INF] CORS policy execution successful.
+2024-02-14 21:30:03.328 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:30:03.328 +03:00 [INF] Route matched with {action = "SetNotificationSettings", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SetNotificationSettings(Int64, TgCheckerApi.Models.PostModels.NotificationSettingDto) on controller TgCheckerApi.Controllers.NotificationController (TgCheckerApi).
+2024-02-14 21:30:03.332 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.last_update, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.telegram_id = @__telegramId_0
+LIMIT 1
+2024-02-14 21:30:03.336 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__telegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n."Bump", n."General", n."Important"
+FROM "NotificationSettings" AS n
+WHERE EXISTS (
+    SELECT 1
+    FROM "User" AS u
+    WHERE n.id = u.notification_settings AND u.telegram_id = @__telegramId_0)
+LIMIT 1
+2024-02-14 21:30:03.339 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "NotificationSettings" SET "Bump" = @p0
+WHERE id = @p1;
+2024-02-14 21:30:03.341 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2024-02-14 21:30:03.342 +03:00 [INF] Executed action TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi) in 12.2132ms
+2024-02-14 21:30:03.343 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.NotificationController.SetNotificationSettings (TgCheckerApi)'
+2024-02-14 21:30:03.344 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7256/api/Notification/SetNotificationSettings/1976370679 application/json-patch+json 60 - 200 0 - 18.6933ms

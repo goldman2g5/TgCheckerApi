@@ -553,11 +553,13 @@ namespace TgCheckerApi.Controllers
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.TelegramId == channel.User);
             channel.User = user.Id;
-          if (_context.Channels == null)
-          { 
-              return Problem("Entity set 'TgCheckerDbContext.Channels'  is null.");
-          }
+            channel.Bumps = 0;
+            if (_context.Channels == null)
+            { 
+                 return Problem("Entity set 'TgCheckerDbContext.Channels'  is null.");
+            }
             _context.Channels.Add(channel);
+            
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetChannel", new { id = channel.Id }, channel);

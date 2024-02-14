@@ -4,7 +4,7 @@ namespace TgCheckerApi.Utility
 {
     public class BumpService
     {
-        private const int BumpIntervalMinutes = 3;
+        private const int BumpIntervalMinutes = 240;
 
         public DateTime CalculateNextBumpTime(DateTime? lastBump)
         {

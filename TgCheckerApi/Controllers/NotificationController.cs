@@ -221,23 +221,38 @@ namespace TgCheckerApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _context.Users.Include(u => u.NotificationSettingsNavigation)
-                                           .FirstOrDefaultAsync(u => u.TelegramId == telegramId);
-
+            // First, find the user
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User not found.");
             }
 
-            if (user.NotificationSettingsNavigation == null)
+            // Assuming one-to-one in a one-to-many structure: find or create the settings
+            var settings = await _context.NotificationSettings
+                                          .FirstOrDefaultAsync(ns => ns.Users.Any(u => u.TelegramId == telegramId));
+
+            if (settings == null)
             {
-                user.NotificationSettingsNavigation = new NotificationSetting();
+                settings = new NotificationSetting
+                {
+                    Bump = settingsDto.Bump,
+                    General = settingsDto.General,
+                    Important = settingsDto.Important,
+                    // Initialize other properties from settingsDto as needed
+                };
+                // Link the new settings to the user
+                // This line assumes there's a way to link back from settings to user, adjust according to your data model
+                user.NotificationSettingsNavigation = settings;
             }
-
-            // Update the notification settings based on the provided DTO
-            user.NotificationSettingsNavigation.Bump = settingsDto.Bump;
-            user.NotificationSettingsNavigation.General = settingsDto.General;
-            user.NotificationSettingsNavigation.Important = settingsDto.Important;
+            else
+            {
+                // If settings exist, update them
+                settings.Bump = settingsDto.Bump;
+                settings.General = settingsDto.General;
+                settings.Important = settingsDto.Important;
+                // Update other properties as needed
+            }
 
             await _context.SaveChangesAsync();
 
@@ -247,39 +262,42 @@ namespace TgCheckerApi.Controllers
         [HttpGet("GetNotificationSettings/{telegramId}")]
         public async Task<ActionResult<NotificationSettingDto>> GetNotificationSettings(long telegramId)
         {
-            var user = await _context.Users.Include(u => u.NotificationSettingsNavigation)
-                                           .FirstOrDefaultAsync(u => u.TelegramId == telegramId);
+            var settings = await _context.Users
+                                         .Where(u => u.TelegramId == telegramId)
+                                         .Select(u => u.NotificationSettingsNavigation)
+                                         .FirstOrDefaultAsync();
 
-            if (user == null)
+            if (settings == null)
             {
-                return NotFound("User not found.");
-            }
-
-            if (user.NotificationSettingsNavigation == null)
-            {
-                // Create new notification settings with all options set to true
-                var newSettings = new NotificationSetting
+                // Assuming user exists but does not have settings, create them.
+                // Consider adding a check or logic to ensure the user exists to avoid orphan settings.
+                settings = new NotificationSetting
                 {
                     Bump = true,
-                    Important = true
-                    // Set other notification properties to true as needed
+                    Important = true,
+                    General = true // Assuming you have a General setting, adjust accordingly
+                                   // Initialize other properties as needed
                 };
 
-                user.NotificationSettingsNavigation = newSettings;
-                await _context.SaveChangesAsync(); // Save the new settings
+                // You would need to attach these settings to the user here,
+                // ensuring that you either have the user entity or adjust your logic to accommodate creating and linking these settings properly.
+
+                _context.NotificationSettings.Add(settings);
+                await _context.SaveChangesAsync();
             }
 
             var settingsDto = new NotificationSettingDto
             {
-                Bump = user.NotificationSettingsNavigation.Bump,
-                Important = user.NotificationSettingsNavigation.Important
-                // Map other notification properties as needed
+                Bump = settings.Bump,
+                Important = settings.Important,
+                General = settings.General,
+                // Map other properties as needed
             };
 
             return Ok(settingsDto);
         }
 
-    private bool NotificationExists(int id)
+        private bool NotificationExists(int id)
         {
             return (_context.Notifications?.Any(e => e.Id == id)).GetValueOrDefault();
         }
