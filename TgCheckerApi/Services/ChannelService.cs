@@ -1,15 +1,16 @@
 ﻿using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.GetModels;
+using TgCheckerApi.Models.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace TgCheckerApi.Utility
 {
     public class ChannelService
     {
-        private const string DefaultSortOption = "popularity";
+        private const string DefaultSortOption = "rating";
         private const int PageSize = 50;
         private readonly TgDbContext _context;
 
@@ -28,6 +29,18 @@ namespace TgCheckerApi.Utility
             return query;
         }
 
+        public async Task<decimal> GetChannelMultiplierAsync(int channelId)
+        {
+            var multiplier = await _context.ChannelHasSubscriptions
+                .Where(sub => sub.ChannelId == channelId)
+                .Include(sub => sub.Type)
+                .OrderByDescending(sub => sub.TypeId)
+                .Select(sub => sub.Type.Multiplier)
+                .FirstOrDefaultAsync();
+
+            return multiplier ?? 1; // Return 1 as the default multiplier if no subscriptions are found
+        }
+
 
         public IQueryable<Channel> ApplySort(IQueryable<Channel> query, string sortOption, bool ascending)
         {
@@ -35,7 +48,7 @@ namespace TgCheckerApi.Utility
                 {
         {"members", channel => channel.Members},
         {"activity", channel => channel.LastBump},
-        {"popularity", channel => channel.Bumps}
+        {"rating", channel => channel.Bumps ?? 0}
     };
 
 

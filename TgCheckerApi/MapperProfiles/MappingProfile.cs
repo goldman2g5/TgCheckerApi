@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TgCheckerApi.Models.GetModels;
 using TgCheckerApi.Models.BaseModels;
+using TgCheckerApi.Models.DTO;
 
 namespace TgCheckerApi.MapperProfiles
 {

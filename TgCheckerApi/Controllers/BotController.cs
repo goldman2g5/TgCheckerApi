@@ -375,6 +375,16 @@ namespace TgCheckerApi.Controllers
         public async Task<IActionResult> CallGetDailyViewsByChannel([FromBody] DailyViewsRequest dailyViewsRequest)
         {
             _logger.LogInformation("Starting CallGetDailyViewsByChannel method for ChannelId: {ChannelId}", dailyViewsRequest.ChannelId);
+
+            if (dailyViewsRequest.NumberOfDays == 31)
+            {
+                var today = DateTime.Today;
+                var daysInMonth = DateTime.DaysInMonth(today.Year, today.Month);
+                dailyViewsRequest.NumberOfDays = daysInMonth;
+
+                _logger.LogInformation("Adjusted NumberOfDays to {NumberOfDays} for the current month.", dailyViewsRequest.NumberOfDays);
+            }
+
             var channel = await FindChannelById(dailyViewsRequest.ChannelId);
             if (channel == null || string.IsNullOrEmpty(channel.Url))
             {

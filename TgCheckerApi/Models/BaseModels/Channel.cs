@@ -20,7 +20,7 @@ public partial class Channel
 
     public bool? Notifications { get; set; }
 
-    public int? Bumps { get; set; }
+    public decimal? Bumps { get; set; }
 
     public DateTime? LastBump { get; set; }
 
