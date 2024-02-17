@@ -87,6 +87,7 @@ namespace TgCheckerApi.Utility
                 Language = channel.Language,
                 Url = channel.Url,
                 NotificationSent = channel.NotificationSent,
+                TopPos = channel.TopPos,
                 Tags = GetChannelTags(channel),
                 
             };

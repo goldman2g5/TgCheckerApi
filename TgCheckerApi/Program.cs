@@ -97,6 +97,7 @@ builder.Services.AddScoped<YooKassaService>();
 builder.Services.AddScoped<BotControllerService>();
 builder.Services.AddSingleton<IJobFactory, QuartzJobFactory>();
 builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+builder.Services.AddTransient<RecalculateTopPosJob>();
 builder.Services.AddSingleton<RatingResetJob>();
 builder.Services.AddSingleton<UpdateSubscribersJob>();
 
@@ -106,12 +107,20 @@ builder.Services.AddSingleton(new JobSchedule(
 builder.Services.AddSingleton(new JobSchedule(
     jobType: typeof(UpdateSubscribersJob),
     cronExpression: "0 0 4 * * ?"));
+builder.Services.AddSingleton(new JobSchedule(
+    jobType: typeof(RecalculateTopPosJob),
+    cronExpression: "0 16 20 * * ?"));
+
+
 
 //builder.Services.AddSingleton(new JobSchedule(
 //    jobType: typeof(RatingResetJob),
 //    cronExpression: "0 27 0 * * ?")); // Runs at 23:48 every day
 
 builder.Services.AddHostedService<QuartzHostedService>();
+
+
+
 builder.Services.AddHttpClient("MyClient", client =>
 {
     client.BaseAddress = new Uri("https://tgsearch.info:8443");

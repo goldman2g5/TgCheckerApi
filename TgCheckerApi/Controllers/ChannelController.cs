@@ -69,6 +69,51 @@ namespace TgCheckerApi.Controllers
             return channelGetModels;
         }
 
+
+        [BypassApiKey]
+        [HttpGet("GetPartnerChannels")]
+        public async Task<ActionResult<IEnumerable<ChannelPartnerGetModel>>> GetPartnerChannels()
+        {
+            // Retrieving the list of partner channels
+            var partnerChannels = _context.Channels
+                .Where(c => c.IsPartner ?? false)
+                .ToList();
+
+            // Mapping each channel to ChannelPartnerGetModel and filling new fields with random values
+            var random = new Random();
+            var mappedChannels = partnerChannels.Select(channel => new ChannelPartnerGetModel
+            {
+                // Copying existing properties
+                Id = channel.Id,
+                Name = channel.Name,
+                Description = channel.Description,
+                Members = channel.Members,
+                Avatar = channel.Avatar,
+                User = channel.User,
+                Notifications = channel.Notifications,
+                Bumps = channel.Bumps,
+                LastBump = channel.LastBump,
+                TelegramId = channel.TelegramId,
+                NotificationSent = channel.NotificationSent,
+                PromoPost = channel.PromoPost,
+                PromoPostTime = channel.PromoPostTime,
+                PromoPostInterval = channel.PromoPostInterval,
+                PromoPostSent = channel.PromoPostSent,
+                PromoPostLast = channel.PromoPostLast,
+                Language = channel.Language,
+                Url = channel.Url,
+                Hidden = channel.Hidden,
+                TopPos = channel.TopPos,
+                IsPartner = channel.IsPartner,
+                // Filling new fields with random values
+                GovnoValue1 = random.Next(1, 1000), // Example range, adjust as necessary
+                BurundukValue2 = random.Next(1, 1000),
+                JupiterValue3 = random.Next(1, 1000)
+            }).ToList();
+
+            return Ok(mappedChannels);
+        }
+
         // GET: api/Channel/Page/{page}
         [BypassApiKey]
         [HttpGet("Page/{page}")]
@@ -78,10 +123,10 @@ namespace TgCheckerApi.Controllers
             int PageSize = ChannelService.GetPageSize();
 
             channelsQuery = _channelService.ApplyTagFilter(channelsQuery, tags);
-            channelsQuery = _channelService.ApplySort(channelsQuery, sortOption, Convert.ToBoolean(ascending));
             channelsQuery = _channelService.ApplySearch(channelsQuery, search);
             channelsQuery = _channelService.ApplyLanguageFilter(channelsQuery, language);
-
+            channelsQuery = _channelService.ApplySort(channelsQuery, sortOption, Convert.ToBoolean(ascending));
+            
             var totalChannelCount = await channelsQuery.CountAsync();
 
             channelsQuery = channelsQuery.Skip((page - 1) * PageSize).Take(PageSize);
@@ -93,6 +138,7 @@ namespace TgCheckerApi.Controllers
             }
 
             var channelGetModels = channels.Select(channel => _channelService.MapToChannelGetModel(channel)).ToList();
+
             int totalPages = (int)Math.Ceiling((double)totalChannelCount / PageSize);
 
             Response.Headers.Add("X-Total-Pages", totalPages.ToString());

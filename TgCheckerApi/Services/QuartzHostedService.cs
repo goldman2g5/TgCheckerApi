@@ -34,7 +34,7 @@ namespace TgCheckerApi.Services
                 await _scheduler.ScheduleJob(job, trigger, cancellationToken);
 
                 // Check if it's the UpdateSubscribersJob and trigger it immediately on startup
-                if (job.JobType == typeof(UpdateSubscribersJob))
+                if (job.JobType == typeof(UpdateSubscribersJob) || job.JobType == typeof(RecalculateTopPosJob))
                 {
                     await _scheduler.TriggerJob(new JobKey(job.JobType.FullName), cancellationToken);
                 }
