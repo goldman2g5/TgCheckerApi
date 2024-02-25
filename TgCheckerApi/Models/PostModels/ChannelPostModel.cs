@@ -4,7 +4,9 @@ using TgCheckerApi.Models.BaseModels;
 namespace TgCheckerApi.Models
 {
     public class ChannelPostModel : Channel
-    {
+    {  
+        public long userTelegramID { get; set; }
+
         [JsonIgnore]
         new public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
         [JsonIgnore]

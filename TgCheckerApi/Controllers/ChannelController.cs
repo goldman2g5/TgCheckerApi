@@ -536,7 +536,7 @@ namespace TgCheckerApi.Controllers
 
         // GET: api/Channel/ByUser/5
         [HttpGet("ByUser/{userId}")]
-        public async Task<ActionResult<IEnumerable<Channel>>> GetChannelsByUser(int userId)
+        public async Task<ActionResult<IEnumerable<Channel>>> GetChannelsByUser(long userId)
         {
             var channels = await _context.Channels.Where(c => c.UserNavigation.TelegramId == userId).ToListAsync();
 
@@ -599,15 +599,27 @@ namespace TgCheckerApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Channel>> PostChannel(ChannelPostModel channel)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.TelegramId == channel.User);
-            channel.User = user.Id;
-            channel.Bumps = 0;
-            if (_context.Channels == null)
-            { 
-                 return Problem("Entity set 'TgCheckerDbContext.Channels'  is null.");
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.TelegramId == channel.userTelegramID);
+            if (user == null)
+            {
+                // Handle the case where the user is not found
+                return NotFound("User not found.");
             }
+
+            channel.User = user.Id;
+            channel.Bumps = 0; // Assuming a new channel starts with 0 Bumps
+
+            if (_context.Channels == null)
+            {
+                return Problem("Entity set 'TgCheckerDbContext.Channels' is null.");
+            }
+
+            // Assign topPos based on the max Bumps in the current list of channels
+            var maxTopPos = await _context.Channels.MaxAsync(c => (int?)c.TopPos) ?? 0;
+            channel.TopPos = maxTopPos + 1;
+
             _context.Channels.Add(channel);
-            
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetChannel", new { id = channel.Id }, channel);
@@ -659,7 +671,7 @@ namespace TgCheckerApi.Controllers
             if (channel != null && channel.User.HasValue)
             {
                 string notificationContent = $"Your channel {channel.Name} has been reported for {report.Reason}. Please review the channel content.";
-                await _notificationService.CreateNotificationAsync(channel.Id, notificationContent, 1, channel.User.Value);
+                await _notificationService.CreateNotificationAsync(channel.Id, notificationContent, 1, (int)channel.User.Value);
             }
 
             var reportGetModel = _mapper.Map<ReportGetModel>(report);
