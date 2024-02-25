@@ -93,7 +93,8 @@ namespace TgCheckerApi.Utility
             };
             if (channel.ChannelHasSubscriptions.Any())
             {
-                channelGetModel.subType = channel.ChannelHasSubscriptions.FirstOrDefault().TypeId;
+                ChannelHasSubscription sub = channel.ChannelHasSubscriptions.FirstOrDefault();
+                channelGetModel.subType = sub.TypeId;
             }
             else
             {
