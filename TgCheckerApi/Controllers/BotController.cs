@@ -160,8 +160,10 @@ namespace TgCheckerApi.Controllers
                 }
             }
 
-            var viewsList = monthViewsData?.Select(record => (double)record.Views).ToList();
+            //var viewsList = monthViewsData?.Select(record => (double)record.Views).ToList();
 
+            monthViewsData.Reverse();
+            var viewsList = monthViewsData.Select(x => new { x.Views, x.Date });
 
             _logger.LogInformation("Returning data for ChannelId: {ChannelId} with {DataCount} month view counts", monthViewsRequest.ChannelId, monthViewsData?.Count ?? 0);
             return Ok(viewsList);
@@ -415,8 +417,9 @@ namespace TgCheckerApi.Controllers
             }
 
             _logger.LogInformation("Returning data for ChannelId: {ChannelId} with {DataCount} view counts", dailyViewsRequest.ChannelId, viewsData?.Count ?? 0);
-            viewsData?.Reverse();
-            return Ok(viewsData);
+            viewsData.Reverse();
+            var viewsList = viewsData.Select(x => new { x.Views, x.Date });
+            return Ok(viewsList);
         }        
 
         private async Task<Channel> FindChannelById(int id)

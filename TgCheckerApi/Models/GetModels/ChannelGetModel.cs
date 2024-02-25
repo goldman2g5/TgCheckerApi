@@ -9,5 +9,7 @@ namespace TgCheckerApi.Models.GetModels
         public string urlCut { get; set; }
 
         public int? subType { get; set; }
+
+        public DateTime? SubscriptionExpirationDate { get; set; }
     }
 }

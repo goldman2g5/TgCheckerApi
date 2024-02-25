@@ -332,7 +332,7 @@ namespace TgCheckerApi.Services
             } // The DbContext, and any other scoped services, will be disposed here
         }
 
-        public async Task<List<int>> WaitForWebSocketAndUpdate(DailyViewsRequest request, Channel channel)
+        public async Task<List<ViewsRecord>> WaitForWebSocketAndUpdate(DailyViewsRequest request, Channel channel)
         {
             try
             {
@@ -357,7 +357,7 @@ namespace TgCheckerApi.Services
                         // Assuming UpdateDatabaseWithViewsRecords is well-behaved and doesn't change the order,
                         // Convert the records to a list of view counts to return
                         var viewsList = viewsRecords.Select(vr => vr.Views).ToList();
-                        return viewsList;
+                        return viewsRecords;
                     }
                     else
                     {
@@ -377,10 +377,10 @@ namespace TgCheckerApi.Services
             {
                 _logger.LogError(ex, "An unexpected error occurred while waiting for WebSocket data and updating.");
             }
-            return new List<int>(); // Return an empty list if there's an error or no data
+            return new List<ViewsRecord>(); // Return an empty list if there's an error or no data
         }
 
-        public async Task<List<int>> FetchDataFromDatabase(DailyViewsRequest dailyViewsRequest, bool considerOutdated = false)
+        public async Task<List<ViewsRecord>> FetchDataFromDatabase(DailyViewsRequest dailyViewsRequest, bool considerOutdated = false)
         {
             var endDate = DateTime.UtcNow;
             var startDate = endDate.AddDays(-dailyViewsRequest.NumberOfDays);
@@ -411,7 +411,7 @@ namespace TgCheckerApi.Services
 
             // Convert the records to a list of view counts
             var viewsList = records.Select(vr => vr.Views).ToList();
-            return viewsList;
+            return records.ToList();
         }
 
         public async Task UpdateDatabaseWithViewsRecords(List<ViewsRecord> viewsRecords, int channelId, TgDbContext dbContext)

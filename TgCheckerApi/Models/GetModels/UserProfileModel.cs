@@ -10,8 +10,6 @@ namespace TgCheckerApi.Models.GetModels
 
         public string SubType { get; set; }
 
-        public string SubExpires { get; set; }
-
         public string UserName { get; set; }
 
         public int UserId { get; set; }
