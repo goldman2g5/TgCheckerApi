@@ -14,11 +14,11 @@ namespace TgCheckerApi.Models.NotificationModels
 
         public int UserId { get; set; }
 
-        public int TelegramUserId { get; set; }
+        public long? TelegramUserId { get; set; }
 
-        public int TelegramChatId { get; set; }
+        public long? TelegramChatId { get; set; }
 
-        public long TelegamChannelId { get; set; }
+        public long? TelegamChannelId { get; set; }
 
         public string UniqueKey { get; set; }
     }

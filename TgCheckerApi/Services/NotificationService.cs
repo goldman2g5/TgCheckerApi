@@ -36,9 +36,9 @@ namespace TgCheckerApi.Services
                     ChannelName = ca.Channel.Name,
                     ChannelId = ca.Channel.Id,
                     UserId = (int)ca.UserId,
-                    TelegramUserId = (int)ca.User.TelegramId,
-                    TelegramChatId = (int)ca.User.ChatId,
-                    TelegamChannelId = (long)ca.Channel.TelegramId,
+                    TelegramUserId = ca.User.TelegramId,
+                    TelegramChatId = ca.User.ChatId,
+                    TelegamChannelId = ca.Channel.TelegramId,
                     UniqueKey = ca.User.UniqueKey
                 })
                 .ToListAsync();

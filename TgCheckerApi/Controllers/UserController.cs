@@ -46,7 +46,7 @@ namespace TgCheckerApi.MapperProfiles
             int userId = user.Id;
 
             var paymentHistory = await _context.Payments
-                .Where(p => p.UserId == userId)
+                .Where(p => p.UserId == userId && p.Status == "Succeeded")
                 .Select(p => new PaymentHistoryModel
                 {
                     ChannelId = p.ChannelId,

@@ -339,9 +339,15 @@ namespace TgCheckerApi.Controllers
             return Ok(results);
         }
 
+        public class SubscriberHistoryItem
+        {
+            public DateTime Date { get; set; }
+            public double Subscribers { get; set; }
+        }
+
         [BypassApiKey]
         [HttpPost("SubscribersHistory")]
-        public async Task<ActionResult<List<double>>> GetSubscribersHistoryAsync([FromBody] SubHistoryRequest dailyViewsRequest)
+        public async Task<ActionResult<List<SubscriberHistoryItem>>> GetSubscribersHistoryAsync([FromBody] SubHistoryRequest dailyViewsRequest)
         {
             DateTime startDate = DateTime.UtcNow;
             DateTime endDate = DateTime.UtcNow;
@@ -353,23 +359,32 @@ namespace TgCheckerApi.Controllers
                 startDate = DateTime.UtcNow.AddMonths((int)-dailyViewsRequest.Months).ToUniversalTime();
                 startDate = new DateTime(startDate.Year, startDate.Month, 1).ToUniversalTime(); // Set to the first day of the month
 
-                List<double> bebra = await _botService.CalculateDailySubscribersHistory(startDate, endDate, dailyViewsRequest.ChannelId);
+                var bebra = await _botService.CalculateDailySubscribersHistory(startDate, endDate, dailyViewsRequest.ChannelId);
 
                 var monthlyTotals = bebra
-                   .Select((value, index) => new { Value = value, Month = startDate.AddMonths(index / 30).Month }) // Adjust index to month
-                   .GroupBy(x => x.Month)
-                   .Select(g => g.Average(x => x.Value)) // Calculate the average
-                   .Skip(1) // Skip the first result
-                   .ToList();
+                    .Select((value, index) => new SubscriberHistoryItem { Date = startDate.AddMonths(index / 30).ToUniversalTime(), Subscribers = value })
+                    .GroupBy(x => new { x.Date.Year, x.Date.Month })
+                    .Select(g => new SubscriberHistoryItem
+                    {
+                        Date = new DateTime(g.Key.Year, g.Key.Month, 1).ToUniversalTime(),
+                        Subscribers = g.Average(x => x.Subscribers)
+                    })
+                    .Skip(1) // Skip the first result if necessary
+                    .ToList();
 
-                return monthlyTotals; // This now matches the expected return type
+                return monthlyTotals;
             }
             else
             {
                 startDate = DateTime.UtcNow.AddDays(-dailyViewsRequest.NumberOfDays);
-                return await _botService.CalculateDailySubscribersHistory(startDate, endDate, dailyViewsRequest.ChannelId);
-            }
+                var dailySubscribers = await _botService.CalculateDailySubscribersHistory(startDate, endDate, dailyViewsRequest.ChannelId);
 
+                var dailySubscribersWithDates = dailySubscribers
+                    .Select((subscribers, index) => new SubscriberHistoryItem { Date = startDate.AddDays(index).ToUniversalTime(), Subscribers = subscribers })
+                    .ToList();
+
+                return dailySubscribersWithDates;
+            }
         }
 
         [BypassApiKey]
