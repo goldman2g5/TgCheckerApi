@@ -20,12 +20,12 @@ namespace TgCheckerApi.Controllers
         private readonly UserService _userService;
         private readonly NotificationService _notificationService;
 
-        public AdminController(IHubContext<AuthHub> hubContext, TgDbContext context, IMapper mapper)
+        public AdminController(IHubContext<AuthHub> hubContext, TgDbContext context, IMapper mapper, NotificationService notificationService)
         {
             _hubContext = hubContext;
             _context = context;
             _userService = new UserService(context);
-            _notificationService = new NotificationService(context);
+            _notificationService = notificationService;
             _mapper = mapper;
         }
 

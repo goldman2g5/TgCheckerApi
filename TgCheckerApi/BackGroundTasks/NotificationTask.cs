@@ -24,10 +24,10 @@ public class NotificationTask : BackgroundService
             using (var scope = _scopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<TgDbContext>();
-                var notificationService = new NotificationService(dbContext);
+                var notificationService = scope.ServiceProvider.GetRequiredService<NotificationService>();
 
                 var notifications = await notificationService.GetBumpNotifications();
-                List<BumpNotification> notiList = notifications.ToList();
+                List<TelegramNotification> notiList = notifications.ToList();
                 Console.WriteLine($"\n\n\n\n\n\nNotification count: {notiList.Count}\n\n\n\n\n\n");
 
                 foreach (var notification in notiList)

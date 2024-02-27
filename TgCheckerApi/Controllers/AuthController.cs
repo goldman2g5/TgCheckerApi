@@ -34,12 +34,12 @@ namespace TgCheckerApi.Controllers
         private readonly WebSocketService _webSocketService;
         private readonly IServiceProvider _serviceProvider;
 
-        public AuthController(IHubContext<AuthHub> hubContext, TgDbContext context, WebSocketService webSocketService, IMapper mapper, ILogger<AuthController> logger, IServiceProvider serviceProvider)
+        public AuthController(IHubContext<AuthHub> hubContext, TgDbContext context, WebSocketService webSocketService, IMapper mapper, ILogger<AuthController> logger, IServiceProvider serviceProvider, NotificationService notificationService)
         {
             _hubContext = hubContext;
             _context = context;
             _userService = new UserService(context);
-            _notificationService = new NotificationService(context);
+            _notificationService = notificationService;
             _logger = logger;
             _mapper = mapper;
             _webSocketService = webSocketService;

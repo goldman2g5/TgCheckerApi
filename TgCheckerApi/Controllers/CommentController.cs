@@ -24,11 +24,11 @@ namespace TgCheckerApi.Controllers
         private readonly NotificationService _notificationService;
         private readonly IMapper _mapper;
 
-        public CommentController(TgDbContext context, IMapper mapper)
+        public CommentController(TgDbContext context, IMapper mapper, NotificationService notificationService)
         {
             _context = context;
             _userService = new UserService(context);
-            _notificationService = new NotificationService(context);
+            _notificationService = notificationService;
             _mapper = mapper;
         }
 

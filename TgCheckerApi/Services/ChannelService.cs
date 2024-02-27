@@ -63,9 +63,13 @@ namespace TgCheckerApi.Utility
 
         public IQueryable<Channel> ApplySearch(IQueryable<Channel> query, string search)
         {
+            search = search.ToLower();
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Include(channel => channel.ChannelHasTags).Where(channel =>channel.Name.Contains(search) || channel.ChannelHasTags.Any(cht => cht.TagNavigation.Text.ToLower().Contains(search.ToLower())));
+                query = query.Include(channel => channel.ChannelHasTags)
+                    .Where(channel =>channel.Name.ToLower().Contains(search) ||
+                    channel.ChannelHasTags.Any(cht => cht.TagNavigation.Text.ToLower().Contains(search.ToLower()) ||
+                    channel.Description.Contains(search.ToLower())));
             }
             return query;
         }

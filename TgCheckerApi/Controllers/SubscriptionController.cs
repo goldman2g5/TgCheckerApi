@@ -45,7 +45,7 @@ namespace TgCheckerApi.Controllers
 
         // POST: api/Subscription/CheckExpiredSubscriptions
         [HttpGet("CheckExpiredSubscriptions")]
-        public async Task<ActionResult<IEnumerable<BumpNotification>>> CheckExpiredSubscriptions()
+        public async Task<ActionResult<IEnumerable<TelegramNotification>>> CheckExpiredSubscriptions()
         {
             DateTime currentTime = DateTime.Now;
 
@@ -61,14 +61,14 @@ namespace TgCheckerApi.Controllers
                 .Include(ca => ca.Channel)
                 .Include(ca => ca.User)
                 .Where(ca => channelAccessIds.Contains(ca.ChannelId))
-                .Select(ca => new BumpNotification
+                .Select(ca => new TelegramNotification
                 {
                     ChannelAccess = ca,
                     ChannelName = ca.Channel.Name,
                     ChannelId = ca.Channel.Id,
-                    TelegramUserId = (int)ca.User.TelegramId,
-                    TelegramChatId = (int)ca.User.ChatId,
-                    TelegamChannelId = (long)ca.Channel.TelegramId
+                    TelegramUserId = ca.User.TelegramId,
+                    TelegramChatId = ca.User.ChatId,
+                    TelegamChannelId = ca.Channel.TelegramId
                 })
                 .ToListAsync();
 

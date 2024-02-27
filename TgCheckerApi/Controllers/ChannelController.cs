@@ -37,7 +37,7 @@ namespace TgCheckerApi.Controllers
 
 
 
-        public ChannelController(TgDbContext context, IMapper mapper, IHubContext<BotHub> hubContext)
+        public ChannelController(TgDbContext context, IMapper mapper, IHubContext<BotHub> hubContext, NotificationService notificationService)
         {
             _context = context;
             _mapper = mapper;
@@ -47,7 +47,7 @@ namespace TgCheckerApi.Controllers
             _bumpService = new BumpService();
             _subscriptionService = new SubscriptionService(context);
             _userService = new UserService(context);
-            _notificationService = new NotificationService(context);
+            _notificationService = notificationService;
         }
 
         // GET: api/Channel
@@ -671,17 +671,18 @@ namespace TgCheckerApi.Controllers
             if (channel != null && channel.User.HasValue)
             {
                 string notificationContent = $"Your channel {channel.Name} has been reported for {report.Reason}. Please review the channel content.";
-                await _notificationService.CreateNotificationAsync(channel.Id, notificationContent, 1, (int)channel.User.Value);
+                await _notificationService.CreateNotificationAsync(channel.Id, notificationContent, 1, channel.User.Value);
             }
 
             var reportGetModel = _mapper.Map<ReportGetModel>(report);
 
             reportGetModel.ReporteeName = user.Username;
 
-            await _hubContext.Clients.All.SendAsync("ReceiveReport", reportGetModel);
-
-
-
+            if (channel.Reports.Count() >= 5)
+            {
+                await _hubContext.Clients.All.SendAsync("ReceiveReport", reportGetModel);
+            }
+            
             return Ok();
         }
 

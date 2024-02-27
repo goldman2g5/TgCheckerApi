@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
+using System.Text.Json;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.NotificationModels;
 
@@ -8,17 +10,19 @@ namespace TgCheckerApi.Services
     public class NotificationService
     {
         private readonly TgDbContext _context;
+        private readonly IHttpClientFactory _clientFactory;
 
-        public NotificationService(TgDbContext context)
+        public NotificationService(TgDbContext context, IHttpClientFactory clientFactory)
         {
             _context = context;
+            _clientFactory = clientFactory;
         }
 
-        public async Task<IEnumerable<BumpNotification>> GetBumpNotifications()
+        public async Task<IEnumerable<TelegramNotification>> GetBumpNotifications()
         {
             // Retrieve the current date and time
             DateTime currentTime = DateTime.Now;
-            int timeToNotify = 1;
+            int timeToNotify = 240;
 
             // Retrieve the notifications that are ready to be sent
             var notifications = await _context.ChannelAccesses
@@ -30,7 +34,7 @@ namespace TgCheckerApi.Services
                     ca.Channel.LastBump != null &&
                     ca.Channel.LastBump.Value <= currentTime &&
                     currentTime >= ca.Channel.LastBump.Value.AddMinutes(timeToNotify))
-                .Select(ca => new BumpNotification
+                .Select(ca => new TelegramNotification
                 {
                     ChannelAccess = ca,
                     ChannelName = ca.Channel.Name,
@@ -82,6 +86,48 @@ namespace TgCheckerApi.Services
             await _context.SaveChangesAsync();
 
             return newNotification;
+        }
+
+        public async Task SendTelegramNotificationAsync(List<TelegramNotification> notificationModels)
+        {
+            // Convert TelegramNotification models to TelegramNotificationPostModel
+            var postModels = ConvertToPostModels(notificationModels);
+
+            var httpClient = _clientFactory.CreateClient("MyClient");
+            var jsonContent = JsonSerializer.Serialize(postModels);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            Console.WriteLine("ZIEG HAIL\nZIEG HAIL\nZIEG HAIL\nZIEG HAIL\nZIEG HAIL\nZIEG HAIL\nZIEG HAIL\nZIEG HAIL\nZIEG HAIL\nZIEG HAIL\n");
+            Console.WriteLine(jsonContent);
+
+            string url = "http://127.0.0.1:8000/send_notifications";
+            var response = await httpClient.PostAsync(url, content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                // Handle error
+                throw new InvalidOperationException($"Error sending notifications: {response}");
+            }
+        }
+
+        private List<TelegramNotificationPostModel> ConvertToPostModels(List<TelegramNotification> models)
+        {
+            var postModels = new List<TelegramNotificationPostModel>();
+            foreach (var model in models)
+            {
+                var postModel = new TelegramNotificationPostModel
+                {
+                    ChannelName = model.ChannelName,
+                    ChannelId = model.ChannelId,
+                    UserId = model.UserId,
+                    TelegramUserId = model.TelegramUserId,
+                    TelegramChatId = model.TelegramChatId,
+                    TelegamChannelId = model.TelegamChannelId, // Consider correcting the typo to "TelegramChannelId"
+                    ContentType = model.ContentType,
+                    UniqueKey = model.UniqueKey
+                };
+                postModels.Add(postModel);
+            }
+            return postModels;
         }
 
 

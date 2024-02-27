@@ -22,19 +22,46 @@ namespace TgCheckerApi.Controllers
         private readonly TgDbContext _context;
         private readonly NotificationService _notificationService;
 
-        public NotificationController(TgDbContext context)
+        public NotificationController(TgDbContext context, NotificationService notificationService)
         {
             _context = context;
-            _notificationService = new NotificationService(_context);
+            _notificationService = notificationService;
         }
+
+        
 
         // GET: api/GetNotifications
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BumpNotification>>> GetNotifications()
+        public async Task<ActionResult<IEnumerable<TelegramNotification>>> GetNotifications()
         {
             var notifications = await _notificationService.GetBumpNotifications();
 
             return Ok(notifications);
+        }
+
+        [HttpPost("SendToTelegram")]
+        public async Task<IActionResult> SendNotification([FromBody] List<TelegramNotification> model)
+        {
+            if (model == null)
+            {
+                return BadRequest("Notification data is required.");
+            }
+
+            try
+            {
+                await _notificationService.SendTelegramNotificationAsync(model);
+                return Ok("Notification sent successfully.");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+            catch (HttpRequestException httpEx)
+            {
+                // This block can be used to capture HTTP request errors, including 422 errors.
+                // You may need to read the response content to log or return a more detailed error message.
+                return StatusCode(500, $"HTTP request error: {httpEx.Message}");
+            }
         }
 
         [HttpGet("UserNotifications")]

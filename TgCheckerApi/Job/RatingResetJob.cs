@@ -13,7 +13,6 @@ namespace TgCheckerApi.Job
 
         public async Task Execute(IJobExecutionContext context)
         {
-            Console.WriteLine("DJIIIIGURDA");
             // Create and configure HttpClient
             var client = _httpClientFactory.CreateClient("MyClient");
             // Set up the request to the specific controller action
