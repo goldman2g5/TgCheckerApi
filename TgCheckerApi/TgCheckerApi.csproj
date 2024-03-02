@@ -36,8 +36,4 @@
     <PackageReference Include="Yandex.Checkout.V3" Version="1.7.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\TempScaffold\" />
-  </ItemGroup>
-
 </Project>

@@ -29,6 +29,9 @@ public partial class User
     [JsonIgnore]
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     [JsonIgnore]
+    public virtual ICollection<NotificationDelayedTask> NotificationDelayedTasks { get; set; } = new List<NotificationDelayedTask>();
+
+    [JsonIgnore]
     public virtual NotificationSetting? NotificationSettingsNavigation { get; set; }
     [JsonIgnore]
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();

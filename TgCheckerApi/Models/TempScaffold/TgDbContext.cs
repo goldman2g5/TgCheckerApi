@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Models.TempScaffold;
 
@@ -34,6 +35,8 @@ public partial class TgDbContext : DbContext
     public virtual DbSet<MonthViewsRecord> MonthViewsRecords { get; set; }
 
     public virtual DbSet<Notification> Notifications { get; set; }
+
+    public virtual DbSet<NotificationDelayedTask> NotificationDelayedTasks { get; set; }
 
     public virtual DbSet<NotificationSetting> NotificationSettings { get; set; }
 
@@ -295,6 +298,34 @@ public partial class TgDbContext : DbContext
                 .HasConstraintName("user_id_fk");
         });
 
+        modelBuilder.Entity<NotificationDelayedTask>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("NotificationDelayedTask_pkey");
+
+            entity.ToTable("NotificationDelayedTask");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ChannelId).HasColumnName("channel_id");
+            entity.Property(e => e.Content).HasColumnName("content");
+            entity.Property(e => e.ContentType).HasColumnName("content_type");
+            entity.Property(e => e.Date).HasColumnName("date");
+            entity.Property(e => e.TargetTelegram).HasColumnName("target_telegram");
+            entity.Property(e => e.TypeId).HasColumnName("type_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Channel).WithMany(p => p.NotificationDelayedTasks)
+                .HasForeignKey(d => d.ChannelId)
+                .HasConstraintName("channel_id_fk");
+
+            entity.HasOne(d => d.Type).WithMany(p => p.NotificationDelayedTasks)
+                .HasForeignKey(d => d.TypeId)
+                .HasConstraintName("type_id_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.NotificationDelayedTasks)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("user_id_fk");
+        });
+
         modelBuilder.Entity<NotificationSetting>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("NotificationSettings_pkey");
@@ -352,7 +383,6 @@ public partial class TgDbContext : DbContext
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.ChannelId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("channel_fk");
 
             entity.HasOne(d => d.Subtype).WithMany(p => p.Payments)

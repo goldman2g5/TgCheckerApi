@@ -58,6 +58,8 @@ public partial class Channel
     [JsonIgnore]
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     [JsonIgnore]
+    public virtual ICollection<NotificationDelayedTask> NotificationDelayedTasks { get; set; } = new List<NotificationDelayedTask>();
+    [JsonIgnore]
     public virtual ICollection<Notification> NotificationsNavigation { get; set; } = new List<Notification>();
     [JsonIgnore]
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();

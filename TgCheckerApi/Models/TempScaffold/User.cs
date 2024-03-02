@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Models.TempScaffold;
 
@@ -26,6 +27,8 @@ public partial class User
     public virtual ICollection<Channel> Channels { get; set; } = new List<Channel>();
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
+    public virtual ICollection<NotificationDelayedTask> NotificationDelayedTasks { get; set; } = new List<NotificationDelayedTask>();
 
     public virtual NotificationSetting? NotificationSettingsNavigation { get; set; }
 

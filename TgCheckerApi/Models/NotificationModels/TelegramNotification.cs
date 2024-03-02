@@ -21,7 +21,5 @@ namespace TgCheckerApi.Models.NotificationModels
         public long? TelegamChannelId { get; set; }
 
         public string ContentType { get; set; }
-
-        public string UniqueKey { get; set; }
     }
 }

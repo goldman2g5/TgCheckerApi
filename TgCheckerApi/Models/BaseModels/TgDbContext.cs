@@ -295,6 +295,34 @@ public partial class TgDbContext : DbContext
                 .HasConstraintName("user_id_fk");
         });
 
+        modelBuilder.Entity<NotificationDelayedTask>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("NotificationDelayedTask_pkey");
+
+            entity.ToTable("NotificationDelayedTask");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ChannelId).HasColumnName("channel_id");
+            entity.Property(e => e.Content).HasColumnName("content");
+            entity.Property(e => e.ContentType).HasColumnName("content_type");
+            entity.Property(e => e.Date).HasColumnName("date");
+            entity.Property(e => e.TargetTelegram).HasColumnName("target_telegram");
+            entity.Property(e => e.TypeId).HasColumnName("type_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Channel).WithMany(p => p.NotificationDelayedTasks)
+                .HasForeignKey(d => d.ChannelId)
+                .HasConstraintName("channel_id_fk");
+
+            entity.HasOne(d => d.Type).WithMany(p => p.NotificationDelayedTasks)
+                .HasForeignKey(d => d.TypeId)
+                .HasConstraintName("type_id_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.NotificationDelayedTasks)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("user_id_fk");
+        });
+
         modelBuilder.Entity<NotificationSetting>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("NotificationSettings_pkey");

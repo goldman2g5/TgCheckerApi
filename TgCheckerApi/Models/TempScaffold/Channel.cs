@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Models.TempScaffold;
 
@@ -45,6 +46,10 @@ public partial class Channel
 
     public bool? Hidden { get; set; }
 
+    public int? TopPos { get; set; }
+
+    public bool? IsPartner { get; set; }
+
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
 
     public virtual ICollection<ChannelHasSubscription> ChannelHasSubscriptions { get; set; } = new List<ChannelHasSubscription>();
@@ -52,6 +57,8 @@ public partial class Channel
     public virtual ICollection<ChannelHasTag> ChannelHasTags { get; set; } = new List<ChannelHasTag>();
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
+    public virtual ICollection<NotificationDelayedTask> NotificationDelayedTasks { get; set; } = new List<NotificationDelayedTask>();
 
     public virtual ICollection<Notification> NotificationsNavigation { get; set; } = new List<Notification>();
 
