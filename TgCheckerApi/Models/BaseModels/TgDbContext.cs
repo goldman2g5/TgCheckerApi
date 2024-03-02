@@ -35,6 +35,8 @@ public partial class TgDbContext : DbContext
 
     public virtual DbSet<Notification> Notifications { get; set; }
 
+    public virtual DbSet<NotificationDelayedTask> NotificationDelayedTasks { get; set; }
+
     public virtual DbSet<NotificationSetting> NotificationSettings { get; set; }
 
     public virtual DbSet<NotificationType> NotificationTypes { get; set; }
@@ -277,15 +279,16 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ChannelId).HasColumnName("channel_id");
             entity.Property(e => e.Content).HasColumnName("content");
+            entity.Property(e => e.ContentType).HasColumnName("content_type");
             entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.IsNew).HasColumnName("is_new");
+            entity.Property(e => e.TargetTelegram).HasColumnName("target_telegram");
             entity.Property(e => e.TypeId).HasColumnName("type_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
-            entity.Property(e => e.TargetTelegram).HasColumnName("target_telegram");
-            entity.Property(e => e.ContentType).HasColumnName("content_type");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.NotificationsNavigation)
                 .HasForeignKey(d => d.ChannelId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("channel_id_fk");
 
             entity.HasOne(d => d.Type).WithMany(p => p.Notifications)
@@ -382,7 +385,6 @@ public partial class TgDbContext : DbContext
 
             entity.HasOne(d => d.Channel).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.ChannelId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("channel_fk");
 
             entity.HasOne(d => d.Subtype).WithMany(p => p.Payments)
@@ -589,11 +591,11 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Avatar).HasColumnName("avatar");
             entity.Property(e => e.ChatId).HasColumnName("chat_id");
+            entity.Property(e => e.LastUpdate).HasColumnName("last_update");
             entity.Property(e => e.NotificationSettings).HasColumnName("notification_settings");
             entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
             entity.Property(e => e.UniqueKey).HasColumnName("unique_key");
             entity.Property(e => e.Username).HasColumnName("username");
-            entity.Property(e => e.LastUpdate).HasColumnName("last_update");
 
             entity.HasOne(d => d.NotificationSettingsNavigation).WithMany(p => p.Users)
                 .HasForeignKey(d => d.NotificationSettings)

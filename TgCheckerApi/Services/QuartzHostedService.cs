@@ -1,6 +1,7 @@
 ﻿using Quartz.Spi;
 using Quartz;
 using TgCheckerApi.Job;
+using TgCheckerApi.Quartz;
 
 namespace TgCheckerApi.Services
 {

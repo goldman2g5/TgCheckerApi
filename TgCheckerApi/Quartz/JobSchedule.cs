@@ -1,4 +1,4 @@
-﻿namespace TgCheckerApi.Job
+﻿namespace TgCheckerApi.Quartz
 {
     public class JobSchedule
     {

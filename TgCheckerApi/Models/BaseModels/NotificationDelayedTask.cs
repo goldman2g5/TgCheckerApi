@@ -7,7 +7,7 @@ public partial class NotificationDelayedTask
 {
     public int Id { get; set; }
 
-    public int ChannelId { get; set; }
+    public int? ChannelId { get; set; }
 
     public DateTime Date { get; set; }
 

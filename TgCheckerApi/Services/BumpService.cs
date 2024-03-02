@@ -4,7 +4,7 @@ namespace TgCheckerApi.Utility
 {
     public class BumpService
     {
-        private const int BumpIntervalMinutes = 240;
+        private const int BumpIntervalMinutes = 1;
 
         public DateTime CalculateNextBumpTime(DateTime? lastBump)
         {
@@ -30,8 +30,9 @@ namespace TgCheckerApi.Utility
             channel.Bumps = (channel.Bumps ?? 0) + bumpIncrement;
             channel.LastBump = DateTime.Now;
             channel.NotificationSent = false;
+
         }
 
-        private static int GetBumpInterval() => BumpIntervalMinutes;
+        public int GetBumpInterval() => BumpIntervalMinutes;
     }
 }

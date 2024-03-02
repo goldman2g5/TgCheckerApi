@@ -1,7 +1,7 @@
 ﻿using Quartz.Spi;
 using Quartz;
 
-namespace TgCheckerApi.Job
+namespace TgCheckerApi.Quartz
 {
     public class QuartzJobFactory : IJobFactory
     {

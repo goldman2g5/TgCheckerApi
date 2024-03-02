@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Quartz;
 using System.Text;
 using System.Text.Json;
+using TgCheckerApi.Job;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.NotificationModels;
 
@@ -11,11 +13,13 @@ namespace TgCheckerApi.Services
     {
         private readonly TgDbContext _context;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IScheduler _scheduler;
 
-        public NotificationService(TgDbContext context, IHttpClientFactory clientFactory)
+        public NotificationService(TgDbContext context, IHttpClientFactory clientFactory, IScheduler scheduler)
         {
             _context = context;
             _clientFactory = clientFactory;
+            _scheduler = scheduler;
         }
 
         public async Task<IEnumerable<TelegramNotification>> GetBumpNotifications()
@@ -132,14 +136,95 @@ namespace TgCheckerApi.Services
             return newNotification;
         }
 
-        private bool AreTelegramParametersValid(string contentType, string channelName, User user)
+        public async Task<NotificationDelayedTask> CreateNotificationDelayedTaskAsync(
+            string content,
+            int typeId,
+            int userId,
+            DateTime scheduledTime,
+            bool targetTelegram = false,
+            string contentType = null,
+            int? channelId = null)
         {
-            // Check if contentType and channelName are provided, and user has valid TelegramId and ChatId
-            return !string.IsNullOrEmpty(contentType) &&
-                   !string.IsNullOrEmpty(channelName) &&
-                   user.TelegramId.HasValue &&
-                   user.ChatId.HasValue &&
-                   user.Channels.Any(c => c.TelegramId.HasValue); // Assuming user has channels with valid TelegramId
+            // Validate the notification type
+            var notificationType = await _context.NotificationTypes.FirstOrDefaultAsync(nt => nt.Id == typeId);
+            if (notificationType == null)
+            {
+                throw new ArgumentException("Invalid notification type.");
+            }
+
+            Channel? channel = null;
+            if (channelId.HasValue)
+            {
+                channel = await _context.Channels.FirstOrDefaultAsync(c => c.Id == channelId.Value);
+                if (channel == null)
+                {
+                    throw new ArgumentException("Channel not found.");
+                }
+            }
+
+            // Create the new delayed notification task
+            var newDelayedTask = new NotificationDelayedTask
+            {
+                ChannelId = channelId,
+                Content = content,
+                UserId = userId,
+                Date = scheduledTime,
+                TypeId = typeId,
+                ContentType = contentType ?? "default", // Assuming a default content type
+                TargetTelegram = targetTelegram
+            };
+
+            _context.NotificationDelayedTasks.Add(newDelayedTask);
+            await _context.SaveChangesAsync();
+
+            // Schedule the notification
+            await ScheduleNotificationAsync(
+                content,
+                typeId,
+                userId,
+                scheduledTime,
+                targetTelegram,
+                contentType,
+                channelId);
+
+            return newDelayedTask;
+        }
+
+        public async Task ScheduleNotificationAsync(
+        string content,
+        int typeId,
+        int userId,
+        DateTime scheduleAt,
+        bool targetTelegram = false,
+        string contentType = null,
+        int? channelId = null)
+        {
+            var jobData = new JobDataMap
+            {
+                {"content", content},
+                {"typeId", typeId},
+                {"userId", userId},
+                {"targetTelegram", targetTelegram},
+                {"contentType", contentType}
+            };
+
+            // Include channelId in JobDataMap only if it's not null
+            if (channelId.HasValue)
+            {
+                jobData.Add("channelId", channelId.Value);
+            }
+
+            IJobDetail job = JobBuilder.Create<NotificationJob>()
+                .WithIdentity($"NotificationJob-{Guid.NewGuid()}", "NotificationGroup")
+                .UsingJobData(jobData)
+                .Build();
+
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity($"NotificationTrigger-{Guid.NewGuid()}", "NotificationGroup")
+                .StartAt(scheduleAt) // Use the specific DateTime when the notification should be sent
+            .Build();
+
+            await _scheduler.ScheduleJob(job, trigger);
         }
 
         public async Task SendTelegramNotificationAsync(TelegramNotification notificationModel)

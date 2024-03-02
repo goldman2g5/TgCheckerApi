@@ -34,10 +34,11 @@ namespace TgCheckerApi.Controllers
         private readonly SubscriptionService _subscriptionService;
         private readonly UserService _userService;
         private readonly NotificationService _notificationService;
+        private readonly ILogger<BotController> _logger;
 
 
 
-        public ChannelController(TgDbContext context, IMapper mapper, IHubContext<BotHub> hubContext, NotificationService notificationService)
+        public ChannelController(TgDbContext context, IMapper mapper, IHubContext<BotHub> hubContext, NotificationService notificationService, ILogger<BotController> logger)
         {
             _context = context;
             _mapper = mapper;
@@ -48,6 +49,7 @@ namespace TgCheckerApi.Controllers
             _subscriptionService = new SubscriptionService(context);
             _userService = new UserService(context);
             _notificationService = notificationService;
+            _logger = logger;
         }
 
         // GET: api/Channel
@@ -397,10 +399,10 @@ namespace TgCheckerApi.Controllers
         [HttpPost("Bump/{id}")]
         public async Task<IActionResult> BumpChannel(int id)
         {
-            var channel = await FindChannelById(id);
+            var channel = await _context.Channels.Include(c => c.UserNavigation).FirstOrDefaultAsync(c => c.Id == id);
             if (channel == null)
             {
-                return NotFound();
+                return NotFound("Channel not found.");
             }
 
             var nextBumpTime = _bumpService.CalculateNextBumpTime(channel.LastBump);
@@ -411,16 +413,30 @@ namespace TgCheckerApi.Controllers
                 return BadRequest($"Next bump available in {remainingTime} minutes.");
             }
 
-            // Retrieve the subscription multiplier for the channel
+            // Proceed with bump operation
             decimal multiplier = await _channelService.GetChannelMultiplierAsync(channel.Id);
-
-            // Pass the multiplier to the method
             _bumpService.UpdateChannelBumpDetails(channel, multiplier);
 
             if (!await TrySaveChanges())
             {
-                return NotFound();
+                return NotFound("Failed to update channel bump details.");
             }
+
+            // Channel successfully bumped, schedule next bump notification
+            var scheduledTime = DateTime.UtcNow.AddSeconds(_bumpService.GetBumpInterval() * 60);
+            int userId = channel.UserNavigation?.Id ?? throw new InvalidOperationException("Channel does not have an associated user.");
+            int typeId = 3;
+
+            _logger.LogInformation($"Scheduled time for notification: {scheduledTime}");
+
+            await _notificationService.CreateNotificationDelayedTaskAsync(
+                "Your channel is ready for another bump.",
+                typeId,
+                userId,
+                scheduledTime,
+                targetTelegram: true, // Assuming you want to target Telegram
+                contentType: "bump",
+                channelId: id);
 
             return NoContent();
         }

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using TgCheckerApi.Services;
 using TgCheckerApi.Job;
+using TgCheckerApi.Quartz;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
@@ -99,6 +100,7 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddSingleton<IJobFactory, QuartzJobFactory>();
 builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 builder.Services.AddTransient<RecalculateTopPosJob>();
+builder.Services.AddScoped<NotificationJob>();
 builder.Services.AddSingleton<RatingResetJob>();
 builder.Services.AddSingleton<UpdateSubscribersJob>();
 
@@ -120,6 +122,14 @@ builder.Services.AddSingleton(new JobSchedule(
 
 builder.Services.AddHostedService<QuartzHostedService>();
 
+builder.Services.AddSingleton<IScheduler>(provider =>
+{
+    var schedulerFactory = provider.GetRequiredService<ISchedulerFactory>();
+    var scheduler = schedulerFactory.GetScheduler().Result; // Get the scheduler instance
+    scheduler.JobFactory = provider.GetRequiredService<IJobFactory>(); // Set the custom job factory
+    scheduler.Start().Wait(); // Start the scheduler
+    return scheduler;
+});
 
 
 builder.Services.AddHttpClient("MyClient", client =>
@@ -133,6 +143,7 @@ builder.Host.UseSerilog((_, conf) =>
         .WriteTo.Console()
         .WriteTo.File("log-.txt",
  rollingInterval: RollingInterval.Day)
+        .MinimumLevel.Override("Quartz", Serilog.Events.LogEventLevel.Information);
     ;
 });
 builder.Logging.ClearProviders();

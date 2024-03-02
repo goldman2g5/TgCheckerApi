@@ -21,11 +21,13 @@ namespace TgCheckerApi.Controllers
     {
         private readonly TgDbContext _context;
         private readonly NotificationService _notificationService;
+        private readonly ILogger<BotController> _logger;
 
-        public NotificationController(TgDbContext context, NotificationService notificationService)
+        public NotificationController(TgDbContext context, NotificationService notificationService, ILogger<BotController> logger)
         {
             _context = context;
             _notificationService = notificationService;
+            _logger = logger;
         }
 
         
