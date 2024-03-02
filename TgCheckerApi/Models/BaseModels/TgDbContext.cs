@@ -281,6 +281,8 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.IsNew).HasColumnName("is_new");
             entity.Property(e => e.TypeId).HasColumnName("type_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.TargetTelegram).HasColumnName("target_telegram");
+            entity.Property(e => e.ContentType).HasColumnName("content_type");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.NotificationsNavigation)
                 .HasForeignKey(d => d.ChannelId)

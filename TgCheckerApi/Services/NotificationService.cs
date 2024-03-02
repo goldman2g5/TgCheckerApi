@@ -22,7 +22,7 @@ namespace TgCheckerApi.Services
         {
             // Retrieve the current date and time
             DateTime currentTime = DateTime.Now;
-            int timeToNotify = 240;
+            int timeToNotify = 1;
 
             // Retrieve the notifications that are ready to be sent
             var notifications = await _context.ChannelAccesses
@@ -52,13 +52,9 @@ namespace TgCheckerApi.Services
             {
                 string content = $"Your channel {notification.ChannelName} is ready for a bump.";
                 int typeId = 3;
-                await CreateNotificationAsync(notification.ChannelId, content, typeId, notification.UserId,
-                    targetTelegram:true,
-                    contentType:"bump",
-                    channelName:notification.ChannelName,
-                    telegramUserId: notification.TelegramUserId,
-                    telegramChatId: notification.TelegramChatId,
-                    telegramChannelId: notification.TelegamChannelId);
+                await CreateNotificationAsync(content, typeId, notification.UserId, notification.ChannelId,
+                    targetTelegram: true,
+                    contentType: "bump");
                 notification.ChannelAccess.Channel.NotificationSent = true;
             }
 
@@ -68,27 +64,35 @@ namespace TgCheckerApi.Services
         }
 
         public async Task<Notification> CreateNotificationAsync(
-        int channelId,
         string content,
         int typeId,
         int userId,
+        int? channelId = null, // Optional channelId
         bool targetTelegram = false,
-        string contentType = null,
-        string channelName = null,
-        long? telegramUserId = null,
-        long? telegramChatId = null,
-        long? telegramChannelId = null)
+        string contentType = null)
         {
-            var notificationType = await _context.NotificationTypes
-                .FirstOrDefaultAsync(nt => nt.Id == typeId);
+            // Validate the notification type
+            var notificationType = await _context.NotificationTypes.FirstOrDefaultAsync(nt => nt.Id == typeId);
             if (notificationType == null)
             {
                 throw new ArgumentException("Invalid notification type.");
             }
 
+            // Attempt to find the channel early if a channelId is provided
+            Channel? channel = null;
+            if (channelId.HasValue)
+            {
+                channel = await _context.Channels.FirstOrDefaultAsync(c => c.Id == channelId.Value);
+                if (channel == null)
+                {
+                    throw new ArgumentException("Channel not found.");
+                }
+            }
+
+            // Create the new notification
             var newNotification = new Notification
             {
-                ChannelId = channelId,
+                ChannelId = channelId, // Nullable channelId
                 Content = content,
                 UserId = userId,
                 Date = DateTime.UtcNow,
@@ -99,17 +103,25 @@ namespace TgCheckerApi.Services
             _context.Notifications.Add(newNotification);
             await _context.SaveChangesAsync();
 
-            // Updated validation to include contentType and channelName, and require both chatId and userId for Telegram
-            if (targetTelegram && AreTelegramParametersValid(contentType, channelName, telegramUserId, telegramChatId, telegramChannelId))
+            if (targetTelegram)
             {
+                // Retrieve the user with navigation properties loaded
+                var user = await _context.Users
+                                         .FirstOrDefaultAsync(u => u.Id == userId);
+                if (user == null)
+                {
+                    throw new ArgumentException("User not found.");
+                }
+
+                // Prepare the Telegram notification using the channel information if available
                 var telegramNotification = new TelegramNotification
                 {
-                    ChannelName = channelName,
+                    ChannelName = channel?.Name ?? "General Notification",
                     ChannelId = channelId,
                     UserId = userId,
-                    TelegramUserId = telegramUserId,
-                    TelegramChatId = telegramChatId,
-                    TelegamChannelId = telegramChannelId,
+                    TelegramUserId = user.TelegramId,
+                    TelegramChatId = user.ChatId,
+                    TelegamChannelId = channel?.TelegramId, // Nullable and directly retrieved
                     ContentType = contentType
                 };
 
@@ -120,15 +132,14 @@ namespace TgCheckerApi.Services
             return newNotification;
         }
 
-        private bool AreTelegramParametersValid(string contentType, string channelName, long? telegramUserId, long? telegramChatId, long? telegramChannelId)
+        private bool AreTelegramParametersValid(string contentType, string channelName, User user)
         {
-            // Check if contentType and channelName are provided and not empty,
-            // and both telegramUserId and telegramChatId are provided and have values.
+            // Check if contentType and channelName are provided, and user has valid TelegramId and ChatId
             return !string.IsNullOrEmpty(contentType) &&
                    !string.IsNullOrEmpty(channelName) &&
-                   telegramUserId.HasValue &&
-                   telegramChatId.HasValue &&
-                   telegramChannelId.HasValue;
+                   user.TelegramId.HasValue &&
+                   user.ChatId.HasValue &&
+                   user.Channels.Any(c => c.TelegramId.HasValue); // Assuming user has channels with valid TelegramId
         }
 
         public async Task SendTelegramNotificationAsync(TelegramNotification notificationModel)

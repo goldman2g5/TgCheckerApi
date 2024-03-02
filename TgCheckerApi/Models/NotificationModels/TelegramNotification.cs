@@ -1,5 +1,5 @@
 ﻿using TgCheckerApi.Models.BaseModels;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace TgCheckerApi.Models.NotificationModels
 {
@@ -10,7 +10,7 @@ namespace TgCheckerApi.Models.NotificationModels
 
         public string ChannelName { get; set; }
 
-        public int ChannelId { get; set; }
+        public int? ChannelId { get; set; }
 
         public int UserId { get; set; }
 

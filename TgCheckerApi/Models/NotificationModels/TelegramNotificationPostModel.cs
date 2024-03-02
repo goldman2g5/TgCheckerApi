@@ -4,7 +4,7 @@
     {
         public string ChannelName { get; set; }
 
-        public int ChannelId { get; set; }
+        public int? ChannelId { get; set; }
 
         public int UserId { get; set; }
 

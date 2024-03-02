@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Models.TempScaffold;
 
@@ -280,13 +279,16 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ChannelId).HasColumnName("channel_id");
             entity.Property(e => e.Content).HasColumnName("content");
+            entity.Property(e => e.ContentType).HasColumnName("content_type");
             entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.IsNew).HasColumnName("is_new");
+            entity.Property(e => e.TargetTelegram).HasColumnName("target_telegram");
             entity.Property(e => e.TypeId).HasColumnName("type_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Channel).WithMany(p => p.NotificationsNavigation)
                 .HasForeignKey(d => d.ChannelId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("channel_id_fk");
 
             entity.HasOne(d => d.Type).WithMany(p => p.Notifications)

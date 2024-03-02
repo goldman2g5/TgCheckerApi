@@ -132,7 +132,7 @@ namespace TgCheckerApi.Controllers
         {
             try
             {
-                var notification = await _notificationService.CreateNotificationAsync(payload.channelid, payload.content, payload.typeid, payload.userid);
+                var notification = await _notificationService.CreateNotificationAsync(payload.content, payload.typeid, payload.userid, payload.channelid);
                 return Ok(notification);
             }
             catch (ArgumentException ex)
