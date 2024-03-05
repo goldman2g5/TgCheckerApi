@@ -18,19 +18,21 @@ namespace TgCheckerApi.Job
         {
             _logger.LogInformation("NotificationJob started at {Time}", DateTimeOffset.Now);
 
-            JobDataMap dataMap = context.MergedJobDataMap; // Get parameters
+            JobDataMap dataMap = context.MergedJobDataMap;
 
             // Extract parameters from JobDataMap
             string content = dataMap.GetString("content");
             int typeId = dataMap.GetInt("typeId");
             int userId = dataMap.GetInt("userId");
-            int? channelId = dataMap.ContainsKey("channelId") ? (int?)dataMap.GetInt("channelId") : null; // Optional channelId
+            int? channelId = dataMap.ContainsKey("channelId") ? (int?)dataMap.GetInt("channelId") : null;
             bool targetTelegram = dataMap.GetBoolean("targetTelegram");
             string contentType = dataMap.GetString("contentType");
+            // Retrieve the ID of the NotificationDelayedTask
+            int notificationDelayedTaskId = dataMap.GetInt("notificationDelayedTaskId");
 
             try
             {
-                // Execute CreateNotificationAsync with the extracted parameters
+                // Execute notification creation logic with the extracted parameters
                 await _notificationService.CreateNotificationAsync(
                     content,
                     typeId,
@@ -38,6 +40,9 @@ namespace TgCheckerApi.Job
                     channelId,
                     targetTelegram,
                     contentType);
+
+                // Here, use the NotificationService to delete the NotificationDelayedTask by its ID
+                await _notificationService.DeleteNotificationDelayedTaskAsync(notificationDelayedTaskId);
 
                 _logger.LogInformation("NotificationJob executed successfully.");
             }

@@ -19,6 +19,7 @@ using Quartz.Impl;
 using Quartz.Spi;
 using TgCheckerApi.Controllers;
 using Serilog;
+using TgCheckerApi.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -100,6 +101,7 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddSingleton<IJobFactory, QuartzJobFactory>();
 builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 builder.Services.AddTransient<RecalculateTopPosJob>();
+builder.Services.AddTransient<LoadDelayedNotificationsJob>();
 builder.Services.AddScoped<NotificationJob>();
 builder.Services.AddSingleton<RatingResetJob>();
 builder.Services.AddSingleton<UpdateSubscribersJob>();

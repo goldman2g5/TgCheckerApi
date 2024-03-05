@@ -1,0 +1,133 @@
+2024-03-04 00:35:00.442 +03:00 [ERR] Failed to invoke hub method 'ReceiveStream'.
+System.OperationCanceledException: The underlying connection was closed.
+   at System.Threading.Channels.AsyncOperation`1.GetResult(Int16 token)
+   at System.Threading.Channels.ChannelReader`1.ReadAllAsync(CancellationToken cancellationToken)+MoveNext()
+   at System.Threading.Channels.ChannelReader`1.ReadAllAsync(CancellationToken cancellationToken)+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at TgCheckerApi.Websockets.BotHub.ReceiveStream(IAsyncEnumerable`1 stream, String param) in C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\Hubs\BotHub.cs:line 39
+   at TgCheckerApi.Websockets.BotHub.ReceiveStream(IAsyncEnumerable`1 stream, String param) in C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\Hubs\BotHub.cs:line 39
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|16_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2024-03-04 00:35:00.541 +03:00 [INF] Executed endpoint '/BotHub'
+2024-03-04 00:35:00.610 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/BotHub?id=xAe3BM0cBWamRMDVgJ5kEg - - - 101 - - 22555861.2639ms
+2024-03-04 00:39:25.521 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:7256/BotHub/negotiate?negotiateVersion=0 - 0
+2024-03-04 00:39:25.595 +03:00 [INF] Executing endpoint '/BotHub/negotiate'
+2024-03-04 00:39:25.600 +03:00 [INF] Executed endpoint '/BotHub/negotiate'
+2024-03-04 00:39:25.607 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:7256/BotHub/negotiate?negotiateVersion=0 - 0 - 200 273 application/json 82.2503ms
+2024-03-04 00:39:25.627 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/BotHub?id=_3leEJwimUUHyRROvwqhfw - -
+2024-03-04 00:39:25.630 +03:00 [INF] Executing endpoint '/BotHub'
+2024-03-04 00:39:29.046 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:7256/api/User application/json 165
+2024-03-04 00:39:29.048 +03:00 [INF] Executing endpoint 'TgCheckerApi.MapperProfiles.UserController.PostUser (TgCheckerApi)'
+2024-03-04 00:39:29.056 +03:00 [INF] Route matched with {action = "PostUser", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TgCheckerApi.Models.BaseModels.User]] PostUser(TgCheckerApi.Models.UserPostModel) on controller TgCheckerApi.MapperProfiles.UserController (TgCheckerApi).
+2024-03-04 00:39:29.435 +03:00 [INF] Executed DbCommand (48ms) [Parameters=[@__user_TelegramId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.last_update, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.telegram_id = @__user_TelegramId_0
+LIMIT 1
+2024-03-04 00:39:29.452 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2024-03-04 00:39:29.454 +03:00 [INF] Executed action TgCheckerApi.MapperProfiles.UserController.PostUser (TgCheckerApi) in 396.5765ms
+2024-03-04 00:39:29.454 +03:00 [INF] Executed endpoint 'TgCheckerApi.MapperProfiles.UserController.PostUser (TgCheckerApi)'
+2024-03-04 00:39:29.455 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:7256/api/User application/json 165 - 400 - text/plain;+charset=utf-8 409.0687ms
+2024-03-04 00:39:30.530 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Channel/ByUser/1342147816 - -
+2024-03-04 00:39:30.536 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannelsByUser (TgCheckerApi)'
+2024-03-04 00:39:30.538 +03:00 [INF] Route matched with {action = "GetChannelsByUser", controller = "Channel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TgCheckerApi.Models.BaseModels.Channel]]] GetChannelsByUser(Int64) on controller TgCheckerApi.Controllers.ChannelController (TgCheckerApi).
+2024-03-04 00:39:30.592 +03:00 [INF] Executed DbCommand (49ms) [Parameters=[@__userId_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+LEFT JOIN "User" AS u ON c."user" = u.id
+WHERE u.telegram_id = @__userId_0
+2024-03-04 00:39:30.595 +03:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.BaseModels.Channel, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-04 00:39:30.596 +03:00 [INF] Executed action TgCheckerApi.Controllers.ChannelController.GetChannelsByUser (TgCheckerApi) in 56.3738ms
+2024-03-04 00:39:30.597 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannelsByUser (TgCheckerApi)'
+2024-03-04 00:39:30.599 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Channel/ByUser/1342147816 - - - 200 15968 application/json;+charset=utf-8 68.5368ms
+2024-03-04 00:39:31.649 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Channel/80 - -
+2024-03-04 00:39:31.650 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannel (TgCheckerApi)'
+2024-03-04 00:39:31.651 +03:00 [INF] Route matched with {action = "GetChannel", controller = "Channel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TgCheckerApi.Models.GetModels.ChannelGetModel]] GetChannel(Int32) on controller TgCheckerApi.Controllers.ChannelController (TgCheckerApi).
+2024-03-04 00:39:31.708 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+WHERE c.id = @__p_0
+LIMIT 1
+2024-03-04 00:39:31.758 +03:00 [INF] Executed DbCommand (39ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-03-04 00:39:31.765 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-03-04 00:39:31.768 +03:00 [INF] Executing ObjectResult, writing value of type 'TgCheckerApi.Models.GetModels.ChannelGetModel'.
+2024-03-04 00:39:31.769 +03:00 [INF] Executed action TgCheckerApi.Controllers.ChannelController.GetChannel (TgCheckerApi) in 112.9971ms
+2024-03-04 00:39:31.770 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannel (TgCheckerApi)'
+2024-03-04 00:39:31.772 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Channel/80 - - - 200 15630 application/json;+charset=utf-8 122.6278ms
+2024-03-04 00:39:34.504 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:7256/api/Channel/Bump/80 - 0
+2024-03-04 00:39:34.505 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.ChannelController.BumpChannel (TgCheckerApi)'
+2024-03-04 00:39:34.506 +03:00 [INF] Route matched with {action = "BumpChannel", controller = "Channel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] BumpChannel(Int32) on controller TgCheckerApi.Controllers.ChannelController (TgCheckerApi).
+2024-03-04 00:39:34.597 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user", u.id, u.avatar, u.chat_id, u.last_update, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "Channel" AS c
+LEFT JOIN "User" AS u ON c."user" = u.id
+WHERE c.id = @__id_0
+LIMIT 1
+2024-03-04 00:39:34.614 +03:00 [INF] Executed DbCommand (14ms) [Parameters=[@__channelId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.multiplier
+FROM "ChannelHasSubscription" AS c
+LEFT JOIN "SubType" AS s ON c.type_id = s.id
+WHERE c.channel_id = @__channelId_0
+ORDER BY c.type_id DESC
+LIMIT 1
+2024-03-04 00:39:34.648 +03:00 [INF] Executed DbCommand (29ms) [Parameters=[@p2='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Channel" SET bumps = @p0, last_bump = @p1
+WHERE id = @p2;
+2024-03-04 00:39:34.650 +03:00 [INF] Scheduled time for notification: 3/3/2024 9:40:34 PM
+2024-03-04 00:39:34.653 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__typeId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.text
+FROM "NotificationType" AS n
+WHERE n.id = @__typeId_0
+LIMIT 1
+2024-03-04 00:39:34.656 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__channelId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+WHERE c.id = @__channelId_Value_0
+LIMIT 1
+2024-03-04 00:39:34.703 +03:00 [INF] Executed DbCommand (42ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?' (DbType = DateTime), @p4='?' (DbType = Boolean), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "NotificationDelayedTask" (channel_id, content, content_type, date, target_telegram, type_id, user_id)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING id;
+2024-03-04 00:39:34.707 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 204
+2024-03-04 00:39:34.708 +03:00 [INF] Executed action TgCheckerApi.Controllers.ChannelController.BumpChannel (TgCheckerApi) in 200.0767ms
+2024-03-04 00:39:34.709 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.ChannelController.BumpChannel (TgCheckerApi)'
+2024-03-04 00:39:34.710 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:7256/api/Channel/Bump/80 - 0 - 204 - - 205.8266ms
+2024-03-04 00:40:34.659 +03:00 [INF] NotificationJob started at "2024-03-04T00:40:34.6592833+03:00"
+2024-03-04 00:40:34.661 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__typeId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.text
+FROM "NotificationType" AS n
+WHERE n.id = @__typeId_0
+LIMIT 1
+2024-03-04 00:40:34.698 +03:00 [INF] Executed DbCommand (35ms) [Parameters=[@__channelId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+WHERE c.id = @__channelId_Value_0
+LIMIT 1
+2024-03-04 00:40:34.718 +03:00 [INF] Executed DbCommand (15ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?' (DbType = DateTime), @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Notification" (channel_id, content, content_type, date, is_new, target_telegram, type_id, user_id)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING id;
+2024-03-04 00:40:34.723 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.last_update, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.id = @__userId_0
+LIMIT 1
+2024-03-04 00:40:34.733 +03:00 [INF] Start processing HTTP request POST "http://127.0.0.1:8000/send_notifications"
+2024-03-04 00:40:34.734 +03:00 [INF] Sending HTTP request POST "http://127.0.0.1:8000/send_notifications"
+2024-03-04 00:40:36.512 +03:00 [INF] Received HTTP response headers after 1776.7794ms - 200
+2024-03-04 00:40:36.513 +03:00 [INF] End processing HTTP request after 1780.6365ms - 200
+2024-03-04 00:40:36.551 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+WHERE n.id = @__p_0
+LIMIT 1
+2024-03-04 00:40:36.556 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "NotificationDelayedTask"
+WHERE id = @p0;
+2024-03-04 00:40:36.558 +03:00 [INF] NotificationJob executed successfully.

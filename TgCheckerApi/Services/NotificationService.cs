@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Quartz;
 using System.Text;
 using System.Text.Json;
+using TgCheckerApi.Controllers;
 using TgCheckerApi.Job;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.NotificationModels;
@@ -14,12 +15,14 @@ namespace TgCheckerApi.Services
         private readonly TgDbContext _context;
         private readonly IHttpClientFactory _clientFactory;
         private readonly IScheduler _scheduler;
+        private readonly ILogger<NotificationService> _logger;
 
-        public NotificationService(TgDbContext context, IHttpClientFactory clientFactory, IScheduler scheduler)
+        public NotificationService(TgDbContext context, IHttpClientFactory clientFactory, IScheduler scheduler, ILogger<NotificationService> logger)
         {
             _context = context;
             _clientFactory = clientFactory;
             _scheduler = scheduler;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<TelegramNotification>> GetBumpNotifications()
@@ -145,6 +148,7 @@ namespace TgCheckerApi.Services
             string contentType = null,
             int? channelId = null)
         {
+
             // Validate the notification type
             var notificationType = await _context.NotificationTypes.FirstOrDefaultAsync(nt => nt.Id == typeId);
             if (notificationType == null)
@@ -183,11 +187,39 @@ namespace TgCheckerApi.Services
                 typeId,
                 userId,
                 scheduledTime,
+                newDelayedTask.Id,
                 targetTelegram,
                 contentType,
-                channelId);
+                channelId
+                );
 
             return newDelayedTask;
+        }
+
+        public async Task LoadAndScheduleAllDelayedTasks()
+        {
+            var delayedTasks = await _context.NotificationDelayedTasks.ToListAsync();
+
+            foreach (var task in delayedTasks)
+            {
+                try
+                {
+                    await ScheduleNotificationAsync(
+                        task.Content,
+                        task.TypeId,
+                        task.UserId,
+                        task.Date,
+                        task.Id,
+                        task.TargetTelegram,
+                        task.ContentType,
+                        task.ChannelId);
+
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to load and schedule a delayed notification task. Task ID: {TaskId}", task.Id);
+                }
+            }
         }
 
         public async Task ScheduleNotificationAsync(
@@ -195,24 +227,23 @@ namespace TgCheckerApi.Services
         int typeId,
         int userId,
         DateTime scheduleAt,
+        int notificationDelayedTaskId,
         bool targetTelegram = false,
         string contentType = null,
-        int? channelId = null)
+        int? channelId = null
+        )
         {
+
             var jobData = new JobDataMap
             {
                 {"content", content},
                 {"typeId", typeId},
                 {"userId", userId},
                 {"targetTelegram", targetTelegram},
-                {"contentType", contentType}
+                {"contentType", contentType},
+                {"channelId", channelId.HasValue ? channelId.Value : 0}, // 0 or some default to signify no channel
+                {"notificationDelayedTaskId", notificationDelayedTaskId} // Ensure the value is passed here
             };
-
-            // Include channelId in JobDataMap only if it's not null
-            if (channelId.HasValue)
-            {
-                jobData.Add("channelId", channelId.Value);
-            }
 
             IJobDetail job = JobBuilder.Create<NotificationJob>()
                 .WithIdentity($"NotificationJob-{Guid.NewGuid()}", "NotificationGroup")
@@ -225,6 +256,16 @@ namespace TgCheckerApi.Services
             .Build();
 
             await _scheduler.ScheduleJob(job, trigger);
+        }
+
+        public async Task DeleteNotificationDelayedTaskAsync(int taskId)
+        {
+            var task = await _context.NotificationDelayedTasks.FindAsync(taskId);
+            if (task != null)
+            {
+                _context.NotificationDelayedTasks.Remove(task);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task SendTelegramNotificationAsync(TelegramNotification notificationModel)

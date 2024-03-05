@@ -27,6 +27,20 @@ namespace TgCheckerApi.Services
             _scheduler = await _schedulerFactory.GetScheduler(cancellationToken);
             _scheduler.JobFactory = _jobFactory;
 
+            // Define the LoadDelayedNotificationsJob job
+            var loadDelayedNotificationsJob = JobBuilder.Create<LoadDelayedNotificationsJob>()
+                .WithIdentity("LoadDelayedNotificationsJob", "SystemJobs")
+                .Build();
+
+            // Create a trigger that fires immediately
+            var loadDelayedNotificationsJobtrigger = TriggerBuilder.Create()
+                .WithIdentity("LoadDelayedNotificationsJobTrigger", "SystemJobs")
+                .StartNow()
+                .Build();
+
+            // Schedule the job for immediate execution
+            await _scheduler.ScheduleJob(loadDelayedNotificationsJob, loadDelayedNotificationsJobtrigger, cancellationToken);
+
             foreach (var jobSchedule in _jobSchedules)
             {
                 var job = CreateJob(jobSchedule);
@@ -35,7 +49,8 @@ namespace TgCheckerApi.Services
                 await _scheduler.ScheduleJob(job, trigger, cancellationToken);
 
                 // Check if it's the UpdateSubscribersJob and trigger it immediately on startup
-                if (job.JobType == typeof(UpdateSubscribersJob) || job.JobType == typeof(RecalculateTopPosJob))
+                if (job.JobType == typeof(UpdateSubscribersJob) ||
+                    job.JobType == typeof(RecalculateTopPosJob) )
                 {
                     await _scheduler.TriggerJob(new JobKey(job.JobType.FullName), cancellationToken);
                 }

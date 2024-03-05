@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
-using TgCheckerApi.Interfaces;
 using TgCheckerApi.MiddleWare;
 
-namespace TgCheckerApi.Websockets
+namespace TgCheckerApi.Interfaces
 {
     [BypassApiKey]
     [Authorize]
@@ -65,5 +64,5 @@ namespace TgCheckerApi.Websockets
                 }
             }
         }
-    } 
+    }
 }
