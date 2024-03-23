@@ -687,7 +687,13 @@ namespace TgCheckerApi.Controllers
             if (channel != null && channel.User.HasValue)
             {
                 string notificationContent = $"Your channel {channel.Name} has been reported for {report.Reason}. Please review the channel content.";
-                //await _notificationService.CreateNotificationAsync(channel.Id, notificationContent, 1, channel.User.Value);
+                _notificationService.CreateNotificationAsync(content: notificationContent,
+                                                                 contentType: "report",
+                                                                 typeId: 2,
+                                                                 userId: report.Channel.UserNavigation.Id,
+                                                                 channelId: report.Channel.Id,
+                                                                 targetTelegram: false
+                                                                 );
             }
 
             var reportGetModel = _mapper.Map<ReportGetModel>(report);

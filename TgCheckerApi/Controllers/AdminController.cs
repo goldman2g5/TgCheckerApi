@@ -136,7 +136,13 @@ namespace TgCheckerApi.Controllers
                 if (report.Channel.UserNavigation != null)
                 {
                     string notificationContent = $"Your channel {report.Channel.Name} has been hidden due to a report. Please review the channel content.";
-                    //await _notificationService.CreateNotificationAsync(report.Channel.Id, notificationContent, 2, report.Channel.UserNavigation.Id);
+                    _notificationService.CreateNotificationAsync(content: notificationContent,
+                                                                 contentType: "general",
+                                                                 typeId: 2,
+                                                                 userId: report.Channel.UserNavigation.Id,
+                                                                 channelId: report.Channel.Id, 
+                                                                 targetTelegram: true
+                                                                 );
                 }
             }
 
