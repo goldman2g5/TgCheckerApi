@@ -20,6 +20,7 @@ using System.Diagnostics.Tracing;
 using Microsoft.Extensions.DependencyInjection;
 using static TgCheckerApi.Controllers.BotController;
 using TgCheckerApi.Interfaces;
+using System.Text;
 
 namespace TgCheckerApi.Controllers
 {
@@ -35,9 +36,10 @@ namespace TgCheckerApi.Controllers
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<BotController> _logger;
         private readonly BotControllerService _botService;
+        private readonly IHttpClientFactory _clientFactory;
 
 
-        public BotController(TgDbContext context, IServiceProvider serviceProvider, ILogger<BotController> logger, IHubContext<BotHub> hubContext, TaskManager taskManager, WebSocketService webSocketService, BotControllerService botService)
+        public BotController(TgDbContext context, IServiceProvider serviceProvider, IHttpClientFactory clientFactory, ILogger<BotController> logger, IHubContext<BotHub> hubContext, TaskManager taskManager, WebSocketService webSocketService, BotControllerService botService)
         {
             _context = context;
             _hubContext = hubContext;
@@ -47,6 +49,7 @@ namespace TgCheckerApi.Controllers
             _logger = logger;
             _userService = new UserService(context);
             _botService = botService;
+            _clientFactory = clientFactory;
         }
         
         public class MonthViewsRequest
@@ -435,7 +438,46 @@ namespace TgCheckerApi.Controllers
             //viewsData.Reverse();
             var viewsList = viewsData.Select(x => new { x.Views, x.Date });
             return Ok(viewsList);
-        }        
+        }
+
+        public class ChannelQuery
+        {
+            public long? ChannelId { get; set; }
+            public int NumberOfDays { get; set; }
+        }
+
+        [HttpPost("GetDailyViewsFastApiTest")]
+        public async Task<IActionResult> GetDailyViewsFastApiTest([FromBody] ChannelQuery query)
+        {
+            var client = _clientFactory.CreateClient();
+            var fastApiUrl = "http://127.0.0.1:8000/get_daily_views/";
+
+            var channel = await FindChannelById(Convert.ToInt32(query.ChannelId));
+            query.ChannelId = channel.TelegramId;
+            var json = JsonConvert.SerializeObject(query); // Using Newtonsoft.Json
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            try
+            {
+                var response = await client.PostAsync(fastApiUrl, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var resultString = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject(resultString);
+                    return Ok(result); // Return the result as is or process it as needed
+                }
+                else
+                {
+                    // Log error, handle failure, etc.
+                    return StatusCode((int)response.StatusCode, $"Error calling the FastAPI service {response.Content}") ;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log exception, handle error, etc.
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
         private async Task<Channel> FindChannelById(int id)
         {
