@@ -1,42 +1,56 @@
 ﻿using WTelegram;
+using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Services
 {
     public class TelegramClientService
     {
-        public Client Client { get; private set; }
+        private readonly TgClientFactory _tgClientFactory;
+        public static List<Client> Clients { get; private set; } = new List<Client>();
 
-        public TelegramClientService(IWebHostEnvironment env)
+        public TelegramClientService(TgClientFactory tgClientFactory)
         {
-            InitializeAsync(env).Wait();
+            _tgClientFactory = tgClientFactory;
         }
 
-        private async Task InitializeAsync(IWebHostEnvironment env)
+        public async Task InitializeAsync()
         {
-            var client = new Client(config =>
+            var clientConfigs = await _tgClientFactory.FetchClientConfigsAsync();
+
+            foreach (var clientConfig in clientConfigs)
             {
-                switch (config)
-                {
-                    case "api_id": return "23558497"; // Your API ID
-                    case "api_hash": return "2b461873dd2dea7e091f7af28fbe11e1"; // Your API Hash
-                    case "session_pathname": return Path.Combine(env.ContentRootPath, "WTelegramSessions", "WTelegram.session"); // Path for the session file
-                    default: return null; // Let WTelegramClient handle other configurations
-                }
-            });
+                var client = new Client(clientConfig.Config);
+                var loginInfo = clientConfig.PhoneNumber;
 
-            // Embedding the login logic directly into the factory
-            var loginInfo = "+79103212166";
-            while (client.User == null)
-                switch (await client.Login(loginInfo)) // returns which config is needed to continue login
+                while (client.User == null)
                 {
-                    case "verification_code": Console.Write("Code: "); loginInfo = Console.ReadLine(); break;
-
-                    //case "name": loginInfo = "John Doe"; break;    // if sign-up is required (first/last_name)
-                    //case "password": loginInfo = "secret!"; break; // if user has enabled 2FA
-                    default: loginInfo = null; break;
+                    switch (await client.Login(loginInfo)) // Adjusted to use DTO
+                    {
+                        case "verification_code":
+                            Console.Write("Code: "); loginInfo = Console.ReadLine(); break;
+                        // Additional cases as needed
+                        default: loginInfo = null; break;
+                    }
                 }
-            Console.WriteLine($"We are logged-in as {client.User} (id {client.User.id})");
-            Client = client;
+                Console.WriteLine($"We are logged-in as {client.User} (id {client.User.id})");
+                Clients.Add(client); // Store the client for later use
+            }
+        }
+
+        public Client GetClient()
+        {
+            // Return the first available client, if any
+            return Clients.FirstOrDefault();
+        }
+        public static void DisposeClients()
+        {
+            foreach (var client in Clients)
+            {
+                if (client is IDisposable disposableClient)
+                {
+                    disposableClient.Dispose();
+                }
+            }
         }
     }
 }

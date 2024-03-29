@@ -24,7 +24,7 @@ namespace TgCheckerApi.Controllers
             _context = context;
             _logger = logger;
             _env = env;
-            _client = telegramClientService.Client;
+            _client = telegramClientService.GetClient();
         }
 
         [HttpGet("SendMessage")]

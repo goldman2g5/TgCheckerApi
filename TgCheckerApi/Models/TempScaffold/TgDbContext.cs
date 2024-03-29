@@ -59,6 +59,8 @@ public partial class TgDbContext : DbContext
 
     public virtual DbSet<TelegramPayment> TelegramPayments { get; set; }
 
+    public virtual DbSet<TgClient> TgClients { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<ViewsRecord> ViewsRecords { get; set; }
@@ -288,7 +290,6 @@ public partial class TgDbContext : DbContext
 
             entity.HasOne(d => d.Channel).WithMany(p => p.NotificationsNavigation)
                 .HasForeignKey(d => d.ChannelId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("channel_id_fk");
 
             entity.HasOne(d => d.Type).WithMany(p => p.Notifications)
@@ -317,6 +318,7 @@ public partial class TgDbContext : DbContext
 
             entity.HasOne(d => d.Channel).WithMany(p => p.NotificationDelayedTasks)
                 .HasForeignKey(d => d.ChannelId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("channel_id_fk");
 
             entity.HasOne(d => d.Type).WithMany(p => p.NotificationDelayedTasks)
@@ -576,6 +578,20 @@ public partial class TgDbContext : DbContext
                 .HasConstraintName("user_id_fk");
         });
 
+        modelBuilder.Entity<TgClient>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("TgClient_pkey");
+
+            entity.ToTable("TgClient");
+
+            entity.Property(e => e.Id)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("id");
+            entity.Property(e => e.ApiHash).HasColumnName("api_hash");
+            entity.Property(e => e.ApiId).HasColumnName("api_id");
+            entity.Property(e => e.PhoneNumber).HasColumnName("phone_number");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("user_pkey");
@@ -588,7 +604,9 @@ public partial class TgDbContext : DbContext
 
             entity.HasIndex(e => e.TelegramId, "telegram_id_uq").IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("id");
             entity.Property(e => e.Avatar).HasColumnName("avatar");
             entity.Property(e => e.ChatId).HasColumnName("chat_id");
             entity.Property(e => e.LastUpdate).HasColumnName("last_update");

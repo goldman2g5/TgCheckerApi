@@ -19,9 +19,7 @@ using Quartz.Impl;
 using Quartz.Spi;
 using TgCheckerApi.Controllers;
 using Serilog;
-using TgCheckerApi.Interfaces;
-using TgCheckerApi.WTelegramStuff;
-using WTelegram;
+using TgCheckerApi.Interfaces;using WTelegram;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -135,7 +133,19 @@ builder.Services.AddSingleton<IScheduler>(provider =>
     return scheduler;
 });
 
+builder.Services.AddSingleton<IDbContextFactory<TgDbContext>>(serviceProvider =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetConnectionString("MainConnectionString");
+
+    var optionsBuilder = new DbContextOptionsBuilder<TgDbContext>();
+    optionsBuilder.UseNpgsql(connectionString).UseLazyLoadingProxies();
+
+    return new MyDbContextFactory(optionsBuilder.Options);
+});
+builder.Services.AddSingleton<TgClientFactory>();
 builder.Services.AddSingleton<TelegramClientService>();
+builder.Services.AddHostedService<TelegramClientInitializer>();
 
 
 builder.Services.AddHttpClient("MyClient", client =>

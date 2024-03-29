@@ -7,7 +7,7 @@ public partial class Notification
 {
     public int Id { get; set; }
 
-    public int? ChannelId { get; set; }
+    public int ChannelId { get; set; }
 
     public DateTime Date { get; set; }
 
@@ -23,7 +23,7 @@ public partial class Notification
 
     public bool? TargetTelegram { get; set; }
 
-    public virtual Channel? Channel { get; set; }
+    public virtual Channel Channel { get; set; } = null!;
 
     public virtual NotificationType Type { get; set; } = null!;
 

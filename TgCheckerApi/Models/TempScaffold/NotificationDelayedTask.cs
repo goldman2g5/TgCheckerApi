@@ -7,7 +7,7 @@ public partial class NotificationDelayedTask
 {
     public int Id { get; set; }
 
-    public int ChannelId { get; set; }
+    public int? ChannelId { get; set; }
 
     public DateTime Date { get; set; }
 
@@ -21,7 +21,7 @@ public partial class NotificationDelayedTask
 
     public int UserId { get; set; }
 
-    public virtual Channel Channel { get; set; } = null!;
+    public virtual Channel? Channel { get; set; }
 
     public virtual NotificationType Type { get; set; } = null!;
 
