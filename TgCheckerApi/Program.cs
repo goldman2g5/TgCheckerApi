@@ -20,6 +20,8 @@ using Quartz.Spi;
 using TgCheckerApi.Controllers;
 using Serilog;
 using TgCheckerApi.Interfaces;
+using TgCheckerApi.WTelegramStuff;
+using WTelegram;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -132,6 +134,8 @@ builder.Services.AddSingleton<IScheduler>(provider =>
     scheduler.Start().Wait(); // Start the scheduler
     return scheduler;
 });
+
+builder.Services.AddSingleton<TelegramClientService>();
 
 
 builder.Services.AddHttpClient("MyClient", client =>

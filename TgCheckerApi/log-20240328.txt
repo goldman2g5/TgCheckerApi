@@ -1,0 +1,1070 @@
+2024-03-28 15:48:19.598 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 15:48:19.822 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 15:48:19.875 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 15:48:19.875 +03:00 [INF] Quartz Scheduler created
+2024-03-28 15:48:19.876 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 15:48:19.877 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 15:48:19.877 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 15:48:19.878 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 15:48:19.879 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:48:19.931 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:48:20.455 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 15:48:20.456 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 15:48:20.461 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 15:48:20.462 +03:00 [INF] Hosting environment: Development
+2024-03-28 15:48:20.463 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 15:48:20.533 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:48:20.533 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:48:20.553 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T15:48:20.5528817+03:00"
+2024-03-28 15:48:20.561 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T15:48:20.5615949+03:00"
+2024-03-28 15:48:23.110 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 15:48:23.682 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 577.5056ms
+2024-03-28 15:48:23.691 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 15:48:23.709 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 15:48:23.716 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 6.5181ms
+2024-03-28 15:48:23.771 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 80.7231ms
+2024-03-28 15:48:23.828 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 15:48:24.059 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 231.9225ms
+2024-03-28 15:48:24.376 +03:00 [INF] Executed DbCommand (185ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 15:48:24.432 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 15:48:24.465 +03:00 [INF] Executed DbCommand (283ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 15:48:24.689 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T15:48:24.6897579+03:00"
+2024-03-28 15:48:30.716 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:48:30.719 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:48:41.339 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - -
+2024-03-28 15:48:41.349 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 15:48:41.491 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:48:41.535 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 15:49:41.049 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 15:49:41.201 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 15:49:41.238 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 15:49:41.242 +03:00 [INF] Quartz Scheduler created
+2024-03-28 15:49:41.243 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 15:49:41.243 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 15:49:41.244 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 15:49:41.245 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 15:49:41.246 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:49:41.290 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:49:41.377 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 15:49:41.378 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 15:49:41.381 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 15:49:41.382 +03:00 [INF] Hosting environment: Development
+2024-03-28 15:49:41.382 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 15:49:41.449 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:49:41.450 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:49:41.471 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T15:49:41.4681126+03:00"
+2024-03-28 15:49:41.472 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T15:49:41.4722643+03:00"
+2024-03-28 15:49:41.876 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 15:49:42.129 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 255.3257ms
+2024-03-28 15:49:42.141 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 15:49:42.142 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 15:49:42.150 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 8.3788ms
+2024-03-28 15:49:42.163 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 22.4918ms
+2024-03-28 15:49:42.230 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 15:49:42.364 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 133.6609ms
+2024-03-28 15:49:42.961 +03:00 [INF] Executed DbCommand (44ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 15:49:42.961 +03:00 [INF] Executed DbCommand (42ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 15:49:42.995 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 15:49:43.097 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T15:49:43.0971585+03:00"
+2024-03-28 15:49:51.610 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:49:51.615 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:49:55.054 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - -
+2024-03-28 15:49:55.062 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 15:49:55.151 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:49:55.187 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 15:51:21.429 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 15:51:21.575 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 15:51:21.615 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 15:51:21.655 +03:00 [INF] Quartz Scheduler created
+2024-03-28 15:51:21.656 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 15:51:21.657 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 15:51:21.658 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 15:51:21.659 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 15:51:21.661 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:51:21.714 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:51:21.803 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 15:51:21.804 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 15:51:21.807 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 15:51:21.808 +03:00 [INF] Hosting environment: Development
+2024-03-28 15:51:21.809 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 15:51:21.876 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:51:21.877 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:51:21.899 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T15:51:21.8971859+03:00"
+2024-03-28 15:51:21.902 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T15:51:21.9021068+03:00"
+2024-03-28 15:51:22.212 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 15:51:22.473 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 263.8054ms
+2024-03-28 15:51:22.485 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 15:51:22.486 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 15:51:22.492 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 6.3797ms
+2024-03-28 15:51:22.503 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 18.4536ms
+2024-03-28 15:51:22.567 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 15:51:22.683 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 116.4094ms
+2024-03-28 15:51:23.316 +03:00 [INF] Executed DbCommand (47ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 15:51:23.316 +03:00 [INF] Executed DbCommand (45ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 15:51:23.353 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 15:51:23.460 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T15:51:23.4604723+03:00"
+2024-03-28 15:51:32.034 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:51:32.038 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:51:36.073 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - -
+2024-03-28 15:51:36.081 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 15:51:36.172 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:51:36.206 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 15:52:16.848 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 15:52:20.270 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 15:52:20.424 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 15:52:20.463 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 15:52:20.467 +03:00 [INF] Quartz Scheduler created
+2024-03-28 15:52:20.468 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 15:52:20.469 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 15:52:20.470 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 15:52:20.471 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 15:52:20.473 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:52:20.517 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:52:20.608 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 15:52:20.609 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 15:52:20.612 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 15:52:20.613 +03:00 [INF] Hosting environment: Development
+2024-03-28 15:52:20.613 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 15:52:20.678 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:52:20.679 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:52:20.696 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T15:52:20.6956126+03:00"
+2024-03-28 15:52:20.700 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T15:52:20.7000062+03:00"
+2024-03-28 15:52:21.087 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 15:52:21.336 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 251.9260ms
+2024-03-28 15:52:21.348 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 15:52:21.349 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 15:52:21.352 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 4.8532ms
+2024-03-28 15:52:21.368 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 19.8229ms
+2024-03-28 15:52:21.432 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 15:52:21.555 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 123.5231ms
+2024-03-28 15:52:22.070 +03:00 [INF] Executed DbCommand (45ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 15:52:22.070 +03:00 [INF] Executed DbCommand (44ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 15:52:22.104 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 15:52:22.209 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T15:52:22.2092198+03:00"
+2024-03-28 15:52:28.506 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=1748293344 - -
+2024-03-28 15:52:28.518 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 15:52:28.615 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:52:28.651 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 15:52:30.419 +03:00 [ERR] Failed to retrieve channel messages: USERNAME_INVALID
+2024-03-28 15:52:30.434 +03:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2024-03-28 15:52:30.443 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 1784.905ms
+2024-03-28 15:52:30.446 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:52:30.454 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=1748293344 - - - 500 - text/plain;+charset=utf-8 1947.8446ms
+2024-03-28 15:52:30.833 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:52:30.838 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:52:56.175 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 15:52:56.344 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 15:52:56.388 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 15:52:56.392 +03:00 [INF] Quartz Scheduler created
+2024-03-28 15:52:56.393 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 15:52:56.394 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 15:52:56.394 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 15:52:56.395 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 15:52:56.396 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:52:56.439 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:52:56.530 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 15:52:56.531 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 15:52:56.536 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 15:52:56.537 +03:00 [INF] Hosting environment: Development
+2024-03-28 15:52:56.537 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 15:52:56.604 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:52:56.605 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:52:56.624 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T15:52:56.6238749+03:00"
+2024-03-28 15:52:56.628 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T15:52:56.6287126+03:00"
+2024-03-28 15:52:57.413 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 15:52:57.683 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 272.8922ms
+2024-03-28 15:52:57.693 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 15:52:57.695 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 15:52:57.702 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 6.7881ms
+2024-03-28 15:52:57.712 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 18.2878ms
+2024-03-28 15:52:57.780 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 15:52:57.926 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 146.3440ms
+2024-03-28 15:52:58.128 +03:00 [INF] Executed DbCommand (45ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 15:52:58.128 +03:00 [INF] Executed DbCommand (43ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 15:52:58.159 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 15:52:58.261 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T15:52:58.2612102+03:00"
+2024-03-28 15:53:06.722 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:53:06.724 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:53:10.703 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=1748293344 - -
+2024-03-28 15:53:10.708 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 15:53:10.776 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:53:10.798 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 15:53:12.101 +03:00 [ERR] Failed to retrieve channel messages: USERNAME_INVALID
+2024-03-28 15:53:12.108 +03:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2024-03-28 15:53:12.113 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 1309.4382ms
+2024-03-28 15:53:12.115 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:53:12.119 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=1748293344 - - - 500 - text/plain;+charset=utf-8 1416.0818ms
+2024-03-28 15:56:40.899 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 15:56:41.045 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 15:56:41.085 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 15:56:41.090 +03:00 [INF] Quartz Scheduler created
+2024-03-28 15:56:41.091 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 15:56:41.092 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 15:56:41.092 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 15:56:41.093 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 15:56:41.094 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:56:41.139 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:56:41.240 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 15:56:41.241 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 15:56:41.244 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 15:56:41.245 +03:00 [INF] Hosting environment: Development
+2024-03-28 15:56:41.246 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 15:56:41.318 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:56:41.318 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:56:41.336 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T15:56:41.3363883+03:00"
+2024-03-28 15:56:41.342 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T15:56:41.3423292+03:00"
+2024-03-28 15:56:41.500 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 15:56:41.754 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 256.6980ms
+2024-03-28 15:56:41.766 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 15:56:41.769 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 15:56:41.779 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 9.5062ms
+2024-03-28 15:56:41.790 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 24.1792ms
+2024-03-28 15:56:41.853 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 15:56:41.972 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 119.2563ms
+2024-03-28 15:56:42.750 +03:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 15:56:42.750 +03:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 15:56:42.783 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 15:56:42.891 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T15:56:42.8913388+03:00"
+2024-03-28 15:56:51.434 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:56:51.436 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:56:51.789 +03:00 [INF] Received HTTP response headers after 349.2094ms - 200
+2024-03-28 15:56:51.791 +03:00 [INF] End processing HTTP request after 362.4958ms - 200
+2024-03-28 15:56:51.795 +03:00 [INF] Successfully processed all channels via HTTP request at: {DateTime.UtcNow}
+2024-03-28 15:56:53.687 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - -
+2024-03-28 15:56:53.696 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 15:56:53.780 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:56:53.804 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 15:57:21.723 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 15:57:21.876 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 15:57:21.912 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 15:57:21.917 +03:00 [INF] Quartz Scheduler created
+2024-03-28 15:57:21.919 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 15:57:21.920 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 15:57:21.921 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 15:57:21.921 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 15:57:21.923 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:57:21.975 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:57:22.068 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 15:57:22.070 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 15:57:22.074 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 15:57:22.074 +03:00 [INF] Hosting environment: Development
+2024-03-28 15:57:22.075 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 15:57:22.142 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:57:22.143 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:57:22.166 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T15:57:22.1623976+03:00"
+2024-03-28 15:57:22.167 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T15:57:22.1675326+03:00"
+2024-03-28 15:57:22.662 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 15:57:22.923 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 265.3649ms
+2024-03-28 15:57:22.935 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 15:57:22.936 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 15:57:22.943 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 6.6496ms
+2024-03-28 15:57:22.955 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 19.6540ms
+2024-03-28 15:57:23.019 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 15:57:23.148 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 129.1067ms
+2024-03-28 15:57:23.592 +03:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 15:57:23.592 +03:00 [INF] Executed DbCommand (46ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 15:57:23.629 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 15:57:23.741 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T15:57:23.7418718+03:00"
+2024-03-28 15:57:31.514 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - -
+2024-03-28 15:57:31.526 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 15:57:31.633 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:57:31.669 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 15:57:32.303 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:57:32.306 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:57:32.988 +03:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2024-03-28 15:57:32.997 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 1321.0443ms
+2024-03-28 15:57:33.000 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:57:33.006 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - - - 404 - text/plain;+charset=utf-8 1491.9310ms
+2024-03-28 15:58:06.047 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 15:58:06.204 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 15:58:06.248 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 15:58:06.253 +03:00 [INF] Quartz Scheduler created
+2024-03-28 15:58:06.254 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 15:58:06.254 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 15:58:06.255 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 15:58:06.256 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 15:58:06.257 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:58:06.301 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:58:06.387 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 15:58:06.388 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 15:58:06.392 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 15:58:06.393 +03:00 [INF] Hosting environment: Development
+2024-03-28 15:58:06.394 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 15:58:06.466 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:58:06.467 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:58:06.491 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T15:58:06.4875725+03:00"
+2024-03-28 15:58:06.492 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T15:58:06.4920669+03:00"
+2024-03-28 15:58:06.932 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 15:58:07.197 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 268.3987ms
+2024-03-28 15:58:07.209 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 15:58:07.209 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 15:58:07.218 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 8.5180ms
+2024-03-28 15:58:07.230 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 21.3863ms
+2024-03-28 15:58:07.294 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 15:58:07.422 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 127.8115ms
+2024-03-28 15:58:07.932 +03:00 [INF] Executed DbCommand (47ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 15:58:07.932 +03:00 [INF] Executed DbCommand (46ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 15:58:07.968 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 15:58:08.075 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T15:58:08.0753372+03:00"
+2024-03-28 15:58:16.679 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:58:16.684 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:58:19.251 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=12341234 - -
+2024-03-28 15:58:19.262 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 15:58:19.369 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:58:19.407 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 15:58:21.058 +03:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2024-03-28 15:58:21.064 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 1651.0301ms
+2024-03-28 15:58:21.067 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:58:21.071 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=12341234 - - - 404 - text/plain;+charset=utf-8 1819.8245ms
+2024-03-28 15:58:31.351 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=1748293344 - -
+2024-03-28 15:58:31.357 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:58:31.358 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 15:58:32.606 +03:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2024-03-28 15:58:32.608 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 1247.3498ms
+2024-03-28 15:58:32.610 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:58:32.612 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=1748293344 - - - 404 - text/plain;+charset=utf-8 1260.9037ms
+2024-03-28 15:59:14.247 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 15:59:14.395 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 15:59:14.433 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 15:59:14.437 +03:00 [INF] Quartz Scheduler created
+2024-03-28 15:59:14.438 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 15:59:14.438 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 15:59:14.439 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 15:59:14.440 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 15:59:14.441 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:59:14.482 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:59:14.570 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 15:59:14.572 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 15:59:14.576 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 15:59:14.576 +03:00 [INF] Hosting environment: Development
+2024-03-28 15:59:14.577 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 15:59:14.645 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 15:59:14.646 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 15:59:14.665 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T15:59:14.6646486+03:00"
+2024-03-28 15:59:14.669 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T15:59:14.6693081+03:00"
+2024-03-28 15:59:15.081 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 15:59:15.336 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 258.6691ms
+2024-03-28 15:59:15.347 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 15:59:15.349 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 15:59:15.356 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 6.3506ms
+2024-03-28 15:59:15.369 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 22.1181ms
+2024-03-28 15:59:15.430 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 15:59:15.551 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 120.4609ms
+2024-03-28 15:59:16.081 +03:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 15:59:16.081 +03:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 15:59:16.116 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 15:59:16.218 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T15:59:16.2187196+03:00"
+2024-03-28 15:59:22.848 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=134 - -
+2024-03-28 15:59:22.857 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 15:59:22.966 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:59:23.002 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 15:59:24.460 +03:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2024-03-28 15:59:24.465 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 1457.4909ms
+2024-03-28 15:59:24.467 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:59:24.470 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=134 - - - 404 - text/plain;+charset=utf-8 1622.1541ms
+2024-03-28 15:59:24.755 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:59:24.758 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 15:59:39.173 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=1748293344 - -
+2024-03-28 15:59:39.176 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:59:39.178 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 15:59:40.208 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`4[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[TL.Peer, WTelegramClient, Version=3.7.2.0, Culture=neutral, PublicKeyToken=null],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 15:59:40.231 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 1046.772ms
+2024-03-28 15:59:40.232 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 15:59:40.234 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=1748293344 - - - 200 761 application/json;+charset=utf-8 1061.1448ms
+2024-03-28 16:00:08.399 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 16:00:08.560 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 16:00:08.598 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 16:00:08.602 +03:00 [INF] Quartz Scheduler created
+2024-03-28 16:00:08.603 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 16:00:08.604 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 16:00:08.605 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 16:00:08.606 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 16:00:08.607 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:00:08.650 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:00:08.750 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 16:00:08.751 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 16:00:08.754 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 16:00:08.755 +03:00 [INF] Hosting environment: Development
+2024-03-28 16:00:08.756 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 16:00:08.825 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:00:08.826 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:00:08.849 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T16:00:08.8455415+03:00"
+2024-03-28 16:00:08.849 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T16:00:08.8498762+03:00"
+2024-03-28 16:00:09.322 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 16:00:09.579 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 260.0997ms
+2024-03-28 16:00:09.591 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 16:00:09.592 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 16:00:09.598 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 5.8687ms
+2024-03-28 16:00:09.612 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 21.3541ms
+2024-03-28 16:00:09.679 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 16:00:09.797 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 118.6700ms
+2024-03-28 16:00:10.234 +03:00 [INF] Executed DbCommand (47ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 16:00:10.234 +03:00 [INF] Executed DbCommand (45ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 16:00:10.268 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 16:00:10.373 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T16:00:10.3729938+03:00"
+2024-03-28 16:00:16.850 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=1748293344 - -
+2024-03-28 16:00:16.863 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 16:00:16.973 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 16:00:17.009 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:00:18.892 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`5[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[TL.Peer, WTelegramClient, Version=3.7.2.0, Culture=neutral, PublicKeyToken=null],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:00:18.961 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:00:18.965 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:00:18.970 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 1954.257ms
+2024-03-28 16:00:18.977 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 16:00:18.983 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=1748293344 - - - 200 870 application/json;+charset=utf-8 2133.4523ms
+2024-03-28 16:01:59.073 +03:00 [ERR] Error occurred executing UpdateSubscribersJob via HTTP request.
+System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 100 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.IO.IOException: Unable to read data from the transport connection: The I/O operation has been aborted because of either a thread exit or an application request..
+ ---> System.Net.Sockets.SocketException (995): The I/O operation has been aborted because of either a thread exit or an application request.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter adapter, Memory`1 buffer)
+   at System.Net.Http.HttpConnection.InitialFillAsync(Boolean async)
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.HandleFailure(Exception e, Boolean telemetryStarted, HttpResponseMessage response, CancellationTokenSource cts, CancellationToken cancellationToken, CancellationTokenSource pendingRequestsCts)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at TgCheckerApi.Job.UpdateSubscribersJob.Execute(IJobExecutionContext context) in C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\Job\UpdateSubscribersJob.cs:line 49
+2024-03-28 16:44:36.699 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 16:44:36.872 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 16:44:36.914 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 16:44:36.918 +03:00 [INF] Quartz Scheduler created
+2024-03-28 16:44:36.919 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 16:44:36.920 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 16:44:36.920 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 16:44:36.921 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 16:44:36.923 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:44:36.970 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:44:37.075 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 16:44:37.076 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 16:44:37.080 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 16:44:37.081 +03:00 [INF] Hosting environment: Development
+2024-03-28 16:44:37.081 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 16:44:37.148 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:44:37.149 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:44:37.172 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T16:44:37.1706399+03:00"
+2024-03-28 16:44:37.176 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T16:44:37.1759544+03:00"
+2024-03-28 16:44:37.555 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 16:44:37.847 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 295.1455ms
+2024-03-28 16:44:37.859 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 16:44:37.861 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 16:44:37.868 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 7.6165ms
+2024-03-28 16:44:37.894 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 34.9996ms
+2024-03-28 16:44:37.949 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 16:44:38.083 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 133.9876ms
+2024-03-28 16:44:38.607 +03:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 16:44:38.607 +03:00 [INF] Executed DbCommand (21ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 16:44:38.643 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 16:44:38.758 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T16:44:38.7583413+03:00"
+2024-03-28 16:44:47.293 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:44:47.295 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:44:47.644 +03:00 [INF] Received HTTP response headers after 344.7479ms - 200
+2024-03-28 16:44:47.646 +03:00 [INF] End processing HTTP request after 359.6093ms - 200
+2024-03-28 16:44:47.651 +03:00 [INF] Successfully processed all channels via HTTP request at: {DateTime.UtcNow}
+2024-03-28 16:44:54.407 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - -
+2024-03-28 16:44:54.415 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 16:44:54.502 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 16:44:54.530 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:44:56.269 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`5[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[TL.Peer, WTelegramClient, Version=3.7.2.0, Culture=neutral, PublicKeyToken=null],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:44:56.297 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 1761.9456ms
+2024-03-28 16:44:56.302 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 16:44:56.307 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - - - 200 869 application/json;+charset=utf-8 1900.0661ms
+2024-03-28 16:45:05.393 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=1748293344 - -
+2024-03-28 16:45:05.397 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 16:45:05.399 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:45:06.274 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`5[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[TL.Peer, WTelegramClient, Version=3.7.2.0, Culture=neutral, PublicKeyToken=null],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:45:06.276 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 872.1688ms
+2024-03-28 16:45:06.279 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 16:45:06.281 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=1748293344 - - - 200 869 application/json;+charset=utf-8 887.9275ms
+2024-03-28 16:46:03.383 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 16:46:03.528 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 16:46:03.563 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 16:46:03.567 +03:00 [INF] Quartz Scheduler created
+2024-03-28 16:46:03.568 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 16:46:03.569 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 16:46:03.569 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 16:46:03.570 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 16:46:03.571 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:46:03.609 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:46:03.692 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 16:46:03.692 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 16:46:03.696 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 16:46:03.697 +03:00 [INF] Hosting environment: Development
+2024-03-28 16:46:03.698 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 16:46:03.758 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:46:03.758 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:46:03.780 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T16:46:03.7768691+03:00"
+2024-03-28 16:46:03.781 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T16:46:03.7813213+03:00"
+2024-03-28 16:46:04.259 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 16:46:04.506 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 249.7539ms
+2024-03-28 16:46:04.518 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 16:46:04.519 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 16:46:04.526 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 6.4023ms
+2024-03-28 16:46:04.539 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 21.4347ms
+2024-03-28 16:46:04.602 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 16:46:04.727 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 124.6961ms
+2024-03-28 16:46:05.190 +03:00 [INF] Executed DbCommand (46ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 16:46:05.190 +03:00 [INF] Executed DbCommand (47ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 16:46:05.224 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 16:46:05.332 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T16:46:05.3322109+03:00"
+2024-03-28 16:46:13.926 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:46:13.929 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:46:16.644 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - -
+2024-03-28 16:46:16.654 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 16:46:16.763 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 16:46:16.799 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:46:19.192 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`5[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[TL.Peer, WTelegramClient, Version=3.7.2.0, Culture=neutral, PublicKeyToken=null],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:46:19.219 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 2412.9658ms
+2024-03-28 16:46:19.224 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 16:46:19.229 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - - - 200 8699 application/json;+charset=utf-8 2584.7052ms
+2024-03-28 16:46:54.727 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 16:46:54.888 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 16:46:54.927 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 16:46:54.932 +03:00 [INF] Quartz Scheduler created
+2024-03-28 16:46:54.934 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 16:46:54.934 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 16:46:54.935 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 16:46:54.936 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 16:46:54.937 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:46:54.978 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:46:55.062 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 16:46:55.063 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 16:46:55.066 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 16:46:55.067 +03:00 [INF] Hosting environment: Development
+2024-03-28 16:46:55.068 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 16:46:55.137 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:46:55.138 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:46:55.160 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T16:46:55.1571610+03:00"
+2024-03-28 16:46:55.161 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T16:46:55.1612812+03:00"
+2024-03-28 16:46:55.639 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 16:46:55.895 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 259.5452ms
+2024-03-28 16:46:55.908 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 16:46:55.911 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 16:46:55.916 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 5.2610ms
+2024-03-28 16:46:55.928 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 19.5678ms
+2024-03-28 16:46:55.996 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 16:46:56.116 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 119.4129ms
+2024-03-28 16:46:56.574 +03:00 [INF] Executed DbCommand (32ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 16:46:56.574 +03:00 [INF] Executed DbCommand (51ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 16:46:56.612 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 16:46:56.721 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T16:46:56.7210236+03:00"
+2024-03-28 16:47:02.103 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - -
+2024-03-28 16:47:02.112 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 16:47:02.223 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 16:47:02.263 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:47:03.981 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`5[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[TL.Peer, WTelegramClient, Version=3.7.2.0, Culture=neutral, PublicKeyToken=null],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:47:04.136 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 1860.6171ms
+2024-03-28 16:47:04.140 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 16:47:04.147 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - - - 200 8699 application/json;+charset=utf-8 2043.4212ms
+2024-03-28 16:47:05.180 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:47:05.184 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:47:52.440 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 16:47:52.467 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 26.6688ms
+2024-03-28 16:47:52.642 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 16:47:52.642 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 16:47:52.648 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 5.9573ms
+2024-03-28 16:47:52.653 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 10.1772ms
+2024-03-28 16:47:52.729 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 16:47:52.790 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 61.0390ms
+2024-03-28 16:48:51.352 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 16:48:51.499 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 16:48:51.533 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 16:48:51.537 +03:00 [INF] Quartz Scheduler created
+2024-03-28 16:48:51.538 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 16:48:51.539 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 16:48:51.540 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 16:48:51.540 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 16:48:51.541 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:48:51.580 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:48:51.662 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 16:48:51.662 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 16:48:51.666 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 16:48:51.667 +03:00 [INF] Hosting environment: Development
+2024-03-28 16:48:51.667 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 16:48:51.735 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:48:51.735 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:48:51.757 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T16:48:51.7532809+03:00"
+2024-03-28 16:48:51.757 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T16:48:51.7577255+03:00"
+2024-03-28 16:48:52.091 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 16:48:52.345 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 257.0973ms
+2024-03-28 16:48:52.358 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 16:48:52.360 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 16:48:52.367 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 6.8847ms
+2024-03-28 16:48:52.380 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 19.7402ms
+2024-03-28 16:48:52.440 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 16:48:52.562 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 122.1170ms
+2024-03-28 16:48:53.219 +03:00 [INF] Executed DbCommand (47ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 16:48:53.219 +03:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 16:48:53.257 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 16:48:53.372 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T16:48:53.3720528+03:00"
+2024-03-28 16:49:01.857 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:49:01.860 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:49:02.885 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - -
+2024-03-28 16:49:02.891 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 16:49:02.975 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 16:49:02.999 +03:00 [INF] Route matched with {action = "GetLastChannelMessages", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLastChannelMessagesAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:49:04.591 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`5[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[TL.Peer, WTelegramClient, Version=3.7.2.0, Culture=neutral, PublicKeyToken=null],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:49:04.620 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi) in 1615.6504ms
+2024-03-28 16:49:04.623 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetLastChannelMessagesAsync (TgCheckerApi)'
+2024-03-28 16:49:04.628 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessages?channelId=-1001748293344 - - - 200 8699 application/json;+charset=utf-8 1742.3961ms
+2024-03-28 16:50:41.909 +03:00 [ERR] Error occurred executing UpdateSubscribersJob via HTTP request.
+System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 100 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.IO.IOException: Unable to read data from the transport connection: The I/O operation has been aborted because of either a thread exit or an application request..
+ ---> System.Net.Sockets.SocketException (995): The I/O operation has been aborted because of either a thread exit or an application request.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter adapter, Memory`1 buffer)
+   at System.Net.Http.HttpConnection.InitialFillAsync(Boolean async)
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.HandleFailure(Exception e, Boolean telemetryStarted, HttpResponseMessage response, CancellationTokenSource cts, CancellationToken cancellationToken, CancellationTokenSource pendingRequestsCts)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at TgCheckerApi.Job.UpdateSubscribersJob.Execute(IJobExecutionContext context) in C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\Job\UpdateSubscribersJob.cs:line 49
+2024-03-28 16:52:23.140 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 16:52:23.300 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 16:52:23.336 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 16:52:23.340 +03:00 [INF] Quartz Scheduler created
+2024-03-28 16:52:23.341 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 16:52:23.342 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 16:52:23.343 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 16:52:23.343 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 16:52:23.345 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:52:23.386 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:52:23.490 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 16:52:23.491 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 16:52:23.494 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 16:52:23.495 +03:00 [INF] Hosting environment: Development
+2024-03-28 16:52:23.496 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 16:52:23.558 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:52:23.558 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:52:23.581 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T16:52:23.5783083+03:00"
+2024-03-28 16:52:23.581 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T16:52:23.5818391+03:00"
+2024-03-28 16:52:23.864 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 16:52:24.128 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 266.5264ms
+2024-03-28 16:52:24.140 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 16:52:24.141 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 16:52:24.148 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 6.7040ms
+2024-03-28 16:52:24.159 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 18.9691ms
+2024-03-28 16:52:24.229 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 16:52:24.351 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 122.1640ms
+2024-03-28 16:52:25.043 +03:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 16:52:25.043 +03:00 [INF] Executed DbCommand (47ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 16:52:25.079 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 16:52:25.191 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T16:52:25.1915580+03:00"
+2024-03-28 16:52:33.215 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344 - -
+2024-03-28 16:52:33.227 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 16:52:33.336 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:52:33.376 +03:00 [INF] Route matched with {action = "GetMessageCountByMonth", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMessageCountByMonthAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:52:33.729 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:52:33.732 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:52:34.133 +03:00 [INF] Received HTTP response headers after 394.6256ms - 200
+2024-03-28 16:52:34.137 +03:00 [INF] End processing HTTP request after 416.062ms - 200
+2024-03-28 16:52:34.141 +03:00 [INF] Successfully processed all channels via HTTP request at: {DateTime.UtcNow}
+2024-03-28 16:52:35.306 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`3[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:52:35.329 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi) in 1947.6785ms
+2024-03-28 16:52:35.333 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:52:35.339 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344 - - - 200 37 application/json;+charset=utf-8 2123.1908ms
+2024-03-28 16:52:56.856 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 16:53:14.441 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 16:53:14.590 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 16:53:14.627 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 16:53:14.631 +03:00 [INF] Quartz Scheduler created
+2024-03-28 16:53:14.632 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 16:53:14.633 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 16:53:14.634 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 16:53:14.634 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 16:53:14.635 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:53:14.678 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:53:14.763 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 16:53:14.764 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 16:53:14.768 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 16:53:14.768 +03:00 [INF] Hosting environment: Development
+2024-03-28 16:53:14.769 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 16:53:14.833 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:53:14.834 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:53:14.854 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T16:53:14.8522584+03:00"
+2024-03-28 16:53:14.856 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T16:53:14.8563204+03:00"
+2024-03-28 16:53:15.248 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 16:53:15.501 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 255.7033ms
+2024-03-28 16:53:15.516 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 16:53:15.521 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 16:53:15.524 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 3.8702ms
+2024-03-28 16:53:15.544 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 28.3000ms
+2024-03-28 16:53:15.603 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 16:53:15.722 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 118.7038ms
+2024-03-28 16:53:16.306 +03:00 [INF] Executed DbCommand (54ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 16:53:16.306 +03:00 [INF] Executed DbCommand (51ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 16:53:16.347 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 16:53:16.465 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T16:53:16.4657841+03:00"
+2024-03-28 16:53:24.988 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:53:24.992 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:53:26.082 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=1000 - -
+2024-03-28 16:53:26.100 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 16:53:26.208 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:53:26.244 +03:00 [INF] Route matched with {action = "GetMessageCountByMonth", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMessageCountByMonthAsync(Int64, Int32) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:53:27.934 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`3[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:53:27.970 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi) in 1719.0181ms
+2024-03-28 16:53:27.974 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:53:27.979 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=1000 - - - 200 37 application/json;+charset=utf-8 1896.9823ms
+2024-03-28 16:53:34.850 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=50 - -
+2024-03-28 16:53:34.855 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:53:34.857 +03:00 [INF] Route matched with {action = "GetMessageCountByMonth", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMessageCountByMonthAsync(Int64, Int32) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:53:35.766 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`3[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:53:35.767 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi) in 908.9466ms
+2024-03-28 16:53:35.769 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:53:35.770 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=50 - - - 200 36 application/json;+charset=utf-8 919.9567ms
+2024-03-28 16:54:16.322 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 16:54:18.575 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 16:54:18.764 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 16:54:18.816 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 16:54:18.817 +03:00 [INF] Quartz Scheduler created
+2024-03-28 16:54:18.819 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 16:54:18.822 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 16:54:18.823 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 16:54:18.824 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 16:54:18.826 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:54:18.878 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:54:18.978 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 16:54:18.979 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 16:54:18.983 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 16:54:18.984 +03:00 [INF] Hosting environment: Development
+2024-03-28 16:54:18.985 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 16:54:19.053 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:54:19.054 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:54:19.078 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T16:54:19.0741016+03:00"
+2024-03-28 16:54:19.078 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T16:54:19.0786030+03:00"
+2024-03-28 16:54:19.593 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 16:54:19.854 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 264.2641ms
+2024-03-28 16:54:19.866 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 16:54:19.866 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 16:54:19.872 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 5.6910ms
+2024-03-28 16:54:19.889 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 23.0322ms
+2024-03-28 16:54:19.950 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 16:54:20.077 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 127.6401ms
+2024-03-28 16:54:20.532 +03:00 [INF] Executed DbCommand (54ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 16:54:20.532 +03:00 [INF] Executed DbCommand (51ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 16:54:20.571 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 16:54:20.681 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T16:54:20.6816700+03:00"
+2024-03-28 16:54:29.225 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:54:29.229 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:54:29.231 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=500 - -
+2024-03-28 16:54:29.240 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 16:54:29.357 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:54:29.400 +03:00 [INF] Route matched with {action = "GetMessageCountByMonth", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMessageCountByMonthAsync(Int64, Int32) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:54:31.009 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`3[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:54:31.047 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi) in 1639.0169ms
+2024-03-28 16:54:31.052 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:54:31.058 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=500 - - - 200 37 application/json;+charset=utf-8 1826.9335ms
+2024-03-28 16:54:47.016 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=500 - -
+2024-03-28 16:54:47.019 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:54:47.021 +03:00 [INF] Route matched with {action = "GetMessageCountByMonth", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMessageCountByMonthAsync(Int64, Int32) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:54:48.224 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`3[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:54:48.228 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi) in 1206.072ms
+2024-03-28 16:54:48.229 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:54:48.230 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=500 - - - 200 37 application/json;+charset=utf-8 1214.6385ms
+2024-03-28 16:56:33.462 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 16:56:33.616 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 16:56:33.655 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 16:56:33.658 +03:00 [INF] Quartz Scheduler created
+2024-03-28 16:56:33.659 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 16:56:33.660 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 16:56:33.660 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 16:56:33.661 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 16:56:33.662 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:56:33.703 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:56:33.796 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 16:56:33.797 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 16:56:33.800 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 16:56:33.801 +03:00 [INF] Hosting environment: Development
+2024-03-28 16:56:33.801 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 16:56:33.874 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:56:33.887 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:56:33.909 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T16:56:33.9085748+03:00"
+2024-03-28 16:56:33.913 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T16:56:33.9131029+03:00"
+2024-03-28 16:56:34.188 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 16:56:34.443 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 258.1664ms
+2024-03-28 16:56:34.455 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 16:56:34.457 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 16:56:34.467 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 10.1826ms
+2024-03-28 16:56:34.478 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 23.1779ms
+2024-03-28 16:56:34.563 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 16:56:34.677 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 113.8194ms
+2024-03-28 16:56:35.357 +03:00 [INF] Executed DbCommand (45ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 16:56:35.357 +03:00 [INF] Executed DbCommand (47ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 16:56:35.393 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 16:56:35.502 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T16:56:35.5029474+03:00"
+2024-03-28 16:56:44.056 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:56:44.059 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:56:45.920 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=5 - -
+2024-03-28 16:56:45.929 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 16:56:46.044 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:56:46.082 +03:00 [INF] Route matched with {action = "GetMessageCountByMonth", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMessageCountByMonthAsync(Int64, Int32) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:56:47.639 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`3[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:56:47.662 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi) in 1573.7819ms
+2024-03-28 16:56:47.665 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:56:47.671 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=5 - - - 200 35 application/json;+charset=utf-8 1751.7416ms
+2024-03-28 16:56:54.866 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=500 - -
+2024-03-28 16:56:54.870 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:56:54.872 +03:00 [INF] Route matched with {action = "GetMessageCountByMonth", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMessageCountByMonthAsync(Int64, Int32) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:56:56.739 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`3[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:56:56.742 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi) in 1865.5274ms
+2024-03-28 16:56:56.744 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:56:56.755 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=500 - - - 200 37 application/json;+charset=utf-8 1889.3543ms
+2024-03-28 16:57:42.160 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 16:57:42.324 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 16:57:42.361 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 16:57:42.365 +03:00 [INF] Quartz Scheduler created
+2024-03-28 16:57:42.365 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 16:57:42.366 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 16:57:42.367 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 16:57:42.368 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 16:57:42.370 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:57:42.413 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:57:42.506 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 16:57:42.509 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 16:57:42.514 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 16:57:42.515 +03:00 [INF] Hosting environment: Development
+2024-03-28 16:57:42.516 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 16:57:42.589 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 16:57:42.590 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 16:57:42.614 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T16:57:42.6096865+03:00"
+2024-03-28 16:57:42.614 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T16:57:42.6148455+03:00"
+2024-03-28 16:57:42.671 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 16:57:42.925 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 261.6480ms
+2024-03-28 16:57:42.933 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 16:57:42.934 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 16:57:42.945 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 10.4929ms
+2024-03-28 16:57:42.956 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 22.7291ms
+2024-03-28 16:57:43.012 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 16:57:43.130 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 118.2423ms
+2024-03-28 16:57:44.025 +03:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 16:57:44.025 +03:00 [INF] Executed DbCommand (46ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 16:57:44.062 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 16:57:44.165 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T16:57:44.1656591+03:00"
+2024-03-28 16:57:51.628 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=101 - -
+2024-03-28 16:57:51.635 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 16:57:51.711 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:57:51.733 +03:00 [INF] Route matched with {action = "GetMessageCountByMonth", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMessageCountByMonthAsync(Int64, Int32) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:57:52.704 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:57:52.707 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 16:57:53.778 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`3[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:57:53.799 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi) in 2060.4529ms
+2024-03-28 16:57:53.802 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:57:53.806 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=101 - - - 200 37 application/json;+charset=utf-8 2177.7622ms
+2024-03-28 16:57:56.419 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=70 - -
+2024-03-28 16:57:56.423 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:57:56.425 +03:00 [INF] Route matched with {action = "GetMessageCountByMonth", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMessageCountByMonthAsync(Int64, Int32) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 16:57:57.518 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`3[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 16:57:57.519 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi) in 1092.8629ms
+2024-03-28 16:57:57.520 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByMonthAsync (TgCheckerApi)'
+2024-03-28 16:57:57.521 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByMonth?channelId=-1001748293344&_limit=70 - - - 200 36 application/json;+charset=utf-8 1102.1263ms
+2024-03-28 17:04:14.407 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 17:04:14.579 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 17:04:14.622 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 17:04:14.626 +03:00 [INF] Quartz Scheduler created
+2024-03-28 17:04:14.627 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 17:04:14.628 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 17:04:14.629 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 17:04:14.630 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 17:04:14.631 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 17:04:14.676 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 17:04:14.775 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 17:04:14.776 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 17:04:14.779 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 17:04:14.780 +03:00 [INF] Hosting environment: Development
+2024-03-28 17:04:14.781 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 17:04:14.849 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 17:04:14.850 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 17:04:14.872 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T17:04:14.8683901+03:00"
+2024-03-28 17:04:14.873 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T17:04:14.8729848+03:00"
+2024-03-28 17:04:15.453 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 17:04:15.723 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 273.2518ms
+2024-03-28 17:04:15.731 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 17:04:15.732 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 17:04:15.738 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 5.3164ms
+2024-03-28 17:04:15.751 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 20.7136ms
+2024-03-28 17:04:15.830 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 17:04:15.990 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 159.6002ms
+2024-03-28 17:04:16.344 +03:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 17:04:16.344 +03:00 [INF] Executed DbCommand (45ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 17:04:16.380 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 17:04:16.483 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T17:04:16.4834405+03:00"
+2024-03-28 17:06:25.108 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-03-28 17:06:25.256 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-03-28 17:06:25.335 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-03-28 17:06:25.339 +03:00 [INF] Quartz Scheduler created
+2024-03-28 17:06:25.340 +03:00 [INF] RAMJobStore initialized.
+2024-03-28 17:06:25.341 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-03-28 17:06:25.341 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-03-28 17:06:25.342 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-03-28 17:06:25.343 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 17:06:25.388 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 17:06:25.479 +03:00 [INF] Now listening on: http://localhost:7256
+2024-03-28 17:06:25.479 +03:00 [INF] Now listening on: http://localhost:5244
+2024-03-28 17:06:25.483 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-28 17:06:25.484 +03:00 [INF] Hosting environment: Development
+2024-03-28 17:06:25.484 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-03-28 17:06:25.558 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-03-28 17:06:25.559 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-03-28 17:06:25.582 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-03-28T17:06:25.5789985+03:00"
+2024-03-28 17:06:25.583 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T17:06:25.5834989+03:00"
+2024-03-28 17:06:25.707 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-03-28 17:06:25.960 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 255.5288ms
+2024-03-28 17:06:25.975 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-03-28 17:06:25.982 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-03-28 17:06:25.984 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 10.4855ms
+2024-03-28 17:06:25.995 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 12.6882ms
+2024-03-28 17:06:26.023 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-03-28 17:06:26.146 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 122.4877ms
+2024-03-28 17:06:27.029 +03:00 [INF] Executed DbCommand (47ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-03-28 17:06:27.029 +03:00 [INF] Executed DbCommand (49ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 17:06:27.062 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-03-28 17:06:27.166 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T17:06:27.1659870+03:00"
+2024-03-28 17:06:35.369 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByYear?channelId=-1001748293344 - -
+2024-03-28 17:06:35.382 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-03-28 17:06:35.484 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByYearAsync (TgCheckerApi)'
+2024-03-28 17:06:35.520 +03:00 [INF] Route matched with {action = "GetMessageCountByYear", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMessageCountByYearAsync(Int64) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-03-28 17:06:35.725 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 17:06:35.730 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-03-28 17:06:36.235 +03:00 [INF] Received HTTP response headers after 498.7477ms - 200
+2024-03-28 17:06:36.238 +03:00 [INF] End processing HTTP request after 520.6075ms - 200
+2024-03-28 17:06:36.242 +03:00 [INF] Successfully processed all channels via HTTP request at: {DateTime.UtcNow}
+2024-03-28 17:06:44.969 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`3[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-03-28 17:06:44.992 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetMessageCountByYearAsync (TgCheckerApi) in 9465.8011ms
+2024-03-28 17:06:45.006 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetMessageCountByYearAsync (TgCheckerApi)'
+2024-03-28 17:06:45.010 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Telegram/GetMessagesByYear?channelId=-1001748293344 - - - 200 145 application/json;+charset=utf-8 9641.5356ms
+2024-03-28 20:16:00.021 +03:00 [INF] RecalculateTopPosJob started at "2024-03-28T20:16:00.0217861+03:00"
+2024-03-28 20:16:00.417 +03:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-03-28 20:16:00.437 +03:00 [INF] RecalculateTopPosJob completed at "2024-03-28T20:16:00.4370799+03:00"
