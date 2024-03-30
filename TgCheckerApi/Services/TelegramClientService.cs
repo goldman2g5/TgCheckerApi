@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TgCheckerApi.Models;
 using TgCheckerApi.Utility;
 using TL;
+using System.Text.RegularExpressions;
 
 namespace TgCheckerApi.Services
 {
@@ -105,104 +106,130 @@ namespace TgCheckerApi.Services
             using var dbContext = _dbContextFactory.CreateDbContext();
 
             var pyrogramChannelId = TelegramIdConverter.FromWTelegramClientToPyrogram(telegramChannelId);
+            var oguzok = await GetClient();
+            await TryJoinChannel(oguzok, pyrogramChannelId, dbContext);
+            return null;
 
-            var dbchannel = await dbContext.Channels
-                .Where(c => c.TelegramId == pyrogramChannelId)
-                .FirstOrDefaultAsync();
+            //var dbchannel = await dbContext.Channels
+            //    .Where(c => c.TelegramId == pyrogramChannelId)
+            //    .FirstOrDefaultAsync();
 
-            if (dbchannel == null) return null;
-            
-            var clientWrapper = Clients.FirstOrDefault(c => c.DatabaseId == dbchannel.TgclientId);
-            if (clientWrapper == null)
-            {
-                try
-                {
-                    var clientsDbIds = Clients.Select(x => x.DatabaseId).ToList();
-                    if (!clientsDbIds.Any())
-                    {
-                        Console.WriteLine("No clients available to join the channel.");
-                        return null; // Or handle this case as needed
-                    }
+            //if (dbchannel == null) return null;
 
-                    var clientsFromDb = await dbContext.TgClients
-                        .Where(x => clientsDbIds.Contains(x.Id))
-                        .OrderBy(c => c.ChannelCount)
-                        .ToListAsync();
+            //var clientWrapper = Clients.FirstOrDefault(c => c.DatabaseId == dbchannel.TgclientId);
+            //if (clientWrapper == null)
+            //{
+            //    try
+            //    {
+            //        var clientsDbIds = Clients.Select(x => x.DatabaseId).ToList();
+            //        if (!clientsDbIds.Any())
+            //        {
+            //            Console.WriteLine("No clients available to join the channel.");
+            //            return null; // Or handle this case as needed
+            //        }
 
-                    if (!clientsFromDb.Any())
-                    {
-                        Console.WriteLine("No matching clients found in database.");
-                        return null; // Or handle this case as needed
-                    }
+            //        var clientsFromDb = await dbContext.TgClients
+            //            .Where(x => clientsDbIds.Contains(x.Id))
+            //            .OrderBy(c => c.ChannelCount)
+            //            .ToListAsync();
 
-                    var lowestChannelCountClient = clientsFromDb.First();
-                    var matchingClientWrapper = Clients.FirstOrDefault(x => x.DatabaseId == lowestChannelCountClient.Id);
+            //        if (!clientsFromDb.Any())
+            //        {
+            //            Console.WriteLine("No matching clients found in database.");
+            //            return null; // Or handle this case as needed
+            //        }
 
-                    if (matchingClientWrapper == null)
-                    {
-                        Console.WriteLine($"No client wrapper found for the lowest channel count client with ID: {lowestChannelCountClient.Id}");
-                        return null; // Or handle accordingly
-                    }
+            //        var lowestChannelCountClient = clientsFromDb.First();
+            //        var matchingClientWrapper = Clients.FirstOrDefault(x => x.DatabaseId == lowestChannelCountClient.Id);
 
-                    var client = matchingClientWrapper.Client;
-                    // Assuming Messages_GetAllChats does not throw exceptions on failure but you might want to wrap it in try-catch if it does
-                    var chatsResult = await client.Messages_GetAllChats();
-                    var channels = chatsResult.chats.Values.Where(x => x.IsChannel);
-                    Console.WriteLine(channels.Count());
+            //        if (matchingClientWrapper == null)
+            //        {
+            //            Console.WriteLine($"No client wrapper found for the lowest channel count client with ID: {lowestChannelCountClient.Id}");
+            //            return null; // Or handle accordingly
+            //        }
 
-                    Console.WriteLine("This user has joined the following:");
-                    foreach (var channel in channels)
-                    {
-                        Console.WriteLine($"{channel.ID}: {channel.Title}");
-                    }
+            //        var client = matchingClientWrapper.Client;
+            //        Assuming Messages_GetAllChats does not throw exceptions on failure but you might want to wrap it in try-catch if it does
+            //       var chatsResult = await client.Messages_GetAllChats();
+            //        var channels = chatsResult.chats.Values.Where(x => x.IsChannel);
+            //        Console.WriteLine(channels.Count());
 
-                    var wClientChannelId = TelegramIdConverter.FromPyrogramToWTelegramClient(telegramChannelId);
-                    Console.WriteLine(wClientChannelId);
-                    // Attempt to find and join the channel
-                    foreach (var chatBase in chatsResult.chats.Values)
-                    {
-                        // Check if the chat is actually a channel
-                        if (chatBase is TL.Channel channel && channel.ID == wClientChannelId)
-                        {
-                            Console.WriteLine($"Found channel to join: {channel.Title} (ID: {channel.ID})");
-                            
-                            await TryJoinChannel(client, channel);
+            //        Console.WriteLine("This user has joined the following:");
+            //        foreach (var channel in channels)
+            //        {
+            //            Console.WriteLine($"{channel.ID}: {channel.Title}");
+            //        }
 
-                            lowestChannelCountClient.ChannelCount += 1;
-                            dbContext.Update(lowestChannelCountClient);
-                            // After joining, update the ChannelCount for the client in both the database and local list
-                            await dbContext.SaveChangesAsync();
+            //        var wClientChannelId = TelegramIdConverter.FromPyrogramToWTelegramClient(telegramChannelId);
+            //        Console.WriteLine(wClientChannelId);
+            //        Attempt to find and join the channel
+            //        foreach (var chatBase in chatsResult.chats.Values)
+            //        {
+            //            Check if the chat is actually a channel
+            //            if (chatBase is TL.Channel channel && channel.ID == wClientChannelId)
+            //            {
+            //                Console.WriteLine($"Found channel to join: {channel.Title} (ID: {channel.ID})");
 
-                            return client; // Return the client after successfully joining the channel
-                        }
-                    }
+            //                await TryJoinChannel(client, pyrogramChannelId);
 
-                    Console.WriteLine("Channel to join not found or not a TL.Channel type.");
-                    return null; // Handle case where no suitable channel was found
+            //                lowestChannelCountClient.ChannelCount += 1;
+            //                dbContext.Update(lowestChannelCountClient);
+            //                After joining, update the ChannelCount for the client in both the database and local list
 
-                    //matchingClientWrapper.ChannelsCount = lowestChannelCountClient.ChannelCount; // Keep local state in sync
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"An error occurred while trying to join a channel: {ex.Message}");
-                    // Consider logging the stack trace or additional details in a dedicated logging system
-                    return null;
-                }
+            //               await dbContext.SaveChangesAsync();
+
+            //                return client; // Return the client after successfully joining the channel
+            //            }
+            //        }
+
+            //        Console.WriteLine("Channel to join not found or not a TL.Channel type.");
+            //        return null; // Handle case where no suitable channel was found
+
+            //        matchingClientWrapper.ChannelsCount = lowestChannelCountClient.ChannelCount; // Keep local state in sync
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            Console.WriteLine($"An error occurred while trying to join a channel: {ex.Message}");
+            //            Consider logging the stack trace or additional details in a dedicated logging system
+            //            return null;
+            //        }
+            //    }
+            //return clientWrapper?.Client;
             }
-            return clientWrapper?.Client;
-        }
 
         // Auxiliary method assuming existence, implement with appropriate exception handling and logging
-        private async Task TryJoinChannel(Client client, TL.Channel channelToJoin)
+
+        public static string RemoveTMeUrl(string input)
         {
+            // Define the pattern to match the URL
+            string pattern = @"https?:\/\/t\.me\/";
+
+            // Replace the matched pattern with an empty string
+            string result = Regex.Replace(input, pattern, string.Empty);
+
+            return result;
+        }
+
+        private async Task TryJoinChannel(Client client, long id, TgDbContext context)
+        {
+            Console.WriteLine("JAAAAA KURVA JA HUESOS");
             try
             {
-                await client.Channels_JoinChannel(channelToJoin);
-                Console.WriteLine($"Successfully joined channel: {channelToJoin.Title}");
+                
+                
+                var channel = await context.Channels.FirstOrDefaultAsync(x => x.TelegramId == id);
+                id = TelegramIdConverter.FromPyrogramToWTelegramClient(id);
+                var nosobackanazvanie = RemoveTMeUrl(channel.Url);
+                //InputPeer apple = new InputPeer() {id=id };
+                var popa = await client.Contacts_ResolveUsername(nosobackanazvanie);
+                Console.WriteLine(popa.Channel.Title);
+                var iosifstalin = new InputChannel(id, popa.Channel.access_hash);
+                await client.Channels_JoinChannel(iosifstalin);
+                Console.WriteLine($"Successfully joined channel: {id}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to join channel {channelToJoin.Title}: {ex.Message}");
+                Console.WriteLine($"Failed to join channel {id}: {ex.Message}");
                 // Handle or log the exception as needed
             }
         }
