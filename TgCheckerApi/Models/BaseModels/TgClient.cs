@@ -13,5 +13,7 @@ public partial class TgClient
 
     public string? PhoneNumber { get; set; }
 
+    public int? ChannelCount { get; set; }
+
     public virtual ICollection<Channel> Channels { get; set; } = new List<Channel>();
 }

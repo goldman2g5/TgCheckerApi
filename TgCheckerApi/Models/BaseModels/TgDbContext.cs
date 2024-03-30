@@ -594,6 +594,7 @@ public partial class TgDbContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.ApiHash).HasColumnName("api_hash");
             entity.Property(e => e.ApiId).HasColumnName("api_id");
+            entity.Property(e => e.ChannelCount).HasColumnName("channel_count");
             entity.Property(e => e.PhoneNumber).HasColumnName("phone_number");
         });
 

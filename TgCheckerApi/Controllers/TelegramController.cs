@@ -31,7 +31,7 @@ namespace TgCheckerApi.Controllers
         [HttpGet("SendMessage")]
         public async Task<IActionResult> SendMessageAsync()
         {
-            var _client = await _tgclientService.GetClientByDatabaseId(80);
+            var _client = await _tgclientService.GetClient();
             var chats = await _client.Messages_GetAllChats();
             Console.WriteLine("This user has joined the following:");
             foreach (var (id, chat) in chats.chats)
@@ -91,6 +91,10 @@ namespace TgCheckerApi.Controllers
             try
             {
                 var _client = await _tgclientService.GetClientByTelegramId(channelId);
+                if (_client == null)
+                {
+                    return NotFound("No active client found for that channel");
+                }
                 // Resolve the channel username to get its ID and access hash
                 var channelInfo = await GetChannelAccessHash(channelId);
                 if (!channelInfo.HasValue)
