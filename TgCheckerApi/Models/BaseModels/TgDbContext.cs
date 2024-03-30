@@ -122,7 +122,12 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.PromoPostSent).HasColumnName("promo_post_sent");
             entity.Property(e => e.PromoPostTime).HasColumnName("promo_post_time");
             entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
+            entity.Property(e => e.TgclientId).HasColumnName("tgclient_id");
             entity.Property(e => e.User).HasColumnName("user");
+
+            entity.HasOne(d => d.Tgclient).WithMany(p => p.Channels)
+                .HasForeignKey(d => d.TgclientId)
+                .HasConstraintName("Channel_tgclient_id_fkey");
 
             entity.HasOne(d => d.UserNavigation).WithMany(p => p.Channels)
                 .HasForeignKey(d => d.User)

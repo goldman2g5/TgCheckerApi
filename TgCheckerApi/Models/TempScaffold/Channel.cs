@@ -49,6 +49,8 @@ public partial class Channel
 
     public bool? IsPartner { get; set; }
 
+    public int? TgclientId { get; set; }
+
     public virtual ICollection<ChannelAccess> ChannelAccesses { get; set; } = new List<ChannelAccess>();
 
     public virtual ICollection<ChannelHasSubscription> ChannelHasSubscriptions { get; set; } = new List<ChannelHasSubscription>();
@@ -68,6 +70,8 @@ public partial class Channel
     public virtual ICollection<StatisticsSheet> StatisticsSheets { get; set; } = new List<StatisticsSheet>();
 
     public virtual ICollection<TelegramPayment> TelegramPayments { get; set; } = new List<TelegramPayment>();
+
+    public virtual TgClient? Tgclient { get; set; }
 
     public virtual User? UserNavigation { get; set; }
 }

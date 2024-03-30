@@ -12,4 +12,6 @@ public partial class TgClient
     public string? ApiHash { get; set; }
 
     public string? PhoneNumber { get; set; }
+
+    public virtual ICollection<Channel> Channels { get; set; } = new List<Channel>();
 }

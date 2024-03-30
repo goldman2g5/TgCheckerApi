@@ -31,7 +31,8 @@ namespace TgCheckerApi.Services
                         _ => null,
                     };
                 },
-                PhoneNumber = tgClient.PhoneNumber
+                PhoneNumber = tgClient.PhoneNumber,
+                DatabaseId = tgClient.Id
             });
 
             return clientConfigs;

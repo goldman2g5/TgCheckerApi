@@ -6,6 +6,7 @@ using TgCheckerApi.Models.BaseModels;
 using WTelegram;
 using TL;
 using System.Linq;
+using TgCheckerApi.Utility;
 
 namespace TgCheckerApi.Controllers
 {
@@ -15,8 +16,8 @@ namespace TgCheckerApi.Controllers
     {
         private readonly TgDbContext _context;
         private readonly ILogger<TelegramController> _logger;
-        private readonly Client _client;
         private readonly IWebHostEnvironment _env;
+        private readonly TelegramClientService _tgclientService;
 
 
         public TelegramController(TgDbContext context, ILogger<TelegramController> logger, IWebHostEnvironment env, TelegramClientService telegramClientService)
@@ -24,12 +25,13 @@ namespace TgCheckerApi.Controllers
             _context = context;
             _logger = logger;
             _env = env;
-            _client = telegramClientService.GetClient();
+            _tgclientService = telegramClientService;
         }
 
         [HttpGet("SendMessage")]
         public async Task<IActionResult> SendMessageAsync()
         {
+            var _client = await _tgclientService.GetClientByDatabaseId(80);
             var chats = await _client.Messages_GetAllChats();
             Console.WriteLine("This user has joined the following:");
             foreach (var (id, chat) in chats.chats)
@@ -43,8 +45,9 @@ namespace TgCheckerApi.Controllers
             try
             {
                 // Attempt to get all chats
-                channelId = FromPyrogramToWTelegramClient(channelId);
+                channelId = TelegramIdConverter.FromPyrogramToWTelegramClient(channelId);
                 Console.WriteLine("Attempting to get all chats...");
+                var _client = await _tgclientService.GetClientByTelegramId(channelId);
                 Messages_Chats result = await _client.Messages_GetAllChats();
                 Dictionary<long, ChatBase> chats = result.chats;
                 foreach (var (id, chat) in chats)
@@ -82,57 +85,12 @@ namespace TgCheckerApi.Controllers
             return null;
         }
 
-        public static long FromWTelegramClientToPyrogram(long wTelegramChannelId)
-        {
-            // Pyrogram format requires the ID to be negative with the "-100" prefix
-            if (wTelegramChannelId > 0)
-            {
-                // Construct the Pyrogram ID by adding the "-100" prefix numerically
-                string prefixedIdStr = "-100" + wTelegramChannelId.ToString();
-                if (long.TryParse(prefixedIdStr, out long pyrogramId))
-                {
-                    return pyrogramId;
-                }
-                else
-                {
-                    throw new ArgumentException("Failed to convert to Pyrogram format.", nameof(wTelegramChannelId));
-                }
-            }
-            else
-            {
-                // It's already in Pyrogram format or doesn't require conversion
-                return wTelegramChannelId;
-            }
-        }
-
-        public static long FromPyrogramToWTelegramClient(long pyrogramChannelId)
-        {
-            string channelIdStr = pyrogramChannelId.ToString();
-            // Check if the ID is in Pyrogram format (negative and starts with "-100")
-            if (channelIdStr.StartsWith("-100"))
-            {
-                // Remove the "-100" prefix and convert back to long
-                if (long.TryParse(channelIdStr.Substring(4), out long numericId))
-                {
-                    return numericId;
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid Pyrogram channel ID format.", nameof(pyrogramChannelId));
-                }
-            }
-            else
-            {
-                // It's already in WTelegramClient format or doesn't require conversion
-                return pyrogramChannelId;
-            }
-        }
-
         [HttpGet("GetMessagesByYear")]
         public async Task<IActionResult> GetMessageCountByYearAsync(long channelId)
         {
             try
             {
+                var _client = await _tgclientService.GetClientByTelegramId(channelId);
                 // Resolve the channel username to get its ID and access hash
                 var channelInfo = await GetChannelAccessHash(channelId);
                 if (!channelInfo.HasValue)
