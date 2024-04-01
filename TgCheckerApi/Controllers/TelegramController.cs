@@ -40,51 +40,6 @@ namespace TgCheckerApi.Controllers
             return Ok();
         }
 
-        private async Task<(long channelId, long accessHash)?> GetChannelAccessHash(long channelId)
-        {
-            try
-            {
-                // Attempt to get all chats
-                channelId = TelegramIdConverter.FromPyrogramToWTelegramClient(channelId);
-                Console.WriteLine("Attempting to get all chats...");
-                var _client = await _tgclientService.GetClientByTelegramId(channelId);
-                Messages_Chats result = await _client.Messages_GetAllChats();
-                Dictionary<long, ChatBase> chats = result.chats;
-                foreach (var (id, chat) in chats)
-                    if (chat.IsActive)
-                        Console.WriteLine($"{id,10}: {chat}");
-
-                // Try to find the channel in the list of chats
-                Console.WriteLine($"Looking for channel with ID: {channelId}");
-                if (chats.TryGetValue(channelId, out ChatBase channel))
-                {
-                    // If the channel is found, resolve its username
-                    Console.WriteLine($"Channel found. Resolving username: {channel.MainUsername}");
-                    Contacts_ResolvedPeer peer = await _client.Contacts_ResolveUsername(channel.MainUsername);
-
-                    if (peer.Channel != null)
-                    {
-                        Console.WriteLine("Channel resolved successfully.");
-                        return (peer.Channel.ID, peer.Channel.access_hash);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Resolved peer does not contain a channel.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Channel not found in chats.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-            }
-
-            return null;
-        }
-
         [HttpGet("GetMessagesByYear")]
         public async Task<IActionResult> GetMessageCountByYearAsync(long channelId)
         {
