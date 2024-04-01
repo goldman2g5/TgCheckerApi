@@ -160,7 +160,7 @@ namespace TgCheckerApi.Services
 
                 // After joining, increment the channel count
                 lowestChannelCountClient.ChannelCount++;
-                dbContext.Update(lowestChannelCountClient);
+                dbContext.UpdateRange(lowestChannelCountClient, dbChannel);
                 await dbContext.SaveChangesAsync();
 
                 // Synchronize the local state
