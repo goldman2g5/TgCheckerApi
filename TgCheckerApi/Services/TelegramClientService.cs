@@ -5,6 +5,7 @@ using TgCheckerApi.Models;
 using TgCheckerApi.Utility;
 using TL;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace TgCheckerApi.Services
 {
@@ -23,6 +24,7 @@ namespace TgCheckerApi.Services
         public async Task InitializeAsync()
         {
             var clientConfigs = await _tgClientFactory.FetchClientConfigsAsync();
+            var httpClient = new HttpClient { BaseAddress = new Uri("http://127.0.0.1:8000/") };
 
             foreach (var clientConfig in clientConfigs)
             {
@@ -34,14 +36,55 @@ namespace TgCheckerApi.Services
                     switch (await client.Login(loginInfo))
                     {
                         case "verification_code":
-                            Console.Write("Code: "); loginInfo = Console.ReadLine(); break;
-                        default: loginInfo = null; break;
+                            // Trigger the bot to ask for the verification code via FastAPI
+                            var userId = clientConfig.TelegramId;
+                            await httpClient.PostAsync($"/trigger_verification/{userId}", new StringContent(""));
+                           
+
+                            // Wait for the verification code to be sent by the user
+                            HttpResponseMessage response;
+                            string verificationCode = null;
+                            do
+                            {
+                                try {
+                                    await Task.Delay(5000); // Check every 5 seconds
+                                    response = await httpClient.GetAsync($"/get_verification_code/{userId}");
+                                    Console.WriteLine(userId);
+                                    Console.WriteLine(response.StatusCode);
+                                    if (response.IsSuccessStatusCode)
+                                    {
+                                        var content = await response.Content.ReadAsStringAsync();
+                                        var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(content);
+                                        verificationCode = data?["verification_code"];
+                                        Console.WriteLine(verificationCode);
+                                    }
+                                }
+                                catch(Exception ex)
+                                {
+                                    Console.WriteLine($"Exception whili logging in {ex.Message}");
+                                };
+                                
+                                
+                            } while (verificationCode == null);
+
+                            if (verificationCode != null)
+                            {
+                                loginInfo = verificationCode;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Failed to get verification code.");
+                                return; // Handle the failure appropriately
+                            }
+                            break;
+                        default:
+                            loginInfo = null; break;
                     }
                 }
                 Console.WriteLine($"We are logged-in as {client.User} (id {client.User.id})");
 
                 // Store the client with its database ID
-                Clients.Add(new TelegramClientWrapper(client, clientConfig.DatabaseId));
+                Clients.Add(new TelegramClientWrapper(client, clientConfig.DatabaseId, clientConfig.TelegramId));
             }
 
             await SyncClientsToChannelsAsync();
@@ -206,11 +249,10 @@ namespace TgCheckerApi.Services
             }
         }
 
-        public async Task<(long channelId, long accessHash)?> GetChannelAccessHash(long telegramChannelId)
+        public async Task<(long channelId, long accessHash)?> GetChannelAccessHash(long telegramChannelId, Client _client)
         {
         try
         {
-        var _client = await GetClient();
         if (_client == null)
         {
             Console.WriteLine("Failed to get Telegram client.");

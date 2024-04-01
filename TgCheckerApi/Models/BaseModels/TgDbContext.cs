@@ -596,6 +596,7 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.ApiId).HasColumnName("api_id");
             entity.Property(e => e.ChannelCount).HasColumnName("channel_count");
             entity.Property(e => e.PhoneNumber).HasColumnName("phone_number");
+            entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
         });
 
         modelBuilder.Entity<User>(entity =>

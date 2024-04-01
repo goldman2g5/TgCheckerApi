@@ -6,5 +6,7 @@
         public string PhoneNumber { get; set; }
 
         public int DatabaseId { get; set; }
+
+        public long TelegramId { get; set; }
     }
 }

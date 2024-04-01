@@ -32,7 +32,8 @@ namespace TgCheckerApi.Services
                     };
                 },
                 PhoneNumber = tgClient.PhoneNumber,
-                DatabaseId = tgClient.Id
+                DatabaseId = tgClient.Id,
+                TelegramId = (long)tgClient.TelegramId
             });
 
             return clientConfigs;

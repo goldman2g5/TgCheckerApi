@@ -96,7 +96,7 @@ namespace TgCheckerApi.Controllers
                     return NotFound("No active client found for that channel");
                 }
                 // Resolve the channel username to get its ID and access hash
-                var channelInfo = await _tgclientService.GetChannelAccessHash(channelId);
+                var channelInfo = await _tgclientService.GetChannelAccessHash(channelId, _client);
                 if (!channelInfo.HasValue)
                 {
                     return NotFound("Channel not found or access hash unavailable.");
