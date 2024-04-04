@@ -40,6 +40,61 @@ namespace TgCheckerApi.Controllers
             return Ok();
         }
 
+        [HttpGet("GetMessagesByPeriod")]
+        public async Task<IActionResult> GetMessagesByPeriodAsync(long channelId, DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                var _client = await _tgclientService.GetClientByTelegramId(channelId);
+                if (_client == null)
+                {
+                    return NotFound("No active client found for that channel");
+                }
+
+                var channelInfo = await _tgclientService.GetChannelAccessHash(channelId, _client);
+                if (!channelInfo.HasValue)
+                {
+                    return NotFound("Channel not found or access hash unavailable.");
+                }
+
+                var (resolvedChannelId, accessHash) = channelInfo.Value;
+                var inputPeer = new InputPeerChannel(resolvedChannelId, accessHash);
+
+                var allMessages = new List<Message>();
+                int limit = 100; // Adjust based on your needs
+                DateTime offsetDate = DateTime.UtcNow; // Start fetching from the current moment
+                int lastMessageId = 0; // To keep track of pagination
+
+                while (offsetDate > startDate)
+                {
+                    var messagesBatch = await _client.Messages_GetHistory(inputPeer, offset_id: lastMessageId, limit: limit, offset_date: offsetDate);
+                    var messages = messagesBatch.Messages.OfType<Message>()
+                        .Where(m => m.Date >= startDate && m.Date <= endDate)
+                        .ToList();
+
+                    if (messages.Count == 0) break;
+
+                    allMessages.AddRange(messages);
+                    var earliestMessageInBatch = messages.OrderBy(m => m.Date).FirstOrDefault();
+
+                    if (earliestMessageInBatch == null || earliestMessageInBatch.Date <= startDate) break; // If the earliest message is before the start date, stop fetching
+
+                    // Prepare for the next iteration
+                    offsetDate = earliestMessageInBatch.Date; // Move offset date to the date of the earliest message in the current batch
+                    Console.WriteLine(lastMessageId);
+                    lastMessageId = earliestMessageInBatch.id; // Adjust the last message ID for pagination
+                }
+
+                // Depending on your requirements, you might want to return the messages or a count
+                return Ok(allMessages.Select(m => new { m.id, m.Date, m.message }).OrderByDescending(m => m.Date)); // Messages are ordered from newest to oldest
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to retrieve messages by period: {ex.Message}");
+                return StatusCode(500, "An error occurred while attempting to fetch messages by period.");
+            }
+        }
+
         [HttpGet("GetMessagesByYear")]
         public async Task<IActionResult> GetMessageCountByYearAsync(long channelId)
         {
