@@ -31,6 +31,8 @@ public partial class TgDbContext : DbContext
 
     public virtual DbSet<JobScheduleRecord> JobScheduleRecords { get; set; }
 
+    public virtual DbSet<Message> Messages { get; set; }
+
     public virtual DbSet<MonthViewsRecord> MonthViewsRecords { get; set; }
 
     public virtual DbSet<Notification> Notifications { get; set; }
@@ -100,6 +102,8 @@ public partial class TgDbContext : DbContext
             entity.ToTable("Channel");
 
             entity.HasIndex(e => e.User, "IX_Channel_user");
+
+            entity.HasIndex(e => e.TelegramId, "channel_telegramid_uq").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Avatar).HasColumnName("avatar");
@@ -251,6 +255,27 @@ public partial class TgDbContext : DbContext
             entity.ToTable("JobScheduleRecord");
 
             entity.Property(e => e.Id).HasColumnName("id");
+        });
+
+        modelBuilder.Entity<Message>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("Message_pkey");
+
+            entity.ToTable("Message");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.ChannelTelegramId).HasColumnName("channel_telegram_id");
+            entity.Property(e => e.Media).HasColumnName("media");
+            entity.Property(e => e.Text).HasColumnName("text");
+            entity.Property(e => e.Views).HasColumnName("views");
+
+            entity.HasOne(d => d.ChannelTelegram).WithMany(p => p.Messages)
+                .HasPrincipalKey(p => p.TelegramId)
+                .HasForeignKey(d => d.ChannelTelegramId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("channel_telegram_id_fk");
         });
 
         modelBuilder.Entity<MonthViewsRecord>(entity =>
@@ -596,6 +621,7 @@ public partial class TgDbContext : DbContext
             entity.Property(e => e.ApiId).HasColumnName("api_id");
             entity.Property(e => e.ChannelCount).HasColumnName("channel_count");
             entity.Property(e => e.PhoneNumber).HasColumnName("phone_number");
+            entity.Property(e => e.TelegramId).HasColumnName("telegram_id");
         });
 
         modelBuilder.Entity<User>(entity =>

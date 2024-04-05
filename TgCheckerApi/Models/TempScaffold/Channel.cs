@@ -23,7 +23,7 @@ public partial class Channel
 
     public DateTime? LastBump { get; set; }
 
-    public long? TelegramId { get; set; }
+    public long TelegramId { get; set; }
 
     public bool? NotificationSent { get; set; }
 
@@ -58,6 +58,8 @@ public partial class Channel
     public virtual ICollection<ChannelHasTag> ChannelHasTags { get; set; } = new List<ChannelHasTag>();
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
+    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 
     public virtual ICollection<NotificationDelayedTask> NotificationDelayedTasks { get; set; } = new List<NotificationDelayedTask>();
 

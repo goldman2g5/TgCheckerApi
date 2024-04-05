@@ -2,7 +2,7 @@
 {
     public static class TelegramIdConverter
     {
-        public static long FromWTelegramClientToPyrogram(long wTelegramChannelId)
+        public static long ToPyrogram(long wTelegramChannelId)
         {
             // Pyrogram format requires the ID to be negative with the "-100" prefix
             if (wTelegramChannelId > 0)
@@ -25,7 +25,7 @@
             }
         }
 
-        public static long FromPyrogramToWTelegramClient(long pyrogramChannelId)
+        public static long ToWTelegramClient(long pyrogramChannelId)
         {
             string channelIdStr = pyrogramChannelId.ToString();
             // Check if the ID is in Pyrogram format (negative and starts with "-100")

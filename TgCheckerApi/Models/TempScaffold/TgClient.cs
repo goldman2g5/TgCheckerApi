@@ -15,5 +15,7 @@ public partial class TgClient
 
     public int? ChannelCount { get; set; }
 
+    public long? TelegramId { get; set; }
+
     public virtual ICollection<Channel> Channels { get; set; } = new List<Channel>();
 }

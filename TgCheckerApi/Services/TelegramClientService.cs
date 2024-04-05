@@ -103,7 +103,7 @@ namespace TgCheckerApi.Services
                 foreach (var (id, chat) in chats.chats)
                 {
                     if (!chat.IsActive) continue;
-                    var pyrogramChannelId = TelegramIdConverter.FromWTelegramClientToPyrogram(id);
+                    var pyrogramChannelId = TelegramIdConverter.ToPyrogram(id);
                     uniqueChannelIds.Add(pyrogramChannelId);
 
                     var channel = await dbContext.Channels
@@ -148,7 +148,7 @@ namespace TgCheckerApi.Services
         {
             using var dbContext = _dbContextFactory.CreateDbContext();
 
-            var pyrogramChannelId = TelegramIdConverter.FromWTelegramClientToPyrogram(telegramChannelId);
+            var pyrogramChannelId = TelegramIdConverter.ToPyrogram(telegramChannelId);
 
             // Attempt to find the channel in the database
             var dbChannel = await dbContext.Channels
@@ -260,7 +260,7 @@ namespace TgCheckerApi.Services
         }
 
         // Convert the channel ID to the expected format
-        var pyrogramChannelId = TelegramIdConverter.FromWTelegramClientToPyrogram(telegramChannelId);
+        var pyrogramChannelId = TelegramIdConverter.ToPyrogram(telegramChannelId);
         
         // Fetch the channel from the database to obtain its username
         var dbChannel = await _dbContextFactory.CreateDbContext().Channels
