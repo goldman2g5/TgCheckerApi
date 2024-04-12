@@ -1,0 +1,119 @@
+2024-04-08 20:26:53.959 +03:00 [INF] User profile is available. Using 'C:\Users\79103\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-08 20:26:54.382 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-08 20:26:54.443 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-08 20:26:54.445 +03:00 [INF] Quartz Scheduler created
+2024-04-08 20:26:54.447 +03:00 [INF] RAMJobStore initialized.
+2024-04-08 20:26:54.449 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-08 20:26:54.450 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-08 20:26:54.452 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-08 20:26:54.455 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-08 20:26:54.538 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-08 20:26:54.681 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-08 20:26:54.683 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-08 20:26:54.733 +03:00 [INF] RecalculateTopPosJob started at "2024-04-08T20:26:54.7326753+03:00"
+2024-04-08 20:26:54.733 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-08T20:26:54.7246203+03:00"
+2024-04-08 20:26:56.662 +03:00 [INF] Executed DbCommand (62ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-08 20:26:56.662 +03:00 [INF] Executed DbCommand (60ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-08 20:26:56.703 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-08 20:26:56.918 +03:00 [INF] Executed DbCommand (18ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = Int32), @p3='?' (DbType = Int32), @p2='?' (DbType = Int32), @p5='?' (DbType = Int32), @p4='?' (DbType = Int32), @p7='?' (DbType = Int32), @p6='?' (DbType = Int32), @p9='?' (DbType = Int32), @p8='?' (DbType = Int32), @p11='?' (DbType = Int32), @p10='?' (DbType = Int32), @p13='?' (DbType = Int32), @p12='?' (DbType = Int32), @p15='?' (DbType = Int32), @p14='?' (DbType = Int32), @p17='?' (DbType = Int32), @p16='?' (DbType = Int32), @p19='?' (DbType = Int32), @p18='?' (DbType = Int32), @p21='?' (DbType = Int32), @p20='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Channel" SET "TopPos" = @p0
+WHERE id = @p1;
+UPDATE "Channel" SET "TopPos" = @p2
+WHERE id = @p3;
+UPDATE "Channel" SET "TopPos" = @p4
+WHERE id = @p5;
+UPDATE "Channel" SET "TopPos" = @p6
+WHERE id = @p7;
+UPDATE "Channel" SET "TopPos" = @p8
+WHERE id = @p9;
+UPDATE "Channel" SET "TopPos" = @p10
+WHERE id = @p11;
+UPDATE "Channel" SET "TopPos" = @p12
+WHERE id = @p13;
+UPDATE "Channel" SET "TopPos" = @p14
+WHERE id = @p15;
+UPDATE "Channel" SET "TopPos" = @p16
+WHERE id = @p17;
+UPDATE "Channel" SET "TopPos" = @p18
+WHERE id = @p19;
+UPDATE "Channel" SET "TopPos" = @p20
+WHERE id = @p21;
+2024-04-08 20:26:56.963 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-08T20:26:56.9639659+03:00"
+2024-04-08 20:26:59.997 +03:00 [INF] Now listening on: http://localhost:7256
+2024-04-08 20:26:59.998 +03:00 [INF] Now listening on: http://localhost:5244
+2024-04-08 20:27:00.000 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-04-08 20:27:00.000 +03:00 [INF] Hosting environment: Development
+2024-04-08 20:27:00.001 +03:00 [INF] Content root path: C:\Users\79103\Source\Repos\goldman2g5\TgCheckerApi4.1\TgCheckerApi\
+2024-04-08 20:27:00.482 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-04-08 20:27:00.765 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 289.2337ms
+2024-04-08 20:27:00.777 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-04-08 20:27:00.781 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-04-08 20:27:00.784 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 6.5550ms
+2024-04-08 20:27:00.832 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 51.0710ms
+2024-04-08 20:27:00.935 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-04-08 20:27:01.107 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 171.9547ms
+2024-04-08 20:27:04.876 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-08 20:27:04.879 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-08 20:27:20.663 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:7256/api/Telegram/GetRoot?word=%D0%B6%D0%BE%D0%BF%D0%B0 - 0
+2024-04-08 20:27:20.673 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-04-08 20:27:20.676 +03:00 [INF] CORS policy execution successful.
+2024-04-08 20:27:20.794 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi)'
+2024-04-08 20:27:20.826 +03:00 [INF] Route matched with {action = "GetRoot", controller = "Telegram"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetRoot(System.String) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-04-08 20:27:20.864 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2024-04-08 20:27:20.872 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi) in 38.4175ms
+2024-04-08 20:27:20.875 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi)'
+2024-04-08 20:27:20.878 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:7256/api/Telegram/GetRoot?word=%D0%B6%D0%BE%D0%BF%D0%B0 - 0 - 200 - text/plain;+charset=utf-8 215.4514ms
+2024-04-08 20:27:28.603 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:7256/api/Telegram/GetRoot?word=%D0%B8%D0%B3%D1%80%D0%BE%D0%B2%D0%BE%D0%B9 - 0
+2024-04-08 20:27:28.605 +03:00 [INF] CORS policy execution successful.
+2024-04-08 20:27:28.608 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi)'
+2024-04-08 20:27:28.610 +03:00 [INF] Route matched with {action = "GetRoot", controller = "Telegram"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetRoot(System.String) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-04-08 20:27:28.613 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2024-04-08 20:27:28.615 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi) in 3.537ms
+2024-04-08 20:27:28.617 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi)'
+2024-04-08 20:27:28.618 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:7256/api/Telegram/GetRoot?word=%D0%B8%D0%B3%D1%80%D0%BE%D0%B2%D0%BE%D0%B9 - 0 - 200 - text/plain;+charset=utf-8 15.0081ms
+2024-04-08 20:27:36.341 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:7256/api/Telegram/GetRoot?word=%D0%B8%D0%B3%D1%80%D1%8B - 0
+2024-04-08 20:27:36.343 +03:00 [INF] CORS policy execution successful.
+2024-04-08 20:27:36.345 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi)'
+2024-04-08 20:27:36.347 +03:00 [INF] Route matched with {action = "GetRoot", controller = "Telegram"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetRoot(System.String) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-04-08 20:27:36.351 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2024-04-08 20:27:36.352 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi) in 2.6237ms
+2024-04-08 20:27:36.353 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi)'
+2024-04-08 20:27:36.354 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:7256/api/Telegram/GetRoot?word=%D0%B8%D0%B3%D1%80%D1%8B - 0 - 200 - text/plain;+charset=utf-8 13.3723ms
+2024-04-08 20:27:43.949 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:7256/api/Telegram/GetRoot?word=%D0%BE%D0%B3%D1%83%D0%B7%D0%BE%D0%BA - 0
+2024-04-08 20:27:43.950 +03:00 [INF] CORS policy execution successful.
+2024-04-08 20:27:43.951 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi)'
+2024-04-08 20:27:43.952 +03:00 [INF] Route matched with {action = "GetRoot", controller = "Telegram"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetRoot(System.String) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-04-08 20:27:43.955 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2024-04-08 20:27:43.956 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi) in 1.599ms
+2024-04-08 20:27:43.958 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi)'
+2024-04-08 20:27:43.959 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:7256/api/Telegram/GetRoot?word=%D0%BE%D0%B3%D1%83%D0%B7%D0%BE%D0%BA - 0 - 200 - text/plain;+charset=utf-8 9.8164ms
+2024-04-08 20:28:44.933 +03:00 [ERR] Error occurred executing UpdateSubscribersJob via HTTP request.
+System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 100 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.IO.IOException: Unable to read data from the transport connection: The I/O operation has been aborted because of either a thread exit or an application request..
+ ---> System.Net.Sockets.SocketException (995): The I/O operation has been aborted because of either a thread exit or an application request.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter adapter, Memory`1 buffer)
+   at System.Net.Http.HttpConnection.InitialFillAsync(Boolean async)
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.HandleFailure(Exception e, Boolean telemetryStarted, HttpResponseMessage response, CancellationTokenSource cts, CancellationToken cancellationToken, CancellationTokenSource pendingRequestsCts)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at TgCheckerApi.Job.UpdateSubscribersJob.Execute(IJobExecutionContext context) in C:\Users\79103\Source\Repos\goldman2g5\TgCheckerApi4.1\TgCheckerApi\Job\UpdateSubscribersJob.cs:line 49
