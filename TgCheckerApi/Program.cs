@@ -20,6 +20,9 @@ using Quartz.Spi;
 using TgCheckerApi.Controllers;
 using Serilog;
 using TgCheckerApi.Interfaces;using WTelegram;
+using Nest;
+using TgCheckerApi.Events.Handlers;
+using TgCheckerApi.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -141,11 +144,38 @@ builder.Services.AddSingleton<IDbContextFactory<TgDbContext>>(serviceProvider =>
     var optionsBuilder = new DbContextOptionsBuilder<TgDbContext>();
     optionsBuilder.UseNpgsql(connectionString).UseLazyLoadingProxies();
 
-    return new MyDbContextFactory(optionsBuilder.Options);
+    return new MyDbContextFactory(optionsBuilder.Options, serviceProvider);
 });
 builder.Services.AddSingleton<TgClientFactory>();
 builder.Services.AddSingleton<TelegramClientService>();
 builder.Services.AddHostedService<TelegramClientInitializer>();
+builder.Services.AddScoped<IElasticsearchIndexingService, ElasticsearchIndexingService>();
+builder.Services.AddHostedService<ElasticsearchIndexInitializer>();
+builder.Services.AddScoped<IDomainEventHandler<ChannelsUpdatedEvent>, ChannelsUpdatedEventHandler>();
+
+
+var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
+        .DefaultIndex("channels")
+        .DefaultMappingFor<Channel>(m => m
+        .Ignore(p => p.ChannelAccesses)
+        .Ignore(p => p.ChannelHasSubscriptions)
+        .Ignore(p => p.ChannelHasTags)
+        .Ignore(p => p.Comments)
+        .Ignore(p => p.Messages)
+        .Ignore(p => p.NotificationDelayedTasks)
+        .Ignore(p => p.NotificationsNavigation)
+        .Ignore(p => p.Payments)
+        .Ignore(p => p.Reports)
+        .Ignore(p => p.StatisticsSheets)
+        .Ignore(p => p.TelegramPayments)
+        .Ignore(p => p.Tgclient)
+        .Ignore(p => p.UserNavigation)
+    );
+; // Set the default index here
+var client = new ElasticClient(settings);
+
+builder.Services.AddSingleton<IElasticClient>(client);
+
 
 
 builder.Services.AddHttpClient("MyClient", client =>

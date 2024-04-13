@@ -1,0 +1,944 @@
+2024-04-13 00:00:19.435 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:00:20.031 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:00:20.075 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:00:20.076 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:00:20.077 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:00:20.078 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:00:20.079 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:00:20.080 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:00:20.081 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:00:20.121 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:00:20.277 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:00:20.278 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:00:20.307 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:00:20.3045987+03:00"
+2024-04-13 00:00:20.312 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:00:20.3122889+03:00"
+2024-04-13 00:00:22.546 +03:00 [INF] Executed DbCommand (205ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:00:22.546 +03:00 [INF] Executed DbCommand (212ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:00:22.584 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:00:22.660 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:00:22.6609593+03:00"
+2024-04-13 00:00:24.921 +03:00 [INF] Now listening on: http://localhost:7256
+2024-04-13 00:00:24.922 +03:00 [INF] Now listening on: http://localhost:5244
+2024-04-13 00:00:24.924 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-04-13 00:00:24.925 +03:00 [INF] Hosting environment: Development
+2024-04-13 00:00:24.926 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-04-13 00:00:25.460 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger - -
+2024-04-13 00:00:25.533 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger - - - 301 0 - 75.7471ms
+2024-04-13 00:00:25.543 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-04-13 00:00:25.683 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui.css - -
+2024-04-13 00:00:25.684 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui-standalone-preset.js - -
+2024-04-13 00:00:25.684 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui-bundle.js - -
+2024-04-13 00:00:25.688 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 144.2893ms
+2024-04-13 00:00:25.708 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-04-13 00:00:25.708 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-04-13 00:00:25.718 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 9.9689ms
+2024-04-13 00:00:25.737 +03:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2024-04-13 00:00:25.737 +03:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2024-04-13 00:00:25.738 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui-standalone-preset.js - - - 200 312163 application/javascript 53.7882ms
+2024-04-13 00:00:25.739 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui.css - - - 200 144929 text/css 55.6618ms
+2024-04-13 00:00:25.745 +03:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2024-04-13 00:00:25.746 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/swagger-ui-bundle.js - - - 200 1061536 application/javascript 61.9618ms
+2024-04-13 00:00:25.750 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 42.2989ms
+2024-04-13 00:00:25.843 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-04-13 00:00:25.884 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/favicon-32x32.png - -
+2024-04-13 00:00:25.885 +03:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2024-04-13 00:00:25.886 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/favicon-32x32.png - - - 200 628 image/png 2.3728ms
+2024-04-13 00:00:25.986 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 143.6845ms
+2024-04-13 00:00:29.685 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/api/Channel - -
+2024-04-13 00:00:29.692 +03:00 [WRN] Failed to determine the https port for redirect.
+2024-04-13 00:00:29.810 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi)'
+2024-04-13 00:00:29.839 +03:00 [INF] Route matched with {action = "GetChannels", controller = "Channel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TgCheckerApi.Models.GetModels.ChannelGetModel]]] GetChannels() on controller TgCheckerApi.Controllers.ChannelController (TgCheckerApi).
+2024-04-13 00:00:30.075 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:00:30.259 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-04-13 00:00:30.297 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:00:30.302 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-04-13 00:00:30.305 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:00:30.307 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-04-13 00:00:30.330 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:00:30.333 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-04-13 00:00:30.336 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:00:30.338 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-04-13 00:00:30.342 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:00:30.344 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-04-13 00:00:30.347 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:00:30.350 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-04-13 00:00:30.352 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:00:30.355 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-04-13 00:00:30.358 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:00:30.361 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-04-13 00:00:30.363 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:00:30.375 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-04-13 00:00:30.378 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:00:30.381 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-04-13 00:00:30.384 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:00:30.387 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__channel_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel, c.tag, t.id, t.text
+FROM "ChannelHasTag" AS c
+LEFT JOIN "Tag" AS t ON c.tag = t.id
+WHERE c.channel = @__channel_Id_0
+2024-04-13 00:00:30.391 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.expires, c.type_id
+FROM "ChannelHasSubscription" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:00:30.402 +03:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.GetModels.ChannelGetModel, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-04-13 00:00:30.443 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-13 00:00:30.446 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-13 00:00:30.479 +03:00 [INF] Executed action TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi) in 631.2035ms
+2024-04-13 00:00:30.482 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.ChannelController.GetChannels (TgCheckerApi)'
+2024-04-13 00:00:30.497 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/api/Channel - - - 200 81683 application/json;+charset=utf-8 812.7385ms
+2024-04-13 00:16:34.113 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:16:34.306 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:16:34.359 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:16:34.360 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:16:34.362 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:16:34.363 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:16:34.364 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:16:34.365 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:16:34.366 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:16:34.436 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:16:34.614 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:16:34.615 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:16:34.649 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:16:34.6484517+03:00"
+2024-04-13 00:16:34.649 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:16:34.6436493+03:00"
+2024-04-13 00:16:35.971 +03:00 [INF] Executed DbCommand (41ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:16:35.971 +03:00 [INF] Executed DbCommand (41ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:16:36.000 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:16:36.075 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:16:36.0752670+03:00"
+2024-04-13 00:16:38.152 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 00:16:38.329 +03:00 [INF] Now listening on: http://localhost:7256
+2024-04-13 00:16:38.330 +03:00 [INF] Now listening on: http://localhost:5244
+2024-04-13 00:16:38.331 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-04-13 00:16:38.332 +03:00 [INF] Hosting environment: Development
+2024-04-13 00:16:38.333 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-04-13 00:16:38.838 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-04-13 00:16:39.006 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 172.0642ms
+2024-04-13 00:16:39.021 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-04-13 00:16:39.023 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-04-13 00:16:39.029 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 5.9081ms
+2024-04-13 00:16:39.040 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 19.5499ms
+2024-04-13 00:16:39.163 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-04-13 00:16:39.277 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 113.9718ms
+2024-04-13 00:16:44.728 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-13 00:16:44.730 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-13 00:17:32.333 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:17:32.550 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:17:32.593 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:17:32.593 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:17:32.594 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:17:32.595 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:17:32.596 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:17:32.597 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:17:32.598 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:17:32.644 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:17:32.713 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:17:32.714 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:17:32.764 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:17:32.7574162+03:00"
+2024-04-13 00:17:32.764 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:17:32.7619371+03:00"
+2024-04-13 00:17:34.184 +03:00 [INF] Executed DbCommand (44ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:17:34.184 +03:00 [INF] Executed DbCommand (43ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:17:34.216 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:17:34.291 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:17:34.2914667+03:00"
+2024-04-13 00:17:36.374 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 00:17:36.608 +03:00 [INF] Now listening on: http://localhost:7256
+2024-04-13 00:17:36.608 +03:00 [INF] Now listening on: http://localhost:5244
+2024-04-13 00:17:36.610 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-04-13 00:17:36.611 +03:00 [INF] Hosting environment: Development
+2024-04-13 00:17:36.612 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-04-13 00:17:37.066 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-04-13 00:17:37.248 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 184.5616ms
+2024-04-13 00:17:37.280 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-04-13 00:17:37.290 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-04-13 00:17:37.293 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 3.1386ms
+2024-04-13 00:17:37.301 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 21.3655ms
+2024-04-13 00:17:37.409 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-04-13 00:17:37.512 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 102.2302ms
+2024-04-13 00:17:42.833 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-13 00:17:42.836 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-13 00:19:22.935 +03:00 [ERR] Error occurred executing UpdateSubscribersJob via HTTP request.
+System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 100 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.IO.IOException: Unable to read data from the transport connection: The I/O operation has been aborted because of either a thread exit or an application request..
+ ---> System.Net.Sockets.SocketException (995): The I/O operation has been aborted because of either a thread exit or an application request.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter adapter, Memory`1 buffer)
+   at System.Net.Http.HttpConnection.InitialFillAsync(Boolean async)
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.HandleFailure(Exception e, Boolean telemetryStarted, HttpResponseMessage response, CancellationTokenSource cts, CancellationToken cancellationToken, CancellationTokenSource pendingRequestsCts)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at TgCheckerApi.Job.UpdateSubscribersJob.Execute(IJobExecutionContext context) in C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\Job\UpdateSubscribersJob.cs:line 49
+2024-04-13 00:23:10.855 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:23:11.064 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:23:11.104 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:23:11.105 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:23:11.106 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:23:11.107 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:23:11.108 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:23:11.108 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:23:11.110 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:23:11.149 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:23:11.221 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:23:11.222 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:23:11.257 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:23:11.2500958+03:00"
+2024-04-13 00:23:11.257 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:23:11.2562113+03:00"
+2024-04-13 00:23:12.658 +03:00 [INF] Executed DbCommand (46ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:23:12.658 +03:00 [INF] Executed DbCommand (49ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:23:12.690 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:23:12.768 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:23:12.7688405+03:00"
+2024-04-13 00:23:15.020 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 00:23:15.221 +03:00 [INF] Now listening on: http://localhost:7256
+2024-04-13 00:23:15.222 +03:00 [INF] Now listening on: http://localhost:5244
+2024-04-13 00:23:15.225 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-04-13 00:23:15.225 +03:00 [INF] Hosting environment: Development
+2024-04-13 00:23:15.226 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-04-13 00:23:15.787 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-04-13 00:23:15.963 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 178.7409ms
+2024-04-13 00:23:15.974 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-04-13 00:23:15.976 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-04-13 00:23:15.983 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 6.6848ms
+2024-04-13 00:23:16.000 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 25.8771ms
+2024-04-13 00:23:16.097 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-04-13 00:23:16.207 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 110.7108ms
+2024-04-13 00:23:21.330 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-13 00:23:21.333 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-13 00:24:06.527 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:24:06.715 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:24:06.751 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:24:06.752 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:24:06.752 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:24:06.753 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:24:06.754 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:24:06.754 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:24:06.756 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:24:06.795 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:24:06.869 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:24:06.870 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:24:06.947 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:24:06.9418013+03:00"
+2024-04-13 00:24:06.947 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:24:06.9457633+03:00"
+2024-04-13 00:24:08.308 +03:00 [INF] Executed DbCommand (43ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:24:08.308 +03:00 [INF] Executed DbCommand (42ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:24:08.343 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:24:08.414 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:24:08.4149708+03:00"
+2024-04-13 00:24:10.433 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 00:24:10.608 +03:00 [INF] Now listening on: http://localhost:7256
+2024-04-13 00:24:10.609 +03:00 [INF] Now listening on: http://localhost:5244
+2024-04-13 00:24:10.610 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-04-13 00:24:10.611 +03:00 [INF] Hosting environment: Development
+2024-04-13 00:24:10.612 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-04-13 00:24:11.352 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/index.html - -
+2024-04-13 00:24:11.521 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 171.9280ms
+2024-04-13 00:24:11.531 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-04-13 00:24:11.535 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/_vs/browserLink - -
+2024-04-13 00:24:11.538 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 6.8484ms
+2024-04-13 00:24:11.552 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 17.7295ms
+2024-04-13 00:24:11.582 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - -
+2024-04-13 00:24:11.693 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 111.2426ms
+2024-04-13 00:24:17.037 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-13 00:24:17.039 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-13 00:25:57.092 +03:00 [ERR] Error occurred executing UpdateSubscribersJob via HTTP request.
+System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 100 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.IO.IOException: Unable to read data from the transport connection: The I/O operation has been aborted because of either a thread exit or an application request..
+ ---> System.Net.Sockets.SocketException (995): The I/O operation has been aborted because of either a thread exit or an application request.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter adapter, Memory`1 buffer)
+   at System.Net.Http.HttpConnection.InitialFillAsync(Boolean async)
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.HandleFailure(Exception e, Boolean telemetryStarted, HttpResponseMessage response, CancellationTokenSource cts, CancellationToken cancellationToken, CancellationTokenSource pendingRequestsCts)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at TgCheckerApi.Job.UpdateSubscribersJob.Execute(IJobExecutionContext context) in C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\Job\UpdateSubscribersJob.cs:line 49
+2024-04-13 00:26:56.496 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:26:56.698 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:26:56.743 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:26:56.748 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:26:56.749 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:26:56.750 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:26:56.751 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:26:56.752 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:26:56.754 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:26:56.797 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:26:56.869 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:26:56.870 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:26:56.907 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:26:56.9054104+03:00"
+2024-04-13 00:26:56.907 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:26:56.9007277+03:00"
+2024-04-13 00:26:58.196 +03:00 [INF] Executed DbCommand (41ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:26:58.196 +03:00 [INF] Executed DbCommand (42ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:26:58.226 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:26:58.300 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:26:58.3006017+03:00"
+2024-04-13 00:27:02.198 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:27:02.472 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:27:02.511 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:27:02.512 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:27:02.513 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:27:02.514 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:27:02.515 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:27:02.516 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:27:02.517 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:27:02.557 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:27:02.639 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:27:02.640 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:27:02.673 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:27:02.6682430+03:00"
+2024-04-13 00:27:02.673 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:27:02.6729258+03:00"
+2024-04-13 00:27:03.960 +03:00 [INF] Executed DbCommand (44ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:27:03.960 +03:00 [INF] Executed DbCommand (45ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:27:03.992 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:27:04.064 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:27:04.0647299+03:00"
+2024-04-13 00:27:06.429 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 00:27:06.721 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:27:16.450 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:27:16.675 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:27:16.716 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:27:16.717 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:27:16.718 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:27:16.719 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:27:16.719 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:27:16.720 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:27:16.721 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:27:16.763 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:27:16.850 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:27:16.851 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:27:16.884 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:27:16.8828603+03:00"
+2024-04-13 00:27:16.884 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:27:16.8786375+03:00"
+2024-04-13 00:27:18.171 +03:00 [INF] Executed DbCommand (42ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:27:18.171 +03:00 [INF] Executed DbCommand (41ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:27:18.200 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:27:18.273 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:27:18.2732025+03:00"
+2024-04-13 00:27:20.459 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 00:27:20.722 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:28:01.431 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:28:01.606 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:28:01.648 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:28:01.649 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:28:01.650 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:28:01.651 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:28:01.652 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:28:01.653 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:28:01.654 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:28:01.693 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:28:01.765 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:28:01.765 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:28:01.801 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:28:01.7956458+03:00"
+2024-04-13 00:28:01.801 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:28:01.8004034+03:00"
+2024-04-13 00:28:03.114 +03:00 [INF] Executed DbCommand (43ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:28:03.114 +03:00 [INF] Executed DbCommand (44ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:28:03.150 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:28:03.363 +03:00 [INF] Executed DbCommand (13ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = Int32), @p3='?' (DbType = Int32), @p2='?' (DbType = Int32), @p5='?' (DbType = Int32), @p4='?' (DbType = Int32), @p7='?' (DbType = Int32), @p6='?' (DbType = Int32), @p9='?' (DbType = Int32), @p8='?' (DbType = Int32), @p11='?' (DbType = Int32), @p10='?' (DbType = Int32), @p13='?' (DbType = Int32), @p12='?' (DbType = Int32), @p15='?' (DbType = Int32), @p14='?' (DbType = Int32), @p17='?' (DbType = Int32), @p16='?' (DbType = Int32), @p19='?' (DbType = Int32), @p18='?' (DbType = Int32), @p21='?' (DbType = Int32), @p20='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Channel" SET "TopPos" = @p0
+WHERE id = @p1;
+UPDATE "Channel" SET "TopPos" = @p2
+WHERE id = @p3;
+UPDATE "Channel" SET "TopPos" = @p4
+WHERE id = @p5;
+UPDATE "Channel" SET "TopPos" = @p6
+WHERE id = @p7;
+UPDATE "Channel" SET "TopPos" = @p8
+WHERE id = @p9;
+UPDATE "Channel" SET "TopPos" = @p10
+WHERE id = @p11;
+UPDATE "Channel" SET "TopPos" = @p12
+WHERE id = @p13;
+UPDATE "Channel" SET "TopPos" = @p14
+WHERE id = @p15;
+UPDATE "Channel" SET "TopPos" = @p16
+WHERE id = @p17;
+UPDATE "Channel" SET "TopPos" = @p18
+WHERE id = @p19;
+UPDATE "Channel" SET "TopPos" = @p20
+WHERE id = @p21;
+2024-04-13 00:28:03.399 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:28:03.3996393+03:00"
+2024-04-13 00:28:05.319 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 00:28:05.597 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:29:09.995 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:29:10.177 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:29:10.212 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:29:10.213 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:29:10.214 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:29:10.215 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:29:10.215 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:29:10.216 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:29:10.217 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:29:10.255 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:29:10.320 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:29:10.321 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:29:10.355 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:29:10.3487824+03:00"
+2024-04-13 00:29:10.355 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:29:10.3526479+03:00"
+2024-04-13 00:29:11.646 +03:00 [INF] Executed DbCommand (44ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:29:11.646 +03:00 [INF] Executed DbCommand (46ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:29:11.679 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:29:11.823 +03:00 [INF] Executed DbCommand (11ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = Int32), @p3='?' (DbType = Int32), @p2='?' (DbType = Int32), @p5='?' (DbType = Int32), @p4='?' (DbType = Int32), @p7='?' (DbType = Int32), @p6='?' (DbType = Int32), @p9='?' (DbType = Int32), @p8='?' (DbType = Int32), @p11='?' (DbType = Int32), @p10='?' (DbType = Int32), @p13='?' (DbType = Int32), @p12='?' (DbType = Int32), @p15='?' (DbType = Int32), @p14='?' (DbType = Int32), @p17='?' (DbType = Int32), @p16='?' (DbType = Int32), @p19='?' (DbType = Int32), @p18='?' (DbType = Int32), @p21='?' (DbType = Int32), @p20='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Channel" SET "TopPos" = @p0
+WHERE id = @p1;
+UPDATE "Channel" SET "TopPos" = @p2
+WHERE id = @p3;
+UPDATE "Channel" SET "TopPos" = @p4
+WHERE id = @p5;
+UPDATE "Channel" SET "TopPos" = @p6
+WHERE id = @p7;
+UPDATE "Channel" SET "TopPos" = @p8
+WHERE id = @p9;
+UPDATE "Channel" SET "TopPos" = @p10
+WHERE id = @p11;
+UPDATE "Channel" SET "TopPos" = @p12
+WHERE id = @p13;
+UPDATE "Channel" SET "TopPos" = @p14
+WHERE id = @p15;
+UPDATE "Channel" SET "TopPos" = @p16
+WHERE id = @p17;
+UPDATE "Channel" SET "TopPos" = @p18
+WHERE id = @p19;
+UPDATE "Channel" SET "TopPos" = @p20
+WHERE id = @p21;
+2024-04-13 00:29:11.859 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:29:11.8596225+03:00"
+2024-04-13 00:29:13.906 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 00:29:14.181 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:30:44.028 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:30:44.208 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:30:44.243 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:30:44.243 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:30:44.245 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:30:44.245 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:30:44.246 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:30:44.247 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:30:44.248 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:30:44.287 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:30:44.360 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:30:44.361 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:30:44.393 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:30:44.3862171+03:00"
+2024-04-13 00:30:44.393 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:30:44.3911707+03:00"
+2024-04-13 00:30:45.737 +03:00 [INF] Executed DbCommand (64ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:30:45.737 +03:00 [INF] Executed DbCommand (64ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:30:45.767 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:30:45.843 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:30:45.8437789+03:00"
+2024-04-13 00:30:47.815 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 00:30:48.084 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:31:14.579 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:31:14.771 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:31:14.808 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:31:14.809 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:31:14.810 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:31:14.811 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:31:14.812 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:31:14.812 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:31:14.814 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:31:14.853 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:31:14.921 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:31:14.922 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:31:14.958 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:31:14.9539329+03:00"
+2024-04-13 00:31:14.958 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:31:14.9570626+03:00"
+2024-04-13 00:31:16.298 +03:00 [INF] Executed DbCommand (46ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:31:16.298 +03:00 [INF] Executed DbCommand (46ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:31:16.329 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:31:16.482 +03:00 [INF] Executed DbCommand (11ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = Int32), @p3='?' (DbType = Int32), @p2='?' (DbType = Int32), @p5='?' (DbType = Int32), @p4='?' (DbType = Int32), @p7='?' (DbType = Int32), @p6='?' (DbType = Int32), @p9='?' (DbType = Int32), @p8='?' (DbType = Int32), @p11='?' (DbType = Int32), @p10='?' (DbType = Int32), @p13='?' (DbType = Int32), @p12='?' (DbType = Int32), @p15='?' (DbType = Int32), @p14='?' (DbType = Int32), @p17='?' (DbType = Int32), @p16='?' (DbType = Int32), @p19='?' (DbType = Int32), @p18='?' (DbType = Int32), @p21='?' (DbType = Int32), @p20='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Channel" SET "TopPos" = @p0
+WHERE id = @p1;
+UPDATE "Channel" SET "TopPos" = @p2
+WHERE id = @p3;
+UPDATE "Channel" SET "TopPos" = @p4
+WHERE id = @p5;
+UPDATE "Channel" SET "TopPos" = @p6
+WHERE id = @p7;
+UPDATE "Channel" SET "TopPos" = @p8
+WHERE id = @p9;
+UPDATE "Channel" SET "TopPos" = @p10
+WHERE id = @p11;
+UPDATE "Channel" SET "TopPos" = @p12
+WHERE id = @p13;
+UPDATE "Channel" SET "TopPos" = @p14
+WHERE id = @p15;
+UPDATE "Channel" SET "TopPos" = @p16
+WHERE id = @p17;
+UPDATE "Channel" SET "TopPos" = @p18
+WHERE id = @p19;
+UPDATE "Channel" SET "TopPos" = @p20
+WHERE id = @p21;
+2024-04-13 00:31:16.514 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:31:16.5142975+03:00"
+2024-04-13 00:31:18.551 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 00:31:18.817 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:39:10.111 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:39:10.303 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:39:10.340 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:39:10.340 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:39:10.341 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:39:10.342 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:39:10.343 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:39:10.344 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:39:10.345 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:39:10.385 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:39:10.463 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:39:10.463 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:39:10.503 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:39:10.5017528+03:00"
+2024-04-13 00:39:10.503 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:39:10.4974495+03:00"
+2024-04-13 00:39:14.503 +03:00 [INF] Executed DbCommand (42ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:39:14.503 +03:00 [INF] Executed DbCommand (43ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:39:14.532 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:39:14.690 +03:00 [INF] Executed DbCommand (12ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = Int32), @p3='?' (DbType = Int32), @p2='?' (DbType = Int32), @p5='?' (DbType = Int32), @p4='?' (DbType = Int32), @p7='?' (DbType = Int32), @p6='?' (DbType = Int32), @p9='?' (DbType = Int32), @p8='?' (DbType = Int32), @p11='?' (DbType = Int32), @p10='?' (DbType = Int32), @p13='?' (DbType = Int32), @p12='?' (DbType = Int32), @p15='?' (DbType = Int32), @p14='?' (DbType = Int32), @p17='?' (DbType = Int32), @p16='?' (DbType = Int32), @p19='?' (DbType = Int32), @p18='?' (DbType = Int32), @p21='?' (DbType = Int32), @p20='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Channel" SET "TopPos" = @p0
+WHERE id = @p1;
+UPDATE "Channel" SET "TopPos" = @p2
+WHERE id = @p3;
+UPDATE "Channel" SET "TopPos" = @p4
+WHERE id = @p5;
+UPDATE "Channel" SET "TopPos" = @p6
+WHERE id = @p7;
+UPDATE "Channel" SET "TopPos" = @p8
+WHERE id = @p9;
+UPDATE "Channel" SET "TopPos" = @p10
+WHERE id = @p11;
+UPDATE "Channel" SET "TopPos" = @p12
+WHERE id = @p13;
+UPDATE "Channel" SET "TopPos" = @p14
+WHERE id = @p15;
+UPDATE "Channel" SET "TopPos" = @p16
+WHERE id = @p17;
+UPDATE "Channel" SET "TopPos" = @p18
+WHERE id = @p19;
+UPDATE "Channel" SET "TopPos" = @p20
+WHERE id = @p21;
+2024-04-13 00:39:14.729 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:39:14.7291153+03:00"
+2024-04-13 00:39:16.504 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 00:39:16.810 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:39:16.900 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.last_update, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.id = @__p_0
+LIMIT 1
+2024-04-13 00:39:16.923 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.user_id = @__p_0
+2024-04-13 00:39:47.819 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 00:39:47.992 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 00:39:48.028 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 00:39:48.028 +03:00 [INF] Quartz Scheduler created
+2024-04-13 00:39:48.030 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 00:39:48.031 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 00:39:48.032 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 00:39:48.032 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 00:39:48.034 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:39:48.072 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:39:48.142 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 00:39:48.143 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 00:39:48.179 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T00:39:48.1736543+03:00"
+2024-04-13 00:39:48.179 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T00:39:48.1778980+03:00"
+2024-04-13 00:39:49.431 +03:00 [INF] Executed DbCommand (45ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 00:39:49.431 +03:00 [INF] Executed DbCommand (42ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 00:39:49.468 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 00:39:49.549 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T00:39:49.5491266+03:00"
+2024-04-13 00:39:51.787 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 00:39:52.056 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 00:39:52.163 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.last_update, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.id = @__p_0
+LIMIT 1
+2024-04-13 00:39:52.186 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.user_id = @__p_0
+2024-04-13 03:48:27.502 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 03:48:27.821 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 03:48:27.866 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 03:48:27.867 +03:00 [INF] Quartz Scheduler created
+2024-04-13 03:48:27.868 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 03:48:27.869 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 03:48:27.869 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 03:48:27.870 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 03:48:27.871 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 03:48:27.910 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 03:48:27.992 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 03:48:27.992 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 03:48:28.023 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T03:48:28.0212120+03:00"
+2024-04-13 03:48:28.028 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T03:48:28.0282128+03:00"
+2024-04-13 03:48:29.531 +03:00 [INF] Executed DbCommand (70ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 03:48:29.531 +03:00 [INF] Executed DbCommand (70ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 03:48:29.561 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 03:48:29.639 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T03:48:29.6394343+03:00"
+2024-04-13 03:48:31.940 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 03:48:32.232 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.channel_id = @__p_0
+2024-04-13 03:48:32.322 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.id, u.avatar, u.chat_id, u.last_update, u.notification_settings, u.telegram_id, u.unique_key, u.username
+FROM "User" AS u
+WHERE u.id = @__p_0
+LIMIT 1
+2024-04-13 03:48:32.345 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.channel_id, c.user_id
+FROM "ChannelAccess" AS c
+WHERE c.user_id = @__p_0
+2024-04-13 03:49:54.043 +03:00 [INF] User profile is available. Using 'C:\Users\timar\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-04-13 03:49:54.233 +03:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2024-04-13 03:49:54.270 +03:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-04-13 03:49:54.270 +03:00 [INF] Quartz Scheduler created
+2024-04-13 03:49:54.272 +03:00 [INF] RAMJobStore initialized.
+2024-04-13 03:49:54.272 +03:00 [INF] Quartz Scheduler 3.8.0.0 - 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-04-13 03:49:54.273 +03:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-04-13 03:49:54.274 +03:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-04-13 03:49:54.275 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 03:49:54.317 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 03:49:54.383 +03:00 [INF] JobFactory set to: TgCheckerApi.Quartz.QuartzJobFactory
+2024-04-13 03:49:54.384 +03:00 [INF] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2024-04-13 03:49:54.416 +03:00 [INF] LoadDelayedNotificationsJob started at "2024-04-13T03:49:54.4105553+03:00"
+2024-04-13 03:49:54.416 +03:00 [INF] RecalculateTopPosJob started at "2024-04-13T03:49:54.4142897+03:00"
+2024-04-13 03:49:55.641 +03:00 [INF] Executed DbCommand (43ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+ORDER BY c.bumps DESC
+2024-04-13 03:49:55.641 +03:00 [INF] Executed DbCommand (43ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT n.id, n.channel_id, n.content, n.content_type, n.date, n.target_telegram, n.type_id, n.user_id
+FROM "NotificationDelayedTask" AS n
+2024-04-13 03:49:55.669 +03:00 [INF] All NotificationDelayedTasks are loaded and scheduled.
+2024-04-13 03:49:55.820 +03:00 [INF] Executed DbCommand (12ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = Int32), @p3='?' (DbType = Int32), @p2='?' (DbType = Int32), @p5='?' (DbType = Int32), @p4='?' (DbType = Int32), @p7='?' (DbType = Int32), @p6='?' (DbType = Int32), @p9='?' (DbType = Int32), @p8='?' (DbType = Int32), @p11='?' (DbType = Int32), @p10='?' (DbType = Int32), @p13='?' (DbType = Int32), @p12='?' (DbType = Int32), @p15='?' (DbType = Int32), @p14='?' (DbType = Int32), @p17='?' (DbType = Int32), @p16='?' (DbType = Int32), @p19='?' (DbType = Int32), @p18='?' (DbType = Int32), @p21='?' (DbType = Int32), @p20='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Channel" SET "TopPos" = @p0
+WHERE id = @p1;
+UPDATE "Channel" SET "TopPos" = @p2
+WHERE id = @p3;
+UPDATE "Channel" SET "TopPos" = @p4
+WHERE id = @p5;
+UPDATE "Channel" SET "TopPos" = @p6
+WHERE id = @p7;
+UPDATE "Channel" SET "TopPos" = @p8
+WHERE id = @p9;
+UPDATE "Channel" SET "TopPos" = @p10
+WHERE id = @p11;
+UPDATE "Channel" SET "TopPos" = @p12
+WHERE id = @p13;
+UPDATE "Channel" SET "TopPos" = @p14
+WHERE id = @p15;
+UPDATE "Channel" SET "TopPos" = @p16
+WHERE id = @p17;
+UPDATE "Channel" SET "TopPos" = @p18
+WHERE id = @p19;
+UPDATE "Channel" SET "TopPos" = @p20
+WHERE id = @p21;
+2024-04-13 03:49:55.855 +03:00 [INF] RecalculateTopPosJob completed at "2024-04-13T03:49:55.8552214+03:00"
+2024-04-13 03:49:57.547 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c.id, c.avatar, c.bumps, c.description, c.flag, c."Hidden", c."IsPartner", c.language, c.last_bump, c.members, c.name, c.notification_sent, c.notifications, c.promo_post, c.promo_post_interval, c.promo_post_last, c.promo_post_sent, c.promo_post_time, c.telegram_id, c.tgclient_id, c."TopPos", c."Url", c."user"
+FROM "Channel" AS c
+2024-04-13 03:49:58.228 +03:00 [INF] Now listening on: https://localhost:7256
+2024-04-13 03:49:58.230 +03:00 [INF] Now listening on: https://localhost:5244
+2024-04-13 03:49:58.232 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-04-13 03:49:58.233 +03:00 [INF] Hosting environment: Development
+2024-04-13 03:49:58.235 +03:00 [INF] Content root path: C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\
+2024-04-13 03:49:58.875 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger - -
+2024-04-13 03:49:58.935 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger - - - 301 0 - 63.7698ms
+2024-04-13 03:49:58.938 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/index.html - -
+2024-04-13 03:49:59.090 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/index.html - - - 200 - text/html;charset=utf-8 152.0505ms
+2024-04-13 03:49:59.096 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/swagger-ui.css - -
+2024-04-13 03:49:59.096 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/swagger-ui-standalone-preset.js - -
+2024-04-13 03:49:59.096 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/swagger-ui-bundle.js - -
+2024-04-13 03:49:59.097 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - -
+2024-04-13 03:49:59.104 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_framework/aspnetcore-browser-refresh.js - - - 200 12356 application/javascript;+charset=utf-8 7.7628ms
+2024-04-13 03:49:59.125 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/_vs/browserLink - -
+2024-04-13 03:49:59.128 +03:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2024-04-13 03:49:59.136 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/swagger-ui.css - - - 200 144929 text/css 40.7682ms
+2024-04-13 03:49:59.144 +03:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2024-04-13 03:49:59.147 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/swagger-ui-standalone-preset.js - - - 200 312163 application/javascript 50.4988ms
+2024-04-13 03:49:59.161 +03:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2024-04-13 03:49:59.162 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/swagger-ui-bundle.js - - - 200 1061536 application/javascript 65.7622ms
+2024-04-13 03:49:59.197 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 72.6711ms
+2024-04-13 03:49:59.269 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - -
+2024-04-13 03:49:59.282 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/swagger/favicon-32x32.png - -
+2024-04-13 03:49:59.284 +03:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2024-04-13 03:49:59.285 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/favicon-32x32.png - - - 200 628 image/png 2.7672ms
+2024-04-13 03:49:59.399 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 130.4154ms
+2024-04-13 03:50:04.504 +03:00 [INF] Start processing HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-13 03:50:04.506 +03:00 [INF] Sending HTTP request POST "https://tgsearch.info:8443/api/Bot/getSubscribersByChannels"
+2024-04-13 03:51:44.665 +03:00 [ERR] Error occurred executing UpdateSubscribersJob via HTTP request.
+System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 100 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.IO.IOException: Unable to read data from the transport connection: The I/O operation has been aborted because of either a thread exit or an application request..
+ ---> System.Net.Sockets.SocketException (995): The I/O operation has been aborted because of either a thread exit or an application request.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter adapter, Memory`1 buffer)
+   at System.Net.Http.HttpConnection.InitialFillAsync(Boolean async)
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.HandleFailure(Exception e, Boolean telemetryStarted, HttpResponseMessage response, CancellationTokenSource cts, CancellationToken cancellationToken, CancellationTokenSource pendingRequestsCts)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at TgCheckerApi.Job.UpdateSubscribersJob.Execute(IJobExecutionContext context) in C:\Users\timar\source\Repos\goldman2g5\TgCheckerApi\TgCheckerApi\Job\UpdateSubscribersJob.cs:line 49
+2024-04-13 03:54:09.480 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7256/api/Telegram/GetRoot?word=%D0%B1%D0%BE%D0%B1 - 0
+2024-04-13 03:54:09.488 +03:00 [INF] CORS policy execution successful.
+2024-04-13 03:54:09.608 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi)'
+2024-04-13 03:54:09.642 +03:00 [INF] Route matched with {action = "GetRoot", controller = "Telegram"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetRoot(System.String) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-04-13 03:54:09.686 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2024-04-13 03:54:09.694 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi) in 44.2547ms
+2024-04-13 03:54:09.697 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.GetRoot (TgCheckerApi)'
+2024-04-13 03:54:09.701 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7256/api/Telegram/GetRoot?word=%D0%B1%D0%BE%D0%B1 - 0 - 200 - text/plain;+charset=utf-8 221.1849ms
+2024-04-13 03:54:17.864 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Telegram/я - -
+2024-04-13 03:54:17.870 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi)'
+2024-04-13 03:54:17.884 +03:00 [INF] Route matched with {action = "Search", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Search(System.String) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-04-13 03:54:18.072 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.BaseModels.Channel, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-04-13 03:54:18.096 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi) in 209.934ms
+2024-04-13 03:54:18.098 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi)'
+2024-04-13 03:54:18.102 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Telegram/я - - - 200 2 application/json;+charset=utf-8 238.3612ms
+2024-04-13 03:54:56.281 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Telegram/лучший  - -
+2024-04-13 03:54:56.287 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi)'
+2024-04-13 03:54:56.288 +03:00 [INF] Route matched with {action = "Search", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Search(System.String) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-04-13 03:54:56.315 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.BaseModels.Channel, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-04-13 03:54:56.325 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi) in 34.2819ms
+2024-04-13 03:54:56.326 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi)'
+2024-04-13 03:54:56.329 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Telegram/лучший  - - - 200 14437 application/json;+charset=utf-8 48.1348ms
+2024-04-13 03:54:58.622 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Telegram/лучший - -
+2024-04-13 03:54:58.623 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi)'
+2024-04-13 03:54:58.625 +03:00 [INF] Route matched with {action = "Search", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Search(System.String) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-04-13 03:54:58.636 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.BaseModels.Channel, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-04-13 03:54:58.638 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi) in 10.3129ms
+2024-04-13 03:54:58.640 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi)'
+2024-04-13 03:54:58.641 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Telegram/лучший - - - 200 14437 application/json;+charset=utf-8 18.5279ms
+2024-04-13 03:55:21.738 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Telegram/сервис - -
+2024-04-13 03:55:21.747 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi)'
+2024-04-13 03:55:21.750 +03:00 [INF] Route matched with {action = "Search", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Search(System.String) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-04-13 03:55:21.760 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.BaseModels.Channel, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-04-13 03:55:21.761 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi) in 8.3081ms
+2024-04-13 03:55:21.762 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi)'
+2024-04-13 03:55:21.763 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Telegram/сервис - - - 200 2 application/json;+charset=utf-8 24.9123ms
+2024-04-13 03:55:24.675 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7256/api/Telegram/сервиса - -
+2024-04-13 03:55:24.676 +03:00 [INF] Executing endpoint 'TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi)'
+2024-04-13 03:55:24.677 +03:00 [INF] Route matched with {action = "Search", controller = "Telegram"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Search(System.String) on controller TgCheckerApi.Controllers.TelegramController (TgCheckerApi).
+2024-04-13 03:55:24.689 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TgCheckerApi.Models.BaseModels.Channel, TgCheckerApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-04-13 03:55:24.692 +03:00 [INF] Executed action TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi) in 10.6142ms
+2024-04-13 03:55:24.693 +03:00 [INF] Executed endpoint 'TgCheckerApi.Controllers.TelegramController.Search (TgCheckerApi)'
+2024-04-13 03:55:24.696 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7256/api/Telegram/сервиса - - - 200 499 application/json;+charset=utf-8 21.7355ms

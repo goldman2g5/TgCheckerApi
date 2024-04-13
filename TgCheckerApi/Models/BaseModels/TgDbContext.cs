@@ -1,18 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Nest;
+using TgCheckerApi.Interfaces;
 
 namespace TgCheckerApi.Models.BaseModels;
 
 public partial class TgDbContext : DbContext
 {
+    public event Action<List<Channel>> OnChannelsSaved;
+    private readonly IServiceProvider _serviceProvider;
+    private readonly List<IDomainEvent> _domainEvents = new List<IDomainEvent>();
+
     public TgDbContext()
     {
     }
 
-    public TgDbContext(DbContextOptions<TgDbContext> options)
+    public TgDbContext(DbContextOptions<TgDbContext> options, IServiceProvider serviceProvider)
         : base(options)
     {
+        _serviceProvider = serviceProvider;
+    }
+
+    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    {
+        var result = base.SaveChanges(acceptAllChangesOnSuccess);
+        DispatchEvents();
+        return result;
+    }
+
+    private void DispatchEvents()
+    {
+        foreach (var domainEvent in _domainEvents)
+        {
+            var eventType = domainEvent.GetType();
+            var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(eventType);
+            dynamic handler = _serviceProvider.GetService(handlerType);
+            handler?.Handle((dynamic)domainEvent);
+        }
+        _domainEvents.Clear();
+    }
+
+    public void AddDomainEvent(IDomainEvent eventItem)
+    {
+        _domainEvents.Add(eventItem);
     }
 
     public virtual DbSet<Admin> Admins { get; set; }

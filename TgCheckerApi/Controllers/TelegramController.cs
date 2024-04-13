@@ -12,6 +12,7 @@ using System.Security.Cryptography.Xml;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using Nest;
 
 namespace TgCheckerApi.Controllers
 {
@@ -23,14 +24,16 @@ namespace TgCheckerApi.Controllers
         private readonly ILogger<TelegramController> _logger;
         private readonly IWebHostEnvironment _env;
         private readonly TelegramClientService _tgclientService;
+        private readonly IElasticClient _elasticClient;
 
 
-        public TelegramController(TgDbContext context, ILogger<TelegramController> logger, IWebHostEnvironment env, TelegramClientService telegramClientService)
+        public TelegramController(TgDbContext context, ILogger<TelegramController> logger, IWebHostEnvironment env, TelegramClientService telegramClientService, IElasticClient elasticClient)
         {
             _context = context;
             _logger = logger;
             _env = env;
             _tgclientService = telegramClientService;
+            _elasticClient = elasticClient;
         }
 
         [HttpGet("SendMessage")]
@@ -180,92 +183,24 @@ namespace TgCheckerApi.Controllers
             }
         }
 
-        class Porter
+        [HttpGet("{query}")]
+        public async Task<IActionResult> Search(string query)
         {
+            var response = await _elasticClient.SearchAsync<Models.BaseModels.Channel>(s => s
+                .Query(q => q
+                    .Match(m => m
+                        .Field(f => f.Description)
+                        .Query(query)
+                    )
+                )
+            );
 
-
-
-            private const string VOWEL = "аеиоуыэюя";
-
-            private const string PERFECTIVEGROUND = "((ив|ивши|ившись|ыв|ывши|ывшись)|((?<=[ая])(в|вши|вшись)))$";
-
-            private const string REFLEXIVE = "(с[яь])$";
-
-            private const string ADJECTIVE = "(ее|ие|ые|ое|ими|ыми|ей|ий|ый|ой|ем|им|ым|ом|его|ого|еых|ую|юю|ая|яя|ою|ею)$";
-
-            private const string PARTICIPLE = "((ивш|ывш|ующ)|((?<=[ая])(ем|нн|вш|ющ|щ)))$";
-
-            private const string VERB = "((ила|ыла|ена|ейте|уйте|ите|или|ыли|ей|уй|ил|ыл|им|ым|ены|ить|ыть|ишь|ую|ю)|((?<=[ая])(ла|на|ете|йте|ли|й|л|ем|н|ло|но|ет|ют|ны|ть|ешь|нно)))$";
-
-            private const string NOUN = "(а|ев|ов|ие|ье|е|иями|ями|ами|еи|ии|и|ией|ей|ой|ий|й|и|ы|ь|ию|ью|ю|ия|ья|я)$";
-
-            private const string RVRE = "^(.*?[аеиоуыэюя])(.*)$";
-
-            private const string DERIVATIONAL = "[^аеиоуыэюя][аеиоуыэюя]+[^аеиоуыэюя]+[аеиоуыэюя].*(?<=о)сть?$";
-
-            private const string SUPERLATIVE = "(ейше|ейш)?";
-
-
-            public string Stemm(string word)
+            if (!response.IsValid)
             {
-                word = word.ToLower();
-                word = word.Replace("ё", "е");
-                if (IsMatch(word, RVRE))
-                {
-
-                    if (!Replace(ref word, PERFECTIVEGROUND, ""))
-                    {
-                        Replace(ref word, REFLEXIVE, "");
-                        if (Replace(ref word, ADJECTIVE, ""))
-                        {
-                            Replace(ref word, PARTICIPLE, "");
-                        }
-                        else
-                        {
-                            if (!Replace(ref word, VERB, ""))
-                            {
-                                Replace(ref word, NOUN, "");
-                            }
-
-                        }
-
-                    }
-
-
-                    Replace(ref word, "и$", "");
-
-                    if (IsMatch(word, DERIVATIONAL))
-                    {
-                        Replace(ref word, "ость?$", "");
-                    }
-
-
-                    if (!Replace(ref word, "ь$", ""))
-                    {
-                        Replace(ref word, SUPERLATIVE, "");
-                        Replace(ref word, "нн$", "н");
-                    }
-
-                }
-
-                return word;
+                return BadRequest(response.OriginalException.Message);
             }
 
-            private bool IsMatch(string word, string matchingPattern)
-            {
-                return new Regex(matchingPattern).IsMatch(word);
-            }
-
-            private bool Replace(ref string replace, string cleaningPattern, string by)
-            {
-                string original = replace;
-                replace = new Regex(cleaningPattern,
-                            RegexOptions.ExplicitCapture |
-                            RegexOptions.Singleline
-                            ).Replace(replace, by);
-                return original != replace;
-            }
-
+            return Ok(response.Documents);
         }
 
         [HttpPost("GetRoot")]
@@ -276,8 +211,7 @@ namespace TgCheckerApi.Controllers
                 return BadRequest("Please provide a valid word.");
             }
 
-            var stemmer = new Porter();
-            var root = stemmer.Stemm(word);
+            var root = Porter.Stemm(word);
 
             return Ok(root);
         }
