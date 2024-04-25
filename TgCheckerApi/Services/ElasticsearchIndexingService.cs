@@ -67,33 +67,37 @@ namespace TgCheckerApi.Services
 
             // Now, create the index with proper settings, mappings, and analyzer configurations
             var createIndexResponse = await _elasticClient.Indices.CreateAsync(indexName, c => c
-                .Settings(s => s
-                    .NumberOfShards(1)
-                    .NumberOfReplicas(1)
-                    .Analysis(a => a
-                        .Analyzers(analyzers => analyzers
-                            .Custom("rebuilt_russian", ca => ca
-                                .Tokenizer("standard")
-                                .Filters("lowercase", "russian_stemmer")
+                    .Settings(s => s
+                        .NumberOfShards(1)
+                        .NumberOfReplicas(1)
+                        .Analysis(a => a
+                            .Analyzers(analyzers => analyzers
+                                .Custom("rebuilt_russian", ca => ca
+                                    .Tokenizer("standard")
+                                    .Filters("lowercase", "russian_default_stemmer", "russian_snowball_stemmer", "russian_morphology")
+                                )
                             )
-                        )
-                        .TokenFilters(tf => tf
-                            .Stemmer("russian_stemmer", st => st
-                                .Language("russian")
+                            .TokenFilters(tf => tf
+                                .Stemmer("russian_default_stemmer", st => st
+                                    .Language("russian")
+                                )
+                                .Snowball("russian_snowball_stemmer", st => st
+                                    .Language(SnowballLanguage.Russian)
+                                    
+                                )
                             )
-                        )
-                )
-            )
-                .Map<ChannelElasticDto>(m => m
-                    .AutoMap()
-                    .Properties(p => p
-                        .Text(t => t
-                            .Name(n => n.Description)
-                            .Analyzer("rebuilt_russian")
                         )
                     )
-                )
-            );
+                    .Map<ChannelElasticDto>(m => m
+                        .AutoMap()
+                        .Properties(p => p
+                            .Text(t => t
+                                .Name(n => n.Description)
+                                .Analyzer("rebuilt_russian")
+                            )
+                        )
+                    )
+                );
 
             if (!createIndexResponse.IsValid)
             {
