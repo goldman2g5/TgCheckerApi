@@ -1,5 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Elasticsearch.Net;
+using Microsoft.EntityFrameworkCore;
 using Nest;
+using Newtonsoft.Json;
+using System;
+using System.Net.Http;
+using System.Text;
+using System.Xml.Linq;
 using TgCheckerApi.Interfaces;
 using TgCheckerApi.Models.BaseModels;
 using TgCheckerApi.Models.DTO;
@@ -10,41 +17,18 @@ namespace TgCheckerApi.Services
     {
         private readonly IElasticClient _elasticClient;
         private readonly TgDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public ElasticsearchIndexingService(IElasticClient elasticClient, TgDbContext dbContext)
+        public ElasticsearchIndexingService(IElasticClient elasticClient, TgDbContext dbContext, IMapper mapper)
         {
             _elasticClient = elasticClient;
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public List<ChannelElasticDto> ConvertToDto(IEnumerable<Channel> channels)
         {
-            return channels.Select(channel => new ChannelElasticDto
-            {
-                Id = channel.Id,
-                Name = channel.Name,
-                Description = channel.Description,
-                Members = channel.Members,
-                Avatar = channel.Avatar,
-                User = channel.User,
-                Notifications = channel.Notifications,
-                Bumps = channel.Bumps,
-                LastBump = channel.LastBump,
-                TelegramId = channel.TelegramId,
-                NotificationSent = channel.NotificationSent,
-                PromoPost = channel.PromoPost,
-                PromoPostTime = channel.PromoPostTime,
-                PromoPostInterval = channel.PromoPostInterval,
-                PromoPostSent = channel.PromoPostSent,
-                PromoPostLast = channel.PromoPostLast,
-                Language = channel.Language,
-                Flag = channel.Flag,
-                Url = channel.Url,
-                Hidden = channel.Hidden,
-                TopPos = channel.TopPos,
-                IsPartner = channel.IsPartner,
-                TgclientId = channel.TgclientId
-            }).ToList();
+            return _mapper.Map<List<ChannelElasticDto>>(channels);
         }
 
         public async Task InitializeIndicesAsync()
@@ -55,6 +39,11 @@ namespace TgCheckerApi.Services
 
             // Convert channels to DTOs
             var channelDtos = ConvertToDto(channels);
+            foreach(var i in channelDtos.Select(x => x.Name))
+            {
+                Console.WriteLine(i);
+            }
+            
 
             // Index DTOs instead of entities
             var response = await _elasticClient.IndexManyAsync(channelDtos);
@@ -65,11 +54,70 @@ namespace TgCheckerApi.Services
             }
         }
 
+        public async Task RecreateIndexAsync()
+        {
+            // Delete the index if it exists
+            var indexName = "channels"; // Make sure this matches the index you intend to create
+
+            // First, let's check if the index exists and delete it for a clean setup (for development)
+            if ((await _elasticClient.Indices.ExistsAsync(indexName)).Exists)
+            {
+                await _elasticClient.Indices.DeleteAsync(indexName);
+            }
+
+            // Now, create the index with proper settings, mappings, and analyzer configurations
+            var createIndexResponse = await _elasticClient.Indices.CreateAsync(indexName, c => c
+                .Settings(s => s
+                    .NumberOfShards(1)
+                    .NumberOfReplicas(1)
+                    .Analysis(a => a
+                        .Analyzers(analyzers => analyzers
+                            .Custom("rebuilt_russian", ca => ca
+                                .Tokenizer("standard")
+                                .Filters("lowercase", "russian_stemmer")
+                            )
+                        )
+                        .TokenFilters(tf => tf
+                            .Stemmer("russian_stemmer", st => st
+                                .Language("russian")
+                            )
+                        )
+                )
+            )
+                .Map<ChannelElasticDto>(m => m
+                    .AutoMap()
+                    .Properties(p => p
+                        .Text(t => t
+                            .Name(n => n.Description)
+                            .Analyzer("rebuilt_russian")
+                        )
+                    )
+                )
+            );
+
+            if (!createIndexResponse.IsValid)
+            {
+                throw new Exception($"Failed to create index '{indexName}': {createIndexResponse.DebugInformation}");
+            }
+        }
+
         public async Task IndexChannelsAsync(List<Channel> channels)
         {
             var channelDtos = ConvertToDto(channels);
-            await _elasticClient.BulkAsync(b => b.IndexMany(channelDtos));
-            // Handle responses and errors appropriately
+            var bulkResponse = await _elasticClient.BulkAsync(b => b
+                .IndexMany(channelDtos)
+                .Refresh(Refresh.WaitFor)  // Ensure the index is refreshed immediately for debugging
+            );
+
+            if (!bulkResponse.IsValid)
+            {
+                Console.WriteLine("Bulk indexing had issues: " + bulkResponse.DebugInformation);
+                foreach (var item in bulkResponse.ItemsWithErrors)
+                {
+                    Console.WriteLine($"Failed to index document {item.Id}: {item.Error}");
+                }
+                //throw new Exception("Failed to index some or all channels.");
+            }
         }
     }
 }

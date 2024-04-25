@@ -187,13 +187,14 @@ namespace TgCheckerApi.Controllers
         public async Task<IActionResult> Search(string query)
         {
             var response = await _elasticClient.SearchAsync<Models.BaseModels.Channel>(s => s
-                .Query(q => q
-                    .Match(m => m
-                        .Field(f => f.Description)
-                        .Query(query)
+                    .Query(q => q
+                        .Match(m => m
+                            .Field(f => f.Description)
+                            .Query(query)
+                            .Analyzer("rebuilt_russian")
+                        )
                     )
-                )
-            );
+                );
 
             if (!response.IsValid)
             {

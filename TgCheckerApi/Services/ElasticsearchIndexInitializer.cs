@@ -20,11 +20,17 @@ namespace TgCheckerApi.Services
                 var dbContext = scope.ServiceProvider.GetRequiredService<TgDbContext>();
                 var indexingService = scope.ServiceProvider.GetRequiredService<IElasticsearchIndexingService>();
 
+                await indexingService.RecreateIndexAsync();
+
                 var channels = await dbContext.Channels.ToListAsync(cancellationToken);
                 if (channels.Any())
                 {
                     await indexingService.IndexChannelsAsync(channels);
                 }
+                //await indexingService.InitializeIndicesAsync();
+
+
+
             }
         }
 
