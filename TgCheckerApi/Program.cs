@@ -109,6 +109,7 @@ builder.Services.AddScoped<NotificationJob>();
 builder.Services.AddSingleton<RatingResetJob>();
 builder.Services.AddSingleton<UpdateSubscribersJob>();
 
+
 builder.Services.AddSingleton(new JobSchedule(
     jobType: typeof(RatingResetJob),
     cronExpression: "0 0 3 1,15 * ?"));
@@ -144,13 +145,14 @@ builder.Services.AddSingleton<IDbContextFactory<TgDbContext>>(serviceProvider =>
     var optionsBuilder = new DbContextOptionsBuilder<TgDbContext>();
     optionsBuilder.UseNpgsql(connectionString).UseLazyLoadingProxies();
 
-    return new MyDbContextFactory(optionsBuilder.Options, serviceProvider);
+    return new MyDbContextFactory(optionsBuilder.Options, serviceProvider.GetRequiredService<IServiceScopeFactory>());
 });
 builder.Services.AddSingleton<TgClientFactory>();
 builder.Services.AddSingleton<TelegramClientService>();
 builder.Services.AddHostedService<TelegramClientInitializer>();
 builder.Services.AddScoped<IElasticsearchIndexingService, ElasticsearchIndexingService>();
 builder.Services.AddHostedService<ElasticsearchIndexInitializer>();
+builder.Services.AddHostedService<ChannelUpdateBackgroundService>();
 builder.Services.AddScoped<IDomainEventHandler<ChannelsUpdatedEvent>, ChannelsUpdatedEventHandler>();
 
 

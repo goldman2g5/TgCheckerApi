@@ -4,47 +4,46 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using TgCheckerApi.Interfaces;
+using TgCheckerApi.Services;
 
 namespace TgCheckerApi.Models.BaseModels;
 
 public partial class TgDbContext : DbContext
 {
-    public event Action<List<Channel>> OnChannelsSaved;
-    private readonly IServiceProvider _serviceProvider;
-    private readonly List<IDomainEvent> _domainEvents = new List<IDomainEvent>();
+    private readonly IServiceScopeFactory _scopeFactory;
 
     public TgDbContext()
     {
     }
 
-    public TgDbContext(DbContextOptions<TgDbContext> options, IServiceProvider serviceProvider)
+    public TgDbContext(DbContextOptions<TgDbContext> options, IServiceScopeFactory scopeFactory)
         : base(options)
     {
-        _serviceProvider = serviceProvider;
+        _scopeFactory = scopeFactory;
     }
 
-    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var result = base.SaveChanges(acceptAllChangesOnSuccess);
-        DispatchEvents();
-        return result;
-    }
+        var result = await base.SaveChangesAsync(cancellationToken);
 
-    private void DispatchEvents()
-    {
-        foreach (var domainEvent in _domainEvents)
+        Console.WriteLine("СИСИЬК\nСИСИЬК\nСИСИЬК\nСИСИЬК\nСИСИЬК\nСИСИЬК\nСИСИЬК\nСИСИЬК\n");
+        var updatedChannels = ChangeTracker.Entries()
+            .Where(e => e.State == EntityState.Modified && e.Entity is Channel)
+            .Select(e => (Channel)e.Entity)
+            .ToList();
+
+        using (var scope = _scopeFactory.CreateScope())
         {
-            var eventType = domainEvent.GetType();
-            var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(eventType);
-            dynamic handler = _serviceProvider.GetService(handlerType);
-            handler?.Handle((dynamic)domainEvent);
+            // Resolve ChannelUpdateBackgroundService lazily
+            var backgroundService = scope.ServiceProvider.GetService<ChannelUpdateBackgroundService>();
+            if (backgroundService != null)
+            {
+                await backgroundService.OnChannelsSaved(updatedChannels);
+            }
         }
-        _domainEvents.Clear();
-    }
 
-    public void AddDomainEvent(IDomainEvent eventItem)
-    {
-        _domainEvents.Add(eventItem);
+
+        return result;
     }
 
     public virtual DbSet<Admin> Admins { get; set; }
