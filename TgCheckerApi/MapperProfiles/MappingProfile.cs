@@ -27,7 +27,11 @@ namespace TgCheckerApi.MapperProfiles
                 .ForMember(dest => dest.UserTelegramChatId, opt => opt.MapFrom(src => src.User.TelegramId))
                 .ForMember(dest => dest.ChannelWebUrl, opt => opt.MapFrom(src => $"https://tgsearch.info/Channel/{src.Channel.Id}"));
 
-            CreateMap<Channel, ChannelElasticDto>();
+            CreateMap<Channel, ChannelElasticDto>()
+              .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+              .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+              .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.ChannelHasTags.Select(cht => cht.TagNavigation.Text)));
         }
     }
 }

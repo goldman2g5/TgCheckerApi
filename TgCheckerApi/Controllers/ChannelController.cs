@@ -121,6 +121,8 @@ namespace TgCheckerApi.Controllers
         [HttpGet("Page/{page}")]
         public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1,[FromQuery] string? tags = null,[FromQuery] string? sortOption = null,[FromQuery] string? ascending = null,[FromQuery] string? search = null,[FromQuery] string? language = null)
         {
+            //where по id с эластика самым первым
+
             IQueryable<Channel> channelsQuery = _context.Channels.Where(x => x.Hidden != true);
             int PageSize = ChannelService.GetPageSize();
 
