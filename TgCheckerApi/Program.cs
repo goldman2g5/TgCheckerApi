@@ -180,7 +180,7 @@ builder.Services.AddSingleton<IElasticClient>(client);
 
 builder.Services.AddHttpClient("MyClient", client =>
 {
-    client.BaseAddress = new Uri("https://tgsearch.info:8443");
+    client.BaseAddress = new Uri("https://localhost:7256");
 });
 
 builder.Host.UseSerilog((_, conf) =>

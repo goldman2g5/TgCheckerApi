@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 using TgCheckerApi.MiddleWare;
 using TgCheckerApi.Models;
 using TgCheckerApi.Models.BaseModels;
@@ -35,10 +36,11 @@ namespace TgCheckerApi.Controllers
         private readonly UserService _userService;
         private readonly NotificationService _notificationService;
         private readonly ILogger<BotController> _logger;
+        private readonly IElasticClient _elasticClient;
 
 
 
-        public ChannelController(TgDbContext context, IMapper mapper, IHubContext<BotHub> hubContext, NotificationService notificationService, ILogger<BotController> logger)
+        public ChannelController(TgDbContext context, IMapper mapper, IHubContext<BotHub> hubContext, NotificationService notificationService, ILogger<BotController> logger, IElasticClient elasticClient)
         {
             _context = context;
             _mapper = mapper;
@@ -50,6 +52,7 @@ namespace TgCheckerApi.Controllers
             _userService = new UserService(context);
             _notificationService = notificationService;
             _logger = logger;
+            _elasticClient = elasticClient;
         }
 
         // GET: api/Channel
@@ -119,21 +122,29 @@ namespace TgCheckerApi.Controllers
         // GET: api/Channel/Page/{page}
         [BypassApiKey]
         [HttpGet("Page/{page}")]
-        public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1,[FromQuery] string? tags = null,[FromQuery] string? sortOption = null,[FromQuery] string? ascending = null,[FromQuery] string? search = null,[FromQuery] string? language = null)
+        public async Task<ActionResult<IEnumerable<ChannelGetModel>>> GetChannels(int page = 1, [FromQuery] string? tags = null, [FromQuery] string? sortOption = null, [FromQuery] string? ascending = null, [FromQuery] string? search = null, [FromQuery] string? language = null)
         {
-            //where по id с эластика самым первым
+            // Use Elasticsearch search first
+            var elasticSearchHits = await SearchElasticChannels(search);
+            var channelIds = elasticSearchHits.Select(hit => hit.Id).ToList();
 
-            IQueryable<Channel> channelsQuery = _context.Channels.Where(x => x.Hidden != true);
-            int PageSize = ChannelService.GetPageSize();
+            // If no results from Elasticsearch, return empty list
+            if (!channelIds.Any())
+            {
+                return new List<ChannelGetModel>();
+            }
 
+            // Build IQueryable using channel IDs from Elasticsearch
+            var channelsQuery = _context.Channels.Where(x => x.Hidden != true && channelIds.Contains(x.Id));
+
+            // Apply remaining filters and sorting
             channelsQuery = _channelService.ApplyTagFilter(channelsQuery, tags);
-            channelsQuery = _channelService.ApplySearch(channelsQuery, search);
             channelsQuery = _channelService.ApplyLanguageFilter(channelsQuery, language);
             channelsQuery = _channelService.ApplySort(channelsQuery, sortOption, Convert.ToBoolean(ascending));
-            
-            var totalChannelCount = await channelsQuery.CountAsync();
 
-            channelsQuery = channelsQuery.Skip((page - 1) * PageSize).Take(PageSize);
+            // Continue with pagination and model mapping
+            var totalChannelCount = await channelsQuery.CountAsync();
+            channelsQuery = channelsQuery.Skip((page - 1) * ChannelService.GetPageSize()).Take(ChannelService.GetPageSize());
             var channels = await channelsQuery.ToListAsync();
 
             if (!channels.Any())
@@ -143,11 +154,33 @@ namespace TgCheckerApi.Controllers
 
             var channelGetModels = channels.Select(channel => _channelService.MapToChannelGetModel(channel)).ToList();
 
-            int totalPages = (int)Math.Ceiling((double)totalChannelCount / PageSize);
+            int totalPages = (int)Math.Ceiling((double)totalChannelCount / ChannelService.GetPageSize());
 
             Response.Headers.Add("X-Total-Pages", totalPages.ToString());
 
             return channelGetModels;
+        }
+
+        private async Task<List<ChannelElasticDto>> SearchElasticChannels(string searchTerm)
+        {
+            // Assuming you have a method to search Elasticsearch with pagination (adjust as needed)
+            var response = await _elasticClient.SearchAsync<ChannelElasticDto>(s => s
+              .Query(q => q
+                .Match(m => m
+                  .Field(f => f.Description)
+                  .Query(searchTerm)
+                  .Analyzer("rebuilt_russian")
+                )
+              )
+            );
+
+            if (!response.IsValid)
+            {
+                // Handle potential errors from Elasticsearch search
+                throw new Exception("Error searching Elasticsearch");
+            }
+
+            return response.Documents.ToList();
         }
 
         [BypassApiKey]
