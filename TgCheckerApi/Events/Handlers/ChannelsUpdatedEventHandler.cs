@@ -1,19 +1,30 @@
-﻿using TgCheckerApi.Interfaces;
+﻿using MediatR;
+using TgCheckerApi.Events;
+using TgCheckerApi.Interfaces;
 
-namespace TgCheckerApi.Events.Handlers
+public class ChannelUpdateEventHandler : INotificationHandler<ChannelUpdateEvent>
 {
-    public class ChannelsUpdatedEventHandler : IDomainEventHandler<ChannelsUpdatedEvent>
+    private readonly IServiceScopeFactory _scopeFactory;
+
+    public ChannelUpdateEventHandler(IServiceScopeFactory scopeFactory)
     {
-        private readonly IElasticsearchIndexingService _indexingService;
+        _scopeFactory = scopeFactory;
+    }
 
-        public ChannelsUpdatedEventHandler(IElasticsearchIndexingService indexingService)
+    public async Task Handle(ChannelUpdateEvent notification, CancellationToken cancellationToken)
+    {
+        using (var scope = _scopeFactory.CreateScope())
         {
-            _indexingService = indexingService;
-        }
-
-        public async Task Handle(ChannelsUpdatedEvent domainEvent)
-        {
-            await _indexingService.IndexChannelsAsync(domainEvent.UpdatedChannels);
+            var indexingService = scope.ServiceProvider.GetRequiredService<IElasticsearchIndexingService>();
+            try
+            {
+                await indexingService.IndexChannelsAsync(notification.UpdatedChannels);
+            }
+            catch (Exception ex)
+            {
+                // Implement error handling (e.g., retry logic, logging)
+                Console.WriteLine($"Error indexing channels: {ex.Message}");
+            }
         }
     }
 }

@@ -24,25 +24,28 @@ public partial class TgDbContext : DbContext
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var result = await base.SaveChangesAsync(cancellationToken);
-
-        Console.WriteLine("СИСИЬК\nСИСИЬК\nСИСИЬК\nСИСИЬК\nСИСИЬК\nСИСИЬК\nСИСИЬК\nСИСИЬК\n");
         var updatedChannels = ChangeTracker.Entries()
             .Where(e => e.State == EntityState.Modified && e.Entity is Channel)
             .Select(e => (Channel)e.Entity)
             .ToList();
+        Console.WriteLine($"updatedChannels {updatedChannels.Count()}");
 
-        using (var scope = _scopeFactory.CreateScope())
+        var result = await base.SaveChangesAsync(cancellationToken);
+
+        if (updatedChannels.Count != 0)
         {
-            // Resolve ChannelUpdateBackgroundService lazily
-            var backgroundService = scope.ServiceProvider.GetService<ChannelUpdateBackgroundService>();
-            if (backgroundService != null)
+            using (var scope = _scopeFactory.CreateScope())
             {
-                await backgroundService.OnChannelsSaved(updatedChannels);
+                // Resolve ChannelUpdateBackgroundService lazily
+                var backgroundService = scope.ServiceProvider.GetService<ChannelUpdateBackgroundService>();
+                Console.WriteLine(backgroundService != null);
+                if (backgroundService != null)
+                {
+                    await backgroundService.OnChannelsSaved(updatedChannels);
+                }
             }
         }
-
-
+        
         return result;
     }
 

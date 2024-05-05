@@ -44,7 +44,6 @@ namespace TgCheckerApi.Services
                 Console.WriteLine(i);
             }
             
-
             // Index DTOs instead of entities
             var response = await _elasticClient.IndexManyAsync(channelDtos);
             if (!response.IsValid)
@@ -107,7 +106,9 @@ namespace TgCheckerApi.Services
 
         public async Task IndexChannelsAsync(List<Channel> channels)
         {
+            Console.WriteLine($"BULTASYNC {channels.Count()}");
             var channelDtos = ConvertToDto(channels);
+            Console.WriteLine($"BULTASYNC {channelDtos.Count()}");
             var bulkResponse = await _elasticClient.BulkAsync(b => b
                 .IndexMany(channelDtos)
                 .Refresh(Refresh.WaitFor)  // Ensure the index is refreshed immediately for debugging

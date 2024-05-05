@@ -21,7 +21,6 @@ using TgCheckerApi.Controllers;
 using Serilog;
 using TgCheckerApi.Interfaces;using WTelegram;
 using Nest;
-using TgCheckerApi.Events.Handlers;
 using TgCheckerApi.Events;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -152,8 +151,8 @@ builder.Services.AddSingleton<TelegramClientService>();
 builder.Services.AddHostedService<TelegramClientInitializer>();
 builder.Services.AddScoped<IElasticsearchIndexingService, ElasticsearchIndexingService>();
 builder.Services.AddHostedService<ElasticsearchIndexInitializer>();
-builder.Services.AddHostedService<ChannelUpdateBackgroundService>();
-builder.Services.AddScoped<IDomainEventHandler<ChannelsUpdatedEvent>, ChannelsUpdatedEventHandler>();
+builder.Services.AddSingleton<ChannelUpdateBackgroundService>();
+
 
 
 var settings = new ConnectionSettings(new Uri("http://localhost:9200"))

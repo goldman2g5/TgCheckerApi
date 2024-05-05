@@ -3,11 +3,11 @@ using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Events
 {
-    public class ChannelsUpdatedEvent : IDomainEvent
+    public class ChannelUpdateEvent : MediatR.INotification
     {
         public List<Channel> UpdatedChannels { get; }
 
-        public ChannelsUpdatedEvent(List<Channel> updatedChannels)
+        public ChannelUpdateEvent(List<Channel> updatedChannels)
         {
             UpdatedChannels = updatedChannels;
         }

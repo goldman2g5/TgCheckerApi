@@ -4,21 +4,21 @@ using TgCheckerApi.Models.BaseModels;
 
 namespace TgCheckerApi.Services
 {
-    public class ChannelUpdateBackgroundService : IHostedService, IDisposable
+    public class ChannelUpdateBackgroundService
     {
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<ChannelUpdateBackgroundService> _logger;
 
         private readonly Timer _timer;
-        private readonly Queue<ChannelsUpdatedEvent> _eventQueue;
-        private const int BatchSize = 2; // Adjustable batch size for indexing
+        private readonly Queue<ChannelUpdateEvent> _eventQueue;
+        private const int BatchSize = 1; // Adjustable batch size for indexing
 
         public ChannelUpdateBackgroundService(IServiceScopeFactory scopeFactory,
                                                ILogger<ChannelUpdateBackgroundService> logger)
         {
             _scopeFactory = scopeFactory;
             _logger = logger;
-            _eventQueue = new Queue<ChannelsUpdatedEvent>();
+            _eventQueue = new Queue<ChannelUpdateEvent>();
             _timer = new Timer(ProcessEvents, null, TimeSpan.Zero, TimeSpan.FromSeconds(5)); // Adjustable timer interval (optional)
         }
 
@@ -38,15 +38,10 @@ namespace TgCheckerApi.Services
             await Task.CompletedTask;
         }
 
-        public void Dispose()
-        {
-            _timer.Dispose();
-        }
-
         public async Task OnChannelsSaved(List<Channel> updatedChannels)
         {
             // Add updated channels to event queue asynchronously
-            await Task.Run(() => _eventQueue.Enqueue(new ChannelsUpdatedEvent(updatedChannels)));
+            await Task.Run(() => _eventQueue.Enqueue(new ChannelUpdateEvent(updatedChannels)));
             Console.WriteLine($"ПАСТЕРНАК {_eventQueue.Count}");
         }
 
