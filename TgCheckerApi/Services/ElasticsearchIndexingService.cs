@@ -70,10 +70,25 @@ namespace TgCheckerApi.Services
                         .NumberOfShards(1)
                         .NumberOfReplicas(1)
                         .Analysis(a => a
+                            .Tokenizers(t => t
+                                .NGram("ngram_tokenizer", n => n
+                                    .MinGram(3)
+                                    .MaxGram(4)
+                                    .TokenChars(TokenChar.Letter)
+                                )
+                            )
                             .Analyzers(analyzers => analyzers
-                                .Custom("rebuilt_russian", ca => ca
+                                .Custom("default_russian", ca => ca
                                     .Tokenizer("standard")
-                                    .Filters("lowercase", "russian_default_stemmer", "russian_snowball_stemmer", "russian_morphology")
+                                    .Filters("lowercase", "russian_default_stemmer", "russian_morphology")
+                                )
+                                .Custom("snowball_russian", ca => ca
+                                    .Tokenizer("standard")
+                                    .Filters("lowercase", "russian_snowball_stemmer", "russian_morphology")
+                                )
+                                .Custom("ngram_russian", ca => ca
+                                    .Tokenizer("ngram_tokenizer")
+                                    .Filters("lowercase", "russian_default_stemmer", "russian_morphology")
                                 )
                             )
                             .TokenFilters(tf => tf
@@ -82,7 +97,6 @@ namespace TgCheckerApi.Services
                                 )
                                 .Snowball("russian_snowball_stemmer", st => st
                                     .Language(SnowballLanguage.Russian)
-                                    
                                 )
                             )
                         )
@@ -92,7 +106,20 @@ namespace TgCheckerApi.Services
                         .Properties(p => p
                             .Text(t => t
                                 .Name(n => n.Description)
-                                .Analyzer("rebuilt_russian")
+                                .Fields(ff => ff
+                                    .Text(tt => tt
+                                        .Name("default_stemmed")
+                                        .Analyzer("default_russian")
+                                    )
+                                    .Text(tt => tt
+                                        .Name("snowball_stemmed")
+                                        .Analyzer("snowball_russian")
+                                    )
+                                    .Text(tt => tt
+                                        .Name("ngram")
+                                        .Analyzer("ngram_russian")
+                                    )
+                                )
                             )
                         )
                     )

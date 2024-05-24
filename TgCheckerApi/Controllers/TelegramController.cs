@@ -188,11 +188,33 @@ namespace TgCheckerApi.Controllers
         {
             var response = await _elasticClient.SearchAsync<Models.BaseModels.Channel>(s => s
                     .Query(q => q
-                        .Match(m => m
-                            .Field(f => f.Description)
-                            .Query(query)
-                            .Analyzer("rebuilt_russian")
+                        .Bool(b => b
+                            .Should(sh => sh
+                                .Match(m => m
+                                    .Field(f => f.Description.Suffix("default_stemmed"))
+                                    .Query(query)
+                                    .Analyzer("default_russian")
+                                    .Boost(3.0)
+                                ),
+                                //sh => sh
+                                //.Match(m => m
+                                //    .Field(f => f.Description.Suffix("snowball_stemmed"))
+                                //    .Query(query)
+                                //    .Analyzer("snowball_russian")
+                                //    .Boost(2.0)
+                                //),
+                                sh => sh
+                                .Match(m => m
+                                    .Field(f => f.Description.Suffix("ngram"))
+                                    .Query(query)
+                                    .Analyzer("ngram_russian")
+                                    .Boost(1.0)
+                                )
+                            )
                         )
+                    )
+                    .Sort(srt => srt
+                        .Descending(SortSpecialField.Score)
                     )
                 );
 
