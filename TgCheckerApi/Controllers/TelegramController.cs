@@ -196,13 +196,13 @@ namespace TgCheckerApi.Controllers
                                     .Analyzer("default_russian")
                                     .Boost(3.0)
                                 ),
-                                //sh => sh
-                                //.Match(m => m
-                                //    .Field(f => f.Description.Suffix("snowball_stemmed"))
-                                //    .Query(query)
-                                //    .Analyzer("snowball_russian")
-                                //    .Boost(2.0)
-                                //),
+                                sh => sh
+                                .Match(m => m
+                                    .Field(f => f.Description.Suffix("snowball_stemmed"))
+                                    .Query(query)
+                                    .Analyzer("snowball_russian")
+                                    .Boost(2.0)
+                                ),
                                 sh => sh
                                 .Match(m => m
                                     .Field(f => f.Description.Suffix("ngram"))

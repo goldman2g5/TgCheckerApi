@@ -161,18 +161,40 @@ namespace TgCheckerApi.Controllers
             return channelGetModels;
         }
 
-        private async Task<List<ChannelElasticDto>> SearchElasticChannels(string searchTerm)
+        private async Task<List<ChannelElasticDto>> SearchElasticChannels(string query)
         {
             // Assuming you have a method to search Elasticsearch with pagination (adjust as needed)
             var response = await _elasticClient.SearchAsync<ChannelElasticDto>(s => s
-              .Query(q => q
-                .Match(m => m
-                  .Field(f => f.Description)
-                  .Query(searchTerm)
-                  .Analyzer("rebuilt_russian")
-                )
-              )
-            );
+                    .Query(q => q
+                        .Bool(b => b
+                            .Should(sh => sh
+                                .Match(m => m
+                                    .Field(f => f.Description.Suffix("default_stemmed"))
+                                    .Query(query)
+                                    .Analyzer("default_russian")
+                                    .Boost(3.0)
+                                ),
+                                sh => sh
+                                .Match(m => m
+                                    .Field(f => f.Description.Suffix("snowball_stemmed"))
+                                    .Query(query)
+                                    .Analyzer("snowball_russian")
+                                    .Boost(2.0)
+                                ),
+                                sh => sh
+                                .Match(m => m
+                                    .Field(f => f.Description.Suffix("ngram"))
+                                    .Query(query)
+                                    .Analyzer("ngram_russian")
+                                    .Boost(1.0)
+                                )
+                            )
+                        )
+                    )
+                    .Sort(srt => srt
+                        .Descending(SortSpecialField.Score)
+                    )
+                );
 
             if (!response.IsValid)
             {

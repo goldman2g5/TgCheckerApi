@@ -131,7 +131,7 @@ namespace TgCheckerApi.Services
                     };
 
                     // Call the WebSocket service and wait for the response
-                    var response = await webSocketService.CallFunctionAsync("getMonthlyViews", parameters, TimeSpan.FromSeconds(30));
+                    var response = await webSocketService.CallFunctionAsync("getMonthlyViews", parameters, TimeSpan.FromSeconds(3000));
                     if (response is OkObjectResult okResult && okResult.Value is string jsonString)
                     {
                         var monthViewsRecords = JsonConvert.DeserializeObject<List<MonthViewsRecord>>(jsonString);
@@ -224,7 +224,7 @@ namespace TgCheckerApi.Services
                 };
 
                 // Call the WebSocket service and wait for the response
-                var response = await _webSocketService.CallFunctionAsync("getMonthlyViews", parameters, TimeSpan.FromSeconds(300));
+                var response = await _webSocketService.CallFunctionAsync("getMonthlyViews", parameters, TimeSpan.FromSeconds(3000));
                 if (response is OkObjectResult okResult && okResult.Value is string jsonString)
                 {
                     // Deserialize the response
